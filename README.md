@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # **SmartFlow**
 
 Bienvenue sur le projet "SmartFlow", une application web moderne développée avec Next.js. Ce projet vise à offrir une expérience utilisateur riche et interactive pour aider les utilisateur à apprendre des connaissances plus efficacement.
@@ -52,3 +53,6 @@ Les contributions à ce projet sont les bienvenues. Veuillez suivre les directiv
 ## **Licence**
 
 Ce projet est sous licence MIT. Veuillez consulter le fichier **`LICENSE`** pour plus d'informations.
+=======
+# smartflow
+>>>>>>> 0919127001c09eaa26fb2b8389d94dd6ee2fe675
