@@ -41,8 +41,8 @@ yarn-error.log*
 
 # local env files
 .env*.local
-/front/.env*.local
-/back/.env*.local
+/frontend/.env*.local
+/backend/.env*.local
 
 # vercel
 .vercel
