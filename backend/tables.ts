@@ -9,18 +9,24 @@ import NotificationManager from "./models/NotificationManager";
 
 // Définissez une interface pour les classes de gestionnaires
 interface ManagerInstance {
+  getByMail(email: any): unknown;
+  delete(id: string): unknown;
+  update(body: any): unknown;
+  create(card: any): unknown;
+  read(id: string): unknown;
+  readAll(): unknown;
   tableName: string;
 }
 
 // Assurez-vous que chaque instance de gestionnaire a une propriété 'tableName'
 const managers: ManagerInstance[] = [
-  new CardManager() as ManagerInstance,
-  new UserManager() as ManagerInstance,
-  new CategoryManager() as ManagerInstance,
-  new RuleManager() as ManagerInstance,
-  new LanguageManager() as ManagerInstance,
-  new ColorManager() as ManagerInstance,
-  new NotificationManager() as ManagerInstance,
+  new CardManager() as unknown as ManagerInstance,
+  new UserManager() as unknown as ManagerInstance,
+  new CategoryManager() as unknown as ManagerInstance,
+  new RuleManager() as unknown as ManagerInstance,
+  new LanguageManager() as unknown as ManagerInstance,
+  new ColorManager() as unknown as ManagerInstance,
+  new NotificationManager() as unknown as ManagerInstance,
 ];
 
 // Créez un objet vide pour contenir les gestionnaires de données pour chaque table

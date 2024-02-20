@@ -18,7 +18,7 @@
   },
   "scripts": {
     "start": "prisma generate && ts-node app.ts",
-    "dev": "nodemon --exec 'prisma generate && ts-node' app.ts",
+    "dev": "prisma generate && ts-node app.ts",
     "migrate": "prisma migrate dev",
     "seed": "prisma db seed --preview-feature"
   }
