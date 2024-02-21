@@ -1,25 +1,32 @@
-import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+"use client";
+import React, { ReactNode } from "react";
+import TabBar from "./components/TabBar";
+import { useSelectedLayoutSegment } from "next/navigation";
 import "./globals.css";
-import "@fortawesome/fontawesome-svg-core/styles.css";
-import { config } from "@fortawesome/fontawesome-svg-core";
-config.autoAddCss = false;
 
-const inter = Inter({ subsets: ["latin"] });
+interface RootLayoutProps {
+  children: ReactNode;
+}
 
-export const metadata: Metadata = {
-  title: "SmartFlow",
-  description: "Learn better.",
-};
+export default function RootLayout({ children }: RootLayoutProps) {
+  const segment = useSelectedLayoutSegment() ?? "";
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+  const showTabBar = [
+    "",
+    "today",
+    "add",
+    "review",
+    "organize",
+    "user",
+    "admin",
+  ].includes(segment);
+
   return (
     <html lang="fr">
-      <body className={inter.className}>{children}</body>
+      <body>
+        <main>{children}</main>
+        {showTabBar && <TabBar active={segment} />}
+      </body>
     </html>
   );
 }
