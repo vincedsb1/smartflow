@@ -6,6 +6,7 @@ import {
   faInbox,
   faUser,
 } from "@fortawesome/free-solid-svg-icons";
+import Link from "next/link";
 
 interface Props {
   active: string;
@@ -13,7 +14,7 @@ interface Props {
 
 const TabBar: React.FC<Props> = ({ active }) => {
   const iconStyle = (icon: string) =>
-    `h-10 w-10 ${
+    `h-7 w-7 ${
       active === icon
         ? "text-gradient-to-br from-cyan-400 to-cyan-500"
         : "text-neutral-300"
@@ -22,23 +23,31 @@ const TabBar: React.FC<Props> = ({ active }) => {
   return (
     <div className="fixed bottom-0 left-0 right-0">
       <div className="border-t-2 border-neutral-300">
-        <div className="flex flex-row justify-around bg-white p-2  h-16 items-center">
-          <FontAwesomeIcon
-            icon={faBookOpen}
-            className={`${iconStyle("book-open")} text-2xl`}
-          />
-          <FontAwesomeIcon
-            icon={faCirclePlus}
-            className={`${iconStyle("circle-plus")} text-2xl`}
-          />
-          <FontAwesomeIcon
-            icon={faInbox}
-            className={`${iconStyle("inbox")} text-2xl`}
-          />
-          <FontAwesomeIcon
-            icon={faUser}
-            className={`${iconStyle("user")} text-2xl`}
-          />
+        <div className="flex flex-row justify-around bg-white p-2 h-20 items-center px-7 pb-7">
+          <Link href="/today">
+            <FontAwesomeIcon
+              icon={faBookOpen}
+              className={`${iconStyle("book-open")} text-xl`}
+            />
+          </Link>
+          <Link href="/add">
+            <FontAwesomeIcon
+              icon={faCirclePlus}
+              className={`${iconStyle("circle-plus")} text-xl`}
+            />
+          </Link>
+          <Link href="/organize">
+            <FontAwesomeIcon
+              icon={faInbox}
+              className={`${iconStyle("inbox")} text-xl`}
+            />
+          </Link>
+          <Link href="/user">
+            <FontAwesomeIcon
+              icon={faUser}
+              className={`${iconStyle("user")} text-xl`}
+            />
+          </Link>
         </div>
       </div>
     </div>
