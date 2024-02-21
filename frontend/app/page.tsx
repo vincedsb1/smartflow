@@ -1,11 +1,11 @@
 import Image from "next/image";
-import TabBar from "./components/TabBar";
 
 export default function Home() {
   return (
     <main className="">
-      <div className="">Bienvenue sur l&apsindex de SmartFlow</div>
-      <TabBar active="index" />
+      <div className="flex flex-row justify-center  h-screen align-middle items-center">
+        Bienvenue sur la page Today de SmartFlow
+      </div>
     </main>
   );
 }
