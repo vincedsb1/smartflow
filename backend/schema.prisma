@@ -1,0 +1,83 @@
+generator client {
+    provider = "prisma-client-js"
+}
+
+datasource db {
+    provider = "postgresql"
+    url = env("DATABASE_URL")
+}
+
+model User {
+  id          Int       @id @default(autoincrement())
+  firstname   String    @db.VarChar(30)
+  lastname    String    @db.VarChar(30)
+  birthday    DateTime
+  password    String    @db.VarChar(30)
+  email       String    @db.VarChar(30)
+  onBoarding  Boolean
+  imageUrl    String
+  languageId  Int
+  language    Language  @relation(fields: [languageId], references: [id])
+  cards       Card[]
+  notifications Notification[]
+  userRules   UserRule[]
+}
+
+model Card {
+  id            Int       @id @default(autoincrement())
+  title         String    @db.VarChar(200)
+  answer        String    @db.VarChar(1000)
+  level         Int
+  lastReviewDate DateTime
+  userId        Int
+  user          User      @relation(fields: [userId], references: [id])
+  categoryId    Int
+  category      Category  @relation(fields: [categoryId], references: [id])
+  notifications Notification[]
+}
+
+model Category {
+  id       Int    @id @default(autoincrement())
+  name     String @db.VarChar(50)
+  colorId  Int
+  color    Color  @relation(fields: [colorId], references: [id])
+  cards    Card[]
+}
+
+model Color {
+  id       Int       @id @default(autoincrement())
+  name     String    @db.VarChar(30)
+  category Category[]
+}
+
+model Notification {
+  id        Int   @id @default(autoincrement())
+  content   String @db.VarChar(200)
+  time      DateTime
+  userId    Int
+  user      User  @relation(fields: [userId], references: [id])
+  cardId    Int
+  card      Card  @relation(fields: [cardId], references: [id])
+}
+
+model Language {
+  id   Int    @id @default(autoincrement())
+  code String @db.VarChar(10)
+  name String @db.VarChar(20)
+  users User[]
+}
+
+model Rule {
+  id          Int        @id @default(autoincrement())
+  ruleName    String     @db.VarChar(50)
+  description String     @db.Text
+  userRules   UserRule[]
+}
+
+model UserRule {
+  userId Int
+  user   User @relation(fields: [userId], references: [id])
+  ruleId Int
+  rule   Rule @relation(fields: [ruleId], references: [id])
+  @@id([userId, ruleId])
+}
