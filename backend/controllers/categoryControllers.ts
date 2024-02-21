@@ -39,16 +39,13 @@ class CategoryController {
   }
 
   async edit(req: Request, res: Response, next: NextFunction) {
+    const category = req.body;
     try {
       const updatedCategory = await prisma.category.update({
-        where: { id: Number(req.body.id) },
-        data: req.body,
+        where: { id: Number(req.params.id) },
+        data: category,
       });
-      if (updatedCategory) {
-        res.sendStatus(200);
-      } else {
-        res.sendStatus(500);
-      }
+      res.json(updatedCategory);
     } catch (err) {
       next(err);
     }

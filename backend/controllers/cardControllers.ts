@@ -40,10 +40,12 @@ class CardController {
 
   async edit(req: Request, res: Response, next: NextFunction) {
     try {
-      const updatedCard = await prisma.card.update({
-        where: { id: parseInt(req.body.id) },
-        data: req.body,
+      const { title, answer } = req.body;
+        const updatedCard = await prisma.card.update({
+        where: { id: parseInt(req.params.id) },
+        data: { title, answer },
       });
+  
       if (updatedCard) {
         res.sendStatus(200);
       } else {
@@ -53,7 +55,6 @@ class CardController {
       next(err);
     }
   }
-
   async destroy(req: Request, res: Response, next: NextFunction) {
     try {
       await prisma.card.delete({

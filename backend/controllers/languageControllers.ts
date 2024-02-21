@@ -39,12 +39,15 @@ class LanguageController {
   }
 
   async edit(req: Request, res: Response, next: NextFunction) {
-    const { id, name } = req.body;
+    const { id } = req.params;
+    const { code, name } = req.body;
+
     try {
       const updatedLanguage = await prisma.language.update({
-        where: { id },
-        data: { name },
+        where: { id: parseInt(id) },
+        data: { code, name },
       });
+
       if (updatedLanguage) {
         res.sendStatus(200);
       } else {

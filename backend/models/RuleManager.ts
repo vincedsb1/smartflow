@@ -11,7 +11,7 @@ interface ManagerInstance {
 // Define the Rule interface
 interface Rule {
   id: number;
-  rule_name: string;
+  ruleName: string;
   description: string;
 }
 
@@ -29,14 +29,14 @@ class RuleManager extends AbstractManager {
 
   // Create a new rule
   async create({
-    rule_name: ruleName,
+    ruleName: ruleName,
     description,
   }: {
-    rule_name: string;
+    ruleName: string;
     description: string;
   }): Promise<void> {
     await prisma.rule.create({
-      data: { rule_name: ruleName, description },
+      data: { ruleName, description },
     });
   }
 
@@ -52,16 +52,16 @@ class RuleManager extends AbstractManager {
   // Update a rule
   async update({
     id,
-    rule_name: ruleName,
+    ruleName,
     description,
   }: {
     id: number;
-    rule_name: string;
+    ruleName: string;
     description: string;
   }): Promise<void> {
     await prisma.rule.update({
       where: { id },
-      data: { rule_name: ruleName, description },
+      data: { ruleName, description },
     });
   }
 

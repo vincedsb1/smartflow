@@ -16,9 +16,9 @@ interface User {
   lastname: string;
   birthday: Date;
   email: string;
-  on_boarding: boolean;
-  image_url?: string | null;
-  language_id: number;
+  onBoarding: boolean;
+  imageUrl?: string | null;
+  languageId: number;
 }
 
 /**
@@ -38,10 +38,11 @@ class UserManager extends AbstractManager {
     lastname,
     birthday,
     email,
-    on_boarding: onBoarding,
-    image_url: imageUrl = null,
-    language_id: languageId,
-  }: User): Promise<void> {
+    onBoarding,
+    imageUrl = null,
+    languageId,
+  }: User & { password: string }): Promise<void> {
+    const { password } = this;
     await prisma.user.create({
       data: {
         firstname,
@@ -49,16 +50,17 @@ class UserManager extends AbstractManager {
         birthday,
         email,
         onBoarding,
-        image_url: imageUrl || '', // provide a default value when imageUrl is null
-        language_id: languageId,
+        imageUrl: imageUrl || "",
+        languageId: languageId,
+        password,
       },
     });
   }
 
   // Retrieves a user by their email
   async getByMail(email: string): Promise<User | null> {
-    const user = await prisma.user.findUnique({
-      where: { email },
+    const user = await prisma.user.findFirst({
+      where: { email: email },
     });
 
     return user || null;
@@ -80,9 +82,9 @@ class UserManager extends AbstractManager {
     lastname,
     birthday,
     email,
-    on_boarding: onBoarding,
-    image_url: imageUrl,
-    language_id: languageId,
+    onBoarding: onBoarding,
+    imageUrl: imageUrl,
+    languageId: languageId,
   }: User & { id: number }): Promise<void> {
     await prisma.user.update({
       where: { id },
@@ -91,9 +93,9 @@ class UserManager extends AbstractManager {
         lastname,
         birthday,
         email,
-        on_boarding: onBoarding,
-        image_url: imageUrl,
-        language_id: languageId,
+        onBoarding,
+        imageUrl: imageUrl || "", // provide a default value
+        languageId,
       },
     });
   }
@@ -109,7 +111,7 @@ class UserManager extends AbstractManager {
   async upload(id: number, imageUrl: string): Promise<void> {
     await prisma.user.update({
       where: { id },
-      data: { image_url: imageUrl },
+      data: { imageUrl },
     });
   }
 }

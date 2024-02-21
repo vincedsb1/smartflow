@@ -40,10 +40,19 @@ class RuleController {
 
   async edit(req: Request, res: Response, next: NextFunction) {
     try {
+      const { id } = req.params;
+      const { ruleName, description } = req.body;
+  
+      if (!id || isNaN(parseInt(id))) {
+        res.status(400).send({ error: 'Invalid rule ID' });
+        return;
+      }
+  
       const updatedRule = await prisma.rule.update({
-        where: { id: parseInt(req.body.id) },
-        data: req.body,
+        where: { id: parseInt(id) },
+        data: { ruleName, description },
       });
+  
       if (updatedRule) {
         res.sendStatus(200);
       } else {
@@ -53,6 +62,9 @@ class RuleController {
       next(err);
     }
   }
+  
+  
+  
 
   async destroy(req: Request, res: Response, next: NextFunction) {
     try {

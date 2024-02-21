@@ -6,7 +6,6 @@ interface Card {
   title: string;
   answer: string;
   level: number;
-  last_review_date: Date;
   lastReviewDate: Date;
   userId: number;
   categoryId: number;

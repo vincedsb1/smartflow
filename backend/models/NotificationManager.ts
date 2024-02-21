@@ -1,11 +1,7 @@
 import { PrismaClient, Notification as NotificationType } from "@prisma/client";
-import { AbstractManager, ManagerInstance } from "./AbstractManager";
+import { AbstractManager } from "./AbstractManager";
 
 const prisma = new PrismaClient();
-
-interface NotificationManagerInstance extends ManagerInstance {
-  tableName: "notification";
-}
 
 interface Notification extends NotificationType {}
 
@@ -16,13 +12,25 @@ class NotificationManager extends AbstractManager {
 
   async create({
     content,
-    notification_time,
+    notificationTime,
+    time,
+    user,
+    card,
   }: {
     content: string;
-    notification_time: Date;
+    notificationTime: Date;
+    time: Date;
+    user: string;
+    card: string;
   }): Promise<void> {
     await prisma.notification.create({
-      data: { content, notification_time },
+      data: {
+        content,
+        notificationTime,
+        time,
+        user: { connect: { id: Number(user) } },
+        card: { connect: { id: Number(card) } },
+      },
     });
   }
 
@@ -37,15 +45,15 @@ class NotificationManager extends AbstractManager {
   async update({
     id,
     content,
-    notification_time,
+    notificationTime,
   }: {
     id: number;
     content: string;
-    notification_time: Date;
+    notificationTime: Date;
   }): Promise<void> {
     await prisma.notification.update({
       where: { id },
-      data: { content, notification_time },
+      data: { content, notificationTime },
     });
   }
 

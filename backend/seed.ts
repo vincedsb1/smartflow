@@ -92,6 +92,7 @@ async function main() {
       data: {
         content: `Notification for ${user.firstname}`,
         time: new Date(),
+        notificationTime: new Date(),
         user: {
           connect: {
             id: user.id,

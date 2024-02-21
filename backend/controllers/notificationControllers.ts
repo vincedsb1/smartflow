@@ -42,10 +42,17 @@ class NotificationController {
 
   async edit(req: Request, res: Response, next: NextFunction) {
     try {
+      const { id } = req.params;
+      if (!id || isNaN(Number(id))) {
+        res.status(400).send({ error: 'Invalid notification ID' });
+        return;
+      }
+  
       const response = await prisma.notification.update({
-        where: { id: Number(req.body.id) },
+        where: { id: parseInt(id) },
         data: req.body,
       });
+  
       if (response) {
         res.sendStatus(200);
       } else {
@@ -55,6 +62,7 @@ class NotificationController {
       next(err);
     }
   }
+  
 
   async destroy(req: Request, res: Response, next: NextFunction) {
     try {
