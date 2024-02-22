@@ -65,28 +65,24 @@ class UserController {
 
   async destroy(req: Request, res: Response, next: NextFunction) {
     const userId = Number(req.params.id);
-  
+
     try {
       await prisma.$transaction(async (prisma) => {
-        const userCards = await prisma.card.findMany({
-          where: { userId: userId },
-        });
-  
-        for (const card of userCards) {
-          await prisma.notification.deleteMany({
-            where: { cardId: card.id },
-          });
-        }
-  
+        // Supprimer les cartes liées
         await prisma.card.deleteMany({
           where: { userId: userId },
         });
-  
+
+        // Supprimer les notifications liées (si nécessaire)
+        await prisma.notification.deleteMany({
+          where: { userId: userId },
+        });
+
+        // Supprimer l'utilisateur
         await prisma.user.delete({
           where: { id: userId },
         });
       });
-  
       res.sendStatus(204);
     } catch (err) {
       next(err);
