@@ -1,12 +1,41 @@
-// Définissez l'interface ManagerInstance avec tableName en tant que string | undefined
-interface ManagerInstance {
-  tableName: string | undefined;
+import { AbstractManager } from "./AbstractManager";
+import { PrismaClient, Card as PrismaCard } from "@prisma/client";
+
+interface Card {
+  id?: number;
+  title: string;
+  answer: string;
+  level: number;
+  lastReviewDate: Date;
+  userId: number;
+  categoryId: number;
 }
 
-// Exemple générique pour une classe de gestionnaire
-class CardManager {
-  tableName: string | undefined; // Assurez-vous que cette propriété est définie dans chaque classe
-  // ... autres propriétés et méthodes de la classe ...
+class CardManager extends AbstractManager {
+  constructor() {
+    super({ table: "card" });
+  }
+
+  // Create a new card
+  async create(card: Card): Promise<PrismaCard> {
+    return this.prisma.card.create({ data: card });
+  }
+
+  // Retrieves a card by ID
+  async read(id: number): Promise<PrismaCard | null> {
+    return this.prisma.card.findUnique({ where: { id } });
+  }
+
+  //Updates a card's information
+  async update(card: Card): Promise<PrismaCard> {
+    if (!card.id) throw new Error("ID is required to update a card.");
+    return this.prisma.card.update({ where: { id: card.id }, data: card });
+  }
+
+  // Deletes a card by ID
+  async delete(id: number): Promise<void> {
+    await this.prisma.card.delete({ where: { id } });
+  }
 }
 
 export default CardManager;

@@ -54,6 +54,7 @@ model Notification {
   id        Int   @id @default(autoincrement())
   content   String @db.VarChar(200)
   time      DateTime
+  notificationTime DateTime
   userId    Int
   user      User  @relation(fields: [userId], references: [id])
   cardId    Int

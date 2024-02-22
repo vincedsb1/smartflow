@@ -1,12 +1,67 @@
-// Définissez l'interface ManagerInstance avec tableName en tant que string | undefined
-interface ManagerInstance {
-  tableName: string | undefined;
-}
+import { PrismaClient, Notification as NotificationType } from "@prisma/client";
+import { AbstractManager } from "./AbstractManager";
 
-// Exemple générique pour une classe de gestionnaire
-class NotificationManager {
-  tableName: string | undefined; // Assurez-vous que cette propriété est définie dans chaque classe
-  // ... autres propriétés et méthodes de la classe ...
+const prisma = new PrismaClient();
+
+interface Notification extends NotificationType {}
+
+class NotificationManager extends AbstractManager {
+  constructor() {
+    super({ table: "notification" });
+  }
+
+  async create({
+    content,
+    notificationTime,
+    time,
+    user,
+    card,
+  }: {
+    content: string;
+    notificationTime: Date;
+    time: Date;
+    user: string;
+    card: string;
+  }): Promise<void> {
+    await prisma.notification.create({
+      data: {
+        content,
+        notificationTime,
+        time,
+        user: { connect: { id: Number(user) } },
+        card: { connect: { id: Number(card) } },
+      },
+    });
+  }
+
+  async read(id: number): Promise<Notification | null> {
+    const notification = await prisma.notification.findUnique({
+      where: { id },
+    });
+
+    return notification || null;
+  }
+
+  async update({
+    id,
+    content,
+    notificationTime,
+  }: {
+    id: number;
+    content: string;
+    notificationTime: Date;
+  }): Promise<void> {
+    await prisma.notification.update({
+      where: { id },
+      data: { content, notificationTime },
+    });
+  }
+
+  async delete(id: number): Promise<void> {
+    await prisma.notification.delete({
+      where: { id },
+    });
+  }
 }
 
 export default NotificationManager;
