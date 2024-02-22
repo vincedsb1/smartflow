@@ -41,11 +41,11 @@ class CardController {
   async edit(req: Request, res: Response, next: NextFunction) {
     try {
       const { title, answer } = req.body;
-        const updatedCard = await prisma.card.update({
+      const updatedCard = await prisma.card.update({
         where: { id: parseInt(req.params.id) },
         data: { title, answer },
       });
-  
+
       if (updatedCard) {
         res.sendStatus(200);
       } else {
@@ -55,10 +55,18 @@ class CardController {
       next(err);
     }
   }
+
   async destroy(req: Request, res: Response, next: NextFunction) {
+    const cardId = parseInt(req.params.id);
     try {
+      // Supprimer toutes les notifications associées à la carte
+      await prisma.notification.deleteMany({
+        where: { cardId },
+      });
+
+      // Supprimer la carte
       await prisma.card.delete({
-        where: { id: parseInt(req.params.id) },
+        where: { id: cardId },
       });
       res.sendStatus(204);
     } catch (err) {
