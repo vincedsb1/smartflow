@@ -9,18 +9,17 @@ datasource db {
 
 model User {
   id          Int       @id @default(autoincrement())
-  firstname   String    @db.VarChar(30)
-  lastname    String    @db.VarChar(30)
+  firstname   String    @db.VarChar(50)
+  lastname    String    @db.VarChar(50)
   birthday    DateTime
-  password    String    @db.VarChar(30)
-  email       String    @db.VarChar(30)
+  password    String    @db.VarChar(100)
+  email       String    @db.VarChar(100)
   onBoarding  Boolean
-  imageUrl    String
+  imageUrl    String    @db.VarChar(200)
   languageId  Int
   language    Language  @relation(fields: [languageId], references: [id])
-  cards       Card[]
+  cards          Card[]
   notifications Notification[]
-  userRules   UserRule[]
 }
 
 model Card {
@@ -30,7 +29,7 @@ model Card {
   level         Int
   lastReviewDate DateTime
   userId        Int
-  user          User      @relation(fields: [userId], references: [id])
+  user            User            @relation(fields: [userId], references: [id], onDelete: Cascade)
   categoryId    Int
   category      Category  @relation(fields: [categoryId], references: [id])
   notifications Notification[]
@@ -58,7 +57,7 @@ model Notification {
   userId    Int
   user      User  @relation(fields: [userId], references: [id])
   cardId    Int
-  card      Card  @relation(fields: [cardId], references: [id])
+  card      Card  @relation(fields: [cardId], references: [id], onDelete: Cascade)
 }
 
 model Language {
@@ -72,13 +71,4 @@ model Rule {
   id          Int        @id @default(autoincrement())
   ruleName    String     @db.VarChar(50)
   description String     @db.Text
-  userRules   UserRule[]
-}
-
-model UserRule {
-  userId Int
-  user   User @relation(fields: [userId], references: [id])
-  ruleId Int
-  rule   Rule @relation(fields: [ruleId], references: [id])
-  @@id([userId, ruleId])
 }

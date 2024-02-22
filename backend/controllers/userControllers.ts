@@ -64,10 +64,26 @@ class UserController {
   }
 
   async destroy(req: Request, res: Response, next: NextFunction) {
+    const userId = Number(req.params.id);
+
     try {
-      await prisma.user.delete({
-        where: { id: Number(req.params.id) },
+      await prisma.$transaction(async (prisma) => {
+        // Supprimer les cartes liées
+        await prisma.card.deleteMany({
+          where: { userId: userId },
+        });
+
+        // Supprimer les notifications liées (si nécessaire)
+        await prisma.notification.deleteMany({
+          where: { userId: userId },
+        });
+
+        // Supprimer l'utilisateur
+        await prisma.user.delete({
+          where: { id: userId },
+        });
       });
+
       res.sendStatus(204);
     } catch (err) {
       next(err);
