@@ -20,6 +20,7 @@ package-lock
 /back/coverage
 
 # next.js
+.next/
 /.next/
 /out/
 /frontend/.next/
