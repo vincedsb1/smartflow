@@ -15,9 +15,7 @@ interface Props {
 const TabBar: React.FC<Props> = ({ active }) => {
   const iconStyle = (icon: string) =>
     `h-7 w-7 ${
-      active === icon
-        ? "text-gradient-to-br from-cyan-400 to-cyan-500"
-        : "text-neutral-300"
+      active === icon ? "text-cyan-500" : "text-neutral-300"
     } hover:text-cyan-600 transition-all hover:scale-105`;
 
   return (

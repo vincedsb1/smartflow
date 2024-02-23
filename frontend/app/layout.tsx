@@ -3,6 +3,7 @@ import React, { ReactNode } from "react";
 import TabBar from "./components/TabBar";
 import { useSelectedLayoutSegment } from "next/navigation";
 import "./globals.css";
+import Providers from "./Providers";
 
 interface RootLayoutProps {
   children: ReactNode;
@@ -24,8 +25,10 @@ export default function RootLayout({ children }: RootLayoutProps) {
   return (
     <html lang="fr">
       <body>
-        <main>{children}</main>
-        {showTabBar && <TabBar active={segment} />}
+        <Providers>
+          <main>{children}</main>
+          {showTabBar && <TabBar active={segment} />}
+        </Providers>
       </body>
     </html>
   );
