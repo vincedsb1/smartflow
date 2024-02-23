@@ -1,4 +1,4 @@
-// File: /Users/Vincedsb/Documents/TAF/TwentySoft/projects/202402 - SmartFlow/SmartFlow/smartflow/frontend/app/today/page.tsx
+// File: /home/thibaut/Bureau/Dev/smartflow/frontend/app/today/page.tsx
 import * as entry from '../../../../app/today/page.js'
 import type { ResolvingMetadata, ResolvingViewport } from 'next/dist/lib/metadata/types/metadata-interface.js'
 
