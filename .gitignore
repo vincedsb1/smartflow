@@ -20,15 +20,16 @@ package-lock
 /back/coverage
 
 # next.js
+.next/
 /.next/
 /out/
-/front/.next/
-/front/out/
+/frontend/.next/
+/frontend/out/
 
 # production
 /build
-/front/build
-/back/build
+/frontend/build
+/backend/build
 
 # misc
 .DS_Store
@@ -40,6 +41,7 @@ yarn-debug.log*
 yarn-error.log*
 
 # local env files
+.env
 .env*.local
 /frontend/.env*.local
 /backend/.env*.local
@@ -57,3 +59,5 @@ next-env.d.ts
 
 # back-end specific
 /back/dist
+.next/
+.DS_Store

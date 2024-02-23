@@ -1,0 +1,53 @@
+"use client";
+import React, { useState } from "react";
+import Link from "next/link";
+
+interface ButtonProps {
+  label: string;
+  type?: "normal" | "warning" | "disabled";
+  disabled?: boolean;
+  href?: string;
+}
+
+const MainButton: React.FC<ButtonProps> = ({
+  label,
+  type = "normal",
+  disabled = false,
+  href = "#",
+}) => {
+  const [isClicked, setIsClicked] = useState(false);
+
+  const getButtonClass = () => {
+    switch (type) {
+      case "warning":
+        return `bg-red-500 hover:bg-red-600 w-80 rounded-2xl h-12 ${
+          isClicked ? "bg-neutral-400" : ""
+        }`;
+      case "normal":
+      default:
+        return `bg-emerald-600 hover:bg-emerald-500 w-80 rounded-2xl h-12 ${
+          isClicked ? "bg-neutral-400" : ""
+        }`;
+      case "disabled":
+        return "bg-gray-500 w-80 rounded-2xl h-12";
+    }
+  };
+
+  return (
+    <div className="absolute top-[677px]">
+      <Link href={href}>
+        <button
+          onClick={() => setIsClicked(true)}
+          className={`text-white font-bold py-3 px-9 rounded ${getButtonClass()} ${
+            disabled ? "opacity-50 cursor-not-allowed" : ""
+          } gap-2.5`}
+          disabled={disabled}
+        >
+          {label}
+        </button>
+      </Link>
+    </div>
+  );
+};
+
+export default MainButton;

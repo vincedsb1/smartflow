@@ -1,21 +1,25 @@
-import { PrismaClient } from "@prisma/client"
-import argon2 from "argon2"
+import { PrismaClient } from "@prisma/client";
+import argon2 from "argon2";
 
-const prisma = new PrismaClient()
+const prisma = new PrismaClient();
 
 async function main() {
+  console.log("Starting seeding process...");
+
   const language = await prisma.language.create({
     data: {
       code: "FR",
       name: "French",
     },
-  })
+  });
+  console.log("Language created:", language);
 
   const color = await prisma.color.create({
     data: {
       name: "Red",
     },
-  })
+  });
+  console.log("Color created:", color);
 
   const category = await prisma.category.create({
     data: {
@@ -26,14 +30,16 @@ async function main() {
         },
       },
     },
-  })
+  });
+  console.log("Category created:", category);
 
   const rule = await prisma.rule.create({
     data: {
       ruleName: "Rule 1",
       description: "Description 1",
     },
-  })
+  });
+  console.log("Rule created:", rule);
 
   const usersData = [
     {
@@ -51,84 +57,77 @@ async function main() {
       lastname: "Johnson",
       email: "charlie@prisma.io",
     },
-  ]
+  ];
 
   for (const userData of usersData) {
-    const user = await prisma.user.create({
-      data: {
-        ...userData,
-        birthday: new Date(),
-        password: await argon2.hash("password"),
-        onBoarding: true,
-        imageUrl: "https://example.com/image.jpg",
-        language: {
-          connect: {
-            id: language.id,
-          },
-        },
-      },
-    })
+    console.log("Inserting user data:", userData);
 
-    const card = await prisma.card.create({
-      data: {
-        title: `Card for ${user.firstname}`,
-        answer: `Answer for ${user.firstname}`,
-        level: 1,
-        lastReviewDate: new Date(),
-        user: {
-          connect: {
-            id: user.id,
+    try {
+      const user = await prisma.user.create({
+        data: {
+          ...userData,
+          birthday: new Date(),
+          password: await argon2.hash("password"),
+          onBoarding: true,
+          imageUrl: "https://example.com/image.jpg",
+          language: {
+            connect: {
+              id: language.id,
+            },
           },
         },
-        category: {
-          connect: {
-            id: category.id,
-          },
-        },
-      },
-    })
+      });
+      console.log("User created:", user);
 
-    const notification = await prisma.notification.create({
-      data: {
-        content: `Notification for ${user.firstname}`,
-        time: new Date(),
-        user: {
-          connect: {
-            id: user.id,
+      const card = await prisma.card.create({
+        data: {
+          title: `Card for ${user.firstname}`,
+          answer: `Answer for ${user.firstname}`,
+          level: 1,
+          lastReviewDate: new Date(),
+          user: {
+            connect: {
+              id: user.id,
+            },
+          },
+          category: {
+            connect: {
+              id: category.id,
+            },
           },
         },
-        card: {
-          connect: {
-            id: card.id,
-          },
-        },
-      },
-    })
+      });
+      console.log("Card created for user:", card);
 
-    const userRule = await prisma.userRule.create({
-      data: {
-        user: {
-          connect: {
-            id: user.id,
-          },
+      const notificationsData = [
+        {
+          content: "Notification for Bob",
+          time: new Date("2024-02-21T10:33:11.607Z"),
+          notificationTime: new Date("2024-02-21T10:33:11.607Z"),
+          userId: 6,
+          cardId: 4,
         },
-        rule: {
-          connect: {
-            id: rule.id,
-          },
-        },
-      },
-    })
+      ];
+
+      for (const notificationData of notificationsData) {
+        const notification = await prisma.notification.create({
+          data: notificationData,
+        });
+        console.log("Notification created:", notification);
+      }
+    } catch (e) {
+      console.error("Error inserting user data:", userData, e);
+    }
   }
 
-  console.log("Seeding finished.")
+  console.log("Seeding finished.");
 }
 
 main()
   .catch((e) => {
-    console.error(e)
-    process.exit(1)
+    console.error("Error during seeding:", e);
+    process.exit(1);
   })
   .finally(async () => {
-    await prisma.$disconnect()
-  })
+    await prisma.$disconnect();
+  });
