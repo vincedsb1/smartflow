@@ -13,9 +13,10 @@ const add = () => {
         itemClickAction="navigate"
         titleButton="Ajouter une catégorie"
       >
+        <div>Histoire</div>
+        <div>Science</div>
+        <div>Art</div>
         <div>Mathématiques</div>
-        <div>Physique</div>
-        <div>Chimie</div>
       </List>
 
       <MainButton label="Enregistrer" type="normal" disabled={false} href="#" />
