@@ -43,6 +43,7 @@ router.delete("/languages/:id", languageControllers.destroy); // test OK
 //Routes Notification
 router.get("/notifications", notificationControllers.browse); // test OK
 router.get("/notifications/:id", notificationControllers.read); // test OK
+router.get('/user/:userId', notificationControllers.browseByUser); // test OK
 router.post("/notifications", notificationControllers.add); // test OK
 router.put("/notifications/:id", notificationControllers.edit); // test OK
 router.delete("/notifications/:id", notificationControllers.destroy); // test OK

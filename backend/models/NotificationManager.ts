@@ -42,6 +42,14 @@ class NotificationManager extends AbstractManager {
     return notification || null;
   }
 
+  async browseByUser(userId: number): Promise<Notification[]> {
+    const notifications = await prisma.notification.findMany({
+      where: { userId: userId },
+    });
+  
+    return notifications;
+  }
+  
   async update({
     id,
     content,

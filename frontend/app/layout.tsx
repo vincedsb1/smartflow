@@ -24,7 +24,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
 
   return (
     <html lang="fr">
-      <body>
+      <body className="">
         <Providers>
           <main>{children}</main>
           {showTabBar && <TabBar active={segment} />}
