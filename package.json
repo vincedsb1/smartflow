@@ -1,0 +1,17 @@
+{
+  "name": "smartflow",
+  "version": "1.0.0",
+  "description": "Bienvenue sur le projet \"SmartFlow\", une application web moderne développée avec Next.js. Ce projet vise à offrir une expérience utilisateur riche et interactive pour aider les utilisateur à apprendre des connaissances plus efficacement.",
+  "main": "index.js",
+  "scripts": {
+    "dev": "concurrently \"npm run dev --prefix ./frontend\" \"npm run dev --prefix ./backend\"",
+    "postinstall": "npm install --prefix ./frontend && npm install --prefix ./backend"
+
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+}

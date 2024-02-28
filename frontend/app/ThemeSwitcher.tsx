@@ -13,6 +13,16 @@ function ThemeSwitcher() {
     setMounted(true);
   }, []);
 
+  useEffect(() => {
+    if (!mounted) return;
+
+    if (theme === "dark") {
+      document.body.classList.add("dark");
+    } else {
+      document.body.classList.remove("dark");
+    }
+  }, [mounted, theme]);
+
   if (!mounted) return null;
 
   const isDarkMode = theme === "dark";

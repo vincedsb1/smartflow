@@ -28,6 +28,19 @@ class NotificationController {
     }
   }
 
+  async browseByUser(req: Request, res: Response, next: NextFunction) {
+    try {
+      const userId = Number(req.params.userId);
+      const notifications = await prisma.notification.findMany({
+        where: { userId: userId },
+      });
+      res.json(notifications);
+    } catch (err) {
+      next(err);
+    }
+  }
+
+  
   async add(req: Request, res: Response, next: NextFunction) {
     const notification = req.body;
     try {
