@@ -1,5 +1,4 @@
-"use client";
-import React, { useState } from "react";
+import React from "react";
 import Link from "next/link";
 
 interface ButtonProps {
@@ -7,6 +6,8 @@ interface ButtonProps {
   type?: "normal" | "warning" | "disabled";
   disabled?: boolean;
   href?: string;
+  onClick?: () => void;
+  isClicked?: boolean;
 }
 
 const MainButton: React.FC<ButtonProps> = ({
@@ -14,9 +15,9 @@ const MainButton: React.FC<ButtonProps> = ({
   type = "normal",
   disabled = false,
   href = "#",
+  onClick = () => {},
+  isClicked = false,
 }) => {
-  const [isClicked, setIsClicked] = useState(false);
-
   const getButtonClass = () => {
     switch (type) {
       case "warning":
@@ -35,9 +36,9 @@ const MainButton: React.FC<ButtonProps> = ({
 
   return (
     <div className="absolute top-[677px]">
-      <Link href={href}>
+     <Link href={href}>
         <button
-          onClick={() => setIsClicked(true)}
+          onClick={onClick}
           className={`text-white font-bold py-3 px-9 rounded ${getButtonClass()} ${
             disabled ? "opacity-50 cursor-not-allowed" : ""
           } gap-2.5`}

@@ -26,6 +26,11 @@ const config: Config = {
       fontFamily: {
         quicksand: ["Quicksand", "sans-serif"],
       },
+      fontWeight: {
+        '300': '300',
+        '600': '600',
+        '700': '700'
+      }
     },
   },
   plugins: [],
