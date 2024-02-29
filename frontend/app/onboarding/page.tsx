@@ -1,11 +1,10 @@
 import React from "react";
-import MainButton from "../components/MainButton";
 import MethodSteps from "../components/MethodSteps";
 
 const add = () => {
   return (
     <div className=" flex flex-row justify-center  h-screen align-middle items-center">
-      <p>today</p>
+      <MethodSteps />
     </div>
   );
 };
