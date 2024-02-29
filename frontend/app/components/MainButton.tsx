@@ -10,6 +10,25 @@ interface ButtonProps {
   isClicked?: boolean;
 }
 
+interface ClickableButtonProps {
+  onClick?: () => void;
+  className?: string;
+  disabled?: boolean;
+  children?: React.ReactNode;
+}
+
+const ClickableButton: React.FC<ClickableButtonProps> = ({ onClick, className, disabled, children }) => {
+  return (
+    <button
+      onClick={onClick}
+      className={className}
+      disabled={disabled}
+    >
+      {children}
+    </button>
+  )
+}
+
 const MainButton: React.FC<ButtonProps> = ({
   label,
   type = "normal",
@@ -37,7 +56,7 @@ const MainButton: React.FC<ButtonProps> = ({
   return (
     <div className="absolute top-[677px]">
      <Link href={href}>
-        <button
+        <ClickableButton
           onClick={onClick}
           className={`text-white font-bold py-3 px-9 rounded ${getButtonClass()} ${
             disabled ? "opacity-50 cursor-not-allowed" : ""
@@ -45,7 +64,7 @@ const MainButton: React.FC<ButtonProps> = ({
           disabled={disabled}
         >
           {label}
-        </button>
+        </ClickableButton>
       </Link>
     </div>
   );
