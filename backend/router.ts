@@ -1,7 +1,8 @@
-//API router Here
-const express = require("express");
+import express, { Request, Response } from "express";
 
 const router = express.Router();
+
+import passport from "passport";
 
 // Importing the controller for the API
 import cardControllers from "./controllers/cardControllers";
@@ -11,6 +12,15 @@ import languageControllers from "./controllers/languageControllers";
 import notificationControllers from "./controllers/notificationControllers";
 import ruleControllers from "./controllers/ruleControllers";
 import userControllers from "./controllers/userControllers";
+import AuthController from "./controllers/authControllers";
+
+//Routes Auth
+router.get(
+  "/api/auth/callback/google",
+  passport.authenticate("google", { failureRedirect: "/signup" }),
+  AuthController.googleAuthCallback
+);
+router.get("/api/auth/google", AuthController.googleAuth);
 
 //Routes card
 router.get("/cards", cardControllers.browse); // test OK
@@ -43,7 +53,7 @@ router.delete("/languages/:id", languageControllers.destroy); // test OK
 //Routes Notification
 router.get("/notifications", notificationControllers.browse); // test OK
 router.get("/notifications/:id", notificationControllers.read); // test OK
-router.get('/user/:userId', notificationControllers.browseByUser); // test OK
+router.get("/user/:userId", notificationControllers.browseByUser); // test OK
 router.post("/notifications", notificationControllers.add); // test OK
 router.put("/notifications/:id", notificationControllers.edit); // test OK
 router.delete("/notifications/:id", notificationControllers.destroy); // test OK

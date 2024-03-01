@@ -3,6 +3,8 @@ import * as path from "path";
 import cors from "cors";
 import errorManager from "./services/errorManager";
 import router from "./router";
+import passport from "./auth/auth";
+import session from "express-session";
 
 const app: Express = express();
 
@@ -16,15 +18,19 @@ app.use(
   })
 );
 
+app.use(
+  session({
+    secret: "your session secret",
+    resave: false,
+    saveUninitialized: false,
+  })
+); // Use express-session
+app.use(passport.initialize()); // Initialize Passport.js
+app.use(passport.session()); // Use Passport.js sessions
+
 app.use(router);
 
 app.use(express.static("./public"));
-
-/*app.use("/images", express.static(path.join(__dirname, "images")));
-
-/*app.get("*", (req: Request, res: Response) => {
-  res.sendFile(path.join(__dirname, "../public", "index.html"));
-});*/
 
 app.use(errorManager);
 
