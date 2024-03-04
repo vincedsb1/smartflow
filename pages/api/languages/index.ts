@@ -9,37 +9,37 @@ export default async function handle(
 ) {
   if (req.method === "GET") {
     try {
-      const users = await prisma.user.findMany();
-      res.json(users);
+      const languages = await prisma.language.findMany();
+      res.json(languages);
     } catch (err) {
       res.status(500).json({ error: (err as Error).message });
     }
   } else if (req.method === "POST") {
-    const user = req.body;
+    const language = req.body;
     try {
-      const createdUser = await prisma.user.create({ data: user });
-      res.status(201).json(createdUser);
+      const createdLanguage = await prisma.language.create({ data: language });
+      res.status(201).json(createdLanguage);
     } catch (err) {
       res.status(500).json({ error: (err as Error).message });
     }
   } else if (req.method === "PUT") {
-    const user = req.body;
+    const language = req.body;
     try {
-      const updatedUser = await prisma.user.update({
-        where: { id: user.id },
-        data: user,
+      const updatedLanguage = await prisma.language.update({
+        where: { id: language.id },
+        data: language,
       });
-      res.json(updatedUser);
+      res.json(updatedLanguage);
     } catch (err) {
       res.status(500).json({ error: (err as Error).message });
     }
   } else if (req.method === "DELETE") {
     const { id } = req.body;
     try {
-      const deletedUser = await prisma.user.delete({
+      const deletedLanguage = await prisma.language.delete({
         where: { id },
       });
-      res.json(deletedUser);
+      res.json(deletedLanguage);
     } catch (err) {
       res.status(500).json({ error: (err as Error).message });
     }

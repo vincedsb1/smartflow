@@ -9,37 +9,39 @@ export default async function handle(
 ) {
   if (req.method === "GET") {
     try {
-      const users = await prisma.user.findMany();
-      res.json(users);
+      const notifications = await prisma.notification.findMany();
+      res.json(notifications);
     } catch (err) {
       res.status(500).json({ error: (err as Error).message });
     }
   } else if (req.method === "POST") {
-    const user = req.body;
+    const notification = req.body;
     try {
-      const createdUser = await prisma.user.create({ data: user });
-      res.status(201).json(createdUser);
+      const createdNotification = await prisma.notification.create({
+        data: notification,
+      });
+      res.status(201).json(createdNotification);
     } catch (err) {
       res.status(500).json({ error: (err as Error).message });
     }
   } else if (req.method === "PUT") {
-    const user = req.body;
+    const notification = req.body;
     try {
-      const updatedUser = await prisma.user.update({
-        where: { id: user.id },
-        data: user,
+      const updatedNotification = await prisma.notification.update({
+        where: { id: notification.id },
+        data: notification,
       });
-      res.json(updatedUser);
+      res.json(updatedNotification);
     } catch (err) {
       res.status(500).json({ error: (err as Error).message });
     }
   } else if (req.method === "DELETE") {
     const { id } = req.body;
     try {
-      const deletedUser = await prisma.user.delete({
+      const deletedNotification = await prisma.notification.delete({
         where: { id },
       });
-      res.json(deletedUser);
+      res.json(deletedNotification);
     } catch (err) {
       res.status(500).json({ error: (err as Error).message });
     }

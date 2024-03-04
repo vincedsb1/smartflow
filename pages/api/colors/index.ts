@@ -9,37 +9,37 @@ export default async function handle(
 ) {
   if (req.method === "GET") {
     try {
-      const users = await prisma.user.findMany();
-      res.json(users);
+      const colors = await prisma.color.findMany();
+      res.json(colors);
     } catch (err) {
       res.status(500).json({ error: (err as Error).message });
     }
   } else if (req.method === "POST") {
-    const user = req.body;
+    const color = req.body;
     try {
-      const createdUser = await prisma.user.create({ data: user });
-      res.status(201).json(createdUser);
+      const createdColor = await prisma.color.create({ data: color });
+      res.status(201).json(createdColor);
     } catch (err) {
       res.status(500).json({ error: (err as Error).message });
     }
   } else if (req.method === "PUT") {
-    const user = req.body;
+    const color = req.body;
     try {
-      const updatedUser = await prisma.user.update({
-        where: { id: user.id },
-        data: user,
+      const updatedColor = await prisma.color.update({
+        where: { id: color.id },
+        data: color,
       });
-      res.json(updatedUser);
+      res.json(updatedColor);
     } catch (err) {
       res.status(500).json({ error: (err as Error).message });
     }
   } else if (req.method === "DELETE") {
     const { id } = req.body;
     try {
-      const deletedUser = await prisma.user.delete({
+      const deletedColor = await prisma.color.delete({
         where: { id },
       });
-      res.json(deletedUser);
+      res.json(deletedColor);
     } catch (err) {
       res.status(500).json({ error: (err as Error).message });
     }
