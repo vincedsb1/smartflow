@@ -9,37 +9,37 @@ export default async function handle(
 ) {
   if (req.method === "GET") {
     try {
-      const users = await prisma.user.findMany();
-      res.json(users);
+      const categories = await prisma.category.findMany();
+      res.json(categories);
     } catch (err) {
       res.status(500).json({ error: (err as Error).message });
     }
   } else if (req.method === "POST") {
-    const user = req.body;
+    const category = req.body;
     try {
-      const createdUser = await prisma.user.create({ data: user });
-      res.status(201).json(createdUser);
+      const createdCategory = await prisma.category.create({ data: category });
+      res.status(201).json(createdCategory);
     } catch (err) {
       res.status(500).json({ error: (err as Error).message });
     }
   } else if (req.method === "PUT") {
-    const user = req.body;
+    const category = req.body;
     try {
-      const updatedUser = await prisma.user.update({
-        where: { id: user.id },
-        data: user,
+      const updatedCategory = await prisma.category.update({
+        where: { id: category.id },
+        data: category,
       });
-      res.json(updatedUser);
+      res.json(updatedCategory);
     } catch (err) {
       res.status(500).json({ error: (err as Error).message });
     }
   } else if (req.method === "DELETE") {
     const { id } = req.body;
     try {
-      const deletedUser = await prisma.user.delete({
+      const deletedCategory = await prisma.category.delete({
         where: { id },
       });
-      res.json(deletedUser);
+      res.json(deletedCategory);
     } catch (err) {
       res.status(500).json({ error: (err as Error).message });
     }
