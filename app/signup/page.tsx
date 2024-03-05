@@ -1,12 +1,19 @@
-import React from "react";
+"use client"
+import React, { useEffect, useState } from "react";
+import { useRouter } from "next/router";
 
-const SignupPage = () => {
+import SignupComponent from "../components/SignupComponent";
+import LoginComponent from "../components/LoginComponent";
+
+const connexionPAge = () => {
   return (
-    <div>
-      <h1>Signup Page</h1>
-      <a href="http://localhost:8000/auth/google">Signup with Google</a>
+    <div className="flex justify-center items-center h-screen">
+      <div className="w-96">
+        <SignupComponent />
+        <LoginComponent />
+      </div>
     </div>
   );
-};
+}
 
-export default SignupPage;
+export default connexionPAge;
