@@ -2,8 +2,6 @@
 "use client";
 import React from "react";
 import MainButton from "../components/MainButton";
-import { useFetchCardsClient } from "../actions/actionsCard";
-import { FetchRules } from "../actions/actionsRule";
 
 const Add = () => {
   return (
