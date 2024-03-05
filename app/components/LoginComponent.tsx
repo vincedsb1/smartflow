@@ -1,12 +1,9 @@
 import { useRouter } from 'next/router';
 import React, { useState, useContext } from "react";
-import UserContext from "../context/UserContext";
 
 const LoginComponent = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
- // const { setUser } = useContext(UserContext);
-  const router = useRouter();
 
   const handleSubmit = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
@@ -16,8 +13,6 @@ const LoginComponent = () => {
     );
     if (response.ok) {
       const user = await response.json();
-     // setUser(user);
-      router.push("/today");
     } else {
       console.error("Erreur lors de la connexion");
     }

@@ -1,6 +1,6 @@
 "use client"
 import React, { useEffect, useState } from "react";
-import { useRouter } from "next/router";
+
 
 import SignupComponent from "../components/SignupComponent";
 import LoginComponent from "../components/LoginComponent";
