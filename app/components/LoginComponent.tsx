@@ -5,7 +5,7 @@ import UserContext from "../context/UserContext";
 const LoginComponent = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const { setUser } = useContext(UserContext);
+ // const { setUser } = useContext(UserContext);
   const router = useRouter();
 
   const handleSubmit = async (e: { preventDefault: () => void }) => {
@@ -16,7 +16,7 @@ const LoginComponent = () => {
     );
     if (response.ok) {
       const user = await response.json();
-      setUser(user);
+     // setUser(user);
       router.push("/today");
     } else {
       console.error("Erreur lors de la connexion");
