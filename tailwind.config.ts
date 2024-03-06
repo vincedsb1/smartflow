@@ -10,12 +10,12 @@ const config: Config = {
     extend: {
       colors: {
         light: {
-          primary: '#F3F4F6',
-          secondary: '#your-light-secondary-color',
+          primary: "#F3F4F6",
+          secondary: "#your-light-secondary-color",
         },
         dark: {
-          primary: '#1F2937',
-          secondary: '#your-dark-secondary-color',
+          primary: "#1F2937",
+          secondary: "#your-dark-secondary-color",
         },
       },
       backgroundImage: {
@@ -25,12 +25,13 @@ const config: Config = {
       },
       fontFamily: {
         quicksand: ["Quicksand", "sans-serif"],
+        title: ["Inter", "sans-serif"],
       },
       fontWeight: {
-        '300': '300',
-        '600': '600',
-        '700': '700'
-      }
+        "300": "300",
+        "600": "600",
+        "700": "700",
+      },
     },
   },
   plugins: [],
