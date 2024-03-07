@@ -16,10 +16,12 @@ const user = () => {
       mainLabel: "Main Label 1",
       secondaryLabel: "Secondary Label 1",
       icon: faChevronRight,
+      bgcolor: "bg-sky-300",
     },
     {
       mainLabel: "Main Label 2",
       icon: faChevronRight,
+      bgcolor: "bg-yellow-300",
     },
   ];
 
