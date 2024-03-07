@@ -26,6 +26,7 @@ const config: Config = {
       },
       fontFamily: {
         quicksand: ["Quicksand", "sans-serif"],
+        title: ["Inter", "sans-serif"],
       },
       fontWeight: {
         "300": "300",
