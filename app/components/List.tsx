@@ -1,86 +1,89 @@
-"use client";
 import React from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { IconDefinition } from "@fortawesome/fontawesome-svg-core";
+import { faChevronRight } from "@fortawesome/free-solid-svg-icons";
 
-interface ListProps {
-  title?: string;
-  size?: "small" | "large";
-  leadingIcon?: React.ReactNode;
-  trailingIcon?: React.ReactNode;
-  itemClickAction?: "select" | "navigate";
-  isItemSelectable?: boolean;
-  children: React.ReactNode;
-  titleButton?: string;
-  hasAddButton?: boolean;
-  secondaryInfo?: string;
+interface ListRowProps {
+  color?: string;
+  mainLabel: string;
+  secondaryLabel?: string;
+  icon?: IconDefinition;
 }
 
-const List: React.FC<ListProps> = ({
-  title,
-  size,
-  leadingIcon,
-  trailingIcon,
-  itemClickAction,
-  hasAddButton,
-  isItemSelectable,
-  secondaryInfo,
-  children,
-  titleButton,
-}) => {
-  const handleItemClick = (item: React.ReactNode) => {
-    if (itemClickAction === "select") {
-    } else if (itemClickAction === "navigate") {
-    }
-  };
+interface ListProps {
+  rows: ListRowProps[];
+}
 
-  const handleAddButtonClick = () => {};
-
-  const listSize = size === "large" ? "h-16" : "h-12";
-
+const List: React.FC<ListProps> = ({ rows }) => {
   return (
-    <div id="list-main-container" className="max-w-screen-xl mx-auto">
-      <div id="title-list">
-        {title && (
-          <h2 className="font-bold text-neutral-600 pr-1 pb-2 ">{title}</h2>
-        )}
+    <div id="ListContainer" className="flex flex-col mx-5">
+      <div
+        id="ListTitleContainer"
+        className=" mb-1 font-title font-bold text-lg"
+      >
+        Information du compte
       </div>
       <div
-        id="items-container"
-        className="bg-gray-50 rounded-3xl flex flex-col overflow-auto w-7/10 mx-auto"
-        style={{ maxHeight: "200px" }}
+        id="ListContainer"
+        className="flex flex-col bg-white rounded-xl shadow-sf"
       >
-        {React.Children.map(children, (child, index) => (
+        {rows.map((row, index) => (
           <div
-            id={`item-${index}`}
-            className={`list ${listSize} font-quicksand-500 font-bold text-neutral-500 items-center ${
-              index === 0 ? "mt-4" : ""
+            key={index}
+            id="ListRow"
+            className={`flex flex-row h-16 ${index === 0 ? "mt-3" : ""} ${
+              index === rows.length - 1 ? "mb-3" : ""
             }`}
           >
             <div
-              onClick={() => handleItemClick(child)}
-              className="flex flex-row items-center space-x-2 h-10"
+              id="ListRowStartIconContainer"
+              className="w-3/20  flex flex-row justify-center items-center"
             >
-              <div className="bg-blue-500 h-3 w-3 rounded-full ml-2 mr-1 "></div>
-              {leadingIcon && <div>{leadingIcon}</div>}
-              <div id="item-list" className="h-full flex items-center">
-                {child}
-              </div>
-              {trailingIcon && <div className="p-2">{trailingIcon}</div>}
+              {row.color && (
+                <div
+                  id="colorIndicator"
+                  className={`h-3 w-3 rounded-full ${row.color}`}
+                ></div>
+              )}
             </div>
-            {children && index !== React.Children.count(children) - 1 && (
-              <div className="border-t border-neutral-200 ml-auto mr-0 w-11/12 mt-2"></div>
-            )}
+            <div
+              id="ListRowLabels"
+              className="flex flex-col flex-grow justify-center "
+            >
+              <div
+                id="ListRowTopLabel"
+                className="font-text font-bold text-neutral-500"
+              >
+                {row.mainLabel}
+              </div>
+              {row.secondaryLabel && (
+                <div
+                  id="ListRowBottomLabel"
+                  className="font-text text-neutral-500"
+                >
+                  {row.secondaryLabel}
+                </div>
+              )}
+            </div>
+            <div
+              id="ListRowEndIcon"
+              className="w-2/20  flex flex-row justify-center items-center"
+            >
+              {row.icon && (
+                <FontAwesomeIcon
+                  icon={row.icon}
+                  className="text-neutral-500 text-xs"
+                />
+              )}
+            </div>
           </div>
         ))}
       </div>
-      <div id="add-button-container" className="flex justify-end">
-        {hasAddButton && (
-          <button
-            onClick={handleAddButtonClick}
-            className="px-4 py-2 text-blue-500 rounded font-normal"
-          >
-            {titleButton}
-          </button>
-        )}
+      <div
+        id="BelowListLinkContainer"
+        className=" text-blue-500 flex flex-row justify-end items-center font-text mt-1"
+      >
+        BelowListLinkContainer
       </div>
     </div>
   );
