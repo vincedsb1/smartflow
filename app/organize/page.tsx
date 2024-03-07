@@ -19,7 +19,7 @@ const add = () => {
         <div>Mathématiques</div>
       </List>
 
-      <MainButton label="Enregistrer" type="normal" disabled={false} href="#" />
+      <MainButton label="Enregistrer" type="normal" disabled={false} />
     </div>
   );
 };
