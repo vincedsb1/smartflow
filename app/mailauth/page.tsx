@@ -81,7 +81,7 @@ const MailSignin = () => {
           {"J'accepte les conditions générales d'utilisation"}
         </label>
       </div>
-      <Link href="/cgu" passHref>
+      <Link href="/cgu">
         <p className="mt-2 mb-2 underline cursor-pointer">Consulter les CGU</p>
       </Link>
       <MainButton label="Suivant" type="normal" buttonType="submit" />

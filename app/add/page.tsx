@@ -8,12 +8,7 @@ const Add = () => {
     <div className="flex flex-row justify-center h-screen align-middle items-center">
       <p>Page add</p>
 
-      <MainButton
-        label="Ajouter une fiche"
-        type="normal"
-        disabled={false}
-        href="#"
-      />
+      <MainButton label="Ajouter une fiche" type="normal" disabled={false} />
     </div>
   );
 };
