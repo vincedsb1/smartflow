@@ -8,6 +8,7 @@ interface ListRowProps {
   mainLabel: string;
   secondaryLabel?: string;
   icon?: IconDefinition;
+  bgcolor?: string;
 }
 
 interface ListProps {
@@ -31,9 +32,9 @@ const List: React.FC<ListProps> = ({ rows }) => {
           <div
             key={index}
             id="ListRow"
-            className={`flex flex-row h-16 ${index === 0 ? "mt-3" : ""} ${
-              index === rows.length - 1 ? "mb-3" : ""
-            }`}
+            className={`flex flex-row h-16 ${row.bgcolor || ""} ${
+              index === 0 ? "mt-3" : ""
+            } ${index === rows.length - 1 ? "mb-3" : ""}`}
           >
             <div
               id="ListRowStartIconContainer"

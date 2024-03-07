@@ -7,11 +7,13 @@ import CardAppText from "../components/CardAppText";
 import CardAppEmailInput from "../components/CardAppEmailInput";
 import MainButton from "../components/MainButton";
 import { faEnvelope } from "@fortawesome/free-solid-svg-icons";
+import { useRouter } from "next/navigation";
 
 const MailSignin = () => {
   const [email, setEmail] = useState("");
   const [cgu, setCgu] = useState(false);
   const [redirectUrl, setRedirectUrl] = useState("");
+  const router = useRouter();
 
   const handleChangeEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(e.target.value);
@@ -24,9 +26,9 @@ const MailSignin = () => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-      console.log(`Sending request to /api/users?email=${email}`);
+      console.log(`Sending request to /api/users`);
 
-      const res = await fetch(`/api/users?email=${email}`);
+      const res = await fetch(`/api/users`);
 
       if (!res.ok) {
         console.log(`Request failed with status ${res.status}`);
@@ -36,7 +38,7 @@ const MailSignin = () => {
 
       const data = await res.json();
       console.log(`Received data: ${JSON.stringify(data)}`);
-      const userExists = data.length > 0;
+      const userExists = data && Array.isArray(data) && data.includes(email); // Check if the email exists in the list of emails
       console.log(`User exists: ${userExists}`);
 
       if (!cgu) {
@@ -47,10 +49,10 @@ const MailSignin = () => {
 
       if (userExists && cgu) {
         console.log("Redirecting to /connexion");
-        setRedirectUrl("/connexion");
+        router.push("/connexion");
       } else if (!userExists && cgu) {
         console.log("Redirecting to /inscription");
-        setRedirectUrl("/inscription");
+        router.push("/inscription");
       } else if (!userExists && !cgu) {
         console.log("CGU not checked");
         alert("Vous devez accepter les CGU");
@@ -85,6 +87,9 @@ const MailSignin = () => {
         <p className="mt-2 mb-2 underline cursor-pointer">Consulter les CGU</p>
       </Link>
       <MainButton label="Suivant" type="normal" buttonType="submit" />
+      <button onClick={() => router.push("/today")} className="mt-4 underline">
+        Go to today
+      </button>
     </form>
   );
 };
