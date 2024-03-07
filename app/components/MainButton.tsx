@@ -1,12 +1,11 @@
 "use client";
 import React from "react";
-import Link from "next/link";
 
 interface ButtonProps {
   label: string;
   type?: "normal" | "warning" | "disabled";
+  buttonType?: "button" | "submit" | "reset";
   disabled?: boolean;
-  href?: string;
   onClick?: () => void;
   isClicked?: boolean;
 }
@@ -16,25 +15,28 @@ interface ClickableButtonProps {
   className?: string;
   disabled?: boolean;
   children?: React.ReactNode;
+  buttonType?: "button" | "submit" | "reset";
 }
 
-const ClickableButton: React.FC<ClickableButtonProps> = ({ onClick, className, disabled, children }) => {
+const ClickableButton: React.FC<ClickableButtonProps> = ({
+  onClick,
+  className,
+  disabled,
+  children,
+  buttonType = "button",
+}) => {
   return (
-    <button
-      onClick={onClick}
-      className={className}
-      disabled={disabled}
-    >
+    <button type={buttonType} onClick={onClick} className={className} disabled={disabled}>
       {children}
     </button>
-  )
-}
+  );
+};
 
 const MainButton: React.FC<ButtonProps> = ({
   label,
   type = "normal",
+  buttonType = "button",
   disabled = false,
-  href = "#",
   onClick = () => {},
   isClicked = false,
 }) => {
@@ -55,19 +57,16 @@ const MainButton: React.FC<ButtonProps> = ({
   };
 
   return (
-    <div className="absolute top-[677px]">
-     <Link href={href}>
-        <ClickableButton
-          onClick={onClick}
-          className={`text-white font-bold py-3 px-9 rounded ${getButtonClass()} ${
-            disabled ? "opacity-50 cursor-not-allowed" : ""
-          } gap-2.5`}
-          disabled={disabled}
-        >
-          {label}
-        </ClickableButton>
-      </Link>
-    </div>
+      <ClickableButton
+        buttonType={buttonType}
+        onClick={onClick}
+        className={`text-white font-bold py-3 px-9 rounded ${getButtonClass()} ${
+          disabled ? "opacity-50 cursor-not-allowed" : ""
+        } gap-2.5`}
+        disabled={disabled}
+      >
+        {label}
+      </ClickableButton>
   );
 };
 
