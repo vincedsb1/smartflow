@@ -1,6 +1,9 @@
-import React from "react";
-
-function CardAppEmailInput(_placeholder: any) {
+// Dans votre composant CardAppEmailInput
+function CardAppEmailInput({
+  onChange,
+}: {
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+}) {
   return (
     <div id="-main-conatiner">
       <div id="title">
@@ -13,6 +16,7 @@ function CardAppEmailInput(_placeholder: any) {
           id="email"
           name="email"
           placeholder="votremail@gmail.com"
+          onChange={onChange}
         />
       </div>
     </div>
