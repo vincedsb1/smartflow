@@ -1,35 +1,35 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import MainButton from "../components/MainButton";
-import List from "../components/List";
+import List from "../components/List-old";
 import CardAppTitle from "../components/CardAppTitle";
 import CardAppText from "../components/CardAppText";
 
 interface Card {
-   id: number;
-   title: string;
-   answer: string;
+  id: number;
+  title: string;
+  answer: string;
 }
 
 const Add = () => {
-   const [cards, setCards] = useState<Card[]>([]);
-   const [isLoading, setIsLoading] = useState<boolean>(true);
-   const [isError, setIsError] = useState<boolean>(false);
+  const [cards, setCards] = useState<Card[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [isError, setIsError] = useState<boolean>(false);
 
   useEffect(() => {
-    fetch('/api/cards')
-      .then(response => {
+    fetch("/api/cards")
+      .then((response) => {
         if (!response.ok) {
-          throw new Error('Network response was not ok');
+          throw new Error("Network response was not ok");
         }
         return response.json();
       })
-      .then(data => {
+      .then((data) => {
         setCards(data);
         setIsLoading(false);
       })
-      .catch(error => {
-        console.error('Error:', error);
+      .catch((error) => {
+        console.error("Error:", error);
         setIsError(true);
         setIsLoading(false);
       });
@@ -62,6 +62,6 @@ const Add = () => {
       <MainButton label="Réciter" />
     </div>
   );
-}
+};
 
 export default Add;
