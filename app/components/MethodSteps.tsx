@@ -102,7 +102,6 @@ function MethodSteps() {
           <MainButton
             type={"normal"}
             label={buttonText()}
-            href="/today"
             onClick={nextStep}
           />
         ) : (
