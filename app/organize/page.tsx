@@ -1,6 +1,6 @@
 import React from "react";
 import MainButton from "../components/MainButton";
-import List from "../components/List";
+import List from "../components/List-old";
 
 const add = () => {
   return (

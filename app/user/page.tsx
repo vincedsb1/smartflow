@@ -2,9 +2,29 @@ import React from "react";
 import ThemeSwitcher from "../ThemeSwitcher";
 import Image from "next/image";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPenToSquare } from "@fortawesome/free-regular-svg-icons";
+import {
+  faPenToSquare,
+  faChevronRight,
+} from "@fortawesome/free-solid-svg-icons";
+// import List from "../components/List-old";
+import List from "../components/List";
 
 const user = () => {
+  const rows = [
+    {
+      color: "bg-blue-400",
+      mainLabel: "Main Label 1",
+      secondaryLabel: "Secondary Label 1",
+      icon: faChevronRight,
+      bgcolor: "bg-sky-300",
+    },
+    {
+      mainLabel: "Main Label 2",
+      icon: faChevronRight,
+      bgcolor: "bg-yellow-300",
+    },
+  ];
+
   return (
     <div
       id="userMainContainer"
@@ -53,10 +73,11 @@ const user = () => {
           </div>
         </div>
       </div>
-
-      <div>
-        <p>Page user</p>
+      <div id="userInfosContainer" className="w-full ">
+        <List rows={rows} />
       </div>
+      <div id="userOtherContainer" className=""></div>
+
       <div className="flex flex-row p-10">
         <div className=" pr-5">
           <p>Mode sombre </p>
@@ -68,5 +89,21 @@ const user = () => {
     </div>
   );
 };
+
+{
+  /* <List
+          title="Informations du compte"
+          size="large"
+          hasAddButton={false}
+          isItemSelectable={true}
+          itemClickAction="navigate"
+          titleButton=""
+          colorIndicator={false}
+        >
+          <div>Prénom</div>
+          <div>Email</div>
+          <div>Date de naissance</div>
+        </List> */
+}
 
 export default user;
