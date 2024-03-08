@@ -14,14 +14,20 @@ const user = () => {
     {
       color: "bg-blue-400",
       mainLabel: "Main Label 1",
-      secondaryLabel: "Secondary Label 1",
+      secondaryLabel: "",
       icon: faChevronRight,
-      bgcolor: "bg-sky-300",
+      bgcolor: "",
+      link: "/user/firstname",
     },
     {
       mainLabel: "Main Label 2",
       icon: faChevronRight,
-      bgcolor: "bg-yellow-300",
+      bgcolor: "",
+    },
+    {
+      mainLabel: "Main Label 3",
+      icon: faChevronRight,
+      bgcolor: "",
     },
   ];
 
@@ -74,7 +80,12 @@ const user = () => {
         </div>
       </div>
       <div id="userInfosContainer" className="w-full ">
-        <List rows={rows} />
+        <List
+          rows={rows}
+          title={"Informations du compte"}
+          isLargeRow={false}
+          belowListLink={"Ajouter une catégorie"}
+        />
       </div>
       <div id="userOtherContainer" className=""></div>
 
