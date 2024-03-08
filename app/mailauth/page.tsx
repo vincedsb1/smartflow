@@ -75,8 +75,9 @@ const MailSignin = () => {
           size="large"
         />
       </div>
-      <div className="mt-24"></div>
-      <CardAppEmailInput onChange={handleChangeEmail} />
+      <div className="mt-24">
+        <CardAppEmailInput onChange={handleChangeEmail} />
+      </div>
       <div className="flex items-center mt-4">
         <input onChange={handleChangeCgu} type="checkbox" id="cgu" name="cgu" />
         <label htmlFor="cgu" className="ml-2">
