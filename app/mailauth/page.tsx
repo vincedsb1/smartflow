@@ -1,6 +1,5 @@
 "use client";
-import React from "react";
-import { useState } from "react";
+import React, { useContext, useState } from "react";
 import Link from "next/link";
 import CardAppTitle from "../components/CardAppTitle";
 import CardAppText from "../components/CardAppText";
@@ -8,15 +7,23 @@ import CardAppEmailInput from "../components/CardAppEmailInput";
 import MainButton from "../components/MainButton";
 import { faEnvelope } from "@fortawesome/free-solid-svg-icons";
 import { useRouter } from "next/navigation";
+import { UserContext } from "../context/UserContext";
 
 const MailSignin = () => {
-  const [email, setEmail] = useState("");
+  const userContext = useContext(UserContext);
+
+  if (!userContext) {
+    throw new Error("UserContext must be used within a UserContextProvider");
+  }
+
+  const { email, setEmail } = userContext;
   const [cgu, setCgu] = useState(false);
-  const [redirectUrl, setRedirectUrl] = useState("");
   const router = useRouter();
 
   const handleChangeEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setEmail(e.target.value);
+    if (setEmail) {
+      setEmail(e.target.value);
+    }
   };
 
   const handleChangeCgu = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -26,23 +33,17 @@ const MailSignin = () => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-      console.log(`Sending request to /api/users`);
-
       const res = await fetch(`/api/users`);
 
       if (!res.ok) {
-        console.log(`Request failed with status ${res.status}`);
         alert("Une erreur s'est produite lors de la vérification de l'e-mail");
         return;
       }
 
       const data = await res.json();
-      console.log(`Received data: ${JSON.stringify(data)}`);
-      const userExists = data && Array.isArray(data) && data.includes(email); // Check if the email exists in the list of emails
-      console.log(`User exists: ${userExists}`);
+      const userExists = data && Array.isArray(data) && data.includes(email);
 
       if (!cgu) {
-        console.log("CGU not checked");
         alert("Vous devez accepter les CGU");
         return;
       }
@@ -75,8 +76,9 @@ const MailSignin = () => {
           size="large"
         />
       </div>
-      <div className="mt-24"></div>
-      <CardAppEmailInput onChange={handleChangeEmail} />
+      <div className="mt-24">
+        <CardAppEmailInput onChange={handleChangeEmail} />
+      </div>
       <div className="flex items-center mt-4">
         <input onChange={handleChangeCgu} type="checkbox" id="cgu" name="cgu" />
         <label htmlFor="cgu" className="ml-2">
