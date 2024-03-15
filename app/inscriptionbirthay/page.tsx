@@ -6,8 +6,8 @@ import MainButton from "../components/MainButton";
 import Link from "next/link";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronLeft } from "@fortawesome/free-solid-svg-icons";
-import Image from "next/image";
 import { useRouter } from "next/navigation";
+import InputNameBirthday from "../components/InputNameBirthday";
 
 const InscriptionPage = () => {
   const router = useRouter();
@@ -15,28 +15,25 @@ const InscriptionPage = () => {
   return (
     <div className="flex flex-col justify-center items-center h-screen">
       <div>
-        <Link href={"/mailauth"}>
+        <Link href={"/inscriptionfirstname"}>
           <button type="button" className="absolute top-0 left-0 mt-12 ml-6">
             <FontAwesomeIcon icon={faChevronLeft} className="h-6" />
           </button>
         </Link>
       </div>
       <div className="flex flex-col">
-        <CardAppTitle title="Inscription" />
-        <CardAppText text="Cliquer sur le lien reçu par email" size="large" />
+        <CardAppTitle title="Votre Profil" />
+        <CardAppText text="Quelle est votre date de naissance ?" size="large" />
       </div>
-      <div className="mt-6 flex">
-        <Image src="/emailSent.svg" alt="mail" width={256} height={256} />
+      <div>
+        <InputNameBirthday label="Date de naissance" inputType="date" />
       </div>
       <div className="mt-64 flex flex-col items-center">
-        <div className="text-center">
-          <p>Une fois cliqué sur le lien du mail, vous pourrez continuer</p>
-        </div>
         <div className="flex justify-center">
           <MainButton
             label="Continuer"
             type="normal"
-            onClick={() => router.push("/inscriptionfirstname")}
+            onClick={() => router.push("/inscriptionbirthay")}
           />{" "}
         </div>
       </div>
