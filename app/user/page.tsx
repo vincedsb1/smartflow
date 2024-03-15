@@ -9,9 +9,8 @@ import {
   faChevronRight,
 } from "@fortawesome/free-solid-svg-icons";
 import List from "../components/List";
-// import CustomModal from "../components/CustomModal";
 
-const userProfile: React.FC = () => {
+const UserProfile: React.FC = () => {
   const rows = [
     {
       color: "bg-blue-400",
@@ -118,4 +117,4 @@ const userProfile: React.FC = () => {
   );
 };
 
-export default userProfile;
+export default UserProfile;
