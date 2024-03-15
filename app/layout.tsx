@@ -4,6 +4,7 @@ import TabBar from "./components/TabBar";
 import { useSelectedLayoutSegment } from "next/navigation";
 import "./globals.css";
 import Providers from "./Providers";
+import { UserContextProvider } from '../app/context/UserContext';
 
 interface RootLayoutProps {
   children: ReactNode;
@@ -26,8 +27,10 @@ export default function RootLayout({ children }: RootLayoutProps) {
     <html lang="fr">
       <body className="">
         <Providers>
-          <main>{children}</main>
-          {showTabBar && <TabBar active={segment} />}
+          <UserContextProvider>
+            <main>{children}</main>
+            {showTabBar && <TabBar active={segment} />}
+          </UserContextProvider>
         </Providers>
       </body>
     </html>
