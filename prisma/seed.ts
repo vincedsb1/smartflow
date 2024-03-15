@@ -67,7 +67,7 @@ async function main() {
         data: {
           ...userData,
           birthday: new Date(),
-          password: await argon2.hash("password"),
+          password: await argon2.hash("passwordA123@#"),
           onBoarding: true,
           imageUrl: "https://example.com/image.jpg",
           language: {
