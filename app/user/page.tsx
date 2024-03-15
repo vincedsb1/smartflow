@@ -1,4 +1,6 @@
-import React from "react";
+"use client";
+
+import React, { useState } from "react";
 import ThemeSwitcher from "../ThemeSwitcher";
 import Image from "next/image";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -6,10 +8,9 @@ import {
   faPenToSquare,
   faChevronRight,
 } from "@fortawesome/free-solid-svg-icons";
-// import List from "../components/List-old";
 import List from "../components/List";
 
-const user = () => {
+const UserProfile: React.FC = () => {
   const rows = [
     {
       color: "bg-blue-400",
@@ -30,6 +31,16 @@ const user = () => {
       bgcolor: "",
     },
   ];
+
+  const [isOpen, setIsOpen] = React.useState(false);
+
+  const handleOpen = () => {
+    setIsOpen(true);
+  };
+
+  const handleClose = () => {
+    setIsOpen(false);
+  };
 
   return (
     <div
@@ -85,6 +96,11 @@ const user = () => {
           title={"Informations du compte"}
           isLargeRow={false}
           belowListLink={"Ajouter une catégorie"}
+          onBelowListLinkClick={handleOpen}
+          modalIsOpen={isOpen}
+          setModalIsOpen={setIsOpen}
+          modalTitle="Nouvelle catégorie"
+          modalContent="Quel est le titre de la catégorie à ajouter ?"
         />
       </div>
       <div id="userOtherContainer" className=""></div>
@@ -101,20 +117,4 @@ const user = () => {
   );
 };
 
-{
-  /* <List
-          title="Informations du compte"
-          size="large"
-          hasAddButton={false}
-          isItemSelectable={true}
-          itemClickAction="navigate"
-          titleButton=""
-          colorIndicator={false}
-        >
-          <div>Prénom</div>
-          <div>Email</div>
-          <div>Date de naissance</div>
-        </List> */
-}
-
-export default user;
+export default UserProfile;
