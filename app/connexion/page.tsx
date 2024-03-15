@@ -40,7 +40,7 @@ const ConnexionPage = () => {
       });
 
       const data = await response.json();
-      
+
       if (data.status === "ok") {
         router.push("/onboarding");
       } else {
@@ -71,8 +71,9 @@ const ConnexionPage = () => {
       <div className="mt-6">
         <CardAppPasswordInput onChange={handlePasswordChange} />
       </div>
-      <div className="mt-64"></div>
-      <div className="">
+
+      <div className="mt-64">
+        {" "}
         <MainButton
           label="Continuer"
           type={password ? "normal" : "disabled"}
