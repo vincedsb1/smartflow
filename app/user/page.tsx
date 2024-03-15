@@ -11,22 +11,47 @@ import {
 import List from "../components/List";
 
 const UserProfile: React.FC = () => {
-  const rows = [
+  const topRows = [
     {
-      color: "bg-blue-400",
-      mainLabel: "Main Label 1",
+      color: "",
+      mainLabel: "Prénom",
+      secondaryLabel: "Pedro",
+      icon: faChevronRight,
+      bgcolor: "",
+      link: "/user/firstname",
+    },
+    {
+      mainLabel: "Email",
+      secondaryLabel: "pedrosanchez@gmail.com",
+      icon: faChevronRight,
+      bgcolor: "",
+    },
+    {
+      mainLabel: "Date de naissance",
+      secondaryLabel: "19/07/1988",
+      icon: faChevronRight,
+      bgcolor: "",
+    },
+  ];
+
+  const bottomRows = [
+    {
+      color: "",
+      mainLabel: "Mode sombre",
       secondaryLabel: "",
       icon: faChevronRight,
       bgcolor: "",
       link: "/user/firstname",
     },
     {
-      mainLabel: "Main Label 2",
+      mainLabel: "Information légales",
+      secondaryLabel: "",
       icon: faChevronRight,
       bgcolor: "",
     },
     {
-      mainLabel: "Main Label 3",
+      mainLabel: "Supprimer mon compte",
+      secondaryLabel: "",
       icon: faChevronRight,
       bgcolor: "",
     },
@@ -50,7 +75,7 @@ const UserProfile: React.FC = () => {
       <div id="userHeaderContainer" className="flex flex-row w-full m-10">
         <div
           id="userPictureMainContainer"
-          className=" w-1/3 flex flex-row justify-end mr-6"
+          className=" w-1/3 flex flex-row justify-end pr-6"
         >
           <div
             id="userPictureContainer"
@@ -90,17 +115,30 @@ const UserProfile: React.FC = () => {
           </div>
         </div>
       </div>
-      <div id="userInfosContainer" className="w-full ">
+      <div id="userInfosContainer" className="w-full pb-8">
         <List
-          rows={rows}
+          rows={topRows}
           title={"Informations du compte"}
-          isLargeRow={false}
-          belowListLink={"Ajouter une catégorie"}
+          isLargeRow={true}
+          belowListLink={""}
           onBelowListLinkClick={handleOpen}
           modalIsOpen={isOpen}
           setModalIsOpen={setIsOpen}
-          modalTitle="Nouvelle catégorie"
-          modalContent="Quel est le titre de la catégorie à ajouter ?"
+          modalTitle=""
+          modalContent=""
+        />
+      </div>
+      <div id="userOtherContainer" className="w-full ">
+        <List
+          rows={bottomRows}
+          title={"Autre"}
+          isLargeRow={true}
+          belowListLink={""}
+          onBelowListLinkClick={handleOpen}
+          modalIsOpen={isOpen}
+          setModalIsOpen={setIsOpen}
+          modalTitle=""
+          modalContent=""
         />
       </div>
       <div id="userOtherContainer" className=""></div>

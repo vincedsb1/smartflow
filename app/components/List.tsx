@@ -68,7 +68,9 @@ const List: React.FC<ListProps> = ({
             >
               <div
                 id="ListRowStartIconContainer"
-                className="w-3/20  flex flex-row justify-center items-center"
+                className={`flex flex-row justify-center items-center ${
+                  row.color ? "w-3/20" : "w-2/20"
+                }`}
               >
                 {row.color && (
                   <div
@@ -94,7 +96,7 @@ const List: React.FC<ListProps> = ({
                 {row.secondaryLabel && (
                   <div
                     id="ListRowBottomLabel"
-                    className="font-text text-neutral-500"
+                    className="font-text text-neutral-400"
                   >
                     {row.secondaryLabel}
                   </div>
