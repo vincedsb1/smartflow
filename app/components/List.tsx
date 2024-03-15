@@ -2,6 +2,7 @@ import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { IconDefinition } from "@fortawesome/fontawesome-svg-core";
 import Link from "next/link";
+import CustomModal from "./CustomModal";
 
 interface ListRowProps {
   color?: string;
@@ -17,6 +18,18 @@ interface ListProps {
   title: string;
   isLargeRow: boolean;
   belowListLink?: string;
+  onBelowListLinkClick?: () => void;
+  modalIsOpen: boolean;
+  setModalIsOpen: (isOpen: boolean) => void;
+  modalTitle: string;
+  modalContent: string;
+}
+
+interface CustomModalProps {
+  isOpen: boolean;
+  onOpenChange: () => void;
+  title: string;
+  content: string;
 }
 
 const List: React.FC<ListProps> = ({
@@ -24,6 +37,11 @@ const List: React.FC<ListProps> = ({
   title,
   isLargeRow,
   belowListLink,
+  onBelowListLinkClick,
+  modalIsOpen,
+  setModalIsOpen,
+  modalTitle,
+  modalContent,
 }) => {
   return (
     <div id="ListContainer" className="flex flex-col mx-5">
@@ -103,10 +121,17 @@ const List: React.FC<ListProps> = ({
       </div>
       <div
         id="BelowListLinkContainer"
-        className=" text-blue-500 flex flex-row justify-end items-center font-text mt-1"
+        className=" text-blue-500 flex flex-row justify-end items-center font-text mt-1 cursor-pointer"
+        onClick={onBelowListLinkClick}
       >
         {belowListLink}
       </div>
+      <CustomModal
+        isOpen={modalIsOpen}
+        onOpenChange={() => setModalIsOpen(!modalIsOpen)}
+        title={modalTitle}
+        content={modalContent}
+      />
     </div>
   );
 };
