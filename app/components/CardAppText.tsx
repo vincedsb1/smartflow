@@ -14,7 +14,7 @@ function CardAppText({ text, icon, size = "small" }: CardAppText) {
   return (
     <div
       id="card-explanations"
-      className={`bg-neutral-50 rounded-xl w-80 mt-20 ${divHeight} flex flex-row`}
+      className={`bg-neutral-50 rounded-xl w-80 ${divHeight} flex flex-row`}
     >
       {icon && (
         <div className="w-1/6 flex flex-row justify-center align-middle items-center">
