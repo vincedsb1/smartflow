@@ -12,6 +12,9 @@ interface ListRowProps {
   bgcolor?: string;
   link?: string;
   colorState?: "normal" | "desactivated" | "warning";
+  isModal?: boolean;
+  modalTitle?: string;
+  modalContent?: string;
 }
 
 interface ListProps {
@@ -22,6 +25,8 @@ interface ListProps {
   onBelowListLinkClick?: () => void;
   modalIsOpen: boolean;
   setModalIsOpen: (isOpen: boolean) => void;
+  setModalTitle: (title: string) => void;
+  setModalContent: (content: string) => void;
   modalTitle: string;
   modalContent: string;
 }
@@ -56,6 +61,8 @@ const List: React.FC<ListProps> = ({
   onBelowListLinkClick,
   modalIsOpen,
   setModalIsOpen,
+  setModalTitle,
+  setModalContent,
   modalTitle,
   modalContent,
 }) => {
@@ -72,9 +79,21 @@ const List: React.FC<ListProps> = ({
         className="flex flex-col bg-white rounded-xl shadow-sf"
       >
         {rows.map((row, index) => {
-          console.log(getColorClass(row.colorState));
+          const RowComponent = row.isModal ? "div" : Link;
           return (
-            <Link href={row.link || ""} key={index}>
+            <RowComponent
+              href={row.link || ""}
+              key={index}
+              onClick={
+                row.isModal
+                  ? () => {
+                      setModalIsOpen(true);
+                      setModalTitle(row.modalTitle || "");
+                      setModalContent(row.modalContent || "");
+                    }
+                  : undefined
+              }
+            >
               <div
                 key={index}
                 id="ListRow"
@@ -133,7 +152,7 @@ const List: React.FC<ListProps> = ({
                   )}
                 </div>
               </div>
-            </Link>
+            </RowComponent>
           );
         })}
       </div>

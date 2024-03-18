@@ -60,6 +60,9 @@ const UserProfile: React.FC = () => {
         | "desactivated"
         | "warning"
         | undefined,
+      isModal: true,
+      modalTitle: "Confirmation de suppression",
+      modalContent: "Êtes-vous sûr de vouloir supprimer votre compte ?",
     },
   ];
 
@@ -72,6 +75,10 @@ const UserProfile: React.FC = () => {
   const handleClose = () => {
     setIsOpen(false);
   };
+
+  const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [modalTitle, setModalTitle] = useState("");
+  const [modalContent, setModalContent] = useState("");
 
   return (
     <div
@@ -127,11 +134,13 @@ const UserProfile: React.FC = () => {
           title={"Informations du compte"}
           isLargeRow={true}
           belowListLink={""}
-          onBelowListLinkClick={handleOpen}
-          modalIsOpen={isOpen}
-          setModalIsOpen={setIsOpen}
-          modalTitle=""
-          modalContent=""
+          onBelowListLinkClick={() => setModalIsOpen(true)}
+          modalIsOpen={modalIsOpen}
+          setModalIsOpen={setModalIsOpen}
+          setModalTitle={setModalTitle}
+          setModalContent={setModalContent}
+          modalTitle={modalTitle}
+          modalContent={modalContent}
         />
       </div>
       <div id="userOtherContainer" className="w-full ">
@@ -140,11 +149,13 @@ const UserProfile: React.FC = () => {
           title={"Autre"}
           isLargeRow={true}
           belowListLink={""}
-          onBelowListLinkClick={handleOpen}
-          modalIsOpen={isOpen}
-          setModalIsOpen={setIsOpen}
-          modalTitle=""
-          modalContent=""
+          onBelowListLinkClick={() => setModalIsOpen(true)}
+          modalIsOpen={modalIsOpen}
+          setModalIsOpen={setModalIsOpen}
+          setModalTitle={setModalTitle}
+          setModalContent={setModalContent}
+          modalTitle={modalTitle}
+          modalContent={modalContent}
         />
       </div>
       <div id="userOtherContainer" className=""></div>
