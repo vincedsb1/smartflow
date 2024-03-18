@@ -7,6 +7,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faPenToSquare,
   faChevronRight,
+  faTrash,
 } from "@fortawesome/free-solid-svg-icons";
 import List from "../components/List";
 
@@ -52,8 +53,13 @@ const UserProfile: React.FC = () => {
     {
       mainLabel: "Supprimer mon compte",
       secondaryLabel: "",
-      icon: faChevronRight,
+      icon: faTrash,
       bgcolor: "",
+      colorState: "warning" as
+        | "normal"
+        | "desactivated"
+        | "warning"
+        | undefined,
     },
   ];
 
