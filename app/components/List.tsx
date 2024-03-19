@@ -11,6 +11,10 @@ interface ListRowProps {
   icon?: IconDefinition;
   bgcolor?: string;
   link?: string;
+  colorState?: "normal" | "desactivated" | "warning";
+  isModal?: boolean;
+  modalTitle?: string;
+  modalContent?: string;
 }
 
 interface ListProps {
@@ -21,6 +25,8 @@ interface ListProps {
   onBelowListLinkClick?: () => void;
   modalIsOpen: boolean;
   setModalIsOpen: (isOpen: boolean) => void;
+  setModalTitle: (title: string) => void;
+  setModalContent: (content: string) => void;
   modalTitle: string;
   modalContent: string;
 }
@@ -32,6 +38,21 @@ interface CustomModalProps {
   content: string;
 }
 
+const getColorClass = (
+  colorState: "normal" | "desactivated" | "warning" | undefined
+) => {
+  switch (colorState) {
+    case "normal":
+      return "text-neutral-500";
+    case "desactivated":
+      return "text-gray-300";
+    case "warning":
+      return "text-red-500";
+    default:
+      return "text-neutral-500";
+  }
+};
+
 const List: React.FC<ListProps> = ({
   rows,
   title,
@@ -40,6 +61,8 @@ const List: React.FC<ListProps> = ({
   onBelowListLinkClick,
   modalIsOpen,
   setModalIsOpen,
+  setModalTitle,
+  setModalContent,
   modalTitle,
   modalContent,
 }) => {
@@ -55,69 +78,83 @@ const List: React.FC<ListProps> = ({
         id="ListContainer"
         className="flex flex-col bg-white rounded-xl shadow-sf"
       >
-        {rows.map((row, index) => (
-          <Link href={row.link || ""} key={index}>
-            <div
+        {rows.map((row, index) => {
+          const RowComponent = row.isModal ? "div" : Link;
+          return (
+            <RowComponent
+              href={row.link || ""}
               key={index}
-              id="ListRow"
-              className={`flex flex-row hover:bg-emerald-300 ${
-                isLargeRow ? "h-16" : "h-12"
-              } ${row.bgcolor || ""} ${index === 0 ? "mt-3" : ""} ${
-                index === rows.length - 1 ? "mb-3" : ""
-              }`}
+              onClick={
+                row.isModal
+                  ? () => {
+                      setModalIsOpen(true);
+                      setModalTitle(row.modalTitle || "");
+                      setModalContent(row.modalContent || "");
+                    }
+                  : undefined
+              }
             >
               <div
-                id="ListRowStartIconContainer"
-                className="w-3/20  flex flex-row justify-center items-center"
-              >
-                {row.color && (
-                  <div
-                    id="colorIndicator"
-                    className={`h-3 w-3 rounded-full ${row.color}`}
-                  ></div>
-                )}
-              </div>
-              <div
-                id="ListRowLabels"
-                className={`flex flex-col flex-grow justify-center ${
-                  rows.length > 1 && index !== rows.length - 1
-                    ? "border-b border-neutral-200"
-                    : ""
-                }`}
+                key={index}
+                id="ListRow"
+                className={`flex flex-row hover:bg-emerald-300 ${
+                  isLargeRow ? "h-16" : "h-12"
+                } ${row.bgcolor || ""} ${index === 0 ? "mt-3" : ""} ${
+                  index === rows.length - 1 ? "mb-3" : ""
+                } ${getColorClass(row.colorState)}`}
               >
                 <div
-                  id="ListRowTopLabel"
-                  className="font-text font-bold text-neutral-500"
+                  id="ListRowStartIconContainer"
+                  className={`flex flex-row justify-center items-center ${
+                    row.color ? "w-3/20" : "w-1/20 mr-1"
+                  }`}
                 >
-                  {row.mainLabel}
+                  {row.color && (
+                    <div
+                      id="colorIndicator"
+                      className={`h-3 w-3 rounded-full ${row.color}`}
+                    ></div>
+                  )}
                 </div>
-                {row.secondaryLabel && (
-                  <div
-                    id="ListRowBottomLabel"
-                    className="font-text text-neutral-500"
-                  >
-                    {row.secondaryLabel}
+                <div
+                  id="ListRowLabels"
+                  className={`flex flex-col flex-grow justify-center ${
+                    rows.length > 1 && index !== rows.length - 1
+                      ? "border-b border-neutral-200"
+                      : ""
+                  }`}
+                >
+                  <div id="ListRowTopLabel" className="font-text font-bold ">
+                    {row.mainLabel}
                   </div>
-                )}
+                  {row.secondaryLabel && (
+                    <div
+                      id="ListRowBottomLabel"
+                      className="font-text text-neutral-400"
+                    >
+                      {row.secondaryLabel}
+                    </div>
+                  )}
+                </div>
+                <div
+                  id="ListRowEndIcon"
+                  className={`w-2/20  flex flex-row justify-center items-center ${
+                    rows.length > 1 && index !== rows.length - 1
+                      ? "border-b border-neutral-200"
+                      : ""
+                  }`}
+                >
+                  {row.icon && (
+                    <FontAwesomeIcon
+                      icon={row.icon}
+                      className=" text-xs w-4 h-4"
+                    />
+                  )}
+                </div>
               </div>
-              <div
-                id="ListRowEndIcon"
-                className={`w-2/20  flex flex-row justify-center items-center ${
-                  rows.length > 1 && index !== rows.length - 1
-                    ? "border-b border-neutral-200"
-                    : ""
-                }`}
-              >
-                {row.icon && (
-                  <FontAwesomeIcon
-                    icon={row.icon}
-                    className="text-neutral-500 text-xs w-4 h-4"
-                  />
-                )}
-              </div>
-            </div>
-          </Link>
-        ))}
+            </RowComponent>
+          );
+        })}
       </div>
       <div
         id="BelowListLinkContainer"
