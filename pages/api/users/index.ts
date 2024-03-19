@@ -20,12 +20,34 @@ export default async function handle(
     } = req.body;
 
     const emailRegex = /^\S+@\S+\.\S+$/;
-    const passwordRegex =
-      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
 
     if (!emailRegex.test(email)) {
       return res.status(400).json({ error: "Veuillez entrer un email valide" });
     }
+
+    try {
+      const hashedPassword = await argon2.hash(password);
+      const createdUser = await prisma.user.create({
+        data: {
+          email: email,
+          password: hashedPassword,
+          firstname: firstname,
+          lastname: "Default",
+          birthday: new Date(),
+          onBoarding: false,
+          imageUrl: "default.jpg",
+          languageId: 1,
+        },
+      });
+      return res.json(createdUser);
+    } catch (err) {
+      return res.status(500).json({ error: (err as Error).message });
+    }
+  } else if (req.method === "PUT") {
+    const { email, password } = req.body;
+
+    const passwordRegex =
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
 
     if (!passwordRegex.test(password)) {
       return res.status(400).json({
@@ -36,19 +58,11 @@ export default async function handle(
 
     try {
       const hashedPassword = await argon2.hash(password);
-      const createdUser = await prisma.user.create({
-        data: {
-          email: email,
-          password: hashedPassword,
-          firstname: "Default",
-          lastname: "Default",
-          birthday: new Date(),
-          onBoarding: false,
-          imageUrl: "default.jpg",
-          languageId: 1,
-        },
+      const updatedUser = await prisma.user.update({
+        where: { email: email },
+        data: { password: hashedPassword },
       });
-      return res.json(createdUser);
+      return res.json(updatedUser);
     } catch (err) {
       return res.status(500).json({ error: (err as Error).message });
     }
