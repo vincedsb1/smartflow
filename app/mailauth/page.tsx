@@ -33,35 +33,31 @@ const MailSignin = () => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-      const res = await fetch(`/api/users`);
-
-      if (!res.ok) {
-        alert("Une erreur s'est produite lors de la vérification de l'e-mail");
+      const res = await fetch(`/api/users/checkEmail?email=${email}`);
+      const data = await res.json();
+  
+      // Vérifiez si l'e-mail existe déjà dans la base de données
+      const emailExists = res.ok && data.message === "Email already exists";
+  
+      if (!emailExists) {
+        // Si l'e-mail n'existe pas, redirigez l'utilisateur vers la page d'inscription
+        router.push("/inscription");
         return;
       }
-
-      const data = await res.json();
-      const userExists = data && Array.isArray(data) && data.includes(email);
-
+  
       if (!cgu) {
         alert("Vous devez accepter les CGU");
         return;
       }
-
-      if (userExists && cgu) {
-        console.log("Redirecting to /connexion");
-        router.push("/connexion");
-      } else if (!userExists && cgu) {
-        console.log("Redirecting to /inscription");
-        router.push("/inscription");
-      } else if (!userExists && !cgu) {
-        console.log("CGU not checked");
-        alert("Vous devez accepter les CGU");
-      }
+  
+      // Si l'e-mail existe et que l'utilisateur a accepté les CGU, redirigez-le vers la page de connexion
+      router.push("/connexion");
     } catch (err) {
       console.log(`Error: ${err}`);
+      alert("Une erreur s'est produite lors de la vérification de l'e-mail");
     }
   };
+  
 
   return (
     <form
