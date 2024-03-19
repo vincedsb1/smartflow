@@ -13,19 +13,13 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronLeft } from "@fortawesome/free-solid-svg-icons";
 import { faEnvelope } from "@fortawesome/free-solid-svg-icons";
 
-const ConnexionPage = () => {
+const SetPasswordPage = () => {
   const userContext = useContext(UserContext);
 
   if (!userContext) {
     throw new Error("UserContext must be used within a UserContextProvider");
   }
-  
-  const { email, firstname, birthday } = userContext;
-
-  // Log the values
-  console.log('Email:', email);
-  console.log('Prénom:', firstname);
-  console.log('Date de naissance:', birthday);
+  const { email } = userContext;
 
   const [password, setPassword] = useState("");
 
@@ -35,9 +29,9 @@ const ConnexionPage = () => {
 
   const router = useRouter();
 
-  const handlePasswordCheck = async () => {
+  const handlePasswordSet = async () => {
     try {
-      const response = await fetch("/api/users/check-password", {
+      const response = await fetch("/api/users/set-password", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -50,7 +44,7 @@ const ConnexionPage = () => {
       if (data.status === "ok") {
         router.push("/onboarding");
       } else {
-        alert("Mot de passe incorrect");
+        alert("Erreur lors de la définition du mot de passe");
       }
     } catch (error) {
       console.error(error);
@@ -75,9 +69,11 @@ const ConnexionPage = () => {
         />
       </div>
       <div className="mt-6">
-        <CardAppPasswordInput onChange={handlePasswordChange} />
+        <CardAppPasswordInput
+          onChange={handlePasswordChange}
+          showForgotPassword={false}
+        />
       </div>
-
       <div className="mt-64">
         {" "}
         <MainButton
@@ -85,11 +81,11 @@ const ConnexionPage = () => {
           type={password ? "normal" : "disabled"}
           buttonType="submit"
           disabled={!password}
-          onClick={handlePasswordCheck}
+          onClick={handlePasswordSet}
         />
       </div>
     </div>
   );
 };
 
-export default ConnexionPage;
+export default SetPasswordPage;
