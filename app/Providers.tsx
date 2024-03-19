@@ -23,7 +23,9 @@ export default function Providers({ children }: ProvidersProps) {
 
   return (
     <NextUIProvider>
-      <NextThemesProvider>{children}</NextThemesProvider>
+      <NextThemesProvider attribute="class" defaultTheme="dark">
+        {children}
+      </NextThemesProvider>
     </NextUIProvider>
   );
 }

@@ -15,6 +15,8 @@ interface ListRowProps {
   isModal?: boolean;
   modalTitle?: string;
   modalContent?: string;
+  onClick?: () => void;
+  selected?: boolean;
 }
 
 interface ListProps {
@@ -70,13 +72,13 @@ const List: React.FC<ListProps> = ({
     <div id="ListContainer" className="flex flex-col mx-5">
       <div
         id="ListTitleContainer"
-        className=" mb-1 font-title font-bold text-lg text-neutral-600"
+        className=" mb-1 font-title font-bold text-lg text-neutral-600 dark:text-neutral-300"
       >
         {title}
       </div>
       <div
         id="ListContainer"
-        className="flex flex-col bg-white rounded-xl shadow-sf"
+        className="flex flex-col bg-white dark:bg-neutral-800 rounded-xl shadow-sf"
       >
         {rows.map((row, index) => {
           const RowComponent = row.isModal ? "div" : Link;
@@ -91,17 +93,21 @@ const List: React.FC<ListProps> = ({
                       setModalTitle(row.modalTitle || "");
                       setModalContent(row.modalContent || "");
                     }
-                  : undefined
+                  : row.onClick
               }
             >
               <div
                 key={index}
                 id="ListRow"
-                className={`flex flex-row hover:bg-emerald-300 ${
+                className={`flex flex-row hover:bg-emerald-300 dark:hover:bg-emerald-800 ${
                   isLargeRow ? "h-16" : "h-12"
                 } ${row.bgcolor || ""} ${index === 0 ? "mt-3" : ""} ${
                   index === rows.length - 1 ? "mb-3" : ""
-                } ${getColorClass(row.colorState)}`}
+                } ${getColorClass(row.colorState)} ${
+                  row.selected
+                    ? "bg-emerald-200 dark:bg-emerald-900 font-bold"
+                    : ""
+                }`}
               >
                 <div
                   id="ListRowStartIconContainer"
@@ -120,17 +126,20 @@ const List: React.FC<ListProps> = ({
                   id="ListRowLabels"
                   className={`flex flex-col flex-grow justify-center ${
                     rows.length > 1 && index !== rows.length - 1
-                      ? "border-b border-neutral-200"
+                      ? "border-b border-neutral-200 dark:border-neutral-700"
                       : ""
                   }`}
                 >
-                  <div id="ListRowTopLabel" className="font-text font-bold ">
+                  <div
+                    id="ListRowTopLabel"
+                    className="font-text text-neutral-500 dark:text-neutral-200"
+                  >
                     {row.mainLabel}
                   </div>
                   {row.secondaryLabel && (
                     <div
                       id="ListRowBottomLabel"
-                      className="font-text text-neutral-400"
+                      className="font-text text-neutral-400 dark:text-neutral-500"
                     >
                       {row.secondaryLabel}
                     </div>
@@ -140,14 +149,14 @@ const List: React.FC<ListProps> = ({
                   id="ListRowEndIcon"
                   className={`w-2/20  flex flex-row justify-center items-center ${
                     rows.length > 1 && index !== rows.length - 1
-                      ? "border-b border-neutral-200"
+                      ? "border-b border-neutral-200 dark:border-neutral-700"
                       : ""
                   }`}
                 >
                   {row.icon && (
                     <FontAwesomeIcon
                       icon={row.icon}
-                      className=" text-xs w-4 h-4"
+                      className="text-neutral-500 dark:text-neutral-200 text-xs w-4 h-4"
                     />
                   )}
                 </div>

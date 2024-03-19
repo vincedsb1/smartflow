@@ -44,7 +44,10 @@ const Add = () => {
   }
 
   return (
-    <div className="flex flex-col justify-center mt-20 align-middle items-center">
+    <div
+      id="todayMainContainer"
+      className="flex flex-col justify-center align-middle items-center min-h-screen"
+    >
       <div>
         <CardAppTitle title="Ajourd'hui" />
       </div>
