@@ -47,7 +47,7 @@ const List: React.FC<ListProps> = ({
       </div>
       <div
         id="items-container"
-        className="bg-red-500 rounded-3xl flex flex-col w-7/10"
+        className="bg-neutral-300 dark:bg-neutral-700 rounded-3xl flex flex-col w-7/10"
       >
         {React.Children.map(children, (child, index) => (
           <div
@@ -58,10 +58,10 @@ const List: React.FC<ListProps> = ({
           >
             <div
               onClick={() => handleItemClick(child)}
-              className="flex flex-row items-center h-10 bg-yellow-300"
+              className="flex flex-row items-center h-10 "
             >
               {colorIndicator && (
-                <div className="bg-blue-500 h-3 w-3 rounded-full ml-2 mr-1 "></div>
+                <div className="h-3 w-3 rounded-full ml-2 mr-1 "></div>
               )}{" "}
               {leadingIcon && <div>{leadingIcon}</div>}
               <div id="item-list" className="h-full flex items-center">

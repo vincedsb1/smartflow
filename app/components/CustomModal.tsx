@@ -28,7 +28,9 @@ const CustomModal: React.FC<CustomModalProps> = ({
           <>
             <ModalHeader className="flex flex-col gap-1">{title}</ModalHeader>
             <ModalBody>
-              <p className="text-neutral-800">{content}</p>
+              <p className="text-neutral-800 dark:text-neutral-300">
+                {content}
+              </p>
             </ModalBody>
             <ModalFooter>
               <Button color="danger" variant="light" onPress={onClose}>
