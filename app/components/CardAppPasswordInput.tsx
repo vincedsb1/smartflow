@@ -1,35 +1,52 @@
 import React, { useState, ChangeEvent } from "react";
-import { FiEye, FiEyeOff } from "react-icons/fi";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faEye, faEyeSlash, faCheck } from '@fortawesome/free-solid-svg-icons'
 
 interface CardAppPasswordInputProps {
   onChange?: (e: ChangeEvent<HTMLInputElement>) => void;
+  showForgotPassword?: boolean;
 }
 
 const CardAppPasswordInput: React.FC<CardAppPasswordInputProps> = ({
   onChange,
+  showForgotPassword = true,
 }) => {
+  const [password, setPassword] = useState("");
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [hasStartedTyping, setHasStartedTyping] = useState(false);
 
-  const passwordRegex =
-    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+  const passwordCriteria = [
+    {
+      validate: (password: string) => password.length >= 8,
+      message: "8 caractères minimum",
+    },
+    {
+      validate: (password: string) => /[A-Z]/.test(password),
+      message: "Contient des lettres MAJUSCULES",
+    },
+    {
+      validate: (password: string) => /[a-z]/.test(password),
+      message: "Contient des lettres minuscules",
+    },
+    {
+      validate: (password: string) => /\d/.test(password),
+      message: "Contient 1 chiffre minimum",
+    },
+    {
+      validate: (password: string) => /[@$!%*?&]/.test(password),
+      message: "Contient 1 caractère spécial minimum",
+    },
+  ];
 
   const togglePasswordVisibility = () => {
     setPasswordVisible(!passwordVisible);
   };
 
   const handlePasswordChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setPassword(e.target.value);
     setHasStartedTyping(true);
     onChange && onChange(e);
-
-    if (!passwordRegex.test(e.target.value)) {
-      setErrorMessage(
-        "Le mot de passe doit comporter au moins 8 caractères, dont des lettres majuscules et minuscules, des chiffres et des caractères spéciaux"
-      );
-    } else {
-      setErrorMessage("");
-    }
   };
 
   return (
@@ -54,13 +71,23 @@ const CardAppPasswordInput: React.FC<CardAppPasswordInputProps> = ({
           onClick={togglePasswordVisibility}
           style={{ marginTop: "-2rem", zIndex: 10 }}
         >
-          {passwordVisible ? <FiEyeOff /> : <FiEye />}
+          {passwordVisible ? <FontAwesomeIcon icon={faEyeSlash} /> : <FontAwesomeIcon icon={faEye} />}
         </div>
-        {!hasStartedTyping && (
+        {!hasStartedTyping && showForgotPassword && (
           <div className="flex justify-end text-blue-500 font-semibold">
             <p className="cursor-pointer">Mot de passe oublié ?</p>
           </div>
         )}
+      </div>
+      <div className="mt-2">
+        {passwordCriteria.map((criteria, index) => (
+          <div key={index} className="flex items-center">
+            {criteria.validate(password) && <FontAwesomeIcon icon={faCheck} className="text-green-500" />}
+            <p className={criteria.validate(password) ? "text-green-500" : ""}>
+              {criteria.message}
+            </p>
+          </div>
+        ))}
       </div>
       <div className="">
         {hasStartedTyping && (

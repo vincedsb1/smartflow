@@ -16,10 +16,21 @@ model User {
   email       String    @db.VarChar(100) @unique
   onBoarding  Boolean  @default(false)
   imageUrl    String    @db.VarChar(200)
+  verificationToken String?
   languageId  Int       @default(1)
   language    Language  @relation(fields: [languageId], references: [id])
   cards       Card[]
   notifications Notification[]
+    EmailVerification EmailVerification?
+}
+
+model EmailVerification {
+  id        Int      @id @default(autoincrement())
+  email     String   @unique
+  token     String   @unique
+  expiresAt DateTime @default(now())
+  User      User?    @relation(fields: [userId], references: [id])
+  userId    Int?     @unique
 }
 
 model Card {
