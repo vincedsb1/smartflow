@@ -4,7 +4,7 @@ import List from "../components/List-old";
 
 const add = () => {
   return (
-    <div className="flex flex-row justify-center w-7/10 h-screen align-middle items-center mx-auto">
+    <div className="flex flex-col justify-center w-7/10 h-screen align-middle items-center mx-auto">
       <List
         title="Catégories"
         size="large"
@@ -18,7 +18,6 @@ const add = () => {
         <div>Art</div>
         <div>Mathématiques</div>
       </List>
-
       <MainButton label="Enregistrer" type="normal" disabled={false} />
     </div>
   );
