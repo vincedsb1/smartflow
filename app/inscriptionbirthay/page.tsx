@@ -6,8 +6,9 @@ import MainButton from "../components/MainButton";
 import Link from "next/link";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronLeft } from "@fortawesome/free-solid-svg-icons";
+import { faUser } from "@fortawesome/free-solid-svg-icons";
 import { useRouter } from "next/navigation";
-import InputNameBirthday from "../components/InputNameBirthday";
+import InputBirthday from "../components/InputBirthday";
 
 const InscriptionPage = () => {
   const router = useRouter();
@@ -23,10 +24,10 @@ const InscriptionPage = () => {
       </div>
       <div className="flex flex-col">
         <CardAppTitle title="Votre Profil" />
-        <CardAppText text="Quelle est votre date de naissance ?" size="large" />
+        <CardAppText text="Quelle est votre date de naissance ?" size="large" icon={faUser} />
       </div>
       <div>
-        <InputNameBirthday label="Date de naissance" inputType="date" />
+        <InputBirthday label="Date de naissance" inputType="date" />
       </div>
       <div className="mt-64 flex flex-col items-center">
         <div className="flex justify-center">

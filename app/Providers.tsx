@@ -1,7 +1,10 @@
+// Nouveau code :
+
 "use client";
 
 import React, { ReactNode, useState, useEffect } from "react";
-import { ThemeProvider } from "next-themes";
+import { NextUIProvider } from "@nextui-org/react";
+import { ThemeProvider as NextThemesProvider } from "next-themes";
 
 interface ProvidersProps {
   children: ReactNode;
@@ -18,5 +21,9 @@ export default function Providers({ children }: ProvidersProps) {
     return <div>{children}</div>;
   }
 
-  return <ThemeProvider attribute="class">{children}</ThemeProvider>;
+  return (
+    <NextUIProvider>
+      <NextThemesProvider>{children}</NextThemesProvider>
+    </NextUIProvider>
+  );
 }
