@@ -5,10 +5,16 @@ import "react-datepicker/dist/react-datepicker.css";
 interface InputBirthdayProps {
   label: string;
   inputType: string;
+  onChange: (date: Date | null) => void;
 }
 
 const InputBirthday: React.FC<InputBirthdayProps> = (props) => {
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
+
+  const handleDateChange = (date: Date | null) => {
+    setSelectedDate(date);
+    props.onChange(date);
+  };
 
   return (
     <div id="-main-conatiner" className="w-18/20 flex flex-col">
@@ -18,7 +24,7 @@ const InputBirthday: React.FC<InputBirthdayProps> = (props) => {
       <div id="input" className="relative">
         <DatePicker
           selected={selectedDate}
-          onChange={(date) => setSelectedDate(date)}
+          onChange={handleDateChange}
           className="bg-white rounded-2xl p-2 w-80 h-12 mb-1 pr-10 relative z-10  font-quicksand text-base font-quicksand tracking-wide"
         />
       </div>

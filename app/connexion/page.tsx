@@ -19,7 +19,13 @@ const ConnexionPage = () => {
   if (!userContext) {
     throw new Error("UserContext must be used within a UserContextProvider");
   }
-  const { email } = userContext;
+  
+  const { email, firstname, birthday } = userContext;
+
+  // Log the values
+  console.log('Email:', email);
+  console.log('Prénom:', firstname);
+  console.log('Date de naissance:', birthday);
 
   const [password, setPassword] = useState("");
 
