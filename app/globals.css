@@ -10,10 +10,10 @@
   box-sizing: border-box;
 }
 
-body {
+/* body {
   @apply bg-light-primary text-light-secondary;
 }
 
 body.dark {
   @apply bg-dark-primary text-dark-secondary;
-}
+} */

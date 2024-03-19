@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useState } from "react";
-import ThemeSwitcher from "../ThemeSwitcher";
 import Image from "next/image";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -42,7 +41,7 @@ const UserProfile: React.FC = () => {
       secondaryLabel: "",
       icon: faChevronRight,
       bgcolor: "",
-      link: "/user/firstname",
+      link: "/user/darkmode",
     },
     {
       mainLabel: "Information légales",
@@ -83,7 +82,7 @@ const UserProfile: React.FC = () => {
   return (
     <div
       id="userMainContainer"
-      className="flex flex-col h-screen align-middle items-center"
+      className="flex flex-col min-h-screen align-middle items-center"
     >
       <div id="userHeaderContainer" className="flex flex-row w-full m-10">
         <div
@@ -159,15 +158,6 @@ const UserProfile: React.FC = () => {
         />
       </div>
       <div id="userOtherContainer" className=""></div>
-
-      <div className="flex flex-row p-10">
-        <div className=" pr-5">
-          <p>Mode sombre </p>
-        </div>
-        <div className="">
-          <ThemeSwitcher />
-        </div>
-      </div>
     </div>
   );
 };

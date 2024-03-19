@@ -21,14 +21,14 @@ const config: Config = {
         },
       },
       boxShadow: {
-        sf: "-3px 2px 16px -9px rgba(0,0,0,0.4)",
+        sf: "-3px 2px 16px -9px rgba(0,0,0,0.05)",
       },
-      backgroundImage: {
-        "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
-        "gradient-conic":
-          "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
-        "custom-background": "url('/methodImages/Logosmartflow.svg')",
-      },
+      // backgroundImage: {
+      //   "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
+      //   "gradient-conic":
+      //     "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
+      //   "custom-background": "url('/methodImages/Logosmartflow.svg')",
+      // },
       fontFamily: {
         text: ["Quicksand", "sans-serif"],
         title: ["Inter", "sans-serif"],
