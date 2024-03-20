@@ -45,13 +45,13 @@ const getColorClass = (
 ) => {
   switch (colorState) {
     case "normal":
-      return "text-neutral-500";
+      return "text-neutral-500 dark:text-neutral-200";
     case "desactivated":
       return "text-gray-300";
     case "warning":
       return "text-red-500";
     default:
-      return "text-neutral-500";
+      return "text-neutral-500 dark:text-neutral-200";
   }
 };
 
@@ -72,7 +72,7 @@ const List: React.FC<ListProps> = ({
     <div id="ListContainer" className="flex flex-col mx-5">
       <div
         id="ListTitleContainer"
-        className=" mb-1 font-title font-bold text-lg text-neutral-600 dark:text-neutral-300"
+        className=" mb-1 font-title font-bold text-md text-neutral-600 dark:text-neutral-300"
       >
         {title}
       </div>
@@ -130,17 +130,11 @@ const List: React.FC<ListProps> = ({
                       : ""
                   }`}
                 >
-                  <div
-                    id="ListRowTopLabel"
-                    className="font-text text-neutral-500 dark:text-neutral-200"
-                  >
+                  <div id="ListRowTopLabel" className="font-text ">
                     {row.mainLabel}
                   </div>
                   {row.secondaryLabel && (
-                    <div
-                      id="ListRowBottomLabel"
-                      className="font-text text-neutral-400 dark:text-neutral-500"
-                    >
+                    <div id="ListRowBottomLabel" className="font-text ">
                       {row.secondaryLabel}
                     </div>
                   )}
@@ -156,7 +150,7 @@ const List: React.FC<ListProps> = ({
                   {row.icon && (
                     <FontAwesomeIcon
                       icon={row.icon}
-                      className="text-neutral-500 dark:text-neutral-200 text-xs w-4 h-4"
+                      className=" text-xs w-4 h-4"
                     />
                   )}
                 </div>
