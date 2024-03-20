@@ -16,6 +16,11 @@ interface Card {
 }
 
 const Today = () => {
+  const userContext = useContext(UserContext);
+
+  if (!userContext) {
+    throw new Error("UserContext must be used within a UserContextProvider");
+  }
   const [cards, setCards] = useState<Card[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [isError, setIsError] = useState<boolean>(false);
@@ -25,7 +30,7 @@ const Today = () => {
   const user = useContext(UserContext);
 
   useEffect(() => {
-    fetch("/api/cards")
+    fetch("/api/cards/cardByUser")
       .then((response) => {
         if (!response.ok) {
           throw new Error("Network response was not ok");
