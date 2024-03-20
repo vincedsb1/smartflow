@@ -11,15 +11,20 @@ import { UserContext } from "../context/UserContext";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronLeft } from "@fortawesome/free-solid-svg-icons";
-import { faEnvelope } from "@fortawesome/free-solid-svg-icons";
+import { faUser } from "@fortawesome/free-solid-svg-icons";
 
-const SetPasswordPage = () => {
+const ConnexionPage = () => {
   const userContext = useContext(UserContext);
 
   if (!userContext) {
     throw new Error("UserContext must be used within a UserContextProvider");
   }
-  const { email } = userContext;
+
+  const { email, firstname, birthday } = userContext;
+
+  console.log("Email:", email);
+  console.log("Prénom:", firstname);
+  console.log("Date de naissance:", birthday);
 
   const [password, setPassword] = useState("");
 
@@ -29,51 +34,60 @@ const SetPasswordPage = () => {
 
   const router = useRouter();
 
-  const handlePasswordSet = async () => {
-    try {
-      const response = await fetch("/api/users/set-password", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email, password }),
-      });
-
-      const data = await response.json();
-
-      if (data.status === "ok") {
-        router.push("/onboarding");
-      } else {
-        alert("Erreur lors de la définition du mot de passe");
-      }
-    } catch (error) {
-      console.error(error);
+  const handleSubmit = async () => {
+    if (!password) {
+      alert("Veuillez entrer un mot de passe");
+      return;
     }
-  };
+    const response = await fetch("/api/users", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        email: email,
+        password: password,
+        firstname: firstname,
+        birthday: birthday,
+        lastname: "Default",
+        onBoarding: false,
+      }),
+    });
 
+ if (response.ok) {
+  const deleteResponse = await fetch(`/api/emailverification/delete-emailverification?email=${email}`, {
+    method: 'DELETE',
+    });
+
+    if (deleteResponse.ok) {
+      console.log('Utilisateur enregistré et vérification par e-mail supprimée avec succès');
+      router.push('/onboarding');
+    } else {
+      console.log('Une erreur est survenue lors de la suppression de la vérification par e-mail');
+    }
+  }
+};
   return (
     <div className="flex flex-col justify-center items-center h-screen">
       <div>
-        <Link href={"/mailauth"}>
+        <Link href={"/inscriptionbirthday"}>
           <button type="button" className="absolute top-0 left-0 mt-12 ml-6">
             <FontAwesomeIcon icon={faChevronLeft} className="h-6" />
           </button>
         </Link>
       </div>
       <div className="flex flex-col">
-        <CardAppTitle title="Se connecter" />
+        <CardAppTitle title="Votre profil" />
         <CardAppText
-          text="Saissisez votre mot de passe"
-          icon={faEnvelope}
+          text="Choissisez un mot de passe"
+          icon={faUser}
           size="large"
         />
       </div>
       <div className="mt-6">
-        <CardAppPasswordInput
-          onChange={handlePasswordChange}
-          showForgotPassword={false}
-        />
+        <CardAppPasswordInput onChange={handlePasswordChange} />
       </div>
+
       <div className="mt-64">
         {" "}
         <MainButton
@@ -81,11 +95,11 @@ const SetPasswordPage = () => {
           type={password ? "normal" : "disabled"}
           buttonType="submit"
           disabled={!password}
-          onClick={handlePasswordSet}
+          onClick={handleSubmit}
         />
       </div>
     </div>
   );
 };
 
-export default SetPasswordPage;
+export default ConnexionPage;
