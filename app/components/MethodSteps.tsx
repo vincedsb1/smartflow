@@ -7,6 +7,7 @@ import CardAppText from "./CardAppText";
 import CardAppTitle from "./CardAppTitle";
 import CardAppImage from "./CardAppImage";
 import MainButton from "./MainButton";
+import { useRouter } from "next/navigation";
 
 interface MethodStepsProps {
   title: string;
@@ -52,10 +53,13 @@ const steps = [
 
 function MethodSteps() {
   const [currentStep, setCurrentStep] = useState(0);
+  const router = useRouter();
 
   const nextStep = () => {
     if (currentStep < steps.length - 1) {
       setCurrentStep(currentStep + 1);
+    } else if (currentStep === steps.length - 1) {
+      router.push("/today");
     }
   };
 
@@ -99,13 +103,14 @@ function MethodSteps() {
           </div>
         </div>
         {currentStep === steps.length - 1 ? (
+          <MainButton type={"normal"} label={buttonText()} onClick={nextStep} />
+        ) : (
           <MainButton
+            isClicked={false}
             type={"normal"}
             label={buttonText()}
             onClick={nextStep}
           />
-        ) : (
-          <MainButton isClicked={false} type={"normal"} label={buttonText()} onClick={nextStep} />
         )}
       </div>
     </div>
