@@ -24,7 +24,7 @@ const InscriptionPage = () => {
   const handleContinue = () => {
     console.log('Date de naissance stockée:', birthday);
     setUser({ ...user, email, firstname, birthday });
-    router.push("/inscriptionpassword");
+    router.push("/register-password");
   };
 
   // Le
@@ -32,7 +32,7 @@ const InscriptionPage = () => {
   return (
     <div className="flex flex-col justify-center items-center h-screen">
       <div>
-        <Link href={"/inscriptionfirstname"}>
+        <Link href={"/register-firstname"}>
           <button type="button" className="absolute top-0 left-0 mt-12 ml-6">
             <FontAwesomeIcon icon={faChevronLeft} className="h-6" />
           </button>
