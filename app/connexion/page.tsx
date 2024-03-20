@@ -12,6 +12,7 @@ import { UserContext } from "../context/UserContext";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronLeft } from "@fortawesome/free-solid-svg-icons";
 import { faEnvelope } from "@fortawesome/free-solid-svg-icons";
+import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 
 const ConnexionPage = () => {
   const userContext = useContext(UserContext);
@@ -19,15 +20,17 @@ const ConnexionPage = () => {
   if (!userContext) {
     throw new Error("UserContext must be used within a UserContextProvider");
   }
-  
-  const { email, firstname, birthday } = userContext;
 
-  // Log the values
-  console.log('Email:', email);
-  console.log('Prénom:', firstname);
-  console.log('Date de naissance:', birthday);
+  const { email, firstname, birthday, setUser } = userContext;
 
   const [password, setPassword] = useState("");
+  const [displayMessage, setDisplayMessage] = useState("");
+  const message = "Le mot de passe est incorrect, veuillez réessayer";
+  const [passwordVisible, setPasswordVisible] = useState(false);
+
+  const togglePasswordVisibility = () => {
+    setPasswordVisible(!passwordVisible);
+  };
 
   const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPassword(e.target.value);
@@ -45,12 +48,15 @@ const ConnexionPage = () => {
         body: JSON.stringify({ email, password }),
       });
 
-      const data = await response.json();
-
-      if (data.status === "ok") {
-        router.push("/onboarding");
+      if (response.status === 401) {
+        setDisplayMessage(message);
       } else {
-        alert("Mot de passe incorrect");
+        const data = await response.json();
+
+        if (data.status === "ok") {
+          setUser({ email, firstname, birthday, setUser });
+          router.push("/onboarding");
+        }
       }
     } catch (error) {
       console.error(error);
@@ -75,7 +81,23 @@ const ConnexionPage = () => {
         />
       </div>
       <div className="mt-6">
-        <CardAppPasswordInput onChange={handlePasswordChange} />
+        <div className="relative">
+          <input
+            className="bg-white rounded-2xl p-2 w-80 h-12 mb-1 pr-10 font-quicksand tracking-widest"
+            type={passwordVisible ? "text" : "password"}
+            onChange={handlePasswordChange}
+          />
+          <div className="absolute top-2 right-2" onClick={togglePasswordVisibility}>
+            {passwordVisible ? (
+              <FontAwesomeIcon icon={faEyeSlash} />
+            ) : (
+              <FontAwesomeIcon icon={faEye} />
+            )}
+          </div>
+        </div>
+        {displayMessage && (
+          <p className="text-red-500 text-base font-normal">{displayMessage}</p>
+        )}
       </div>
 
       <div className="mt-64">

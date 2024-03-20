@@ -33,26 +33,29 @@ const InscriptionPage = () => {
   }, []);
 
   useEffect(() => {
-    if (token) {
-      fetch(`/api/emailverification?token=${token}`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      })
-        .then((response) => {
+    const verifyEmail = async () => {
+      if (token) {
+        console.log("Token:", token);
+        try {
+          const response = await fetch(`/api/emailverification?token=${token}`, {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          });
           console.log("Réponse de l'API:", response);
-          return response.json();
-        })
-        .then((data) => {
+          const data = await response.json();
           console.log("Données de l'API:", data);
           setEmail(data.email);
           setUser({ ...user, email: data.email });
-        })
-        .catch((error) => console.error(error));
-        router.push('/mailauth');
-
-    }
+        } catch (error) {
+          console.error(error);
+          router.push('/mailauth');
+        }
+      }
+    };
+  
+    verifyEmail();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [token]);
 
@@ -63,7 +66,7 @@ const InscriptionPage = () => {
     }
 
     if (user.email) {
-      router.push("/inscriptionbirthay");
+      router.push("/register-birthay");
     } else {
     }
   };
@@ -71,7 +74,7 @@ const InscriptionPage = () => {
   return (
     <div className="flex flex-col justify-center items-center h-screen">
       <div>
-        <Link href={"/inscription"}>
+        <Link href={"/register-inscription"}>
           <button type="button" className="absolute top-0 left-0 mt-12 ml-6">
             <FontAwesomeIcon icon={faChevronLeft} className="h-6" />
           </button>

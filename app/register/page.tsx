@@ -36,7 +36,7 @@ const InscriptionPage = () => {
           <MainButton
             label="Continuer"
             type="normal"
-            onClick={() => router.push("/inscriptionfirstname")}
+            onClick={() => router.push("/register-firstname")}
           />{" "}
         </div>
       </div>

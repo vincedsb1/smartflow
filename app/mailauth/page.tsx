@@ -41,7 +41,7 @@ const MailSignin = () => {
   
       if (!emailExists) {
         // Si l'e-mail n'existe pas, redirigez l'utilisateur vers la page d'inscription
-        router.push("/inscription");
+        router.push("/register");
         return;
       }
   
