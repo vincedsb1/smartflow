@@ -25,11 +25,11 @@ interface ListProps {
   isLargeRow: boolean;
   belowListLink?: string;
   onBelowListLinkClick?: () => void;
-  modalIsOpen: boolean;
-  setModalIsOpen: (isOpen: boolean) => void;
-  setModalTitle: (title: string) => void;
-  setModalContent: (content: string) => void;
-  modalTitle: string;
+  modalIsOpen?: boolean;
+  setModalIsOpen?: (isOpen: boolean) => void;
+  setModalTitle?: (title: string) => void;
+  setModalContent?: (content: string) => void;
+  modalTitle?: string;
   modalContent: string;
 }
 
@@ -68,6 +68,7 @@ const List: React.FC<ListProps> = ({
   modalTitle,
   modalContent,
 }) => {
+  const isOpen = modalIsOpen || false;
   return (
     <div id="ListContainer" className="flex flex-col mx-5">
       <div
@@ -89,9 +90,15 @@ const List: React.FC<ListProps> = ({
               onClick={
                 row.isModal
                   ? () => {
-                      setModalIsOpen(true);
-                      setModalTitle(row.modalTitle || "");
-                      setModalContent(row.modalContent || "");
+                      if (setModalIsOpen) {
+                        setModalIsOpen(true);
+                      }
+                      if (setModalTitle) {
+                        setModalTitle(row.modalTitle || "");
+                      }
+                      if (setModalContent) {
+                        setModalContent(row.modalContent || "");
+                      }
                     }
                   : row.onClick
               }
@@ -167,9 +174,13 @@ const List: React.FC<ListProps> = ({
         {belowListLink}
       </div>
       <CustomModal
-        isOpen={modalIsOpen}
-        onOpenChange={() => setModalIsOpen(!modalIsOpen)}
-        title={modalTitle}
+        isOpen={modalIsOpen || false}
+        onOpenChange={() => {
+          if (setModalIsOpen) {
+            setModalIsOpen(!modalIsOpen);
+          }
+        }}
+        title={modalTitle || ""}
         content={modalContent}
       />
     </div>
