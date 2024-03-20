@@ -24,7 +24,7 @@ const InscriptionPage = () => {
   const handleContinue = () => {
     console.log('Date de naissance stockée:', birthday);
     setUser({ ...user, email, firstname, birthday });
-    router.push("/connexion");
+    router.push("/inscriptionpassword");
   };
 
   // Le
