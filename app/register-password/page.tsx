@@ -20,7 +20,7 @@ const ConnexionPage = () => {
     throw new Error("UserContext must be used within a UserContextProvider");
   }
 
-  const { email, firstname, birthday } = userContext;
+  const { email, firstname, birthday, setUser } = userContext;
 
   console.log("Email:", email);
   console.log("Prénom:", firstname);
@@ -61,6 +61,7 @@ const ConnexionPage = () => {
 
     if (deleteResponse.ok) {
       console.log('Utilisateur enregistré et vérification par e-mail supprimée avec succès');
+      setUser({ email, firstname, birthday, setUser });
       router.push('/onboarding');
     } else {
       console.log('Une erreur est survenue lors de la suppression de la vérification par e-mail');
@@ -70,7 +71,7 @@ const ConnexionPage = () => {
   return (
     <div className="flex flex-col justify-center items-center h-screen">
       <div>
-        <Link href={"/inscriptionbirthday"}>
+        <Link href={"/register-birthday"}>
           <button type="button" className="absolute top-0 left-0 mt-12 ml-6">
             <FontAwesomeIcon icon={faChevronLeft} className="h-6" />
           </button>

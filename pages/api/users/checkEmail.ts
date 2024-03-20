@@ -40,7 +40,7 @@ export default async function handler(
             },
           });
 
-          const verificationLink = `http://localhost:3000/inscriptionfirstname?token=${token}`;
+          const verificationLink = `http://localhost:3000/register-firstname?token=${token}`;
 
           const emailContent = ReactDOMServer.renderToString(
             React.createElement(VerificationMail, {
