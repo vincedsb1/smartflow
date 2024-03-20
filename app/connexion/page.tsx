@@ -87,7 +87,10 @@ const ConnexionPage = () => {
             type={passwordVisible ? "text" : "password"}
             onChange={handlePasswordChange}
           />
-          <div className="absolute top-2 right-2" onClick={togglePasswordVisibility}>
+          <div
+            className="absolute top-2 right-2"
+            onClick={togglePasswordVisibility}
+          >
             {passwordVisible ? (
               <FontAwesomeIcon icon={faEyeSlash} />
             ) : (
