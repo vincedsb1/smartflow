@@ -50,6 +50,8 @@ const InscriptionPage = () => {
           setUser({ ...user, email: data.email });
         })
         .catch((error) => console.error(error));
+        router.push('/mailauth');
+
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [token]);
@@ -63,7 +65,6 @@ const InscriptionPage = () => {
     if (user.email) {
       router.push("/inscriptionbirthay");
     } else {
-      // Affichez un message d'erreur ou redirigez l'utilisateur vers une autre page
     }
   };
 
