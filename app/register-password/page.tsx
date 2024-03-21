@@ -54,20 +54,27 @@ const ConnexionPage = () => {
       }),
     });
 
- if (response.ok) {
-  const deleteResponse = await fetch(`/api/emailverification/delete-emailverification?email=${email}`, {
-    method: 'DELETE',
-    });
+    if (response.ok) {
+      const deleteResponse = await fetch(
+        `/api/emailverification/delete-emailverification?email=${email}`,
+        {
+          method: "DELETE",
+        }
+      );
 
-    if (deleteResponse.ok) {
-      console.log('Utilisateur enregistré et vérification par e-mail supprimée avec succès');
-      setUser({ email, firstname, birthday, setUser });
-      router.push('/onboarding');
-    } else {
-      console.log('Une erreur est survenue lors de la suppression de la vérification par e-mail');
+      if (deleteResponse.ok) {
+        console.log(
+          "Utilisateur enregistré et vérification par e-mail supprimée avec succès"
+        );
+        setUser({ email, firstname, birthday, setUser });
+        router.push("/onboarding");
+      } else {
+        console.log(
+          "Une erreur est survenue lors de la suppression de la vérification par e-mail"
+        );
+      }
     }
-  }
-};
+  };
   return (
     <div className="flex flex-col justify-center items-center h-screen">
       <div>
@@ -79,11 +86,7 @@ const ConnexionPage = () => {
       </div>
       <div className="flex flex-col">
         <CardAppTitle title="Votre profil" />
-        <CardAppText
-          text="Choissisez un mot de passe"
-          icon={faUser}
-          size="large"
-        />
+        <CardAppText text="Choissisez un mot de passe" icon={faUser} />
       </div>
       <div className="mt-6">
         <CardAppPasswordInput onChange={handlePasswordChange} />
