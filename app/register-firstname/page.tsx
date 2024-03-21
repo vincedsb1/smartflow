@@ -84,7 +84,6 @@ const InscriptionPage = () => {
         <CardAppTitle title="Votre Profil" />
         <CardAppText
           text="Quel est votre prénom ?"
-          size="large"
           icon={faUser}
         />
       </div>
