@@ -12,6 +12,8 @@ interface IUserContext {
   setBirthday: React.Dispatch<React.SetStateAction<Date | null>>;
   password: string | null;
   setPassword: React.Dispatch<React.SetStateAction<string | null>>;
+  token: string | null;
+  setToken: React.Dispatch<React.SetStateAction<string | null>>;
 }
 
 const UserContext = createContext<IUserContext | undefined>(undefined);
@@ -26,6 +28,7 @@ const UserContextProvider: React.FC<UserContextProviderProps> = ({ children }) =
   const [firstname, setFirstname] = useState<string>("");
   const [birthday, setBirthday] = useState<Date | null>(null);
   const [password, setPassword] = useState<string | null>(null);
+  const [token, setToken] = useState<string | null>(null);
 
   const contextValue = {
     user,
@@ -38,6 +41,8 @@ const UserContextProvider: React.FC<UserContextProviderProps> = ({ children }) =
     setBirthday,
     password,
     setPassword,
+    token, 
+    setToken,
   };
 
   return (

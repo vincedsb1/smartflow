@@ -1,6 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { PrismaClient } from "@prisma/client";
 import argon2 from "argon2";
+import { sign } from 'jsonwebtoken';
 
 const prisma = new PrismaClient();
 
@@ -19,7 +20,8 @@ export default async function handle(
       });
 
       if (user && await argon2.verify(user.password, password)) {
-        res.json({ status: 'ok' });
+        const token = sign({ userId: user.id }, 'your-secret-key', { expiresIn: '1h' });
+        res.json({ status: 'ok', token });
       } else {
         res.status(401).json({ error: 'Mot de passe incorrect' });
       }
