@@ -23,7 +23,7 @@ const InscriptionPage = () => {
       </div>
       <div className="flex flex-col">
         <CardAppTitle title="Inscription" />
-        <CardAppText text="Cliquer sur le lien reçu par email" size="large" />
+        <CardAppText text="Cliquer sur le lien reçu par email" />
       </div>
       <div className="mt-6 flex">
         <Image src="/emailSent.svg" alt="mail" width={256} height={256} />

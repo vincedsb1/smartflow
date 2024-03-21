@@ -47,12 +47,12 @@ const ConnexionPage = () => {
         },
         body: JSON.stringify({ email, password }),
       });
-  
+
       if (response.status === 401) {
         setDisplayMessage(message);
       } else {
         const data = await response.json();
-  
+
         if (data.status === "ok") {
           userContext.setToken(data.token);
           setUser({ email, firstname, birthday, setUser });
@@ -75,11 +75,7 @@ const ConnexionPage = () => {
       </div>
       <div className="flex flex-col">
         <CardAppTitle title="Se connecter" />
-        <CardAppText
-          text="Saissisez votre mot de passe"
-          icon={faEnvelope}
-          size="large"
-        />
+        <CardAppText text="Saissisez votre mot de passe" icon={faEnvelope} />
       </div>
       <div className="mt-6">
         <div className="relative">
