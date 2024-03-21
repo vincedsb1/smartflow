@@ -1,5 +1,5 @@
 "use client";
-import React, { createContext, useState, ReactNode, useContext } from "react";
+import React, { createContext, useState, ReactNode, useContext, useEffect } from "react";
 
 interface IUserContext {
   user: any;
@@ -13,7 +13,7 @@ interface IUserContext {
   password: string | null;
   setPassword: React.Dispatch<React.SetStateAction<string | null>>;
   token: string | null;
-  setToken: React.Dispatch<React.SetStateAction<string | null>>;
+  setToken: (value: string | null) => void;
 }
 
 const UserContext = createContext<IUserContext | undefined>(undefined);
@@ -30,6 +30,22 @@ const UserContextProvider: React.FC<UserContextProviderProps> = ({ children }) =
   const [password, setPassword] = useState<string | null>(null);
   const [token, setToken] = useState<string | null>(null);
 
+  const setTokenAndStore = (newToken: string | null) => {
+    setToken(newToken);
+    if (newToken) {
+      localStorage.setItem('userToken', newToken);
+    } else {
+      localStorage.removeItem('userToken');
+    }
+  };
+
+  useEffect(() => {
+    const storedToken = localStorage.getItem('userToken');
+    if (storedToken) {
+      setToken(storedToken);
+    }
+  }, []);
+
   const contextValue = {
     user,
     setUser,
@@ -42,7 +58,7 @@ const UserContextProvider: React.FC<UserContextProviderProps> = ({ children }) =
     password,
     setPassword,
     token, 
-    setToken,
+    setToken: setTokenAndStore,
   };
 
   return (
