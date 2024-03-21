@@ -47,13 +47,15 @@ const ConnexionPage = () => {
         },
         body: JSON.stringify({ email, password }),
       });
-
+  
       if (response.status === 401) {
         setDisplayMessage(message);
       } else {
         const data = await response.json();
-
+  
         if (data.status === "ok") {
+          userContext.setToken(data.token);
+  
           setUser({ email, firstname, birthday, setUser });
           router.push("/onboarding");
         }
@@ -62,7 +64,6 @@ const ConnexionPage = () => {
       console.error(error);
     }
   };
-
   return (
     <div className="flex flex-col justify-center items-center h-screen">
       <div>
