@@ -3,8 +3,10 @@ import { Resend } from "resend";
 import type { NextApiRequest, NextApiResponse } from "next";
 import { v4 as uuidv4 } from "uuid";
 import * as ReactDOMServer from "react-dom/server";
-import VerificationMail from "../../../emails/verificationMail";
+import dynamic from 'next/dynamic';
 import React from "react";
+
+const VerificationMail = dynamic(() => import('../../../emails/verificationMail'), { ssr: false });
 
 const prisma = new PrismaClient();
 
@@ -19,7 +21,6 @@ export default async function handler(
       typeof req.query.email === "string" ? req.query.email : undefined;
 
     try {
-      // Vérifiez si l'e-mail existe déjà
       const user = await prisma.user.findUnique({
         where: {
           email: email,
@@ -27,11 +28,9 @@ export default async function handler(
       });
 
       if (!user) {
-        // Si l'utilisateur n'existe pas, envoyez un e-mail
         if (email) {
           const token = uuidv4();
 
-          // Stockez le token et l'e-mail de l'utilisateur dans votre base de données
           await prisma.emailVerification.create({
             data: {
               email: email,
@@ -61,7 +60,6 @@ export default async function handler(
           res.status(400).json({ message: "Email is undefined" });
         }
       } else {
-        // Si l'utilisateur existe déjà, renvoyez une réponse avec un statut 200
         res.status(200).json({ message: "Email already exists" });
       }
     } catch (err) {
