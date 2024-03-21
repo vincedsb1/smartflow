@@ -6,7 +6,7 @@ import * as ReactDOMServer from "react-dom/server";
 import dynamic from 'next/dynamic';
 import React from "react";
 
-const VerificationMail = dynamic(() => import('../../../emails/verificationMail'), { ssr: false });
+import VerificationMail from '../../../emails/verificationMail';
 
 const prisma = new PrismaClient();
 
