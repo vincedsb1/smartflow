@@ -8,6 +8,10 @@ import MainButton from "../components/MainButton";
 import { faEnvelope } from "@fortawesome/free-solid-svg-icons";
 import { useRouter } from "next/navigation";
 import { UserContext } from "../context/UserContext";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faChevronLeft } from "@fortawesome/free-solid-svg-icons";
+import { Button } from "@nextui-org/react";
+import { Checkbox } from "@nextui-org/react";
 
 const MailSignin = () => {
   const userContext = useContext(UserContext);
@@ -30,62 +34,122 @@ const MailSignin = () => {
     setCgu(e.target.checked);
   };
 
+  const [isSelected, setIsSelected] = React.useState(false);
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
       const res = await fetch(`/api/users/checkEmail?email=${email}`);
       const data = await res.json();
-  
+
       const emailExists = res.ok && data.message === "Email already exists";
-  
+
       if (!emailExists) {
         router.push("/register");
         return;
       }
-  
+
       if (!cgu) {
         alert("Vous devez accepter les CGU");
         return;
       }
-  
+
       router.push("/connexion");
     } catch (err) {
       console.log(`Error: ${err}`);
       alert("Une erreur s'est produite lors de la vérification de l'e-mail");
     }
   };
-  
 
   return (
-    <form
-      onSubmit={handleSubmit}
-      className="flex flex-col justify-center items-center h-screen"
+    <div
+      id="mailAuthMainContainer"
+      className="flex flex-col justify-between min-h-screen w-full"
     >
-      <div className="flex flex-col items-center">
-        <CardAppTitle title="Se connecter / S'inscrire" />
-        <CardAppText
-          text="Commencez par saisir votre email"
-          icon={faEnvelope}
-          size="large"
-        />
+      <div
+        id="mailAuthTopContainer"
+        className="flex flex-col justify-center w-full"
+      >
+        <div id="themeSwitcherBackIcon" className="w-full flex flex-col mt-16">
+          <Link href="/welcome">
+            <FontAwesomeIcon
+              icon={faChevronLeft}
+              className="text-neutral-800 dark:text-neutral-200 text-xs w-4 h-4 m-5"
+            />
+          </Link>
+        </div>
+        <div
+          id="mailAuthHeaderContainer"
+          className="flex flex-col justify-center items-center w-full"
+        >
+          <div id="mailAuthTitle" className="flex flex-col mt-11 w-16/20 ">
+            <CardAppTitle title="Se connecter / S'inscrire" />
+          </div>
+          <div id="mailAuthHint" className="flex flex-col items-center w-16/20">
+            <CardAppText
+              text="Commencez par saisir votre email"
+              icon={faEnvelope}
+            />
+          </div>
+        </div>
       </div>
-      <div className="mt-24">
-        <CardAppEmailInput onChange={handleChangeEmail} />
+      <div
+        id="mailAuthBottomContainer"
+        className="flex flex-col justify-center  mb-14"
+      >
+        <div
+          id="mailAuthFormContainer"
+          className="flex flex-col justify-between "
+        >
+          <form
+            onSubmit={handleSubmit}
+            className="flex flex-col justify-between items-center"
+          >
+            <div className="">
+              <CardAppEmailInput onChange={handleChangeEmail} />
+            </div>
+            <div className="flex items-center w-16/20">
+              {/* <input
+                onChange={handleChangeCgu}
+                type="checkbox"
+                id="cgu"
+                name="cgu"
+              /> */}
+              <Checkbox
+                size="md"
+                onChange={handleChangeCgu}
+                className="font-text"
+                isSelected={cgu}
+              >
+                J&apos;accepte les conditions générales d&apos;utilisation
+              </Checkbox>
+              {/* <label htmlFor="cgu" className="">
+                {"J'accepte les conditions générales d'utilisation"}
+              </label> */}
+            </div>
+            <div
+              id="mailAuthCGUContainer"
+              className="flex flex-row w-16/20 justify-start mb-4"
+            >
+              <Link href="/cgu">
+                <p className="underline cursor-pointer font-text ml-7 text-xs">
+                  Consulter les CGU
+                </p>
+              </Link>
+            </div>
+            <Button
+              type="submit"
+              color="primary"
+              variant="solid"
+              size="lg"
+              className="w-80 font-bold font-text"
+            >
+              Suivant
+            </Button>
+          </form>
+        </div>
       </div>
-      <div className="flex items-center mt-4">
-        <input onChange={handleChangeCgu} type="checkbox" id="cgu" name="cgu" />
-        <label htmlFor="cgu" className="ml-2">
-          {"J'accepte les conditions générales d'utilisation"}
-        </label>
-      </div>
-      <Link href="/cgu">
-        <p className="mt-2 mb-2 underline cursor-pointer">Consulter les CGU</p>
-      </Link>
-      <MainButton label="Suivant" type="normal" buttonType="submit" />
-      <button onClick={() => router.push("/today")} className="mt-4 underline">
-        Go to today
-      </button>
-    </form>
+    </div>
   );
 };
 

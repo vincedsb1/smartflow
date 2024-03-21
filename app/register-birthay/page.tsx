@@ -13,16 +13,24 @@ import { useUser } from "../context/UserContext";
 
 const InscriptionPage = () => {
   const router = useRouter();
-  const { user, setUser, email, setEmail, firstname, setFirstname, birthday, setBirthday } = useUser();
+  const {
+    user,
+    setUser,
+    email,
+    setEmail,
+    firstname,
+    setFirstname,
+    birthday,
+    setBirthday,
+  } = useUser();
 
   useEffect(() => {
-    console.log('Prénom stocké:', firstname); 
-    console.log('Email stocké:', email); 
+    console.log("Prénom stocké:", firstname);
+    console.log("Email stocké:", email);
   }, [firstname, email]);
 
-  
   const handleContinue = () => {
-    console.log('Date de naissance stockée:', birthday);
+    console.log("Date de naissance stockée:", birthday);
     setUser({ ...user, email, firstname, birthday });
     router.push("/register-password");
   };
@@ -40,18 +48,23 @@ const InscriptionPage = () => {
       </div>
       <div className="flex flex-col">
         <CardAppTitle title="Votre Profil" />
-        <CardAppText text="Quelle est votre date de naissance ?" size="large" icon={faUser} />
+        <CardAppText
+          text="Quelle est votre date de naissance ?"
+          icon={faUser}
+        />
       </div>
       <div>
-  <InputBirthday 
-    label="Date de naissance" 
-    inputType="date" 
-    onChange={(date) => {
-      console.log('Date sélectionnée:', date);
-      setBirthday(date ? new Date(date.toISOString().substring(0, 10)) : null);
-    }} 
-  />
-</div>
+        <InputBirthday
+          label="Date de naissance"
+          inputType="date"
+          onChange={(date) => {
+            console.log("Date sélectionnée:", date);
+            setBirthday(
+              date ? new Date(date.toISOString().substring(0, 10)) : null
+            );
+          }}
+        />
+      </div>
       <div className="mt-64 flex flex-col items-center">
         <div className="flex justify-center">
           <MainButton

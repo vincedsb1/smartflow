@@ -4,27 +4,27 @@ import { IconProp } from "@fortawesome/fontawesome-svg-core";
 interface CardAppText {
   text: string;
   icon?: IconProp;
-  size?: "small" | "large";
 }
 
-function CardAppText({ text, icon, size = "small" }: CardAppText) {
-  const lineCount = (text.match(/\n/g) || []).length + 1;
-
+function CardAppText({ text, icon }: CardAppText) {
   return (
     <div
       id="cardExplanations"
-      className={`bg-neutral-50 rounded-xl w-full flex flex-row py-6`}
+      className={`bg-white rounded-2xl w-full flex flex-row py-6`}
     >
       {icon && (
         <div
           id="hintIconMainContainer"
-          className="w-1/6 flex flex-row justify-center align-middle items-center "
+          className="w-2/6 flex flex-row justify-center align-middle items-center"
         >
           <div
             id="hintIconContainer"
-            className="w-8 h-8 flex items-center justify-center"
+            className="w-12 h-12 flex items-center justify-center"
           >
-            <FontAwesomeIcon icon={icon} className="text-neutral-800 text-xl" />{" "}
+            <FontAwesomeIcon
+              icon={icon}
+              className="text-neutral-800 text-2xl"
+            />{" "}
           </div>
         </div>
       )}
@@ -33,7 +33,7 @@ function CardAppText({ text, icon, size = "small" }: CardAppText) {
         className="flex flex-row justify-start align-middle items-center"
       >
         <p
-          className="text-neutral-800 font-quicksand-600 text-xl m-3 "
+          className="text-neutral-800 font-text font-bold text-xl mr-8 leading-6"
           id="tex-card"
         >
           {text}
