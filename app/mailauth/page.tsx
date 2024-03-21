@@ -36,11 +36,9 @@ const MailSignin = () => {
       const res = await fetch(`/api/users/checkEmail?email=${email}`);
       const data = await res.json();
   
-      // Vérifiez si l'e-mail existe déjà dans la base de données
       const emailExists = res.ok && data.message === "Email already exists";
   
       if (!emailExists) {
-        // Si l'e-mail n'existe pas, redirigez l'utilisateur vers la page d'inscription
         router.push("/register");
         return;
       }
@@ -50,7 +48,6 @@ const MailSignin = () => {
         return;
       }
   
-      // Si l'e-mail existe et que l'utilisateur a accepté les CGU, redirigez-le vers la page de connexion
       router.push("/connexion");
     } catch (err) {
       console.log(`Error: ${err}`);
