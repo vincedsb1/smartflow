@@ -30,7 +30,20 @@ const Today = () => {
   const user = useContext(UserContext);
 
   useEffect(() => {
-    fetch("/api/cards/cardByUser")
+    if (!userContext.token || !userContext.user) {
+      console.error("User or token is not defined");
+      setIsError(true);
+      setIsLoading(false);
+      return;
+    }
+
+    console.log("Token:", userContext.token);
+
+    fetch("/api/cards/cardByUser", {
+      headers: {
+        Authorization: `Bearer ${userContext.token}`,
+      },
+    })
       .then((response) => {
         if (!response.ok) {
           throw new Error("Network response was not ok");
@@ -46,7 +59,7 @@ const Today = () => {
         setIsError(true);
         setIsLoading(false);
       });
-  }, []);
+  }, [userContext.token, userContext.user]);
 
   if (isLoading) {
     return (
@@ -63,6 +76,7 @@ const Today = () => {
   const rows = cards.map((card) => ({
     mainLabel: card.title,
   }));
+  console.log("rows:", rows);
 
   return (
     <div
