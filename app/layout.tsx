@@ -5,6 +5,9 @@ import { useSelectedLayoutSegment } from "next/navigation";
 import "./globals.css";
 import Providers from "./Providers";
 import { UserContextProvider } from "../app/context/UserContext";
+import "@fortawesome/fontawesome-svg-core/styles.css";
+import { config } from "@fortawesome/fontawesome-svg-core";
+config.autoAddCss = false;
 
 interface RootLayoutProps {
   children: ReactNode;
