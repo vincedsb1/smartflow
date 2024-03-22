@@ -1,38 +1,46 @@
 import { PrismaClient, User } from "@prisma/client";
 import { NextApiRequest, NextApiResponse } from "next";
-import verifyToken from '../../api/auth/authMiddleware';
+import verifyToken from "../../api/auth/authMiddleware";
 
 const prisma = new PrismaClient();
 
 interface CustomNextApiRequest extends NextApiRequest {
-  user: User;
+  user: { userId: number; iat: number; exp: number }; // Mise à jour pour refléter la structure correcte
 }
 
-export default function handle(req: CustomNextApiRequest, res: NextApiResponse) {
+export default function handle(
+  req: CustomNextApiRequest,
+  res: NextApiResponse
+) {
   verifyToken(req, res, async () => {
-    console.log('req.user:', req.user);
+    console.log("req.user:", req.user);
 
     if (req.method !== "GET") {
       return res.status(405).json({ message: "Method not allowed" });
     }
-    const user = req.user;
-    console.log('user:', req.user);
 
-    if (!user) {
+    const { userId } = req.user; // Destructuration pour obtenir userId
+    console.log("user:", req.user);
+
+    if (!userId) {
+      // Vérification de userId au lieu de user directement
       return res.status(401).json({ message: "Not authenticated" });
     }
 
-   try {
-  const cards = await prisma.card.findMany({
-    where: {
-      userId: user.id,
-    },
-  });
+    try {
+      console.log("Fetching cards for user ID:", userId);
+      const cards = await prisma.card.findMany({
+        where: {
+          userId: userId, // Utilisation de userId
+        },
+      });
 
-  return res.json(cards);
-} catch (error) {
-  console.error(error);
-  return res.status(500).json({ message: 'An error occurred while fetching the cards.' });
-}
+      return res.json(cards);
+    } catch (error) {
+      console.error(error);
+      return res
+        .status(500)
+        .json({ message: "An error occurred while fetching the cards." });
+    }
   });
 }
