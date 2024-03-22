@@ -1,10 +1,7 @@
 "use client";
 import React, { useContext, useState } from "react";
-import Link from "next/link";
 import CardAppTitle from "../components/CardAppTitle";
 import CardAppText from "../components/CardAppText";
-import CardAppEmailInput from "../components/CardAppEmailInput";
-import MainButton from "../components/MainButton";
 import { faEnvelope } from "@fortawesome/free-solid-svg-icons";
 import { useRouter } from "next/navigation";
 import { UserContext } from "../context/UserContext";
@@ -12,6 +9,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronLeft } from "@fortawesome/free-solid-svg-icons";
 import { Button } from "@nextui-org/react";
 import { Checkbox } from "@nextui-org/react";
+import { Input } from "@nextui-org/react";
+import { Link } from "@nextui-org/react";
 
 const MailSignin = () => {
   const userContext = useContext(UserContext);
@@ -105,16 +104,19 @@ const MailSignin = () => {
             onSubmit={handleSubmit}
             className="flex flex-col justify-between items-center"
           >
-            <div className="">
-              <CardAppEmailInput onChange={handleChangeEmail} />
+            <div id="mailAuthInputContainer" className="w-16/20">
+              {/* <CardAppEmailInput onChange={handleChangeEmail} /> */}
+              <Input
+                onChange={handleChangeEmail}
+                isRequired
+                size="md"
+                type="email"
+                label="Email"
+                radius="lg"
+                className="w-full mb-20"
+              />
             </div>
             <div className="flex items-center w-16/20">
-              {/* <input
-                onChange={handleChangeCgu}
-                type="checkbox"
-                id="cgu"
-                name="cgu"
-              /> */}
               <Checkbox
                 size="md"
                 onChange={handleChangeCgu}
@@ -123,18 +125,13 @@ const MailSignin = () => {
               >
                 J&apos;accepte les conditions générales d&apos;utilisation
               </Checkbox>
-              {/* <label htmlFor="cgu" className="">
-                {"J'accepte les conditions générales d'utilisation"}
-              </label> */}
             </div>
             <div
               id="mailAuthCGUContainer"
-              className="flex flex-row w-16/20 justify-start mb-4"
+              className="flex flex-row w-16/20 justify-start mb-4 ml-14 mt-1"
             >
-              <Link href="/cgu">
-                <p className="underline cursor-pointer font-text ml-7 text-xs">
-                  Consulter les CGU
-                </p>
+              <Link href="/cgu" size="sm">
+                Consulter les CGU
               </Link>
             </div>
             <Button
