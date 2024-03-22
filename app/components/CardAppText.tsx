@@ -15,7 +15,7 @@ function CardAppText({ text, icon }: CardAppText) {
       {icon && (
         <div
           id="hintIconMainContainer"
-          className="w-2/6 flex flex-row justify-center align-middle items-center"
+          className="w-8/20 flex flex-row justify-center align-middle items-center"
         >
           <div
             id="hintIconContainer"
@@ -33,7 +33,9 @@ function CardAppText({ text, icon }: CardAppText) {
         className="flex flex-row justify-start align-middle items-center"
       >
         <p
-          className="text-neutral-800 font-text font-bold text-xl mr-8 leading-6"
+          className={`text-neutral-800 font-text font-bold text-xl leading-6 ${
+            icon ? "mr-8" : "mx-8"
+          }`}
           id="tex-card"
         >
           {text}
