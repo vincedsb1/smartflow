@@ -22,7 +22,8 @@ export default async function handle(
       if (user && (await argon2.verify(user.password, password))) {
         console.log(user.id);
         const token = sign({ userId: user.id }, process.env.APP_SECRET, {
-          expiresIn: "1h",
+          expiresIn: "7d",
+          // expiresIn: "1h",
         });
         res.json({ status: "ok", token });
       } else {
