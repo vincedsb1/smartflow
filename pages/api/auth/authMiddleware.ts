@@ -2,7 +2,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 import jwt from "jsonwebtoken";
 
 interface NextApiRequestWithAuth extends NextApiRequest {
-  user: string | object; // Change 'auth' to 'user'
+  user: string | object;
 }
 
 export default function verifyToken(
@@ -23,7 +23,7 @@ export default function verifyToken(
       throw new Error("Authorization header has not the 'Bearer' type");
     }
     console.log("Token received:", token);
-    req.user = jwt.verify(token, process.env.APP_SECRET); // Change 'auth' to 'user'
+    req.user = jwt.verify(token, process.env.APP_SECRET);
     console.log("User decoded from token:", req.user);
     next();
   } catch (err) {
