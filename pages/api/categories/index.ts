@@ -9,8 +9,19 @@ export default async function handle(
 ) {
   if (req.method === "GET") {
     try {
-      const categories = await prisma.category.findMany();
-      res.json(categories);
+      const categories = await prisma.category.findMany({
+        include: {
+          color: true, // Include the related color
+        },
+      });
+
+      // Map over the categories to replace colorId with color name
+      const categoriesWithColorName = categories.map((category) => ({
+        ...category,
+        colorName: category.color.name,
+      }));
+
+      res.json(categoriesWithColorName);
     } catch (err) {
       res.status(500).json({ error: (err as Error).message });
     }
@@ -44,6 +55,6 @@ export default async function handle(
       res.status(500).json({ error: (err as Error).message });
     }
   } else {
-    res.status(405).end();
+    res.status(405).json({ error: "Method not allowed" });
   }
 }
