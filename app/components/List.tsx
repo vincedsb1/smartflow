@@ -5,7 +5,7 @@ import Link from "next/link";
 import CustomModal from "./CustomModal";
 
 interface ListRowProps {
-  color?: string;
+  color?: Color;
   mainLabel: string;
   secondaryLabel?: string;
   icon?: IconDefinition;
@@ -53,6 +53,32 @@ const getColorClass = (
     default:
       return "text-neutral-500 dark:text-neutral-200";
   }
+};
+
+type Color =
+  | string
+  | "red-400"
+  | "orange-500"
+  | "yellow-400"
+  | "green-500"
+  | "teal-500"
+  | "blue-400"
+  | "indigo-500"
+  | "purple-600"
+  | "pink-500"
+  | "red-600";
+
+const colorClasses: Record<Color, string> = {
+  "red-400": "bg-red-400",
+  "orange-500": "bg-orange-500",
+  "yellow-400": "bg-yellow-400",
+  "green-500": "bg-green-500",
+  "teal-500": "bg-teal-500",
+  "blue-400": "bg-blue-400",
+  "indigo-500": "bg-indigo-500",
+  "purple-600": "bg-purple-600",
+  "pink-500": "bg-pink-500",
+  "red-600": "bg-red-600",
 };
 
 const List: React.FC<ListProps> = ({
@@ -125,7 +151,9 @@ const List: React.FC<ListProps> = ({
                   {row.color && (
                     <div
                       id="colorIndicator"
-                      className={`h-3 w-3 rounded-full ${row.color}`}
+                      className={`h-3 w-3 rounded-full ${
+                        colorClasses[row.color]
+                      }`}
                     ></div>
                   )}
                 </div>
