@@ -4,42 +4,60 @@ import argon2 from "argon2";
 const prisma = new PrismaClient();
 
 async function main() {
-  console.log("Starting seeding process...");
-
   const language = await prisma.language.create({
     data: {
       code: "FR",
       name: "French",
     },
   });
-  console.log("Language created:", language);
 
-  const color = await prisma.color.create({
-    data: {
-      name: "Red",
-    },
-  });
-  console.log("Color created:", color);
+  const colors = [
+    "red-500",
+    "orange-500",
+    "yellow-500",
+    "green-500",
+    "teal-500",
+    "blue-500",
+    "indigo-500",
+    "purple-500",
+    "pink-500",
+    "red-600",
+    "orange-600",
+    "yellow-600",
+  ];
 
-  const category = await prisma.category.create({
-    data: {
-      name: "General",
-      color: {
-        connect: {
-          id: color.id,
-        },
+  let lastCreatedColor;
+
+  for (const colorName of colors) {
+    lastCreatedColor = await prisma.color.create({
+      data: {
+        name: colorName,
       },
-    },
-  });
-  console.log("Category created:", category);
+    });
+  }
 
-  const rule = await prisma.rule.create({
-    data: {
-      ruleName: "Rule 1",
-      description: "Description 1",
-    },
-  });
-  console.log("Rule created:", rule);
+  const categoriesData = [
+    { name: "Philosophie", colorId: 1 },
+    { name: "Histoire", colorId: 2 },
+    { name: "Développement web", colorId: 3 },
+    { name: "Économie", colorId: 4 },
+    { name: "Psychologie", colorId: 5 },
+    { name: "Littérature", colorId: 6 },
+    { name: "Mathématiques", colorId: 7 },
+    { name: "Chimie", colorId: 8 },
+    { name: "Langues", colorId: 9 },
+    { name: "Culture Générale", colorId: 10 },
+  ];
+
+  for (const categoryData of categoriesData) {
+    try {
+      await prisma.category.create({
+        data: categoryData,
+      });
+    } catch (err) {
+      console.error(err);
+    }
+  }
 
   const usersData = [
     {
@@ -60,8 +78,6 @@ async function main() {
   ];
 
   for (const userData of usersData) {
-    console.log("Inserting user data:", userData);
-
     try {
       const user = await prisma.user.create({
         data: {
@@ -77,12 +93,11 @@ async function main() {
           },
         },
       });
-      console.log("User created:", user);
 
-      const card = await prisma.card.create({
+      await prisma.card.create({
         data: {
-          title: `Card for ${user.firstname}`,
-          answer: `Answer for ${user.firstname}`,
+          title: `Card for ${userData.firstname}`,
+          answer: `Answer for ${userData.firstname}`,
           level: 1,
           lastReviewDate: new Date(),
           user: {
@@ -90,43 +105,32 @@ async function main() {
               id: user.id,
             },
           },
-          category: {
-            connect: {
-              id: category.id,
-            },
-          },
         },
       });
-      console.log("Card created for user:", card);
-   
-      const notificationsData = [
-        {
-          content: `Notification for ${user.firstname}`,
-          time: new Date("2024-02-21T10:33:11.607Z"),
-          notificationTime: new Date("2024-02-21T10:33:11.607Z"),
-          userId: user.id,
-          cardId: card.id,
-        },
-      ];
-
-      for (const notificationData of notificationsData) {
-        const notification = await prisma.notification.create({
-          data: notificationData,
-        });
-        console.log("Notification created:", notification);
-      }
-    } catch (e) {
-      console.error("Error inserting user data:", userData, e);
+    } catch (err) {
+      console.error(err);
     }
   }
 
-  console.log("Seeding finished.");
+  await prisma.card.update({
+    where: { id: 1 },
+    data: { categoryId: 1 },
+  });
+
+  await prisma.card.update({
+    where: { id: 2 },
+    data: { categoryId: 1 },
+  });
+
+  await prisma.card.update({
+    where: { id: 3 },
+    data: { categoryId: 2 },
+  });
 }
 
 main()
   .catch((e) => {
-    console.error(e);
-    process.exit(1);
+    throw e;
   })
   .finally(async () => {
     await prisma.$disconnect();
