@@ -1,15 +1,38 @@
+import { PrismaClient, User } from "@prisma/client";
 import { NextApiRequest, NextApiResponse } from "next";
-import { PrismaClient } from "@prisma/client";
+import verifyToken from "../../api/auth/authMiddleware";
 
 const prisma = new PrismaClient();
 
-export default async function handle(
-  req: NextApiRequest,
+interface CustomNextApiRequest extends NextApiRequest {
+  user: { userId: number; iat: number; exp: number }; // Update to reflect the correct structure
+}
+
+export default function handle(
+  req: CustomNextApiRequest,
   res: NextApiResponse
 ) {
-  if (req.method === "GET") {
+  verifyToken(req, res, async () => {
+    console.log("req.user:", req.user);
+
+    if (req.method !== "GET") {
+      return res.status(405).json({ message: "Method not allowed" });
+    }
+
+    const { userId } = req.user; // Destructuring to get userId
+    console.log("user:", req.user);
+
+    if (!userId) {
+      // Checking for userId instead of user directly
+      return res.status(401).json({ message: "Not authenticated" });
+    }
+
     try {
+      console.log("Fetching categories for user ID:", userId);
       const categories = await prisma.category.findMany({
+        where: {
+          userId: userId, // Using userId
+        },
         include: {
           color: true, // Include the related color
         },
@@ -21,40 +44,12 @@ export default async function handle(
         colorName: category.color.name,
       }));
 
-      res.json(categoriesWithColorName);
-    } catch (err) {
-      res.status(500).json({ error: (err as Error).message });
+      return res.json(categoriesWithColorName);
+    } catch (error) {
+      console.error(error);
+      return res
+        .status(500)
+        .json({ message: "An error occurred while fetching the categories." });
     }
-  } else if (req.method === "POST") {
-    const category = req.body;
-    try {
-      const createdCategory = await prisma.category.create({ data: category });
-      res.status(201).json(createdCategory);
-    } catch (err) {
-      res.status(500).json({ error: (err as Error).message });
-    }
-  } else if (req.method === "PUT") {
-    const category = req.body;
-    try {
-      const updatedCategory = await prisma.category.update({
-        where: { id: category.id },
-        data: category,
-      });
-      res.json(updatedCategory);
-    } catch (err) {
-      res.status(500).json({ error: (err as Error).message });
-    }
-  } else if (req.method === "DELETE") {
-    const { id } = req.body;
-    try {
-      const deletedCategory = await prisma.category.delete({
-        where: { id },
-      });
-      res.json(deletedCategory);
-    } catch (err) {
-      res.status(500).json({ error: (err as Error).message });
-    }
-  } else {
-    res.status(405).json({ error: "Method not allowed" });
-  }
+  });
 }
