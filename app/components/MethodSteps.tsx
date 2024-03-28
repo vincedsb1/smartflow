@@ -6,7 +6,6 @@ import Stepper from "./stepper";
 import CardAppText from "./CardAppText";
 import CardAppTitle from "./CardAppTitle";
 import CardAppImage from "./CardAppImage";
-import MainButton from "./MainButton";
 import { useRouter } from "next/navigation";
 import { Button } from "@nextui-org/react";
 import { Link } from "@nextui-org/react";
@@ -86,7 +85,7 @@ function MethodSteps() {
   return (
     <div
       id="methodStepsMainContainer"
-      className="flex flex-col justify-between min-h-screen w-full"
+      className="flex flex-col justify-between min-h-screen w-full "
     >
       <div
         id="methodStepsTopContainer"
@@ -110,7 +109,7 @@ function MethodSteps() {
           </div>
           <div
             id="methodStepsHint"
-            className="flex flex-col items-center w-16/20"
+            className="flex flex-col items-center w-16/20 mb-20"
           >
             <CardAppText text={step.text} />
           </div>
@@ -121,114 +120,32 @@ function MethodSteps() {
       </div>
       <div
         id="methodStepsBottomContainer"
-        className="flex flex-col justify-center  mb-14"
+        className="flex flex-col items-center justify-center mb-14 "
       >
-        <div className="flex flex-col justify-between items-center">
-          <div id="methodStepsStepsContainer" className="w-16/20">
-            <Stepper currentStep={currentStep} numberOfSteps={steps.length} />
-          </div>
-          <div className="flex items-center w-16/20"></div>
-          <div
-            id="methodStepsCGUContainer"
-            className="flex flex-row w-16/20 justify-start mb-4 ml-14 mt-1"
-          ></div>
-          <Button
-            onClick={nextStep}
-            type="submit"
-            color="primary"
-            variant="solid"
-            size="lg"
-            className="w-80 font-bold font-text"
-          >
-            {buttonText()}
-          </Button>
+        <div
+          id="methodStepsStepsContainer"
+          className="w-16/20 flex flex-row justify-center"
+        >
+          <Stepper currentStep={currentStep} numberOfSteps={steps.length} />
         </div>
+        <div className="flex items-center w-16/20"></div>
+        <div
+          id="methodStepsCGUContainer"
+          className="flex flex-row w-16/20 justify-start mb-4 ml-14 mt-1"
+        ></div>
+        <Button
+          onClick={nextStep}
+          type="submit"
+          color="primary"
+          variant="solid"
+          size="lg"
+          className="w-80 font-bold font-text"
+        >
+          {buttonText()}
+        </Button>
       </div>
     </div>
-    // <div
-    //   className="flex flex-col justify-center items-center h-screen mb-20"
-    //   id="main-container"
-    // >
-    //   <div className="mt-10">
-
-    //     <div className="flex flex-col items-center mt-10">
-    //       <div id="stepper-method" className="mt-8 mb-2 flex justify-center">
-    //         <Stepper currentStep={currentStep} numberOfSteps={steps.length} />
-    //       </div>
-    //     </div>
-    //     {currentStep === steps.length - 1 ? (
-    //       <MainButton type={"normal"} label={buttonText()} onClick={nextStep} />
-    //     ) : (
-    //       <MainButton
-    //         isClicked={false}
-    //         type={"normal"}
-    //         label={buttonText()}
-    //         onClick={nextStep}
-    //       />
-    //     )}
-    //   </div>
-    // </div>
   );
 }
 
 export default MethodSteps;
-
-// import React, { useContext, useState } from "react";
-// import { faEnvelope } from "@fortawesome/free-solid-svg-icons";
-// import { UserContext } from "../context/UserContext";
-// import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-
-// const MailSignin = () => {
-//   const userContext = useContext(UserContext);
-
-//   if (!userContext) {
-//     throw new Error("UserContext must be used within a UserContextProvider");
-//   }
-
-//   const { email, setEmail } = userContext;
-//   const [cgu, setCgu] = useState(false);
-//   const router = useRouter();
-
-//   const handleChangeEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
-//     if (setEmail) {
-//       setEmail(e.target.value);
-//     }
-//   };
-
-//   const handleChangeCgu = (e: React.ChangeEvent<HTMLInputElement>) => {
-//     setCgu(e.target.checked);
-//   };
-
-//   const [isSelected, setIsSelected] = React.useState(false);
-
-//   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-//     e.preventDefault();
-//     try {
-//       const res = await fetch(`/api/users/checkEmail?email=${email}`);
-//       const data = await res.json();
-
-//       const emailExists = res.ok && data.message === "Email already exists";
-
-//       if (!emailExists) {
-//         router.push("/register");
-//         return;
-//       }
-
-//       if (!cgu) {
-//         alert("Vous devez accepter les CGU");
-//         return;
-//       }
-
-//       router.push("/connexion");
-//     } catch (err) {
-//       console.log(`Error: ${err}`);
-//       alert("Une erreur s'est produite lors de la vérification de l'e-mail");
-//     }
-//   };
-
-//   return (
-
-//   );
-// };
-
-// export default MailSignin;

@@ -5,16 +5,19 @@ import { useRouter } from "next/navigation";
 
 import CardAppTitle from "../components/CardAppTitle";
 import CardAppText from "../components/CardAppText";
-import CardAppPasswordInput from "../components/CardAppPasswordInput";
-import MainButton from "../components/MainButton";
 import { UserContext } from "../context/UserContext";
-
+import { Button } from "@nextui-org/react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronLeft } from "@fortawesome/free-solid-svg-icons";
-import { faEnvelope } from "@fortawesome/free-solid-svg-icons";
+import { faUnlock } from "@fortawesome/free-solid-svg-icons";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
+import { Input } from "@nextui-org/react";
 
 const ConnexionPage = () => {
+  const [isVisible, setIsVisible] = React.useState(false);
+
+  const toggleVisibility = () => setIsVisible(!isVisible);
+
   const userContext = useContext(UserContext);
 
   if (!userContext) {
@@ -25,12 +28,7 @@ const ConnexionPage = () => {
 
   const [password, setPassword] = useState("");
   const [displayMessage, setDisplayMessage] = useState("");
-  const message = "Le mot de passe est incorrect, veuillez réessayer";
-  const [passwordVisible, setPasswordVisible] = useState(false);
-
-  const togglePasswordVisibility = () => {
-    setPasswordVisible(!passwordVisible);
-  };
+  const message = "Le mot de passe est incorrect, veuillez réessayer.";
 
   const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPassword(e.target.value);
@@ -65,50 +63,94 @@ const ConnexionPage = () => {
   };
 
   return (
-    <div className="flex flex-col justify-center items-center h-screen">
-      <div>
-        <Link href={"/mailauth"}>
-          <button type="button" className="absolute top-0 left-0 mt-12 ml-6">
-            <FontAwesomeIcon icon={faChevronLeft} className="h-6" />
-          </button>
-        </Link>
-      </div>
-      <div className="flex flex-col">
-        <CardAppTitle title="Se connecter" />
-        <CardAppText text="Saissisez votre mot de passe" icon={faEnvelope} />
-      </div>
-      <div className="mt-6">
-        <div className="relative">
-          <input
-            className="bg-white rounded-2xl p-2 w-80 h-12 mb-1 pr-10 font-quicksand tracking-widest"
-            type={passwordVisible ? "text" : "password"}
-            onChange={handlePasswordChange}
-          />
+    <div
+      id="connexionMainContainer"
+      className="flex flex-col justify-between min-h-screen w-full "
+    >
+      <div
+        id="connexionTopContainer"
+        className="flex flex-col justify-center w-full"
+      >
+        <div id="themeSwitcherBackIcon" className="w-full flex flex-col mt-16">
+          <Link href="/welcome">
+            <FontAwesomeIcon
+              icon={faChevronLeft}
+              className="text-neutral-800 dark:text-neutral-200 text-xs w-4 h-4 m-5"
+            />
+          </Link>
+        </div>
+        <div
+          id="connexionHeaderContainer"
+          className="flex flex-col justify-center items-center w-full"
+        >
+          <div id="connexionTitle" className="flex flex-col mt-10 w-16/20 ">
+            <CardAppTitle title="Se connecter" />
+          </div>
           <div
-            className="absolute top-2 right-2"
-            onClick={togglePasswordVisibility}
+            id="connexionHint"
+            className="flex flex-col items-center w-16/20"
           >
-            {passwordVisible ? (
-              <FontAwesomeIcon icon={faEyeSlash} />
-            ) : (
-              <FontAwesomeIcon icon={faEye} />
+            <CardAppText text="Saissisez votre mot de passe" icon={faUnlock} />
+          </div>
+        </div>
+      </div>
+      <div
+        id="connexionBottomContainer"
+        className="flex flex-col justify-center items-center mb-14 "
+      >
+        <div className="flex flex-col justify-between items-center w-16/20">
+          <div id="connexionInputContainer" className="w-full mb-1">
+            <Input
+              size="md"
+              className="font-text"
+              radius="lg"
+              type={isVisible ? "text" : "password"}
+              label="Mot de passe"
+              onChange={handlePasswordChange}
+              endContent={
+                <button
+                  className="focus:outline-none"
+                  type="button"
+                  onClick={toggleVisibility}
+                >
+                  {isVisible ? (
+                    <FontAwesomeIcon
+                      icon={faEyeSlash}
+                      className="ml-28 mb-1 text-xl text-default-400 pointer-events-none"
+                    />
+                  ) : (
+                    <FontAwesomeIcon
+                      icon={faEye}
+                      className="ml-28 mb-1 text-xl text-default-400 pointer-events-none"
+                    />
+                  )}
+                </button>
+              }
+              fullWidth={true}
+            />
+          </div>
+          <div id="connexionMessageContainer" className="mb-32 h-9 w-full ml-5">
+            {displayMessage && (
+              <p className="text-red-500 text-xs font-text">{displayMessage}</p>
             )}
           </div>
         </div>
-        {displayMessage && (
-          <p className="text-red-500 text-base font-normal">{displayMessage}</p>
-        )}
-      </div>
-
-      <div className="mt-64">
-        {" "}
-        <MainButton
-          label="Continuer"
-          type={password ? "normal" : "disabled"}
-          buttonType="submit"
-          disabled={!password}
+        <div className="flex items-center w-16/20"></div>
+        <div
+          id="connexionCGUContainer"
+          className="flex flex-row w-16/20 justify-start"
+        ></div>
+        <Button
+          type="submit"
+          color="primary"
+          variant="solid"
+          size="lg"
+          className="w-80 font-bold font-text"
           onClick={handlePasswordCheck}
-        />
+          isDisabled={password === ""}
+        >
+          Suivant
+        </Button>
       </div>
     </div>
   );
