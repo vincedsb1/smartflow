@@ -113,7 +113,7 @@ const MailSignin = () => {
                 type="email"
                 label="Email"
                 radius="lg"
-                className="w-full mb-20"
+                className="w-full mb-20 font-text"
               />
             </div>
             <div className="flex items-center w-16/20">

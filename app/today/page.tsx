@@ -1,13 +1,13 @@
 "use client";
 
 import React, { useContext, useState, useEffect } from "react";
-import MainButton from "../components/MainButton";
 import List from "../components/List";
 import CardAppTitle from "../components/CardAppTitle";
 import CardAppText from "../components/CardAppText";
 import { CircularProgress } from "@nextui-org/react";
 import { faListUl } from "@fortawesome/free-solid-svg-icons";
 import { UserContext } from "../context/UserContext";
+import { Button } from "@nextui-org/react";
 
 interface Card {
   id: number;
@@ -108,7 +108,15 @@ const Today = () => {
         </div>
       </div>
       <div id="todayMainButton" className="w-16/20 mb-32">
-        <MainButton label="Réciter" />
+        <Button
+          color="primary"
+          variant="solid"
+          size="lg"
+          radius="lg"
+          className="w-80 font-bold font-text"
+        >
+          Réciter
+        </Button>
       </div>
     </div>
   );
