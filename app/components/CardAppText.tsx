@@ -10,7 +10,7 @@ function CardAppText({ text, icon }: CardAppText) {
   return (
     <div
       id="cardExplanations"
-      className={`bg-white rounded-2xl w-full flex flex-row py-6`}
+      className={`bg-white dark:bg-neutral-800 rounded-2xl w-full flex flex-row py-6`}
     >
       {icon && (
         <div
@@ -23,7 +23,7 @@ function CardAppText({ text, icon }: CardAppText) {
           >
             <FontAwesomeIcon
               icon={icon}
-              className="text-neutral-800 text-2xl"
+              className="text-neutral-800 dark:text-neutral-400 text-2xl"
             />{" "}
           </div>
         </div>
@@ -33,7 +33,7 @@ function CardAppText({ text, icon }: CardAppText) {
         className="flex flex-row justify-start align-middle items-center"
       >
         <p
-          className={`text-neutral-800 font-text font-bold text-xl leading-6 ${
+          className={`text-neutral-800 dark:text-neutral-400 font-text font-bold text-xl leading-6 ${
             icon ? "mr-8" : "mx-8"
           }`}
           id="tex-card"
