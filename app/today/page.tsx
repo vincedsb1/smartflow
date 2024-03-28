@@ -21,23 +21,21 @@ const Today = () => {
   if (!userContext) {
     throw new Error("UserContext must be used within a UserContextProvider");
   }
+
   const [cards, setCards] = useState<Card[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [isError, setIsError] = useState<boolean>(false);
   const [myModalIsOpen, setMyModalIsOpen] = useState(false);
   const [myModalTitle, setMyModalTitle] = useState("");
   const [myModalContent, setMyModalContent] = useState("");
-  const user = useContext(UserContext);
 
   useEffect(() => {
-    if (!userContext.token || !userContext.user) {
-      console.error("User or token is not defined");
+    if (!userContext.token) {
+      console.error("Token is not defined");
       setIsError(true);
       setIsLoading(false);
       return;
     }
-
-    console.log("Token:", userContext.token);
 
     fetch("/api/cards/cardByUser", {
       headers: {
@@ -59,7 +57,7 @@ const Today = () => {
         setIsError(true);
         setIsLoading(false);
       });
-  }, [userContext.token, userContext.user]);
+  }, [userContext.token]);
 
   if (isLoading) {
     return (
@@ -76,7 +74,6 @@ const Today = () => {
   const rows = cards.map((card) => ({
     mainLabel: card.title,
   }));
-  console.log("rows:", rows);
 
   return (
     <div

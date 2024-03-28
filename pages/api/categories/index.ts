@@ -8,6 +8,7 @@ interface CustomNextApiRequest extends NextApiRequest {
   user: { userId: number; iat: number; exp: number };
 }
 
+
 export default function handle(
   req: CustomNextApiRequest,
   res: NextApiResponse
@@ -36,8 +37,6 @@ export default function handle(
           color: true,
         },
       });
-
-      // Map over the categories to replace colorId with color name
       const categoriesWithColorName = categories.map((category) => ({
         ...category,
         colorName: category.color.name,
