@@ -9,49 +9,60 @@ import {
   faTrash,
 } from "@fortawesome/free-solid-svg-icons";
 import List from "../components/List";
+import { UserContext, useUser } from "../context/UserContext";
+
+interface ListRowProps {
+  secondaryLabel: string | null;
+}
 
 const UserProfile: React.FC = () => {
+  const { firstname, email, birthday } = useUser();
+  console.log(firstname, email, birthday)
+
+  const formattedBirthday = birthday?.toLocaleDateString('fr-FR');
+
   const topRows = [
     {
       color: "",
       mainLabel: "Prénom",
-      secondaryLabel: "Pedro",
+      secondaryLabel: firstname,
       icon: faChevronRight,
       bgcolor: "",
       link: "/user/firstname",
     },
     {
       mainLabel: "Email",
-      secondaryLabel: "pedrosanchez@gmail.com",
+      secondaryLabel: email,
       icon: faChevronRight,
       bgcolor: "",
     },
     {
       mainLabel: "Date de naissance",
-      secondaryLabel: "19/07/1988",
+      secondaryLabel: formattedBirthday || "",
       icon: faChevronRight,
       bgcolor: "",
     },
   ];
 
+
   const bottomRows = [
     {
       color: "",
       mainLabel: "Mode sombre",
-      secondaryLabel: "",
+      secondaryLabel: undefined,
       icon: faChevronRight,
       bgcolor: "",
       link: "/user/darkmode",
     },
     {
       mainLabel: "Information légales",
-      secondaryLabel: "",
+      secondaryLabel: undefined,
       icon: faChevronRight,
       bgcolor: "",
     },
     {
       mainLabel: "Supprimer mon compte",
-      secondaryLabel: "",
+      secondaryLabel: undefined,
       icon: faTrash,
       bgcolor: "",
       colorState: "warning" as
@@ -114,7 +125,7 @@ const UserProfile: React.FC = () => {
               id="userTopName"
               className="flex flex-row  font-title font-bold text-2xl mt-2 ml-1"
             >
-              Pedro
+              {firstname}
             </div>
           </div>
           <div id="userMemberSinceContainer" className="flex flex-row  h-3/5">
