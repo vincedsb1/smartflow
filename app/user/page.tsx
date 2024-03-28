@@ -11,10 +11,6 @@ import {
 import List from "../components/List";
 import { UserContext, useUser } from "../context/UserContext";
 
-interface ListRowProps {
-  secondaryLabel: string | null;
-}
-
 const UserProfile: React.FC = () => {
   const { firstname, email, birthday } = useUser();
   console.log(firstname, email, birthday)
