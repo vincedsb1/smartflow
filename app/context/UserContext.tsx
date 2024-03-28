@@ -58,6 +58,7 @@ const UserContextProvider: React.FC<UserContextProviderProps> = ({ children }) =
         console.log('Data received from API:', data); 
         setFirstname(data.firstname);
         setBirthday(new Date(data.birthday));
+        setEmail(data.email);
       } else {
         console.log('API response was not ok, status:', response.status);
       }

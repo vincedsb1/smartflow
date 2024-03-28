@@ -21,20 +21,20 @@ const UserProfile: React.FC = () => {
     {
       color: "",
       mainLabel: "Prénom",
-      secondaryLabel: firstname,
+      secondaryLabel: firstname || "Chargement...",
       icon: faChevronRight,
       bgcolor: "",
       link: "/user/firstname",
     },
     {
       mainLabel: "Email",
-      secondaryLabel: email,
+      secondaryLabel: email || "Chargement...",
       icon: faChevronRight,
       bgcolor: "",
     },
     {
       mainLabel: "Date de naissance",
-      secondaryLabel: formattedBirthday || "",
+      secondaryLabel: formattedBirthday || "Chargement...",
       icon: faChevronRight,
       bgcolor: "",
     },
