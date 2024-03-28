@@ -105,8 +105,8 @@ const MailSignin = () => {
             className="flex flex-col justify-between items-center"
           >
             <div id="mailAuthInputContainer" className="w-16/20">
-              {/* <CardAppEmailInput onChange={handleChangeEmail} /> */}
               <Input
+                value={email || ""}
                 onChange={handleChangeEmail}
                 isRequired
                 size="md"

@@ -21,7 +21,8 @@ model User {
   language    Language  @relation(fields: [languageId], references: [id])
   cards       Card[]
   notifications Notification[]
-    EmailVerification EmailVerification?
+  EmailVerification EmailVerification?
+  categories  Category[]
 }
 
 model EmailVerification {
@@ -52,6 +53,8 @@ model Category {
   colorId  Int
   color    Color  @relation(fields: [colorId], references: [id])
   cards    Card[]
+  userId   Int
+  user     User   @relation(fields: [userId], references: [id])
 }
 
 model Color {
