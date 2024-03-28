@@ -20,7 +20,7 @@ export default function handle(
       return res.status(405).json({ message: "Method not allowed" });
     }
 
-    const { userId } = req.user; 
+    const { userId } = req.user;
     console.log("user:", req.user);
 
     if (!userId) {
