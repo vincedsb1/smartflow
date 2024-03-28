@@ -7,7 +7,7 @@ import CustomModal from "./CustomModal";
 interface ListRowProps {
   color?: Color;
   mainLabel: string;
-  secondaryLabel?: string;
+  secondaryLabel?: string | null; 
   icon?: IconDefinition;
   bgcolor?: string;
   link?: string;
