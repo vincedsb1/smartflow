@@ -1,4 +1,3 @@
-"use client";
 import React, { createContext, useState, ReactNode, useContext, useEffect } from "react";
 
 interface IUserContext {
@@ -30,6 +29,13 @@ const UserContextProvider: React.FC<UserContextProviderProps> = ({ children }) =
   const [password, setPassword] = useState<string | null>(null);
   const [token, setToken] = useState<string | null>(null);
 
+  useEffect(() => {
+    const userToken = localStorage.getItem('userToken');
+    if (userToken) {
+      setToken(userToken);
+    }
+  }, []);
+
   const setTokenAndStore = (newToken: string | null) => {
     setToken(newToken);
     if (newToken) {
@@ -40,11 +46,30 @@ const UserContextProvider: React.FC<UserContextProviderProps> = ({ children }) =
   };
 
   useEffect(() => {
-    const storedToken = localStorage.getItem('userToken');
-    if (storedToken) {
-      setToken(storedToken);
+    const fetchUserDetails = async () => {
+      const response = await fetch("/api/users/details", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+  
+      if (response.ok) {
+        const data = await response.json();
+        console.log('Data received from API:', data); 
+        setFirstname(data.firstname);
+        setBirthday(new Date(data.birthday));
+      } else {
+        console.log('API response was not ok, status:', response.status);
+      }
+    };
+  
+    if (token) {
+      console.log('Token is set, fetching user details'); 
+      fetchUserDetails();
+    } else {
+      console.log('Token is not set'); 
     }
-  }, []);
+  }, [token, setFirstname, setBirthday]);
 
   const contextValue = {
     user,
