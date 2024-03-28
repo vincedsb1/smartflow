@@ -1,9 +1,25 @@
 import { PrismaClient } from "@prisma/client";
 import argon2 from "argon2";
+// import { CategoryCreateInput } from '@prisma/client'; // Add missing import
 
 const prisma = new PrismaClient();
 
 async function main() {
+  // Delete all categories
+  await prisma.category.deleteMany();
+
+  // Delete all users
+  await prisma.user.deleteMany();
+
+  // Delete all cards
+  await prisma.card.deleteMany();
+
+  // Delete all colors
+  await prisma.color.deleteMany();
+
+  // Delete all languages
+  await prisma.language.deleteMany();
+
   const language = await prisma.language.create({
     data: {
       code: "FR",
@@ -11,54 +27,39 @@ async function main() {
     },
   });
 
-  const colors = [
-    "red-500",
-    "orange-500",
-    "yellow-500",
-    "green-500",
-    "teal-500",
-    "blue-500",
-    "indigo-500",
-    "purple-500",
-    "pink-500",
-    "red-600",
-    "orange-600",
-    "yellow-600",
+  type Color = {
+    id: number;
+    name: string;
+  };
+
+  const colors: Color[] = [
+    { id: 1, name: "red-500" },
+    { id: 2, name: "orange-500" },
+    { id: 3, name: "yellow-500" },
+    { id: 4, name: "green-500" },
+    { id: 5, name: "teal-500" },
+    { id: 6, name: "blue-500" },
+    { id: 7, name: "indigo-500" },
+    { id: 8, name: "purple-500" },
+    { id: 9, name: "pink-500" },
+    { id: 10, name: "red-600" },
+    { id: 11, name: "orange-600" },
+    { id: 12, name: "yellow-600" },
   ];
 
   let lastCreatedColor;
 
-  for (const colorName of colors) {
-    lastCreatedColor = await prisma.color.create({
-      data: {
-        name: colorName,
-      },
-    });
-  }
-
-  const categoriesData = [
-    { name: "Philosophie", colorId: 1 },
-    { name: "Histoire", colorId: 2 },
-    { name: "Développement web", colorId: 3 },
-    { name: "Économie", colorId: 4 },
-    { name: "Psychologie", colorId: 5 },
-    { name: "Littérature", colorId: 6 },
-    { name: "Mathématiques", colorId: 7 },
-    { name: "Chimie", colorId: 8 },
-    { name: "Langues", colorId: 9 },
-    { name: "Culture Générale", colorId: 10 },
-  ];
-
-  for (const categoryData of categoriesData) {
+  for (const color of colors) {
     try {
-      await prisma.category.create({
-        data: categoryData,
+      lastCreatedColor = await prisma.color.create({
+        data: color,
       });
     } catch (err) {
-      console.error(err);
+      console.error(`Error creating color ${color.name}:`, err);
     }
   }
 
+  // User creation
   const usersData = [
     {
       firstname: "Alice",
@@ -77,6 +78,8 @@ async function main() {
     },
   ];
 
+  const users = [];
+
   for (const userData of usersData) {
     try {
       const user = await prisma.user.create({
@@ -94,6 +97,9 @@ async function main() {
         },
       });
 
+      users.push(user);
+
+      // Create new cards
       await prisma.card.create({
         data: {
           title: `Card for ${userData.firstname}`,
@@ -112,20 +118,47 @@ async function main() {
     }
   }
 
-  await prisma.card.update({
-    where: { id: 1 },
-    data: { categoryId: 1 },
-  });
+  // Category creation
+  const categoriesData: { name: string; colorId: number; userId: number }[] = [
+    { name: "Philosophie", colorId: 1, userId: users[0].id },
+    { name: "Histoire", colorId: 2, userId: users[1].id },
+    { name: "Développement web", colorId: 3, userId: users[2].id },
+    { name: "Économie", colorId: 4, userId: users[0].id },
+    { name: "Psychologie", colorId: 5, userId: users[1].id },
+    { name: "Littérature", colorId: 6, userId: users[2].id },
+    { name: "Mathématiques", colorId: 7, userId: users[0].id },
+    { name: "Chimie", colorId: 8, userId: users[1].id },
+    { name: "Langues", colorId: 9, userId: users[2].id },
+    { name: "Culture Générale", colorId: 10, userId: users[0].id },
+  ];
 
-  await prisma.card.update({
-    where: { id: 2 },
-    data: { categoryId: 1 },
-  });
-
-  await prisma.card.update({
-    where: { id: 3 },
-    data: { categoryId: 2 },
-  });
+  for (const categoryData of categoriesData) {
+    try {
+      const user = users.find((user) => user.id === categoryData.userId);
+      if (user) {
+        const { userId, colorId, ...rest } = categoryData;
+        await prisma.category.create({
+          data: {
+            ...rest,
+            user: {
+              connect: {
+                id: user.id,
+              },
+            },
+            color: {
+              connect: {
+                id: colorId,
+              },
+            },
+          },
+        });
+      } else {
+        console.error(`User with id ${categoryData.userId} not found.`);
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  }
 }
 
 main()
