@@ -1,11 +1,16 @@
 "use client";
-import React from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { Button } from "@nextui-org/react";
 import CardAppTitle from "../components/CardAppTitle";
+import { useTheme } from "next-themes";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEnvelope } from "@fortawesome/free-solid-svg-icons";
 
-const reception = () => {
+const Welcome = () => {
+  const { theme } = useTheme();
+  const logo = theme === "dark" ? "/logo-dark.svg" : "/logo-light.svg";
+
   return (
     <div
       id="welcomeMainContainer"
@@ -16,7 +21,7 @@ const reception = () => {
         className="flex flex-row justify-start items-center h-16 w-full relative"
       >
         <Image
-          src="/logo.svg"
+          src={logo}
           alt="logo"
           layout="fill"
           objectFit="contain"
@@ -34,11 +39,9 @@ const reception = () => {
             variant="solid"
             size="lg"
             startContent={
-              <Image
-                src="/faEnvelope.svg"
-                alt="envelope icon"
-                width={20}
-                height={20}
+              <FontAwesomeIcon
+                icon={faEnvelope}
+                className="text-neutral-800 dark:text-neutral-200 text-md"
               />
             }
             className="w-80"
@@ -51,4 +54,4 @@ const reception = () => {
   );
 };
 
-export default reception;
+export default Welcome;

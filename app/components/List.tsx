@@ -7,7 +7,7 @@ import CustomModal from "./CustomModal";
 interface ListRowProps {
   color?: Color;
   mainLabel: string;
-  secondaryLabel?: string | null; 
+  secondaryLabel?: string | null;
   icon?: IconDefinition;
   bgcolor?: string;
   link?: string;
@@ -45,13 +45,13 @@ const getColorClass = (
 ) => {
   switch (colorState) {
     case "normal":
-      return "text-neutral-500 dark:text-neutral-200";
+      return "text-neutral-600 dark:text-neutral-200";
     case "desactivated":
       return "text-gray-300";
     case "warning":
       return "text-red-500";
     default:
-      return "text-neutral-500 dark:text-neutral-200";
+      return "text-neutral-600 dark:text-neutral-200";
   }
 };
 
@@ -136,14 +136,12 @@ const List: React.FC<ListProps> = ({
               <div
                 key={index}
                 id="ListRow"
-                className={`flex flex-row hover:bg-emerald-300 dark:hover:bg-emerald-800 ${
+                className={`flex flex-row hover:bg-blue-300 dark:hover:bg-blue-900 ${
                   isLargeRow ? "h-16" : "h-12"
                 } ${row.bgcolor || ""} ${index === 0 ? "mt-3" : ""} ${
                   index === rows.length - 1 ? "mb-3" : ""
                 } ${getColorClass(row.colorState)} ${
-                  row.selected
-                    ? "bg-emerald-200 dark:bg-emerald-900 font-bold"
-                    : ""
+                  row.selected ? "bg-blue-200 dark:bg-blue-900 font-bold" : ""
                 }`}
               >
                 <div
@@ -173,7 +171,10 @@ const List: React.FC<ListProps> = ({
                     {row.mainLabel}
                   </div>
                   {row.secondaryLabel && (
-                    <div id="ListRowBottomLabel" className="font-text ">
+                    <div
+                      id="ListRowBottomLabel"
+                      className="font-text text-neutral-400 dark:text-neutral-500"
+                    >
                       {row.secondaryLabel}
                     </div>
                   )}

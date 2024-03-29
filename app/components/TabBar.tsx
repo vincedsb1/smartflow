@@ -15,8 +15,8 @@ interface Props {
 const TabBar: React.FC<Props> = ({ active }) => {
   const iconStyle = (icon: string) =>
     `h-7 w-7 ${
-      active === icon ? "text-cyan-700 dark:text-cyan-500" : "text-neutral-500"
-    } hover:text-cyan-600 dark:hover:text-cyan-400 transition-all hover:scale-105`;
+      active === icon ? "text-blue-700 dark:text-blue-500" : "text-neutral-500"
+    } hover:text-blue-600 dark:hover:text-blue-400 transition-all hover:scale-105`;
 
   return (
     <div className="fixed bottom-0 left-0 right-0">
