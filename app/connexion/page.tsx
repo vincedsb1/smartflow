@@ -38,7 +38,7 @@ const ConnexionPage = () => {
 
   const handlePasswordCheck = async () => {
     try {
-      const response = await fetch("/api/users/check-password", {
+      const response = await fetch("/api/users/loginLogout", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
