@@ -23,8 +23,9 @@ const Welcome = () => {
         <Image
           src={logo}
           alt="logo"
-          layout="fill"
-          objectFit="contain"
+          fill
+          // objectFit="contain"
+          priority={true}
           className="absolute"
         />
       </div>

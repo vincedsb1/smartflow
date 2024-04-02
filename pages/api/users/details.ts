@@ -1,5 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { PrismaClient } from "@prisma/client";
+import jwt from "jsonwebtoken";
 
 const prisma = new PrismaClient();
 
@@ -9,16 +10,29 @@ export default async function handle(
   res: NextApiResponse
 ) {
   if (req.method === "GET") {
-    const { email } = req.body;
+    const authHeader = req.headers.authorization;
+    if (!authHeader || !authHeader.startsWith("Bearer ")) {
+      return res.status(401).json({ error: "Unauthorized" });
+    }
+
+    const token = authHeader.split(" ")[1];
+    let userId;
+    try {
+      const decoded = jwt.verify(token, process.env.APP_SECRET);
+      userId = decoded.userId;
+    } catch {
+      return res.status(401).json({ error: "Invalid token" });
+    }
 
     try {
       const user = await prisma.user.findFirst({
         where: {
-          email: email,
+          id: userId,
         },
       });
 
       if (user) {
+        console.log("User details retrieved from database:", user);
         res.json({
           firstname: user.firstname,
           email: user.email,
