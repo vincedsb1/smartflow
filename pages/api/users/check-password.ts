@@ -12,6 +12,8 @@ export default async function handle(
   if (req.method === "POST") {
     const { email, password } = req.body;
 
+    console.log("req.body : ", req.body);
+
     try {
       const user = await prisma.user.findFirst({
         where: {
@@ -19,12 +21,17 @@ export default async function handle(
         },
       });
 
+      console.log("user : ", user);
+
       if (user && (await argon2.verify(user.password, password))) {
         console.log(user.id);
         const token = sign({ userId: user.id }, process.env.APP_SECRET, {
           expiresIn: "7d",
           // expiresIn: "1h",
         });
+
+        console.log("Token generated:", token);
+
         res.json({ status: "ok", token });
       } else {
         res.status(401).json({ error: "Mot de passe incorrect" });

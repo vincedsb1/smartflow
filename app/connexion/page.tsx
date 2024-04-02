@@ -37,7 +37,9 @@ const ConnexionPage = () => {
   const router = useRouter();
 
   const handlePasswordCheck = async () => {
+    console.log("handlePasswordCheck called");
     try {
+      console.log("Sending request to /api/users/check-password");
       const response = await fetch("/api/users/check-password", {
         method: "POST",
         headers: {
@@ -46,19 +48,27 @@ const ConnexionPage = () => {
         body: JSON.stringify({ email, password }),
       });
 
+      console.log("Response received from /api/users/check-password", response);
+
       if (response.status === 401) {
+        console.log("Password incorrect");
         setDisplayMessage(message);
-      } else {
+      } else if (response.status === 200) {
+        console.log("Password correct");
         const data = await response.json();
 
         if (data.status === "ok") {
+          console.log("Token received from API (Page connexion):", data.token);
           userContext.setToken(data.token);
-          setUser({ email, firstname, birthday, setUser });
+          console.log("Token set in userContext"); // Log after setting the token in userContext
           router.push("/onboarding");
+          console.log("Redirected to /onboarding"); // Log after redirecting to /onboarding
+          setUser({ email, firstname, birthday, setUser });
+          console.log("User set"); // Log after setting the user
         }
       }
     } catch (error) {
-      console.error(error);
+      console.error("Error in handlePasswordCheck", error); // Log when there is an error
     }
   };
 
