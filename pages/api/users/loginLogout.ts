@@ -1,7 +1,7 @@
-import { NextApiRequest, NextApiResponse } from "next";
-import { PrismaClient } from "@prisma/client";
-import argon2 from "argon2";
-import { sign } from "jsonwebtoken";
+import { NextApiRequest, NextApiResponse } from 'next';
+import { sign } from 'jsonwebtoken';
+import argon2 from 'argon2';
+import { PrismaClient } from '@prisma/client';
 
 const prisma = new PrismaClient();
 
@@ -23,7 +23,6 @@ export default async function handle(
         console.log(user.id);
         const token = sign({ userId: user.id }, process.env.APP_SECRET, {
           expiresIn: "7d",
-          // expiresIn: "1h",
         });
         res.json({ status: "ok", token });
       } else {
@@ -32,5 +31,9 @@ export default async function handle(
     } catch (err) {
       res.status(500).json({ error: (err as Error).message });
     }
+  } else if (req.method === "DELETE") {
+    res.json({ status: "ok", message: "Déconnecté avec succès" });
+  } else {
+    res.status(405).json({ error: "Méthode non autorisée" });
   }
 }
