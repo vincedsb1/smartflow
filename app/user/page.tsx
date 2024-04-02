@@ -7,14 +7,28 @@ import {
   faPenToSquare,
   faChevronRight,
   faTrash,
+  faPersonWalkingArrowRight,
 } from "@fortawesome/free-solid-svg-icons";
 import List from "../components/List";
 import { UserContext, useUser } from "../context/UserContext";
+import { useRouter } from "next/navigation";
 
 const UserProfile: React.FC = () => {
   const { firstname, email, birthday } = useUser();
   console.log(firstname, email, birthday);
+  const { setUser, setToken } = useUser();
+  const router = useRouter();
+  const handleLogout = () => {
+    // Clear user data from context
+    setUser(null);
+    setToken(null);
 
+    // Optionally, clear auth token from local storage
+    // localStorage.removeItem('authToken');
+
+    // Redirect to login page
+    router.push("/welcome");
+  };
   const formattedBirthday = birthday?.toLocaleDateString("fr-FR");
 
   const topRows = [
@@ -54,6 +68,12 @@ const UserProfile: React.FC = () => {
       secondaryLabel: undefined,
       icon: faChevronRight,
       bgcolor: "",
+    },
+    {
+      mainLabel: "Déconnexion",
+      secondaryLabel: undefined,
+      icon: faPersonWalkingArrowRight,
+      onClick: handleLogout,
     },
     {
       mainLabel: "Supprimer mon compte",

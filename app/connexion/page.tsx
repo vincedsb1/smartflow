@@ -106,6 +106,7 @@ const ConnexionPage = () => {
               radius="lg"
               type={isVisible ? "text" : "password"}
               label="Mot de passe"
+              value={password}
               onChange={handlePasswordChange}
               endContent={
                 <button
