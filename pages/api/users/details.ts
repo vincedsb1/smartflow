@@ -3,7 +3,7 @@ import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
-// récupérer le firstnam, email et birthday de l'utilisateur
+// récupérer le firstname, email et birthday de l'utilisateur
 export default async function handle(
   req: NextApiRequest,
   res: NextApiResponse
@@ -19,7 +19,11 @@ export default async function handle(
       });
 
       if (user) {
-        res.json({ firstname: user.firstname, email: user.email, birthday: user.birthday });
+        res.json({
+          firstname: user.firstname,
+          email: user.email,
+          birthday: user.birthday,
+        });
       } else {
         res.status(401).json({ error: "Utilisateur non trouvé" });
       }
