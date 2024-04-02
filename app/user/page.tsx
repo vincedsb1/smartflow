@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -14,20 +14,21 @@ import { UserContext, useUser } from "../context/UserContext";
 import { useRouter } from "next/navigation";
 
 const UserProfile: React.FC = () => {
-  const { firstname, email, birthday } = useUser();
+  const { firstname, email, birthday, user, token, setUser, setToken } =
+    useUser();
   console.log(firstname, email, birthday);
-  const { setUser, setToken } = useUser();
   const router = useRouter();
+
+  useEffect(() => {
+    // If the user or token is null, redirect to "/welcome"
+    if (!user || !token) {
+      router.push("/welcome");
+    }
+  }, [user, token, router]);
+
   const handleLogout = () => {
-    // Clear user data from context
     setUser(null);
     setToken(null);
-
-    // Optionally, clear auth token from local storage
-    // localStorage.removeItem('authToken');
-
-    // Redirect to login page
-    router.push("/welcome");
   };
   const formattedBirthday = birthday?.toLocaleDateString("fr-FR");
 
@@ -70,7 +71,7 @@ const UserProfile: React.FC = () => {
       bgcolor: "",
     },
     {
-      mainLabel: "Déconnexion",
+      mainLabel: "Se déconnecter",
       secondaryLabel: undefined,
       icon: faPersonWalkingArrowRight,
       onClick: handleLogout,
