@@ -1,20 +1,35 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faPenToSquare,
   faChevronRight,
   faTrash,
+  faPersonWalkingArrowRight,
 } from "@fortawesome/free-solid-svg-icons";
 import List from "../components/List";
 import { UserContext, useUser } from "../context/UserContext";
+import { useRouter } from "next/navigation";
 
 const UserProfile: React.FC = () => {
-  const { firstname, email, birthday } = useUser();
+  const { firstname, email, birthday, user, token, setUser, setToken } =
+    useUser();
   console.log(firstname, email, birthday);
+  const router = useRouter();
 
+  useEffect(() => {
+    // If the user or token is null, redirect to "/welcome"
+    if (!user || !token) {
+      router.push("/welcome");
+    }
+  }, [user, token, router]);
+
+  const handleLogout = () => {
+    setUser(null);
+    setToken(null);
+  };
   const formattedBirthday = birthday?.toLocaleDateString("fr-FR");
 
   const topRows = [
@@ -54,6 +69,12 @@ const UserProfile: React.FC = () => {
       secondaryLabel: undefined,
       icon: faChevronRight,
       bgcolor: "",
+    },
+    {
+      mainLabel: "Se déconnecter",
+      secondaryLabel: undefined,
+      icon: faPersonWalkingArrowRight,
+      onClick: handleLogout,
     },
     {
       mainLabel: "Supprimer mon compte",
