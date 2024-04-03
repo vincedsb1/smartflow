@@ -13,7 +13,7 @@ export default function Stepper({ currentStep, numberOfSteps }: StepperProps) {
   const barColor = (index: number) =>
     currentStep >= index
       ? "bg-blue-400 dark:bg-blue-700"
-      : "bg-neutral-200 dark:bg-neutral-700";
+      : "bg-neutral-300 dark:bg-neutral-700";
 
   return (
     <div className="flex justify-between items-center w-48">
