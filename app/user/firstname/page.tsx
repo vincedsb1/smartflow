@@ -1,7 +1,7 @@
 "use client";
 
 import { UserContext } from "../../context/UserContext";
-import { Input, Button, Link } from "@nextui-org/react";
+import { Input, Button } from "@nextui-org/react";
 import { useState, useContext } from "react";
 import { faChevronLeft } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -13,11 +13,12 @@ const ClientFirstNameEditPage = () => {
   const userContext = useContext(UserContext);
   const [firstname, setFirstname] = useState(userContext?.firstname || "");
   const [displayMessage, setDisplayMessage] = useState("");
+  const router = useRouter();
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFirstname(e.target.value);
   };
-  const router = useRouter();
+
   const handleFirstnameChange = async () => {
     try {
       if (userContext) {
@@ -43,12 +44,13 @@ const ClientFirstNameEditPage = () => {
         className="flex flex-col justify-center w-full"
       >
         <div id="firstNameBackIcon" className="w-full flex flex-col mt-16">
-          <Link href="/user">
-            <FontAwesomeIcon
-              icon={faChevronLeft}
-              className="text-neutral-800 dark:text-neutral-200 text-xs w-4 h-4 m-5"
-            />
-          </Link>
+          <button
+            type="button"
+            onClick={() => router.back()}
+            className="text-neutral-800 dark:text-neutral-200 text-xs w-4 h-4 m-5"
+          >
+            <FontAwesomeIcon icon={faChevronLeft} />
+          </button>
         </div>
         <div
           id="firstNamePageHeaderContainer"
