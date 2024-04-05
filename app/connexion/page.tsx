@@ -60,15 +60,15 @@ const ConnexionPage = () => {
         if (data.status === "ok") {
           console.log("Token received from API (Page connexion):", data.token);
           userContext.setToken(data.token);
-          console.log("Token set in userContext"); // Log after setting the token in userContext
+          console.log("Token set in userContext"); 
           router.push("/onboarding");
-          console.log("Redirected to /onboarding"); // Log after redirecting to /onboarding
+          console.log("Redirected to /onboarding"); 
           setUser({ email, firstname, birthday, setUser });
-          console.log("User set"); // Log after setting the user
+          console.log("User set"); 
         }
       }
     } catch (error) {
-      console.error("Error in handlePasswordCheck", error); // Log when there is an error
+      console.error("Error in handlePasswordCheck", error); 
     }
   };
 
