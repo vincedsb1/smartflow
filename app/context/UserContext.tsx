@@ -19,7 +19,8 @@ interface IUserContext {
   setPassword: React.Dispatch<React.SetStateAction<string | null>>;
   token: string | null;
   setToken: (value: string | null) => void;
-  resetUser: () => void; // Ajoutez resetUser à votre interface
+  onBoarding: boolean;
+  setOnBoarding: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const UserContext = createContext<IUserContext | undefined>(undefined);
@@ -37,16 +38,6 @@ const UserContextProvider: React.FC<UserContextProviderProps> = ({
   const [birthday, setBirthday] = useState<Date | null>(null);
   const [password, setPassword] = useState<string | null>(null);
   const [token, setToken] = useState<string | null>(null);
-
-  const resetUser = () => {
-    setUser(null);
-    setEmail(null);
-    setFirstname("");
-    setBirthday(null);
-    setPassword(null);
-    setToken(null);
-    localStorage.removeItem("userToken");
-  };
 
   useEffect(() => {
     const userToken = localStorage.getItem("userToken");
@@ -105,7 +96,6 @@ const UserContextProvider: React.FC<UserContextProviderProps> = ({
     setPassword,
     token,
     setToken: setTokenAndStore,
-    resetUser, // Ajoutez resetUser à votre contexte
   };
 
   return (

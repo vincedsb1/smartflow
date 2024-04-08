@@ -13,6 +13,7 @@ import { Input } from "@nextui-org/react";
 import { Link } from "@nextui-org/react";
 
 const MailSignin = () => {
+  console.log("user: alice@prisma.io pass: passwordA123@#");
   const userContext = useContext(UserContext);
 
   if (!userContext) {

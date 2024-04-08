@@ -74,7 +74,7 @@ const Register = () => {
             variant="solid"
             size="lg"
             className="w-80 font-bold font-text"
-            onClick={() => router.push("/register-firstname")}
+            isDisabled
           >
             Suivant
           </Button>

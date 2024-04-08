@@ -1,5 +1,6 @@
 import React from "react";
 import MethodSteps from "../components/MethodSteps";
+import { UserContext } from "../context/UserContext";
 
 const add = () => {
   return (
