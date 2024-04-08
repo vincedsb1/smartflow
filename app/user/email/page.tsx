@@ -6,27 +6,27 @@ import { useState, useContext } from "react";
 import { faChevronLeft } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import CardAppTitle from "../../components/CardAppTitle";
-import ServerFirstNameEditPage from "./ServerFirstNameEditPage";
+import ServerEmailEditPage from "./ServerEmailEditPage";
 import { useRouter } from "next/navigation";
 
-const ClientFirstNameEditPage = () => {
+const ClientEmailEditPage = () => {
   const userContext = useContext(UserContext);
-  const [firstname, setFirstname] = useState(userContext?.firstname || "");
+  const [email, setEmail] = useState(userContext?.email || "");
   const [displayMessage, setDisplayMessage] = useState("");
   const router = useRouter();
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFirstname(e.target.value);
+    setEmail(e.target.value);
   };
 
-  const handleFirstnameChange = async () => {
+  const handleEmailChange = async () => {
     try {
       if (userContext) {
-        const updatedFirstname = await ServerFirstNameEditPage(
-          firstname,
+        const updatedEmail = await ServerEmailEditPage(
+          email,
           userContext.token ?? ""
         );
-        userContext.setFirstname(updatedFirstname);
+        userContext.setEmail(updatedEmail);
         router.push("/user");
       }
     } catch (error) {
@@ -36,14 +36,14 @@ const ClientFirstNameEditPage = () => {
 
   return (
     <div
-      id="firstNamePageMainContainer"
+      id="emailPageMainContainer"
       className="flex flex-col justify-between min-h-screen w-full"
     >
       <div
-        id="firstNamePageTopContainer"
+        id="emailPageTopContainer"
         className="flex flex-col justify-center w-full"
       >
-        <div id="firstNameBackIcon" className="w-full flex flex-col mt-16">
+        <div id="emailBackIcon" className="w-full flex flex-col mt-16">
           <button
             type="button"
             onClick={() => router.back()}
@@ -53,15 +53,15 @@ const ClientFirstNameEditPage = () => {
           </button>
         </div>
         <div
-          id="firstNamePageHeaderContainer"
+          id="emailPageHeaderContainer"
           className="flex flex-col justify-center items-center w-full"
         >
-          <div id="firstNamePageTitle" className="flex flex-col mt-10 w-16/20">
-            <CardAppTitle title="Prénom" size="small" />
+          <div id="emailPageTitle" className="flex flex-col mt-10 w-16/20">
+            <CardAppTitle title="Email" size="small" />
           </div>
           <div className="flex flex-col justify-between items-center w-16/20">
             <Input
-              value={firstname}
+              value={email}
               onChange={handleInputChange}
               className="mb-32 h-9 w-full"
             />
@@ -69,7 +69,7 @@ const ClientFirstNameEditPage = () => {
         </div>
       </div>
       <div
-        id="firstNamePageBottomContainer"
+        id="emailPageBottomContainer"
         className="flex flex-col justify-center items-center w-full mb-32"
       >
         <Button
@@ -78,9 +78,9 @@ const ClientFirstNameEditPage = () => {
           variant="solid"
           size="lg"
           className="w-80 font-bold font-text"
-          onClick={handleFirstnameChange}
+          onClick={handleEmailChange}
         >
-          Modifier le prénom
+          Modifier l&apos;email
         </Button>
         {displayMessage && <p>{displayMessage}</p>}
       </div>
@@ -88,4 +88,4 @@ const ClientFirstNameEditPage = () => {
   );
 };
 
-export default ClientFirstNameEditPage;
+export default ClientEmailEditPage;
