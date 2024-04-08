@@ -8,6 +8,8 @@ import React from "react";
 
 import VerificationMail from '../../../emails/verificationMail';
 
+// vérification de l'email par rapport au token
+
 const prisma = new PrismaClient();
 
 export const resend = new Resend(process.env.RESEND_API_KEY);

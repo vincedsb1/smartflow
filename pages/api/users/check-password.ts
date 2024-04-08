@@ -29,10 +29,11 @@ export default async function handle(
           expiresIn: "7d",
           // expiresIn: "1h",
         });
-
+      
         console.log("Token generated:", token);
-
-        res.json({ status: "ok", token });
+      
+        // Include onBoarding in the response
+        res.json({ status: "ok", token, onBoarding: user.onBoarding });
       } else {
         res.status(401).json({ error: "Mot de passe incorrect" });
       }

@@ -24,7 +24,7 @@ const ConnexionPage = () => {
     throw new Error("UserContext must be used within a UserContextProvider");
   }
 
-  const { email, firstname, birthday, setUser } = userContext;
+  const { email, firstname, birthday, setUser, onBoarding, setOnBoarding } = userContext;
 
   const [password, setPassword] = useState("");
   const [displayMessage, setDisplayMessage] = useState("");
@@ -61,8 +61,22 @@ const ConnexionPage = () => {
           console.log("Token received from API (Page connexion):", data.token);
           userContext.setToken(data.token);
           console.log("Token set in userContext"); // Log after setting the token in userContext
-          router.push("/onboarding");
-          console.log("Redirected to /onboarding"); // Log after redirecting to /onboarding
+          
+          // Log the value of data.onBoarding
+          console.log("Value of data.onBoarding:", data.onBoarding);
+          
+          // Set onBoarding state
+          setOnBoarding(data.onBoarding);
+          
+          // Redirect user based on onBoarding state
+          if (data.onBoarding) {
+            router.push("/today");
+            console.log("Redirected to /today"); // Log after redirecting to /today
+          } else {
+            router.push("/onboarding");
+            console.log("Redirected to /onboarding"); // Log after redirecting to /onboarding
+          }
+          
           setUser({ email, firstname, birthday, setUser });
           console.log("User set"); // Log after setting the user
         }
@@ -71,6 +85,7 @@ const ConnexionPage = () => {
       console.error("Error in handlePasswordCheck", error); // Log when there is an error
     }
   };
+
 
   return (
     <div

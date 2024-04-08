@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronLeft } from "@fortawesome/free-solid-svg-icons";
 import Stepper from "./stepper";
@@ -9,6 +9,7 @@ import CardAppImage from "./CardAppImage";
 import { useRouter } from "next/navigation";
 import { Button } from "@nextui-org/react";
 import { Link } from "@nextui-org/react";
+import { useUser } from '../context/UserContext';
 
 interface MethodStepsProps {
   title: string;
@@ -54,12 +55,39 @@ const steps = [
 
 function MethodSteps() {
   const [currentStep, setCurrentStep] = useState(0);
+  const { user } = useUser();
   const router = useRouter();
+
+  const finishOnboarding = async () => {
+    console.log('Finishing onboarding for user:', user);
+    if (!user?.email) {
+      console.log('User email is undefined');
+      return;
+    }
+
+    const response = await fetch('/api/users/onboarding', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ userEmail: user?.email }),
+    });
+
+    if (!response.ok) {
+      console.log('API response was not ok, status:', response.status);
+      return;
+    }
+
+    const data = await response.json();
+    console.log('Response from updateOnboardingStatus:', data);
+  };
 
   const nextStep = () => {
     if (currentStep < steps.length - 1) {
       setCurrentStep(currentStep + 1);
     } else if (currentStep === steps.length - 1) {
+      console.log('Last step reached, finishing onboarding');
+      finishOnboarding();
       router.push("/today");
     }
   };
