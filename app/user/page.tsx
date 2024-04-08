@@ -30,7 +30,9 @@ const UserProfile: React.FC = () => {
     setUser(null);
     setToken(null);
   };
-  const formattedBirthday = birthday?.toLocaleDateString("fr-FR");
+  const formattedBirthday = birthday
+    ? new Date(birthday).toLocaleDateString("fr-FR")
+    : null;
 
   const topRows = [
     {
@@ -46,12 +48,14 @@ const UserProfile: React.FC = () => {
       secondaryLabel: email || "Chargement...",
       icon: faChevronRight,
       bgcolor: "",
+      link: "/user/email",
     },
     {
       mainLabel: "Date de naissance",
       secondaryLabel: formattedBirthday || "Chargement...",
       icon: faChevronRight,
       bgcolor: "",
+      link: "/user/birthday",
     },
   ];
 
