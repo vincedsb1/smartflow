@@ -19,6 +19,8 @@ interface IUserContext {
   setPassword: React.Dispatch<React.SetStateAction<string | null>>;
   token: string | null;
   setToken: (value: string | null) => void;
+  onBoarding: boolean;
+  setOnBoarding: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const UserContext = createContext<IUserContext | undefined>(undefined);
@@ -36,6 +38,7 @@ const UserContextProvider: React.FC<UserContextProviderProps> = ({
   const [birthday, setBirthday] = useState<Date | null>(null);
   const [password, setPassword] = useState<string | null>(null);
   const [token, setToken] = useState<string | null>(null);
+  const [onBoarding, setOnBoarding] = useState<boolean>(false);
 
   useEffect(() => {
     const userToken = localStorage.getItem("userToken");
@@ -94,6 +97,8 @@ const UserContextProvider: React.FC<UserContextProviderProps> = ({
     setPassword,
     token,
     setToken: setTokenAndStore,
+    onBoarding,
+    setOnBoarding,
   };
 
   return (
