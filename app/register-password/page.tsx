@@ -71,15 +71,38 @@ const ConnexionPage = () => {
         console.log(
           "Utilisateur enregistré et vérification par e-mail supprimée avec succès"
         );
-        setUser({ email, firstname, birthday, setUser });
-        router.push("/onboarding");
-      } else {
-        console.log(
-          "Une erreur est survenue lors de la suppression de la vérification par e-mail"
-        );
+
+        setTimeout(async () => {
+          console.log("Tentative de connexion avec l'email et le mot de passe suivants :", email, password);
+          const response = await fetch("/api/users/check-password", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              email: email,
+              password: password,
+            }),
+          });
+
+          if (response.ok) {
+            const data = await response.json();
+            if (data.status === "ok") {
+              console.log("Token reçu de l'API (Page connexion) :", data.token);
+              userContext.setToken(data.token);
+              console.log("Token défini dans userContext"); 
+              router.push("/onboarding");
+              console.log("Redirigé vers /onboarding");
+              setUser({ email, firstname, birthday, setUser });
+              console.log("Utilisateur défini");
+            }
+          }
+        }
+          , 1000);
       }
     }
-  };
+  }
+
   return (
     <div className="flex flex-col justify-center items-center h-screen">
       <div>
@@ -109,6 +132,6 @@ const ConnexionPage = () => {
       </div>
     </div>
   );
-};
+}
 
 export default ConnexionPage;
