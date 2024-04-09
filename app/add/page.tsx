@@ -7,6 +7,7 @@ import ConfirmationScreen from "../components/add/ConfirmationScreen";
 import { Button } from "@nextui-org/react";
 import { faChevronLeft } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useRouter } from "next/navigation";
 
 const CardCreation = () => {
   const [step, setStep] = useState(1);
@@ -17,12 +18,23 @@ const CardCreation = () => {
       console.log("Titre de la carte : ", cardTitle);
     }
   }, [step, cardTitle]);
+
   const [category, setCategory] = useState("");
   const [content, setContent] = useState("");
+
+  useEffect(() => {
+    if (step === 4) {
+      console.log("Contenu de la carte : ", content);
+    }
+  }, [step, content]);
+
+  const router = useRouter();
 
   const handleContinueClick = () => {
     if (step < 4) {
       setStep(step + 1);
+    } else {
+      router.push("/today");
     }
   };
 
@@ -46,12 +58,13 @@ const CardCreation = () => {
             className="text-neutral-800 dark:text-neutral-200 text-xs w-4 h-4 m-5"
           >
             {step > 1 && <FontAwesomeIcon icon={faChevronLeft} />}
+            {/* {step > 1 && step < 4 && <FontAwesomeIcon icon={faChevronLeft} />} */}
           </button>
         </div>
         <div id="addContentContainer">
           {step === 1 && <TitleCreation onTitleChange={setCardTitle} />}
           {step === 2 && <CategorySelection />}
-          {step === 3 && <ContentInput />}
+          {step === 3 && <ContentInput onContentChange={setContent} />}
           {step === 4 && <ConfirmationScreen />}
         </div>
       </div>
@@ -69,7 +82,7 @@ const CardCreation = () => {
           className="w-80 font-bold font-text"
           onClick={handleContinueClick}
         >
-          Continuer
+          {step < 4 ? "Continuer" : "Voir la fiche"}
         </Button>
       </div>
     </div>
