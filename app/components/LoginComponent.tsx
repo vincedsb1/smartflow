@@ -1,4 +1,4 @@
-import { useRouter } from 'next/router';
+import { useRouter } from "next/router";
 import React, { useState, useContext } from "react";
 
 const LoginComponent = () => {
@@ -29,7 +29,7 @@ const LoginComponent = () => {
           id="email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-cyan-500"
         />
       </div>
       <div className="mb-4">
@@ -41,12 +41,12 @@ const LoginComponent = () => {
           id="password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-cyan-500"
         />
       </div>
       <button
         type="submit"
-        className="w-full bg-blue-500 text-white font-bold py-2 rounded-md hover:bg-blue-600"
+        className="w-full bg-cyan-500 text-white font-bold py-2 rounded-md hover:bg-cyan-600"
       >
         Connexion
       </button>

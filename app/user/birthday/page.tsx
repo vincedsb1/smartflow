@@ -91,7 +91,10 @@ const ClientBirthdayEditPage = () => {
               i18n={"fr"}
               useRange={false}
               asSingle={true}
-              value={value}
+              value={{
+                startDate: value.startDate ? new Date(value.startDate) : null,
+                endDate: value.endDate ? new Date(value.endDate) : null,
+              }}
               onChange={handleValueChange}
               displayFormat={"DD/MM/YYYY"}
             />

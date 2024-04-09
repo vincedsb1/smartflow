@@ -79,7 +79,7 @@ const List: React.FC<ListProps> = ({
         {hasAddButton && (
           <button
             onClick={handleAddButtonClick}
-            className="px-4 py-2 text-blue-500 rounded font-normal"
+            className="px-4 py-2 text-cyan-500 rounded font-normal"
           >
             {titleButton}
           </button>
