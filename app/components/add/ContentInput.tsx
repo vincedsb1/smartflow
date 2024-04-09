@@ -1,10 +1,14 @@
-import { faTag } from "@fortawesome/free-solid-svg-icons";
+import { faFileLines } from "@fortawesome/free-solid-svg-icons";
 import React from "react";
 import CardAppText from "../CardAppText";
 import CardAppTitle from "../CardAppTitle";
 import { Textarea } from "@nextui-org/react";
 
-const ContentInput = () => {
+interface ContentInputProps {
+  onContentChange?: (content: string) => void;
+}
+
+const ContentInput: React.FC<ContentInputProps> = ({ onContentChange }) => {
   return (
     <div id="addMainContainer" className="flex flex-col justify-between w-full">
       <div
@@ -21,7 +25,7 @@ const ContentInput = () => {
           <div id="addHint" className="flex flex-col items-center w-16/20">
             <CardAppText
               text="Quel est le contenu de cette fiche ?"
-              icon={faTag}
+              icon={faFileLines}
             />
           </div>
         </div>
@@ -35,6 +39,7 @@ const ContentInput = () => {
             label="Description"
             placeholder="Votre réponse"
             className="max-w-xs"
+            onChange={(e) => onContentChange && onContentChange(e.target.value)}
           />
         </div>
       </div>
