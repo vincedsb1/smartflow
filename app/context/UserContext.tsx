@@ -38,6 +38,7 @@ const UserContextProvider: React.FC<UserContextProviderProps> = ({
   const [birthday, setBirthday] = useState<Date | null>(null);
   const [password, setPassword] = useState<string | null>(null);
   const [token, setToken] = useState<string | null>(null);
+  const [onBoarding, setOnBoarding] = useState<boolean>(false);
 
   useEffect(() => {
     const userToken = localStorage.getItem("userToken");
@@ -96,6 +97,7 @@ const UserContextProvider: React.FC<UserContextProviderProps> = ({
     setPassword,
     token,
     setToken: setTokenAndStore,
+    onBoarding, setOnBoarding,
   };
 
   return (

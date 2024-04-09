@@ -1,3 +1,4 @@
+
 "use client";
 import React, { useContext, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -10,20 +11,6 @@ import { useRouter } from "next/navigation";
 import { Button } from "@nextui-org/react";
 import { Link } from "@nextui-org/react";
 import { useUser } from '../context/UserContext';
-
-interface MethodStepsProps {
-  title: string;
-  text: string;
-  image: string;
-}
-
-interface ButtonProps {
-  onClick?: () => void;
-  label: string;
-  type?: "normal" | "warning" | "disabled";
-  disabled?: boolean;
-  href?: string;
-}
 
 const steps = [
   {
@@ -55,7 +42,7 @@ const steps = [
 
 function MethodSteps() {
   const [currentStep, setCurrentStep] = useState(0);
-  const { user } = useUser();
+  const { user, setOnBoarding } = useUser();
   const router = useRouter();
 
   const finishOnboarding = async () => {
@@ -80,6 +67,9 @@ function MethodSteps() {
 
     const data = await response.json();
     console.log('Response from updateOnboardingStatus:', data);
+  
+    setOnBoarding(true);
+    console.log(setOnBoarding);
   };
 
   const nextStep = () => {
