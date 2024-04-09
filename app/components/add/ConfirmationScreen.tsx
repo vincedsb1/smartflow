@@ -1,4 +1,4 @@
-import { faTag } from "@fortawesome/free-solid-svg-icons";
+import { faCheck } from "@fortawesome/free-solid-svg-icons";
 import React from "react";
 import CardAppText from "../CardAppText";
 import CardAppTitle from "../CardAppTitle";
@@ -14,11 +14,15 @@ const ConfirmationScreen = () => {
           id="addHeaderContainer"
           className="flex flex-col justify-center items-center w-full"
         >
-          <div id="addTitle" className="flex flex-col w-16/20 ">
+          {/* <div id="addTitle" className="flex flex-col w-16/20 ">
             <CardAppTitle title="Nouvelle fiche" size="big" />
-          </div>
+          </div> */}
           <div id="addHint" className="flex flex-col items-center w-16/20">
-            <CardAppText text="Bravo !" icon={faTag} />
+            <CardAppText
+              text="Fiche enregistrée"
+              icon={faCheck}
+              iconColor="confirmation"
+            />
           </div>
         </div>
       </div>
