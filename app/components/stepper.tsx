@@ -8,11 +8,11 @@ interface StepperProps {
 export default function Stepper({ currentStep, numberOfSteps }: StepperProps) {
   const activeColor = (index: number) =>
     currentStep >= index
-      ? "bg-blue-500 dark:bg-blue-600"
+      ? "bg-cyan-500 dark:bg-cyan-600"
       : "border-2 border-neutral-300 bg-transparent dark:border-neutral-700";
   const barColor = (index: number) =>
     currentStep >= index
-      ? "bg-blue-400 dark:bg-blue-700"
+      ? "bg-cyan-400 dark:bg-cyan-700"
       : "bg-neutral-300 dark:bg-neutral-700";
 
   return (
