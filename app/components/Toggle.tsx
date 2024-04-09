@@ -10,7 +10,7 @@ const Toggle: React.FC<ToggleProps> = ({ isOn, onToggle }) => {
     <button
       onClick={onToggle}
       className={`relative inline-flex items-center h-6 rounded-full w-11 transition-colors focus:outline-none ${
-        isOn ? "bg-blue-600" : "bg-gray-200"
+        isOn ? "bg-cyan-600" : "bg-gray-200"
       }`}
       role="switch"
       aria-checked={isOn}

@@ -29,11 +29,17 @@ const ListColors: React.FC<ListColorsProps> = ({ onColorSelected }) => {
   ]);
 
   const handleColorClick = (colorId: number) => {
-    setColors(colors.map(color => color.id === colorId ? { ...color, selected: true } : { ...color, selected: false }));
+    setColors(
+      colors.map((color) =>
+        color.id === colorId
+          ? { ...color, selected: true }
+          : { ...color, selected: false }
+      )
+    );
   };
 
   const handleSaveClick = () => {
-    const selectedColor = colors.find(color => color.selected);
+    const selectedColor = colors.find((color) => color.selected);
     if (selectedColor) {
       onColorSelected(selectedColor);
       console.log(selectedColor);
@@ -43,7 +49,10 @@ const ListColors: React.FC<ListColorsProps> = ({ onColorSelected }) => {
 
   return (
     <div>
-      <button className="text-blue-500 text-sm font-regular" onClick={() => setIsOpen(true)}>
+      <button
+        className="text-cyan-500 text-sm font-regular"
+        onClick={() => setIsOpen(true)}
+      >
         Ajouter une catégorie
       </button>
       <CustomModalColorsList
@@ -55,7 +64,11 @@ const ListColors: React.FC<ListColorsProps> = ({ onColorSelected }) => {
             {colors.map((color) => (
               <div
                 key={color.id}
-                className={`w-8 h-8 rounded-full bg-${color.name} m-2 cursor-pointer ${color.selected ? 'ring-2 ring-black' : ''}`}
+                className={`w-8 h-8 rounded-full bg-${
+                  color.name
+                } m-2 cursor-pointer ${
+                  color.selected ? "ring-2 ring-black" : ""
+                }`}
                 onClick={() => handleColorClick(color.id)}
               ></div>
             ))}
@@ -66,6 +79,5 @@ const ListColors: React.FC<ListColorsProps> = ({ onColorSelected }) => {
     </div>
   );
 };
-
 
 export default ListColors;

@@ -1,4 +1,6 @@
-import React from "react";
+"use client";
+
+import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { IconDefinition } from "@fortawesome/fontawesome-svg-core";
 import Link from "next/link";
@@ -31,6 +33,8 @@ interface ListProps {
   setModalContent?: (content: string) => void;
   modalTitle?: string;
   modalContent: string;
+  selectable?: boolean;
+  onSelect?: (index: number) => void;
 }
 
 interface CustomModalProps {
@@ -97,7 +101,10 @@ const List: React.FC<ListProps> = ({
   setModalContent,
   modalTitle,
   modalContent,
+  selectable = false,
+  onSelect,
 }) => {
+  const [selectedRow, setSelectedRow] = useState<number | null>(null);
   const isOpen = modalIsOpen || false;
   return (
     <div id="ListContainer" className="flex flex-col mx-5">
@@ -118,7 +125,14 @@ const List: React.FC<ListProps> = ({
               href={row.link || ""}
               key={index}
               onClick={
-                row.isModal
+                selectable
+                  ? () => {
+                      setSelectedRow(index);
+                      onSelect && onSelect(index);
+                      row.onClick && row.onClick();
+                      console.log("Index de la ligne sélectionnée : ", index);
+                    }
+                  : row.isModal
                   ? () => {
                       if (setModalIsOpen) {
                         setModalIsOpen(true);
@@ -136,12 +150,14 @@ const List: React.FC<ListProps> = ({
               <div
                 key={index}
                 id="ListRow"
-                className={`flex flex-row hover:bg-blue-300 dark:hover:bg-blue-900 ${
+                className={`flex flex-row hover:bg-cyan-200 dark:hover:bg-cyan-900 ${
                   isLargeRow ? "h-16" : "h-12"
                 } ${row.bgcolor || ""} ${index === 0 ? "mt-3" : ""} ${
                   index === rows.length - 1 ? "mb-3" : ""
                 } ${getColorClass(row.colorState)} ${
-                  row.selected ? "bg-blue-200 dark:bg-blue-900 font-bold" : ""
+                  selectable && selectedRow === index
+                    ? "bg-cyan-300 dark:bg-cyan-700"
+                    : ""
                 }`}
               >
                 <div
@@ -201,7 +217,7 @@ const List: React.FC<ListProps> = ({
       </div>
       <div
         id="BelowListLinkContainer"
-        className=" text-blue-500 flex flex-row justify-end items-center font-text mt-1 cursor-pointer"
+        className=" text-cyan-500 flex flex-row justify-end items-center font-text mt-1 cursor-pointer"
         onClick={onBelowListLinkClick}
       >
         {belowListLink}
