@@ -70,7 +70,7 @@ const MailSignin = () => {
         id="mailAuthTopContainer"
         className="flex flex-col justify-center w-full"
       >
-        <div id="themeSwitcherBackIcon" className="w-full flex flex-col mt-16">
+        <div id="mailAuthBackIcon" className="w-full flex flex-col mt-16">
           <Link href="/welcome">
             <FontAwesomeIcon
               icon={faChevronLeft}

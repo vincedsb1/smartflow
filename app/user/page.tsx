@@ -19,12 +19,12 @@ const UserProfile: React.FC = () => {
   console.log(firstname, email, birthday);
   const router = useRouter();
 
-  useEffect(() => {
-    // If the user or token is null, redirect to "/welcome"
-    if (!user || !token) {
-      router.push("/welcome");
-    }
-  }, [user, token, router]);
+  // useEffect(() => {
+  //   // If the user or token is null, redirect to "/welcome"
+  //   if (!user || !token) {
+  //     router.push("/welcome");
+  //   }
+  // }, [user, token, router]);
 
   const handleLogout = () => {
     setUser(null);
@@ -131,7 +131,7 @@ const UserProfile: React.FC = () => {
               height={200}
               className="rounded-full opacity-50"
             />
-            <div className="absolute bottom-0 right-0 bg-blue-600 p-1 rounded-full h-6 w-6 flex flex-row justify-center items-center shadow">
+            <div className="absolute bottom-0 right-0 bg-cyan-600 p-1 rounded-full h-6 w-6 flex flex-row justify-center items-center shadow">
               <FontAwesomeIcon
                 icon={faPenToSquare}
                 className="text-white text-xs ml-[3px]"
