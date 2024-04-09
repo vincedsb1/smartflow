@@ -31,6 +31,7 @@ const Today = () => {
 
   useEffect(() => {
     if (!userContext.token) {
+      console.log(userContext.token);
       console.error("Token is not defined");
       setIsError(true);
       setIsLoading(false);

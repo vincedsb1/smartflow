@@ -97,8 +97,7 @@ const UserContextProvider: React.FC<UserContextProviderProps> = ({
     setPassword,
     token,
     setToken: setTokenAndStore,
-    onBoarding,
-    setOnBoarding,
+    onBoarding, setOnBoarding,
   };
 
   return (

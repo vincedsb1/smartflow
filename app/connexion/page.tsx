@@ -71,18 +71,18 @@ const ConnexionPage = () => {
           // Redirect user based on onBoarding state
           if (data.onBoarding) {
             router.push("/today");
-            console.log("Redirected to /today"); // Log after redirecting to /today
+            console.log("Redirected to /today"); 
           } else {
             router.push("/onboarding");
-            console.log("Redirected to /onboarding"); // Log after redirecting to /onboarding
+            console.log("Redirected to /onboarding");
           }
           
           setUser({ email, firstname, birthday, setUser });
-          console.log("User set"); // Log after setting the user
+          console.log("User set"); 
         }
       }
     } catch (error) {
-      console.error("Error in handlePasswordCheck", error); // Log when there is an error
+      console.error("Error in handlePasswordCheck", error); 
     }
   };
 

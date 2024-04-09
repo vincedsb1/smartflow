@@ -53,15 +53,20 @@ const ConnexionPage = () => {
         onBoarding: false,
       }),
     });
-
+  
     if (response.ok) {
+      const data = await response.json();
+  
+      // Ajoutez cette ligne pour stocker le token dans le contexte utilisateur
+      userContext.setToken(data.token);
+  
       const deleteResponse = await fetch(
         `/api/emailverification/delete-emailverification?email=${email}`,
         {
           method: "DELETE",
         }
       );
-
+  
       if (deleteResponse.ok) {
         console.log(
           "Utilisateur enregistré et vérification par e-mail supprimée avec succès"
