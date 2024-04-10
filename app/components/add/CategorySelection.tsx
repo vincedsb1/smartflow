@@ -13,10 +13,19 @@ interface Category {
   colorName: string;
 }
 
-const CategorySelection = () => {
+interface CategorySelectionProps {
+  onCategoryChange: (id: number) => void;
+}
+
+const CategorySelection: React.FC<CategorySelectionProps> = ({
+  onCategoryChange,
+}) => {
   const [myModalIsOpen, setMyModalIsOpen] = useState(false);
   const [myModalTitle, setMyModalTitle] = useState("");
   const [myModalContent, setMyModalContent] = useState("");
+  const [selectedCategoryId, setSelectedCategoryId] = useState<number | null>(
+    null
+  ); // New state
   const router = useRouter();
   const userContext = useContext(UserContext);
   if (!userContext) {
@@ -72,6 +81,11 @@ const CategorySelection = () => {
   const rows = categories.map((category) => ({
     mainLabel: category.name,
     color: category.colorName,
+    onClick: () => {
+      console.log(`Category ${category.id} clicked`); // Add this line
+      setSelectedCategoryId(category.id);
+      onCategoryChange(category.id);
+    },
   }));
 
   return (
