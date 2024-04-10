@@ -6,6 +6,7 @@ import CardAppText from "../CardAppText";
 import CardAppTitle from "../CardAppTitle";
 import { CircularProgress } from "@nextui-org/react";
 import { useRouter } from "next/navigation";
+import ListColors from "../ListColors";
 
 interface Category {
   id: number;
@@ -22,7 +23,7 @@ const CategorySelection: React.FC<CategorySelectionProps> = ({
 }) => {
   const [myModalIsOpen, setMyModalIsOpen] = useState(false);
   const [myModalTitle, setMyModalTitle] = useState("");
-  const [myModalContent, setMyModalContent] = useState("");
+  const [myModalContent, setMyModalContent] = useState<React.ReactNode>(null);
   const [selectedCategoryId, setSelectedCategoryId] = useState<number | null>(
     null
   ); // New state
@@ -36,6 +37,17 @@ const CategorySelection: React.FC<CategorySelectionProps> = ({
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [isError, setIsError] = useState<boolean>(false);
   console.log("Token:", userContext.token);
+
+  useEffect(() => {
+    setMyModalContent(
+      <ListColors
+      // onColorSelected={(color) => {
+      //   console.log(color);
+      // }}
+      />
+    );
+  }, []);
+
   useEffect(() => {
     if (!userContext.token || !userContext.user) {
       console.error("User or token is not defined");
@@ -114,7 +126,11 @@ const CategorySelection: React.FC<CategorySelectionProps> = ({
               setModalContent={setMyModalContent}
               modalContent={myModalContent}
               belowListLink="Ajouter une catégorie"
-              onBelowListLinkClick={() => router.push("/organize/addCategory")}
+              onBelowListLinkClick={() => {
+                setMyModalTitle("Nouvelle catégorie");
+                setMyModalContent("Bonjour");
+                setMyModalIsOpen(true);
+              }}
               selectable={true}
             />
           </div>
