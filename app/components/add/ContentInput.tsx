@@ -1,5 +1,5 @@
 import { faFileLines } from "@fortawesome/free-solid-svg-icons";
-import React from "react";
+import React, { useState } from "react";
 import CardAppText from "../CardAppText";
 import CardAppTitle from "../CardAppTitle";
 import { Textarea } from "@nextui-org/react";
@@ -9,6 +9,13 @@ interface ContentInputProps {
 }
 
 const ContentInput: React.FC<ContentInputProps> = ({ onContentChange }) => {
+  const [value, setValue] = useState("");
+
+  const handleChange = (e: any) => {
+    setValue(e.target.value);
+    onContentChange && onContentChange(e.target.value);
+  };
+
   return (
     <div id="addMainContainer" className="flex flex-col justify-between w-full">
       <div
@@ -39,7 +46,8 @@ const ContentInput: React.FC<ContentInputProps> = ({ onContentChange }) => {
             label="Description"
             placeholder="Votre réponse"
             className="max-w-xs"
-            onChange={(e) => onContentChange && onContentChange(e.target.value)}
+            onChange={handleChange}
+            value={value}
           />
         </div>
       </div>
