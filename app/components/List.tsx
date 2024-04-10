@@ -1,9 +1,9 @@
 "use client";
 
-import React, { useState } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { IconDefinition } from "@fortawesome/fontawesome-svg-core";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Link from "next/link";
+import React, { useState } from "react";
 import CustomModal from "./CustomModal";
 
 interface ListRowProps {
@@ -17,6 +17,7 @@ interface ListRowProps {
   isModal?: boolean;
   modalTitle?: string;
   modalContent?: string;
+
   onClick?: () => void;
   selected?: boolean;
 }
@@ -27,12 +28,13 @@ interface ListProps {
   isLargeRow: boolean;
   belowListLink?: string;
   onBelowListLinkClick?: () => void;
+  isModal?: boolean;
   modalIsOpen?: boolean;
   setModalIsOpen?: (isOpen: boolean) => void;
   setModalTitle?: (title: string) => void;
   setModalContent?: (content: string) => void;
   modalTitle?: string;
-  modalContent: string;
+  modalContent: React.ReactNode | string;
   selectable?: boolean;
   onSelect?: (index: number) => void;
 }
@@ -41,7 +43,7 @@ interface CustomModalProps {
   isOpen: boolean;
   onOpenChange: () => void;
   title: string;
-  content: string;
+  content: React.ReactNode;
 }
 
 const getColorClass = (
