@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import TitleCreation from "../components/add/TitleCreation";
 import CategorySelection from "../components/add/CategorySelection";
 import ContentInput from "../components/add/ContentInput";
@@ -8,16 +8,27 @@ import { Button } from "@nextui-org/react";
 import { faChevronLeft } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useRouter } from "next/navigation";
+import { UserContext } from "../context/UserContext";
 
 const CardCreation = () => {
+  const userContext = useContext(UserContext);
   const [step, setStep] = useState(1);
 
+  const handleCategoryChange = (id: number) => {
+    setSelectedCategoryId(id);
+  };
+
   const [cardTitle, setCardTitle] = useState("");
+  const [selectedCategoryId, setSelectedCategoryId] = useState<number | null>(
+    null
+  );
   useEffect(() => {
-    if (step === 2) {
+    if (step === 3) {
+      // Change this line
       console.log("Titre de la carte : ", cardTitle);
+      console.log("ID de la catégorie sélectionnée : ", selectedCategoryId);
     }
-  }, [step, cardTitle]);
+  }, [step, cardTitle, selectedCategoryId]);
 
   const [category, setCategory] = useState("");
   const [content, setContent] = useState("");
@@ -31,6 +42,28 @@ const CardCreation = () => {
   const router = useRouter();
 
   const handleContinueClick = () => {
+    if (step === 3) {
+      console.log("Route Add card");
+      const token = localStorage.getItem("token");
+      fetch("/api/cards/create", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${userContext?.token ?? ""}`,
+        },
+        body: JSON.stringify({
+          title: cardTitle,
+          category: selectedCategoryId,
+          content: content,
+        }),
+      })
+        .then((response) => response.json())
+        .then((data) => console.log(data))
+        .catch((error) => {
+          console.error("Error:", error);
+        });
+    }
+
     if (step < 4) {
       setStep(step + 1);
     } else {
@@ -63,7 +96,9 @@ const CardCreation = () => {
         </div>
         <div id="addContentContainer">
           {step === 1 && <TitleCreation onTitleChange={setCardTitle} />}
-          {step === 2 && <CategorySelection />}
+          {step === 2 && (
+            <CategorySelection onCategoryChange={handleCategoryChange} />
+          )}
           {step === 3 && <ContentInput onContentChange={setContent} />}
           {step === 4 && <ConfirmationScreen />}
         </div>
