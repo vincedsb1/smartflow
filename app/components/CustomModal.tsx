@@ -12,7 +12,7 @@ interface CustomModalProps {
   isOpen: boolean;
   onOpenChange: () => void;
   title: string;
-  content: string;
+  content: React.ReactNode;
 }
 
 const CustomModal: React.FC<CustomModalProps> = ({
