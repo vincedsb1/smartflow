@@ -19,16 +19,19 @@ const UserProfile: React.FC = () => {
   console.log(firstname, email, birthday);
   const router = useRouter();
 
-  // useEffect(() => {
-  //   // If the user or token is null, redirect to "/welcome"
-  //   if (!user || !token) {
-  //     router.push("/welcome");
-  //   }
-  // }, [user, token, router]);
+  useEffect(() => {
+    // If the user or token is null, redirect to "/welcome"
+    if (!user || !token) {
+      router.push("/welcome");
+    }
+  }, [user, token, router]);
 
   const handleLogout = () => {
     setUser(null);
     setToken(null);
+    // if (!user || !token) {
+    //   router.push("/welcome");
+    // }
   };
   const formattedBirthday = birthday
     ? new Date(birthday).toLocaleDateString("fr-FR")
