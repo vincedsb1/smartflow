@@ -128,7 +128,7 @@ const CategorySelection: React.FC<CategorySelectionProps> = ({
               belowListLink="Ajouter une catégorie"
               onBelowListLinkClick={() => {
                 setMyModalTitle("Nouvelle catégorie");
-                setMyModalContent(<ListColors />);
+                setMyModalContent("Bonjour");
                 setMyModalIsOpen(true);
               }}
               selectable={true}
