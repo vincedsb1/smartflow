@@ -7,6 +7,10 @@ import CardAppTitle from "../CardAppTitle";
 import { CircularProgress } from "@nextui-org/react";
 import { useRouter } from "next/navigation";
 import ListColors from "../ListColors";
+import BelowListLink from "../list/BelowListLink";
+import CustomModal from "../list/CustomModal";
+import CustomModalColorsList from "../CustomModalColorsList";
+import AddCategory from "../AddCategory";
 
 interface Category {
   id: number;
@@ -125,17 +129,26 @@ const CategorySelection: React.FC<CategorySelectionProps> = ({
               setModalTitle={setMyModalTitle}
               setModalContent={setMyModalContent}
               modalContent={myModalContent}
-              belowListLink="Ajouter une catégorie"
-              onBelowListLinkClick={() => {
-                setMyModalTitle("Nouvelle catégorie");
-                setMyModalContent("Bonjour");
-                setMyModalIsOpen(true);
-              }}
               selectable={true}
             />
+            <BelowListLink
+              onClick={() => {
+                setMyModalTitle("Nouvelle catégorie");
+                setMyModalContent(<AddCategory />);
+                setMyModalIsOpen(true);
+              }}
+            >
+              Ajouter une catégorie
+            </BelowListLink>
           </div>
         </div>
       </div>
+      <CustomModal
+        isOpen={myModalIsOpen}
+        onOpenChange={() => setMyModalIsOpen(!myModalIsOpen)}
+        title={myModalTitle}
+        content={myModalContent}
+      />
     </div>
   );
 };

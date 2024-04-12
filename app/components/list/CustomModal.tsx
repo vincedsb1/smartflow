@@ -8,13 +8,15 @@ import {
   ModalHeader,
 } from "@nextui-org/react";
 
+// Définition des propriétés pour la modale personnalisée
 interface CustomModalProps {
-  isOpen: boolean;
-  onOpenChange: () => void;
-  title: string;
-  content: React.ReactNode;
+  isOpen: boolean; // Si vrai, la modale est ouverte
+  onOpenChange: () => void; // Fonction à exécuter lors du changement d'état d'ouverture de la modale
+  title: string; // Titre de la modale
+  content: React.ReactNode; // Contenu de la modale
 }
 
+// Composant de la modale personnalisée
 const CustomModal: React.FC<CustomModalProps> = ({
   isOpen,
   onOpenChange,
