@@ -42,9 +42,9 @@ const TitleCreation: React.FC<TitleCreationProps> = ({ onTitleChange }) => {
       </div>
       <div
         id="addMiddleContainer"
-        className="flex flex-col justify-center items-center w-full flex-grow"
+        className="flex flex-col justify-center items-center w-full flex-grow "
       >
-        <div id="addInputContainer" className="w-16/20 mt-16">
+        <div id="addInputContainer" className="w-16/20 mt-16 ">
           <Input
             isRequired
             size="md"
