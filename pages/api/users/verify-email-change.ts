@@ -13,7 +13,7 @@ export default async function handler(
 
     const emailVerification = await prisma.emailVerification.findUnique({
       where: { token },
-      include: { user: true }
+      include: { User: true }
     });
 
     if (!emailVerification || new Date() > emailVerification.expiresAt) {
@@ -21,8 +21,13 @@ export default async function handler(
       return;
     }
 
+    if (!emailVerification.User) {
+      res.status(400).json({ message: "User not found" });
+      return;
+    }
+
     await prisma.user.update({
-      where: { id: emailVerification.user.id },
+      where: { id: emailVerification.User.id },
       data: { email: emailVerification.email }
     });
 
