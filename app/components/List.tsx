@@ -199,6 +199,7 @@ const List: React.FC<ListProps> = ({
         }}
         title={modalTitle || ""}
         content={modalContent}
+        onValidate={() => {}}
       />
     </div>
   );
