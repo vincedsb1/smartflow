@@ -1,16 +1,16 @@
+"use Client";
+
 import { faTag } from "@fortawesome/free-solid-svg-icons";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState, useCallback } from "react";
 import List from "../../components/List";
 import { UserContext } from "@/app/context/UserContext";
 import CardAppText from "../CardAppText";
 import CardAppTitle from "../CardAppTitle";
 import { CircularProgress } from "@nextui-org/react";
-import { useRouter } from "next/navigation";
-import ListColors from "../ListColors";
 import BelowListLink from "../list/BelowListLink";
-import CustomModal from "../list/CustomModal";
-import CustomModalColorsList from "../CustomModalColorsList";
-import AddCategory from "../AddCategory";
+import AddCategoryModal from "../category/AddCategoryModal";
+import { useDisclosure } from "@nextui-org/react";
+import { colorClasses } from "../utils/colorUtils";
 
 interface Category {
   id: number;
@@ -25,62 +25,58 @@ interface CategorySelectionProps {
 const CategorySelection: React.FC<CategorySelectionProps> = ({
   onCategoryChange,
 }) => {
-  const [myModalIsOpen, setMyModalIsOpen] = useState(false);
-  const [myModalTitle, setMyModalTitle] = useState("");
-  const [myModalContent, setMyModalContent] = useState<React.ReactNode>(null);
+  const { isOpen, onOpen, onClose } = useDisclosure();
   const [selectedCategoryId, setSelectedCategoryId] = useState<number | null>(
     null
-  ); // New state
-  const router = useRouter();
+  );
   const userContext = useContext(UserContext);
-  if (!userContext) {
-    throw new Error("UserContext must be used within a UserContextProvider");
-  }
-  const user = useContext(UserContext);
   const [categories, setCategories] = useState<Category[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [isError, setIsError] = useState<boolean>(false);
-  console.log("Token:", userContext.token);
 
-  useEffect(() => {
-    setMyModalContent(
-      <ListColors
-      // onColorSelected={(color) => {
-      //   console.log(color);
-      // }}
-      />
-    );
-  }, []);
-
-  useEffect(() => {
-    if (!userContext.token || !userContext.user) {
+  const fetchCategories = useCallback(async () => {
+    if (!userContext || !userContext.token || !userContext.user) {
       console.error("User or token is not defined");
       setIsError(true);
       setIsLoading(false);
       return;
     }
 
-    fetch("/api/categories", {
-      headers: {
-        Authorization: `Bearer ${userContext.token}`,
-      },
-    })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        }
-        return response.json();
-      })
-      .then((data) => {
-        setCategories(data);
-        setIsLoading(false);
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-        setIsError(true);
-        setIsLoading(false);
+    try {
+      const response = await fetch("/api/categories", {
+        headers: {
+          Authorization: `Bearer ${userContext.token}`,
+        },
       });
-  }, [userContext.token, userContext.user]);
+
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+
+      const data = await response.json();
+      setCategories(data);
+      setIsLoading(false);
+    } catch (error) {
+      console.error("Error:", error);
+      setIsError(true);
+      setIsLoading(false);
+    }
+  }, [userContext]);
+
+  useEffect(() => {
+    fetchCategories();
+  }, [fetchCategories]);
+
+  const handleCategoryCreation = (categoryName: string, colorId: number) => {
+    // Trouvez le nom de la couleur correspondant à l'ID de couleur
+    const colorName = Object.keys(colorClasses)[colorId - 1];
+
+    setCategories((prevCategories) => [
+      ...prevCategories,
+      { id: Date.now(), name: categoryName, colorName: colorName }, // Utilisez colorName ici
+    ]);
+    onClose();
+  };
 
   if (isLoading) {
     return (
@@ -98,7 +94,6 @@ const CategorySelection: React.FC<CategorySelectionProps> = ({
     mainLabel: category.name,
     color: category.colorName,
     onClick: () => {
-      console.log(`Category ${category.id} clicked`); // Add this line
       setSelectedCategoryId(category.id);
       onCategoryChange(category.id);
     },
@@ -120,34 +115,24 @@ const CategorySelection: React.FC<CategorySelectionProps> = ({
               icon={faTag}
             />
           </div>
-          <div id="categoryList" className="w-18/20">
+          <div id="categoryList" className="w-18/20 mb-8">
             <List
               rows={rows}
               title="Catégories"
               isLargeRow={false}
-              setModalIsOpen={setMyModalIsOpen}
-              setModalTitle={setMyModalTitle}
-              setModalContent={setMyModalContent}
-              modalContent={myModalContent}
               selectable={true}
+              modalContent=""
             />
-            <BelowListLink
-              onClick={() => {
-                setMyModalTitle("Nouvelle catégorie");
-                setMyModalContent(<AddCategory />);
-                setMyModalIsOpen(true);
-              }}
-            >
+            <BelowListLink onClick={onOpen}>
               Ajouter une catégorie
             </BelowListLink>
           </div>
         </div>
       </div>
-      <CustomModal
-        isOpen={myModalIsOpen}
-        onOpenChange={() => setMyModalIsOpen(!myModalIsOpen)}
-        title={myModalTitle}
-        content={myModalContent}
+      <AddCategoryModal
+        isOpen={isOpen}
+        onClose={onClose}
+        onValidate={handleCategoryCreation}
       />
     </div>
   );
