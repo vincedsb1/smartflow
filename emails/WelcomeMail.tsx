@@ -3,9 +3,9 @@ import * as React from "react";
 
 interface WelcomeMailProps {
   email: string;
+  link: string;
 }
-
-const WelcomeMail: React.FC<WelcomeMailProps> = ({ email }) => {
+const WelcomeMail: React.FC<WelcomeMailProps> = ({ email, link }) => {
   return (
     <Html>
       <div style={{ fontFamily: "Arial, sans-serif", textAlign: "center" }}>
@@ -22,7 +22,7 @@ const WelcomeMail: React.FC<WelcomeMailProps> = ({ email }) => {
         </p>
         <div style={{ marginTop: "24px" }}>
         <Button
-            href="/"
+            href={link}
             style={{
                 background: "#3182CE",
                 color: "#FFFFFF",
