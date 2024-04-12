@@ -5,10 +5,11 @@ import { IconDefinition } from "@fortawesome/fontawesome-svg-core";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Link from "next/link";
 import React, { useState } from "react";
-import CustomModal from "./CustomModal";
+import CustomModal from "./list/CustomModal";
 import { getColorClass, colorClasses, Color } from "./utils/colorUtils";
 import ListTitle from "./list/ListTitle";
 import useRowSelection from "./list/useRowSelection";
+import BelowListLink from "./list/BelowListLink";
 
 // Définition des propriétés pour une ligne de la liste
 interface ListRowProps {
@@ -44,14 +45,6 @@ interface ListProps {
   onSelect?: (index: number) => void; // Fonction à exécuter lors de la sélection d'une ligne
 }
 
-// Définition des propriétés pour la modale personnalisée
-interface CustomModalProps {
-  isOpen: boolean; // Si vrai, la modale est ouverte
-  onOpenChange: () => void; // Fonction à exécuter lors du changement d'état d'ouverture de la modale
-  title: string; // Titre de la modale
-  content: React.ReactNode; // Contenu de la modale
-}
-
 // Composant de la liste
 const List: React.FC<ListProps> = ({
   rows,
@@ -69,7 +62,25 @@ const List: React.FC<ListProps> = ({
   onSelect,
 }) => {
   const { selectedRow, handleRowSelection } = useRowSelection(); // Utilisation du hook personnalisé useRowSelection
+
   const isOpen = modalIsOpen || false; // État d'ouverture de la modale
+
+  // Fonction à exécuter lors du clic sur le lien en dessous de la liste
+  const handleBelowListLinkClick = () => {
+    if (setModalIsOpen) {
+      setModalIsOpen(true);
+    }
+    if (setModalTitle) {
+      setModalTitle("Titre de la modale pour BelowListLink");
+    }
+    if (setModalContent) {
+      setModalContent("Contenu de la modale pour BelowListLink");
+    }
+    if (onBelowListLinkClick) {
+      onBelowListLinkClick();
+    }
+  };
+
   return (
     <div id="ListContainer" className="flex flex-col mx-5">
       <ListTitle title={title} />
@@ -174,13 +185,11 @@ const List: React.FC<ListProps> = ({
           );
         })}
       </div>
-      <div
-        id="BelowListLinkContainer"
-        className=" text-cyan-500 flex flex-row justify-end items-center font-text mt-1 cursor-pointer"
-        onClick={onBelowListLinkClick}
-      >
-        {belowListLink}
-      </div>
+      {belowListLink && (
+        <BelowListLink onClick={handleBelowListLinkClick}>
+          {belowListLink}
+        </BelowListLink>
+      )}
       <CustomModal
         isOpen={modalIsOpen || false}
         onOpenChange={() => {
