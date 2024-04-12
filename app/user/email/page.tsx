@@ -6,7 +6,6 @@ import { useState, useContext } from "react";
 import { faChevronLeft } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import CardAppTitle from "../../components/CardAppTitle";
-import ServerEmailEditPage from "./ServerEmailEditPage";
 import { useRouter } from "next/navigation";
 
 const ClientEmailEditPage = () => {
@@ -20,13 +19,34 @@ const ClientEmailEditPage = () => {
   };
 
   const handleEmailChange = async () => {
+    console.log(`Current email: ${userContext?.email}`);
+    console.log(`New email: ${email}`);
+
+    // Simple validation for email
+    const emailRegex = /\S+@\S+\.\S+/;
+    if (!emailRegex.test(email)) {
+      setDisplayMessage('Veuillez entrer un email valide');
+      return;
+    }
+
     try {
       if (userContext) {
-        const updatedEmail = await ServerEmailEditPage(
-          email,
-          userContext.token ?? ""
-        );
-        userContext.setEmail(updatedEmail);
+        const response = await fetch('/api/users/ServerEmailEditPage', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${userContext.token}`
+          },
+          body: JSON.stringify({ currentEmail: userContext.email, newEmail: email })
+        });
+
+        if (!response.ok) {
+          const data = await response.json();
+          throw new Error(data.error);
+        }
+
+        const data = await response.json();
+        userContext.setEmail(email);
         router.push("/user");
       }
     } catch (error) {
