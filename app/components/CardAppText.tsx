@@ -4,9 +4,25 @@ import { IconProp } from "@fortawesome/fontawesome-svg-core";
 interface CardAppText {
   text: string;
   icon?: IconProp;
+  iconColor?: "normal" | "confirmation" | "warning" | "error";
 }
 
-function CardAppText({ text, icon }: CardAppText) {
+function CardAppText({ text, icon, iconColor = "normal" }: CardAppText) {
+  let iconColorClass: string;
+  switch (iconColor) {
+    case "confirmation":
+      iconColorClass = "text-emerald-500 dark:text-emerald-400 text-3xl";
+      break;
+    case "warning":
+      iconColorClass = "text-orange-800 dark:text-orange-400 text-3xl";
+      break;
+    case "error":
+      iconColorClass = "text-red-800 dark:text-red-400 text-3xl";
+      break;
+    default:
+      iconColorClass = "text-neutral-800 dark:text-neutral-400 text-2xl";
+  }
+
   return (
     <div
       id="cardExplanations"
@@ -21,10 +37,7 @@ function CardAppText({ text, icon }: CardAppText) {
             id="hintIconContainer"
             className="w-12 h-12 flex items-center justify-center"
           >
-            <FontAwesomeIcon
-              icon={icon}
-              className="text-neutral-800 dark:text-neutral-400 text-2xl"
-            />{" "}
+            <FontAwesomeIcon icon={icon} className={`${iconColorClass}`} />
           </div>
         </div>
       )}

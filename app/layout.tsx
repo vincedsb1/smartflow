@@ -34,7 +34,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
             <main className="bg-neutral-200 dark:bg-neutral-900">
               {children}
             </main>
-            {showTabBar && <TabBar active={segment} />}
+            {showTabBar && <TabBar />}
           </UserContextProvider>
         </Providers>
       </body>

@@ -1,90 +1,51 @@
-import React from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+"use client";
+
+// Importation des dépendances
 import { IconDefinition } from "@fortawesome/fontawesome-svg-core";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Link from "next/link";
-import CustomModal from "./CustomModal";
+import React, { useState } from "react";
+import CustomModal from "./list/CustomModal";
+import { getColorClass, colorClasses, Color } from "./utils/colorUtils";
+import ListTitle from "./list/ListTitle";
+import useRowSelection from "./list/useRowSelection";
+import BelowListLink from "./list/BelowListLink";
 
+// Définition des propriétés pour une ligne de la liste
 interface ListRowProps {
-  color?: Color;
-  mainLabel: string;
-  secondaryLabel?: string | null;
-  icon?: IconDefinition;
-  bgcolor?: string;
-  link?: string;
-  colorState?: "normal" | "desactivated" | "warning";
-  isModal?: boolean;
-  modalTitle?: string;
-  modalContent?: string;
-  onClick?: () => void;
-  selected?: boolean;
+  color?: Color; // Couleur de l'indicateur de couleur
+  mainLabel: string; // Label principal
+  secondaryLabel?: string | null; // Label secondaire
+  icon?: IconDefinition; // Icône à afficher
+  bgcolor?: string; // Couleur de fond
+  link?: string; // Lien vers lequel rediriger lors du clic
+  colorState?: "normal" | "desactivated" | "warning"; // État de la couleur (normal, désactivé, avertissement)
+  isModal?: boolean; // Si vrai, ouvre une modale lors du clic
+  modalTitle?: string; // Titre de la modale
+  modalContent?: string; // Contenu de la modale
+  onClick?: () => void; // Fonction à exécuter lors du clic
+  selected?: boolean; // Si vrai, la ligne est sélectionnée
 }
 
+// Définition des propriétés pour la liste
 interface ListProps {
-  rows: ListRowProps[];
-  title: string;
-  isLargeRow: boolean;
-  belowListLink?: string;
-  onBelowListLinkClick?: () => void;
-  modalIsOpen?: boolean;
-  setModalIsOpen?: (isOpen: boolean) => void;
-  setModalTitle?: (title: string) => void;
-  setModalContent?: (content: string) => void;
-  modalTitle?: string;
-  modalContent: string;
+  rows: ListRowProps[]; // Lignes de la liste
+  title: string; // Titre de la liste
+  isLargeRow: boolean; // Si vrai, les lignes sont plus grandes
+  belowListLink?: string; // Lien à afficher en dessous de la liste
+  onBelowListLinkClick?: () => void; // Fonction à exécuter lors du clic sur le lien en dessous de la liste
+  isModal?: boolean; // Si vrai, ouvre une modale lors du clic sur une ligne
+  modalIsOpen?: boolean; // Si vrai, la modale est ouverte
+  setModalIsOpen?: (isOpen: boolean) => void; // Fonction pour changer l'état d'ouverture de la modale
+  setModalTitle?: (title: string) => void; // Fonction pour changer le titre de la modale
+  setModalContent?: (content: string) => void; // Fonction pour changer le contenu de la modale
+  modalTitle?: string; // Titre de la modale
+  modalContent: React.ReactNode | string; // Contenu de la modale
+  selectable?: boolean; // Si vrai, les lignes sont sélectionnables
+  onSelect?: (index: number) => void; // Fonction à exécuter lors de la sélection d'une ligne
 }
 
-interface CustomModalProps {
-  isOpen: boolean;
-  onOpenChange: () => void;
-  title: string;
-  content: string;
-}
-
-const getColorClass = (
-  colorState: "normal" | "desactivated" | "warning" | undefined
-) => {
-  switch (colorState) {
-    case "normal":
-      return "text-neutral-600 dark:text-neutral-200";
-    case "desactivated":
-      return "text-gray-300";
-    case "warning":
-      return "text-red-500";
-    default:
-      return "text-neutral-600 dark:text-neutral-200";
-  }
-};
-
-type Color =
-  | string
-  | "red-500"
-  | "orange-500"
-  | "yellow-500"
-  | "green-500"
-  | "teal-500"
-  | "blue-500"
-  | "indigo-500"
-  | "purple-500"
-  | "pink-500"
-  | "red-600"
-  | "orange-600"
-  | "yellow-600";
-
-const colorClasses: Record<Color, string> = {
-  "red-500": "bg-red-500",
-  "orange-500": "bg-orange-500",
-  "yellow-500": "bg-yellow-500",
-  "green-500": "bg-green-500",
-  "teal-500": "bg-teal-500",
-  "blue-500": "bg-blue-500",
-  "indigo-500": "bg-indigo-500",
-  "purple-500": "bg-purple-500",
-  "pink-500": "bg-pink-500",
-  "red-600": "bg-red-600",
-  "orange-600": "bg-orange-600",
-  "yellow-600": "bg-yellow-600",
-};
-
+// Composant de la liste
 const List: React.FC<ListProps> = ({
   rows,
   title,
@@ -97,16 +58,32 @@ const List: React.FC<ListProps> = ({
   setModalContent,
   modalTitle,
   modalContent,
+  selectable = false,
+  onSelect,
 }) => {
-  const isOpen = modalIsOpen || false;
+  const { selectedRow, handleRowSelection } = useRowSelection(); // Utilisation du hook personnalisé useRowSelection
+
+  const isOpen = modalIsOpen || false; // État d'ouverture de la modale
+
+  // Fonction à exécuter lors du clic sur le lien en dessous de la liste
+  const handleBelowListLinkClick = () => {
+    if (setModalIsOpen) {
+      setModalIsOpen(true);
+    }
+    if (setModalTitle) {
+      setModalTitle("Titre de la modale pour BelowListLink");
+    }
+    if (setModalContent) {
+      setModalContent("Contenu de la modale pour BelowListLink");
+    }
+    if (onBelowListLinkClick) {
+      onBelowListLinkClick();
+    }
+  };
+
   return (
     <div id="ListContainer" className="flex flex-col mx-5">
-      <div
-        id="ListTitleContainer"
-        className="mb-2 font-title font-bold text-md text-neutral-600 dark:text-neutral-300"
-      >
-        {title}
-      </div>
+      <ListTitle title={title} />
       <div
         id="ListContainer"
         className="flex flex-col bg-white dark:bg-neutral-800 rounded-xl shadow-sf"
@@ -118,7 +95,14 @@ const List: React.FC<ListProps> = ({
               href={row.link || ""}
               key={index}
               onClick={
-                row.isModal
+                selectable
+                  ? () => {
+                      handleRowSelection(index); // Utilisation de la fonction retournée par le hook useRowSelection
+                      onSelect && onSelect(index);
+                      row.onClick && row.onClick();
+                      console.log("Index de la ligne sélectionnée : ", index);
+                    }
+                  : row.isModal
                   ? () => {
                       if (setModalIsOpen) {
                         setModalIsOpen(true);
@@ -136,12 +120,14 @@ const List: React.FC<ListProps> = ({
               <div
                 key={index}
                 id="ListRow"
-                className={`flex flex-row hover:bg-blue-300 dark:hover:bg-blue-900 ${
+                className={`flex flex-row hover:bg-cyan-200 dark:hover:bg-cyan-900 ${
                   isLargeRow ? "h-16" : "h-12"
                 } ${row.bgcolor || ""} ${index === 0 ? "mt-3" : ""} ${
                   index === rows.length - 1 ? "mb-3" : ""
                 } ${getColorClass(row.colorState)} ${
-                  row.selected ? "bg-blue-200 dark:bg-blue-900 font-bold" : ""
+                  selectable && selectedRow === index
+                    ? "bg-cyan-300 dark:bg-cyan-700"
+                    : ""
                 }`}
               >
                 <div
@@ -199,13 +185,11 @@ const List: React.FC<ListProps> = ({
           );
         })}
       </div>
-      <div
-        id="BelowListLinkContainer"
-        className=" text-blue-500 flex flex-row justify-end items-center font-text mt-1 cursor-pointer"
-        onClick={onBelowListLinkClick}
-      >
-        {belowListLink}
-      </div>
+      {belowListLink && (
+        <BelowListLink onClick={handleBelowListLinkClick}>
+          {belowListLink}
+        </BelowListLink>
+      )}
       <CustomModal
         isOpen={modalIsOpen || false}
         onOpenChange={() => {
@@ -215,6 +199,7 @@ const List: React.FC<ListProps> = ({
         }}
         title={modalTitle || ""}
         content={modalContent}
+        onValidate={() => {}}
       />
     </div>
   );

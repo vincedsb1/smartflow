@@ -29,6 +29,9 @@ const UserProfile: React.FC = () => {
   const handleLogout = () => {
     setUser(null);
     setToken(null);
+    // if (!user || !token) {
+    //   router.push("/welcome");
+    // }
   };
   const formattedBirthday = birthday
     ? new Date(birthday).toLocaleDateString("fr-FR")
@@ -131,7 +134,7 @@ const UserProfile: React.FC = () => {
               height={200}
               className="rounded-full opacity-50"
             />
-            <div className="absolute bottom-0 right-0 bg-blue-600 p-1 rounded-full h-6 w-6 flex flex-row justify-center items-center shadow">
+            <div className="absolute bottom-0 right-0 bg-cyan-600 p-1 rounded-full h-6 w-6 flex flex-row justify-center items-center shadow">
               <FontAwesomeIcon
                 icon={faPenToSquare}
                 className="text-white text-xs ml-[3px]"

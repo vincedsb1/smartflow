@@ -13,7 +13,7 @@ interface CustomModalProps {
   onOpenChange: () => void;
   title: string;
   content: ReactNode;
-  onSave?: () => void; 
+  onSave?: () => void;
 }
 
 const CustomModalColorsList: React.FC<CustomModalProps> = ({
@@ -21,7 +21,7 @@ const CustomModalColorsList: React.FC<CustomModalProps> = ({
   onOpenChange,
   title,
   content,
-  onSave, 
+  onSave,
 }) => {
   return (
     <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
@@ -35,15 +35,18 @@ const CustomModalColorsList: React.FC<CustomModalProps> = ({
               </p>
             </ModalBody>
             <ModalFooter>
-              {onSave && ( 
-                <Button color="primary" onPress={() => {
-                  onSave();
-                  onClose();
-                }}>
+              {onSave && (
+                <Button
+                  color="primary"
+                  onPress={() => {
+                    onSave();
+                    onClose();
+                  }}
+                >
                   Enregistrer la catégorie
                 </Button>
               )}
-              {!onSave && ( 
+              {!onSave && (
                 <Button color="primary" onPress={onClose}>
                   Enregistrer la catégorie
                 </Button>
