@@ -11,8 +11,6 @@ import { UserCardProps } from "../context/UserContext";
 import { Button } from "@nextui-org/react";
 const { useRouter } = require("next/navigation");
 
-
-
 const Today = () => {
   const userContext = useContext(UserContext);
   const router = useRouter();
@@ -27,15 +25,14 @@ const Today = () => {
 
   const [myModalContent, setMyModalContent] = useState("");
   const [selectedCard, setSelectedCard] = useState<UserCardProps | null>(null);
-  
+
   const selectCard = (card: UserCardProps) => {
     console.log("Card selected: ", card);
     setSelectedCard(card);
   };
 
   useEffect(() => {
-    if (!userContext.token) {
-      console.log(userContext.token);
+    if (!userContext || !userContext.token || !userContext.user) {
       console.error("Token is not defined");
       setIsError(true);
       setIsLoading(false);
@@ -63,7 +60,7 @@ const Today = () => {
         setIsError(true);
         setIsLoading(false);
       });
-  }, [userContext.token]);
+  }, [userContext]);
 
   if (isLoading) {
     return (
