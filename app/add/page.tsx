@@ -112,6 +112,7 @@ const CardCreation = () => {
         <Button
           type="submit"
           color="primary"
+          isDisabled={cardTitle === "" || (step === 3 && content === "")}
           variant="solid"
           size="lg"
           className="w-80 font-bold font-text"
