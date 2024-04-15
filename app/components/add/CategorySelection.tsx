@@ -64,8 +64,10 @@ const CategorySelection: React.FC<CategorySelectionProps> = ({
   }, [userContext]);
 
   useEffect(() => {
-    fetchCategories();
-  }, [fetchCategories]);
+    if (userContext && userContext.token && userContext.user) {
+      fetchCategories();
+    }
+  }, [fetchCategories, userContext]);
 
   const handleCategoryCreation = (categoryName: string, colorId: number) => {
     // Trouvez le nom de la couleur correspondant à l'ID de couleur
