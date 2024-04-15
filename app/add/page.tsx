@@ -22,24 +22,26 @@ const CardCreation = () => {
   const [selectedCategoryId, setSelectedCategoryId] = useState<number | null>(
     null
   );
+
+  const [category, setCategory] = useState("");
+  const [content, setContent] = useState("");
   useEffect(() => {
     if (step === 3) {
       // Change this line
       console.log("Titre de la carte : ", cardTitle);
       console.log("ID de la catégorie sélectionnée : ", selectedCategoryId);
     }
-  }, [step, cardTitle, selectedCategoryId]);
+  }, [step, content, cardTitle, selectedCategoryId]);
 
-  const [category, setCategory] = useState("");
-  const [content, setContent] = useState("");
 
   useEffect(() => {
     if (step === 4) {
       console.log("Contenu de la carte : ", content);
     }
-  }, [step, content]);
+  }, [step, content, cardTitle, selectedCategoryId]);
 
   const router = useRouter();
+
 
   const handleContinueClick = () => {
     if (step === 3) {
@@ -85,13 +87,27 @@ const CardCreation = () => {
             type="button"
             onClick={() => {
               if (step > 1) {
-                setStep(step - 1);
+                switch (step) {
+                  case 2:
+                    setCardTitle("");
+                    break;
+                  case 3:
+                    setSelectedCategoryId(null);
+                    setContent(""); // Réinitialisez l'état content ici
+                    break;
+                  case 4:
+                    setContent("");
+                    break;
+                  default:
+                    break;
+                }
+
+                setStep((prevStep) => prevStep - 1);
               }
             }}
             className="text-neutral-800 dark:text-neutral-200 text-xs w-4 h-4 m-5"
           >
             {step > 1 && <FontAwesomeIcon icon={faChevronLeft} />}
-            {/* {step > 1 && step < 4 && <FontAwesomeIcon icon={faChevronLeft} />} */}
           </button>
         </div>
         <div id="addContentContainer">
@@ -112,7 +128,7 @@ const CardCreation = () => {
         <Button
           type="submit"
           color="primary"
-          isDisabled={cardTitle === "" || (step === 3 && content === "")}
+          isDisabled={cardTitle === "" || (step === 3 && (content === "" || cardTitle === ""))}
           variant="solid"
           size="lg"
           className="w-80 font-bold font-text"
