@@ -98,7 +98,7 @@ const userContext = useContext(UserContext);
         <MainButton
           label="Continuer"
           type="normal"
-          disabled={false}
+          disabled={categories === ""}
           onClick={handleContinueClick}
         />
       </div>
