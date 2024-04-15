@@ -1,9 +1,11 @@
+import { Card, CardProps } from "@nextui-org/react";
 import React, {
   createContext,
   useState,
   ReactNode,
   useContext,
   useEffect,
+  useCallback,
 } from "react";
 
 interface IUserContext {
@@ -21,12 +23,22 @@ interface IUserContext {
   setToken: (value: string | null) => void;
   onBoarding: boolean;
   setOnBoarding: React.Dispatch<React.SetStateAction<boolean>>;
+  cards: any[];
+  setCards: React.Dispatch<React.SetStateAction<any[]>>;
+  selectedCard: UserCardProps | null;
+  setSelectedCard: React.Dispatch<React.SetStateAction<UserCardProps | null>>;
 }
 
 const UserContext = createContext<IUserContext | undefined>(undefined);
 
 interface UserContextProviderProps {
   children: ReactNode;
+}
+
+interface UserCardProps {
+  id: number;
+  title: string;
+  answer: string;
 }
 
 const UserContextProvider: React.FC<UserContextProviderProps> = ({
@@ -39,13 +51,15 @@ const UserContextProvider: React.FC<UserContextProviderProps> = ({
   const [password, setPassword] = useState<string | null>(null);
   const [token, setToken] = useState<string | null>(null);
   const [onBoarding, setOnBoarding] = useState<boolean>(false);
-
+  const [cards, setCards] = useState<any[]>([]);
+  const [selectedCard, setSelectedCard] = useState<UserCardProps | null>(null);  
   useEffect(() => {
     const userToken = localStorage.getItem("userToken");
     if (userToken) {
       setToken(userToken);
     }
   }, []);
+
 
   const setTokenAndStore = (newToken: string | null) => {
     setToken(newToken);
@@ -84,6 +98,29 @@ const UserContextProvider: React.FC<UserContextProviderProps> = ({
     }
   }, [token, setFirstname, setBirthday]);
 
+  const fetchUserCards = useCallback(async () => {
+    console.log("Token sent to API:", token);
+    const response = await fetch("/api/users/cards", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    if (response.ok) {
+      const data = await response.json();
+      console.log("Data received from API:", data);
+      setCards(data);
+    } else {
+      console.log("API response was not ok, status:", response.status);
+    }
+  }, [token, setCards]);
+
+  useEffect(() => {
+    if (token) {
+      fetchUserCards();
+    }
+  }, [token, fetchUserCards]);
+
   const contextValue = {
     user,
     setUser,
@@ -98,6 +135,8 @@ const UserContextProvider: React.FC<UserContextProviderProps> = ({
     token,
     setToken: setTokenAndStore,
     onBoarding, setOnBoarding,
+    cards, setCards,
+    selectedCard, setSelectedCard,
   };
 
   return (
@@ -113,4 +152,4 @@ export function useUser(): IUserContext {
   return context;
 }
 
-export { UserContext, UserContextProvider };
+export { UserContext, UserContextProvider, type UserCardProps };

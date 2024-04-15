@@ -1,6 +1,6 @@
 import React, { useState, ChangeEvent } from "react";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faEye, faEyeSlash, faCheck } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEye, faEyeSlash, faCheck } from "@fortawesome/free-solid-svg-icons";
 
 interface CardAppPasswordInputProps {
   onChange?: (e: ChangeEvent<HTMLInputElement>) => void;
@@ -71,10 +71,14 @@ const CardAppPasswordInput: React.FC<CardAppPasswordInputProps> = ({
           onClick={togglePasswordVisibility}
           style={{ marginTop: "-2rem", zIndex: 10 }}
         >
-          {passwordVisible ? <FontAwesomeIcon icon={faEyeSlash} /> : <FontAwesomeIcon icon={faEye} />}
+          {passwordVisible ? (
+            <FontAwesomeIcon icon={faEyeSlash} />
+          ) : (
+            <FontAwesomeIcon icon={faEye} />
+          )}
         </div>
         {!hasStartedTyping && showForgotPassword && (
-          <div className="flex justify-end text-blue-500 font-semibold">
+          <div className="flex justify-end text-cyan-500 font-semibold">
             <p className="cursor-pointer">Mot de passe oublié ?</p>
           </div>
         )}
@@ -82,7 +86,9 @@ const CardAppPasswordInput: React.FC<CardAppPasswordInputProps> = ({
       <div className="mt-2">
         {passwordCriteria.map((criteria, index) => (
           <div key={index} className="flex items-center">
-            {criteria.validate(password) && <FontAwesomeIcon icon={faCheck} className="text-green-500" />}
+            {criteria.validate(password) && (
+              <FontAwesomeIcon icon={faCheck} className="text-green-500" />
+            )}
             <p className={criteria.validate(password) ? "text-green-500" : ""}>
               {criteria.message}
             </p>

@@ -59,7 +59,10 @@ const ClientFirstNameEditPage = () => {
           <div id="firstNamePageTitle" className="flex flex-col mt-10 w-16/20">
             <CardAppTitle title="Prénom" size="small" />
           </div>
-          <div className="flex flex-col justify-between items-center w-16/20">
+          <div
+            id="firstNameInputContainer"
+            className="flex flex-col justify-between items-center w-16/20"
+          >
             <Input
               value={firstname}
               onChange={handleInputChange}

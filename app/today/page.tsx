@@ -7,27 +7,31 @@ import CardAppText from "../components/CardAppText";
 import { CircularProgress } from "@nextui-org/react";
 import { faListUl } from "@fortawesome/free-solid-svg-icons";
 import { UserContext } from "../context/UserContext";
+import { UserCardProps } from "../context/UserContext";
 import { Button } from "@nextui-org/react";
+const { useRouter } = require("next/navigation");
 
-interface Card {
-  id: number;
-  title: string;
-  answer: string;
-}
+
 
 const Today = () => {
   const userContext = useContext(UserContext);
+  const router = useRouter();
 
   if (!userContext) {
     throw new Error("UserContext must be used within a UserContextProvider");
   }
 
-  const [cards, setCards] = useState<Card[]>([]);
+  const [cards, setCards] = useState<UserCardProps[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [isError, setIsError] = useState<boolean>(false);
-  const [myModalIsOpen, setMyModalIsOpen] = useState(false);
-  const [myModalTitle, setMyModalTitle] = useState("");
+
   const [myModalContent, setMyModalContent] = useState("");
+  const [selectedCard, setSelectedCard] = useState<UserCardProps | null>(null);
+  
+  const selectCard = (card: UserCardProps) => {
+    console.log("Card selected: ", card);
+    setSelectedCard(card);
+  };
 
   useEffect(() => {
     if (!userContext.token) {
@@ -50,6 +54,7 @@ const Today = () => {
         return response.json();
       })
       .then((data) => {
+        console.log("Cards fetched: ", data);
         setCards(data);
         setIsLoading(false);
       })
@@ -74,6 +79,7 @@ const Today = () => {
 
   const rows = cards.map((card) => ({
     mainLabel: card.title,
+    onClick: () => selectCard(card),
   }));
 
   return (
@@ -101,8 +107,6 @@ const Today = () => {
             rows={rows}
             title="Fiches"
             isLargeRow={false}
-            setModalIsOpen={setMyModalIsOpen}
-            setModalTitle={setMyModalTitle}
             setModalContent={setMyModalContent}
             modalContent={myModalContent}
           />
@@ -115,6 +119,12 @@ const Today = () => {
           size="lg"
           radius="lg"
           className="w-80 font-bold font-text"
+          onClick={() => {
+            if (selectedCard) {
+              userContext.setSelectedCard(selectedCard);
+              router.push(`/today/cardselected/`);
+            }
+          }}
         >
           Réciter
         </Button>

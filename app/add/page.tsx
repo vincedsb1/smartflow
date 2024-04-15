@@ -1,109 +1,127 @@
 "use client";
-import React, { useContext, useState } from "react";
-import MainButton from "../components/MainButton";
-import CardAppTitle from "../components/CardAppTitle";
-import CardAppText from "../components/CardAppText";
-import { faFileLines } from "@fortawesome/free-solid-svg-icons";
-import ListColors from "../components/ListColors";
-import { Color } from "@prisma/client";
-import { UserContext } from "../context/UserContext";
+import React, { useState, useEffect, useContext } from "react";
+import TitleCreation from "../components/add/TitleCreation";
+import CategorySelection from "../components/add/CategorySelection";
+import ContentInput from "../components/add/ContentInput";
+import ConfirmationScreen from "../components/add/ConfirmationScreen";
+import { Button } from "@nextui-org/react";
+import { faChevronLeft } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useRouter } from "next/navigation";
+import { UserContext } from "../context/UserContext";
 
+const CardCreation = () => {
+  const userContext = useContext(UserContext);
+  const [step, setStep] = useState(1);
 
-
-
-const Add = () => {
-const userContext = useContext(UserContext);
-  const token = userContext ? userContext.token : null;
-  const [categories, setCategorie] = useState("");
-  const [selectedColor, setSelectedColor] = useState<Color | null>(null);
-
-  const router = useRouter();
-  
-  const handleColorSelected = (color: Color) => {
-    setSelectedColor(color);
+  const handleCategoryChange = (id: number) => {
+    setSelectedCategoryId(id);
   };
 
-  const handleContinueClick = async () => {
-    console.log("Selected color:", selectedColor); 
-    console.log("Categories:", categories);
-    if (selectedColor && categories) {
-      console.log("Token:", token);
+  const [cardTitle, setCardTitle] = useState("");
+  const [selectedCategoryId, setSelectedCategoryId] = useState<number | null>(
+    null
+  );
+  useEffect(() => {
+    if (step === 3) {
+      // Change this line
+      console.log("Titre de la carte : ", cardTitle);
+      console.log("ID de la catégorie sélectionnée : ", selectedCategoryId);
+    }
+  }, [step, cardTitle, selectedCategoryId]);
 
-      try {
-        const response = await fetch("/api/categories/createCategories", {
-          method: "POST",
-          headers: {
-            'Content-Type': 'application/json', 
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify({
-            name: categories,
-            colorId: selectedColor.id,
-          }),
+  const [category, setCategory] = useState("");
+  const [content, setContent] = useState("");
+
+  useEffect(() => {
+    if (step === 4) {
+      console.log("Contenu de la carte : ", content);
+    }
+  }, [step, content]);
+
+  const router = useRouter();
+
+  const handleContinueClick = () => {
+    if (step === 3) {
+      console.log("Route Add card");
+      const token = localStorage.getItem("token");
+      fetch("/api/cards/create", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${userContext?.token ?? ""}`,
+        },
+        body: JSON.stringify({
+          title: cardTitle,
+          category: selectedCategoryId,
+          content: content,
+        }),
+      })
+        .then((response) => response.json())
+        .then((data) => console.log(data))
+        .catch((error) => {
+          console.error("Error:", error);
         });
+    }
 
-        if (!response.ok) {
-          console.log(await response.json()); 
-
-          throw new Error("Erreur lors de la création de la catégorie");
-        }
-
-        const newCategory = await response.json();
-        console.log("Nouvelle catégorie créée :", newCategory);
-        router.push("/organize");
-      } catch (error) {
-        console.error(error);
-      }
+    if (step < 4) {
+      setStep(step + 1);
+    } else {
+      router.push("/today");
     }
   };
 
   return (
-    <div className="flex flex-col justify-between min-h-screen w-full">
-      <div className="flex flex-col justify-center items-center">
-        <div id="title" className="mt-11 w-16/20">
-          <CardAppTitle title="Nouvelle fiche" />
+    <div
+      id="addMainContainer"
+      className="flex flex-col justify-between min-h-screen w-full"
+    >
+      <div
+        id="addTopContainer"
+        className="flex flex-col justify-center w-full "
+      >
+        <div id="birthdayBackIcon" className="w-full flex flex-col mt-16">
+          <button
+            type="button"
+            onClick={() => {
+              if (step > 1) {
+                setStep(step - 1);
+              }
+            }}
+            className="text-neutral-800 dark:text-neutral-200 text-xs w-4 h-4 m-5"
+          >
+            {step > 1 && <FontAwesomeIcon icon={faChevronLeft} />}
+            {/* {step > 1 && step < 4 && <FontAwesomeIcon icon={faChevronLeft} />} */}
+          </button>
         </div>
-        <div id="text" className="items-center w-16/20">
-          <CardAppText
-            text="Quel est le sujet de cette fiche ?"
-            icon={faFileLines}
-          />
+        <div id="addContentContainer">
+          {step === 1 && <TitleCreation onTitleChange={setCardTitle} />}
+          {step === 2 && (
+            <CategorySelection onCategoryChange={handleCategoryChange} />
+          )}
+          {step === 3 && <ContentInput onContentChange={setContent} />}
+          {step === 4 && <ConfirmationScreen />}
         </div>
       </div>
 
       <div
-        id="globalInput "
-        className="flex flex-col align-center justify-center ml-10"
+        id="addBottomContainer"
+        className="flex flex-col justify-center items-center w-full mb-32 "
       >
-        <div id="inputTitle" className="">
-          <p>Titre</p>
-        </div>
-        <div id="input" className="flex justify-start">
-          <input
-            type="text"
-            placeholder="Saisir le sujet"
-            className="w-16/20 h-12 rounded-lg border border-gray-300 pl-4"
-            value={categories}
-            onChange={(e) => {
-              setCategorie(e.target.value);
-            }}
-          />
-        </div>
-        <div id="composantColors" className="">
-          <ListColors onColorSelected={handleColorSelected} />
-        </div>
-      </div>
-      <div id="button" className="mb-28 flex justify-center">
-        <MainButton
-          label="Continuer"
-          type="normal"
-          disabled={categories === ""}
+        {/* <Button onClick={handleContinueClick}>Continuer</Button> */}
+        <Button
+          type="submit"
+          color="primary"
+          variant="solid"
+          size="lg"
+          className="w-80 font-bold font-text"
           onClick={handleContinueClick}
-        />
+        >
+          {step < 4 ? "Continuer" : "Voir la fiche"}
+        </Button>
       </div>
     </div>
   );
 };
 
-export default Add;
+export default CardCreation;
