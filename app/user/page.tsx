@@ -76,6 +76,7 @@ const UserProfile: React.FC = () => {
       secondaryLabel: undefined,
       icon: faChevronRight,
       bgcolor: "",
+      link: "/cgu",
     },
     {
       mainLabel: "Se déconnecter",
