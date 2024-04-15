@@ -118,7 +118,7 @@ const CardCreation = () => {
           className="w-80 font-bold font-text"
           onClick={handleContinueClick}
         >
-          {step < 4 ? "Continuer" : "Voir la fiche"}
+          {step === 2 && selectedCategoryId === null ? "Continuer sans catégorie" : (step < 4 ? "Continuer" : "Voir la fiche")}
         </Button>
       </div>
     </div>
