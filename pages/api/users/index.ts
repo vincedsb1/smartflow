@@ -32,7 +32,7 @@ export default async function handle(
           password: hashedPassword,
           firstname: firstname,
           lastname: "Default",
-          birthday: new Date(),
+          birthday: birthday,
           onBoarding: false,
           imageUrl: "default.jpg",
           languageId: 1,
