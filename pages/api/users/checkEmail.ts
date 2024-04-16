@@ -22,6 +22,13 @@ export default async function handler(
     const email =
       typeof req.query.email === "string" ? req.query.email : undefined;
 
+    // Vérifie si l'email est dans un format valide
+    const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
+    if (!email || !emailRegex.test(email)) {
+      res.status(400).json({ message: "Email is invalid" });
+      return;
+    }
+
     try {
       const user = await prisma.user.findUnique({
         where: {
@@ -30,37 +37,33 @@ export default async function handler(
       });
 
       if (!user) {
-        if (email) {
-          const token = uuidv4();
+        const token = uuidv4();
 
-          await prisma.emailVerification.create({
-            data: {
-              email: email,
-              token: token,
-              expiresAt: new Date(Date.now() + 24 * 60 * 60 * 1000), // 24 heures à partir de maintenant
-            },
-          });
+        await prisma.emailVerification.create({
+          data: {
+            email: email,
+            token: token,
+            expiresAt: new Date(Date.now() + 24 * 60 * 60 * 1000), // 24 heures à partir de maintenant
+          },
+        });
 
-          const verificationLink = `http://localhost:3000/register-firstname?token=${token}`;
+        const verificationLink = `http://localhost:3000/register-firstname?token=${token}`;
 
-          const emailContent = ReactDOMServer.renderToString(
-            React.createElement(VerificationMail, {
-              email: email,
-              link: verificationLink,
-            })
-          );
+        const emailContent = ReactDOMServer.renderToString(
+          React.createElement(VerificationMail, {
+            email: email,
+            link: verificationLink,
+          })
+        );
 
-          await resend.emails.send({
-            from: "onboarding@resend.dev",
-            to: "thibaut.mosteau@lilo.org",
-            subject: "Hello World",
-            html: emailContent,
-          });
+        await resend.emails.send({
+          from: "onboarding@resend.dev",
+          to: "thibaut.mosteau@lilo.org",
+          subject: "Hello World",
+          html: emailContent,
+        });
 
-          res.status(200).json({ message: "Email sent" });
-        } else {
-          res.status(400).json({ message: "Email is undefined" });
-        }
+        res.status(200).json({ message: "Email sent" });
       } else {
         res.status(200).json({ message: "Email already exists" });
       }
