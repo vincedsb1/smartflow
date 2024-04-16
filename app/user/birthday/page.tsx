@@ -44,8 +44,13 @@ const ClientBirthdayEditPage = () => {
   const handleBirthdayChange = async () => {
     try {
       if (userContext && value.startDate) {
-        // Ajoutez l'heure à la date
         const fullDate = `${value.startDate}T00:00:00.000Z`;
+        const dateRegex = /^\d{4}-\d{2}-\d{2}T00:00:00.000Z$/;
+        if (!dateRegex.test(fullDate)) {
+          alert("La date de naissance doit être au format YYYY-MM-DD");
+          return;
+        }
+
         const updatedBirthday = await ServerBirthdayEditPage(
           fullDate,
           userContext.token ?? ""

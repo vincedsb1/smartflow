@@ -13,31 +13,36 @@ import { useUser } from "../context/UserContext";
 import { Button } from "@nextui-org/react";
 import { Input } from "@nextui-org/react";
 
+
+// Page d'inscription pour le prénom
 const InscriptionPage = () => {
   const router = useRouter();
   const [token, setToken] = useState<string | null>(null);
   const [firstName, setFirstName] = useState<string | null>(null);
   const { user, setUser, setEmail, setFirstname } = useUser();
+  const [isEmailVerified, setIsEmailVerified] = useState(false);
 
+
+  // Fonction pour gérer le changement de prénom
   const handleFirstNameChange = (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
     setFirstName(event.target.value);
   };
 
+  // Récupérer le token de l'URL
   useEffect(() => {
     if (typeof window !== "undefined") {
       const urlParams = new URLSearchParams(window.location.search);
       const token = urlParams.get("token");
       setToken(token);
-      console.log("Token récupéré de l'URL:", token);
     }
   }, []);
 
+  // Vérifier l'email
   useEffect(() => {
     const verifyEmail = async () => {
       if (token) {
-        console.log("Token:", token);
         try {
           const response = await fetch(
             `/api/emailverification?token=${token}`,
@@ -48,11 +53,10 @@ const InscriptionPage = () => {
               },
             }
           );
-          console.log("Réponse de l'API:", response);
           const data = await response.json();
-          console.log("Données de l'API:", data);
           setEmail(data.email);
           setUser({ ...user, email: data.email });
+          setIsEmailVerified(true); // Ajoutez cette ligne
         } catch (error) {
           console.error(error);
           router.push("/mailauth");
@@ -64,15 +68,20 @@ const InscriptionPage = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [token]);
 
+  // Fonction pour continuer
   const handleContinue = () => {
-    console.log("Prénom stocké:", firstName);
-    if (firstName) {
+    const nameRegex = /^[a-zA-Z]+$/;
+    if (firstName && nameRegex.test(firstName)) {
       setFirstname(firstName);
+    } else {
+      alert("Le prénom ne doit contenir que des lettres");
+      return;
     }
 
-    if (user.email) {
+    if (user.email && isEmailVerified) {
       router.push("/register-birthay");
     } else {
+      router.push("/mailauth");
     }
   };
 
@@ -143,16 +152,6 @@ const InscriptionPage = () => {
         </div>
       </div>
     </div>
-    // <div className="flex flex-col justify-center items-center h-screen">
-    //   <div>
-    //     <Link href={"/register-inscription"}>
-    //       <button type="button" className="absolute top-0 left-0 mt-12 ml-6">
-    //         <FontAwesomeIcon icon={faChevronLeft} className="h-6" />
-    //       </button>
-    //     </Link>
-    //   </div>
-
-    // </div>
   );
 };
 

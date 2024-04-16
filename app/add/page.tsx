@@ -10,6 +10,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useRouter } from "next/navigation";
 import { UserContext } from "../context/UserContext";
 
+
 const CardCreation = () => {
   const userContext = useContext(UserContext);
   const [step, setStep] = useState(1);
@@ -23,7 +24,6 @@ const CardCreation = () => {
     null
   );
 
-  const [category, setCategory] = useState("");
   const [content, setContent] = useState("");
   useEffect(() => {
     if (step === 3) {
@@ -44,6 +44,11 @@ const CardCreation = () => {
 
 
   const handleContinueClick = () => {
+    const titleRegex = /^[a-zA-Z0-9]+$/;
+    if (!titleRegex.test(cardTitle)) {
+      alert("Le titre de la carte ne doit contenir que des lettres et des chiffres");
+      return;
+    }
     if (step === 3) {
       console.log("Route Add card");
       const token = localStorage.getItem("token");
@@ -65,7 +70,6 @@ const CardCreation = () => {
           console.error("Error:", error);
         });
     }
-
     if (step < 4) {
       setStep(step + 1);
     } else {

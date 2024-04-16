@@ -61,6 +61,12 @@ const AddCategoryModal: React.FC<AddCategoryModalProps> = ({
   };
 
   const createCategory = async () => {
+    const nameRegex = /^[a-zA-Z0-9]+$/;
+    if (!nameRegex.test(categoryName)) {
+      alert("Le nom de la catégorie ne doit contenir que des lettres et des chiffres");
+      return;
+    }
+  
     const selectedColor = colors.find((color) => color.selected);
     if (!selectedColor) {
       alert("Please select a color");
@@ -77,12 +83,12 @@ const AddCategoryModal: React.FC<AddCategoryModalProps> = ({
         colorId: selectedColor.id,
       }),
     });
-
+  
     if (!response.ok) {
       console.error("Error creating category");
       return;
     }
-
+  
     const data = await response.json();
     onValidate(categoryName, selectedColor.id);
   };
