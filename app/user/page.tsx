@@ -20,7 +20,8 @@ const UserProfile: React.FC = () => {
   const router = useRouter();
 
   useEffect(() => {
-    if (!user || !token) {
+    // If the user or token is null or undefined, redirect to "/welcome"
+    if (!user || user === undefined || !token || token === undefined) {
       router.push("/welcome");
     }
   }, [user, token, router]);
