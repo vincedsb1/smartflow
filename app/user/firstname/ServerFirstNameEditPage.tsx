@@ -3,6 +3,11 @@ import jwt from "jsonwebtoken";
 
 const ServerFirstNameEditPage = async (firstname: string, token: string) => {
   try {
+    const nameRegex = /^[a-zA-Z]+$/;
+    if (!nameRegex.test(firstname)) {
+      throw new Error("Le prénom ne doit contenir que des lettres");
+    }
+
     const decodedToken = jwt.decode(token);
     const userId = decodedToken?.userId;
 

@@ -21,6 +21,11 @@ const ClientFirstNameEditPage = () => {
 
   const handleFirstnameChange = async () => {
     try {
+      const nameRegex = /^[a-zA-Z]+$/;
+      if (!nameRegex.test(firstname)) {
+        setDisplayMessage("Le prénom ne doit contenir que des lettres");
+        return;
+      }
       if (userContext) {
         const updatedFirstname = await ServerFirstNameEditPage(
           firstname,

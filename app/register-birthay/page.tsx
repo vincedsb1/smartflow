@@ -11,6 +11,7 @@ import { useRouter } from "next/navigation";
 import InputBirthday from "../components/InputBirthday";
 import { useUser } from "../context/UserContext";
 
+// Page d'inscription - Date de naissance
 const InscriptionPage = () => {
   const router = useRouter();
   const {
@@ -24,15 +25,26 @@ const InscriptionPage = () => {
     setBirthday,
   } = useUser();
 
+  // Affichage des données stockées
   useEffect(() => {
-    console.log("Prénom stocké:", firstname);
-    console.log("Email stocké:", email);
   }, [firstname, email]);
 
+  // Fonction de redirection vers la page suivante
   const handleContinue = () => {
-    console.log("Date de naissance stockée:", birthday);
-    setUser({ ...user, email, firstname, birthday });
-    router.push("/register-password");
+    if (!birthday) {
+      alert("Veuillez sélectionner une date de naissance.");
+      return;
+    }
+    const formattedBirthday = `${("0" + birthday.getDate()).slice(-2)}/${("0" + (birthday.getMonth() + 1)).slice(-2)}/${birthday.getFullYear()}`;
+    const dateRegex = /^(0[1-9]|[12][0-9]|3[01])\/(0[1-9]|1[012])\/(19|20)\d\d$/;
+    console.log("Date de naissance formatée:", formattedBirthday);
+    if (formattedBirthday && dateRegex.test(formattedBirthday)) {
+      setUser({ ...user, email, firstname, birthday });
+      router.push("/register-password");
+    } else {
+      alert("La date de naissance doit être au format JJ/MM/AAAA");
+      return;
+    }
   };
 
 

@@ -24,9 +24,19 @@ const MailSignin = () => {
   const [cgu, setCgu] = useState(false);
   const router = useRouter();
 
+  // État pour suivre si l'email est valide
+  const [isEmailValid, setIsEmailValid] = useState(true);
+
+  // Gère le changement de l'input email
   const handleChangeEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const email = e.target.value;
+
+    // Vérifie si l'email est dans un format valide
+    const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
+    setIsEmailValid(emailRegex.test(email));
+
     if (setEmail) {
-      setEmail(e.target.value);
+      setEmail(email);
     }
   };
 
@@ -34,32 +44,37 @@ const MailSignin = () => {
     setCgu(e.target.checked);
   };
 
-  const [isSelected, setIsSelected] = React.useState(false);
-
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
       const res = await fetch(`/api/users/checkEmail?email=${email}`);
       const data = await res.json();
-
       const emailExists = res.ok && data.message === "Email already exists";
-
       if (!emailExists) {
         router.push("/register");
         return;
       }
-
       if (!cgu) {
         alert("Vous devez accepter les CGU");
         return;
       }
-
       router.push("/connexion");
     } catch (err) {
       console.log(`Error: ${err}`);
       alert("Une erreur s'est produite lors de la vérification de l'e-mail");
     }
   };
+
+  // Gère le clic sur le bouton
+  const handleClick = () => {
+    // Vérifie si l'email est dans un format valide
+    const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
+    if (!email || !emailRegex.test(email)) {
+      alert("Veuillez entrer un email valide");
+      return;
+    }
+  };
+
 
   return (
     <div
@@ -141,6 +156,8 @@ const MailSignin = () => {
               variant="solid"
               size="lg"
               className="w-80 font-bold font-text"
+              onClick={handleClick}
+              disabled={!isEmailValid}
             >
               Suivant
             </Button>
