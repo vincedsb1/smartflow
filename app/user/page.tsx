@@ -22,7 +22,7 @@ const UserProfile: React.FC = () => {
   useEffect(() => {
     // If the user or token is null or undefined, redirect to "/welcome"
     if (!user || user === undefined || !token || token === undefined) {
-      router.push("/welcome");
+      router.push("/");
     }
   }, [user, token, router]);
 
