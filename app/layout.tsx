@@ -17,7 +17,6 @@ export default function RootLayout({ children }: RootLayoutProps) {
   const segment = useSelectedLayoutSegment() ?? "";
 
   const showTabBar = [
-    "",
     "today",
     "add",
     "review",
