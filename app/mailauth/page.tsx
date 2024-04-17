@@ -12,7 +12,7 @@ import { Checkbox } from "@nextui-org/react";
 import { Input } from "@nextui-org/react";
 import { Link } from "@nextui-org/react";
 
-const MailSignin = () => {
+const MailAuth = () => {
   console.log("user: alice@prisma.io pass: passwordA123@#");
   const userContext = useContext(UserContext);
 
@@ -74,7 +74,6 @@ const MailSignin = () => {
       return;
     }
   };
-
 
   return (
     <div
@@ -168,4 +167,4 @@ const MailSignin = () => {
   );
 };
 
-export default MailSignin;
+export default MailAuth;
