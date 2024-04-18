@@ -14,8 +14,9 @@ import { UserContext, useUser } from "../context/UserContext";
 import { useRouter } from "next/navigation";
 
 const UserProfile: React.FC = () => {
-  const { firstname, email, birthday, user, token, setUser, setToken } =
+  const { id, firstname, email, birthday, user, token, setUser, setToken } =
     useUser();
+  console.log("User ID:", id);
   console.log(firstname, email, birthday);
   const router = useRouter();
 
@@ -174,6 +175,7 @@ const UserProfile: React.FC = () => {
           setModalContent={setModalContent}
           modalTitle={modalTitle}
           modalContent={modalContent}
+          userId={user.id}
         />
       </div>
       <div id="userOtherContainer" className="w-full ">
@@ -189,6 +191,7 @@ const UserProfile: React.FC = () => {
           setModalContent={setModalContent}
           modalTitle={modalTitle}
           modalContent={modalContent}
+          userId={user.id}
         />
       </div>
       <div id="userOtherContainer" className=""></div>
