@@ -117,7 +117,6 @@ const OrganizeCategories = () => {
             modalContent={myModalContent}
             belowListLink="Ajouter une catégorie"
             onBelowListLinkClick={() => router.push("/organize/addCategory")}
-            userId={user?.id || ""}
           />
         </div>
       </div>

@@ -109,7 +109,6 @@ const OrganizeCards = () => {
             setModalTitle={setMyModalTitle}
             setModalContent={setMyModalContent}
             modalContent={myModalContent}
-            userId={user?.id || ""}
           />
         </div>
       </div>
