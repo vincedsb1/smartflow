@@ -6,7 +6,7 @@ import List from "../../components/List";
 import { UserContext } from "@/app/context/UserContext";
 import CardAppText from "../CardAppText";
 import CardAppTitle from "../CardAppTitle";
-import { CircularProgress, user } from "@nextui-org/react";
+import { CircularProgress } from "@nextui-org/react";
 import BelowListLink from "../list/BelowListLink";
 import AddCategoryModal from "../category/AddCategoryModal";
 import { useDisclosure } from "@nextui-org/react";
@@ -124,7 +124,6 @@ const CategorySelection: React.FC<CategorySelectionProps> = ({
               isLargeRow={false}
               selectable={true}
               modalContent=""
-              userId={(user as unknown as { id: string }).id} // Add type assertion here
             />
             <BelowListLink onClick={onOpen}>
               Ajouter une catégorie

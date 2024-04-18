@@ -10,7 +10,6 @@ import { useState } from "react";
 import CardAppText from "../components/CardAppText";
 import CardAppTitle from "../components/CardAppTitle";
 import List from "../components/List";
-import { user } from "@nextui-org/react";
 
 const Organize = () => {
   const rows = [
@@ -53,6 +52,17 @@ const Organize = () => {
           <div id="organizeHint" className="flex flex-col items-center w-16/20">
             <CardAppText text="Que voulez-vous organiser ?" icon={faTag} />
           </div>
+        </div>
+        <div id="organizeList" className="">
+          <List
+            rows={rows}
+            title="Élements"
+            isLargeRow={false}
+            setModalIsOpen={setMyModalIsOpen}
+            setModalTitle={setMyModalTitle}
+            setModalContent={setMyModalContent}
+            modalContent={myModalContent}
+          />
         </div>
       </div>
     </div>

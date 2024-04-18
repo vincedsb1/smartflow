@@ -26,6 +26,7 @@ interface ListRowProps {
   onClick?: () => void; // Fonction à exécuter lors du clic
   selected?: boolean; // Si vrai, la ligne est sélectionnée
   token?: string; // Token d'authentification
+  userId?: string; // Identifiant de l'utilisateur
 }
 
 // Définition des propriétés pour la liste
@@ -207,8 +208,8 @@ const List: React.FC<ListProps> = ({
         content={modalContent}
         onValidate={() => {}}
         token={token || ""}
-        userId={userId?.toString() || ""}
-      />
+        userId={userId || ""}
+        />
     </div>
   );
 };
