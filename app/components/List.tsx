@@ -45,7 +45,7 @@ interface ListProps {
   selectable?: boolean; // Si vrai, les lignes sont sélectionnables
   onSelect?: (index: number) => void; // Fonction à exécuter lors de la sélection d'une ligne
   token?: string; // Token d'authentification
-  userId: string; // Identifiant de l'utilisateur
+  userId?: string; // Identifiant de l'utilisateur
 }
 
 // Composant de la liste
@@ -207,7 +207,7 @@ const List: React.FC<ListProps> = ({
         content={modalContent}
         onValidate={() => {}}
         token={token || ""}
-        userId={userId}
+        userId={userId?.toString() || ""}
       />
     </div>
   );
