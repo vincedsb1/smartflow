@@ -25,7 +25,6 @@ const ConnexionPage = () => {
   }
 
   const { email, firstname, birthday, setUser, onBoarding, setOnBoarding } = userContext;
-
   const [password, setPassword] = useState("");
   const [displayMessage, setDisplayMessage] = useState("");
   const message = "Le mot de passe est incorrect, veuillez réessayer.";
@@ -61,28 +60,45 @@ const ConnexionPage = () => {
           console.log("Token received from API (Page connexion):", data.token);
           userContext.setToken(data.token);
           console.log("Token set in userContext"); // Log after setting the token in userContext
-          
+        
+          const userResponse = await fetch('/api/users/details', {
+            headers: {
+              Authorization: `Bearer ${data.token}`,
+            },
+          });
+        
+          if (userResponse.ok) {
+            const userData = await userResponse.json();
+            console.log("User data received from API:", userData); // Log the user data
+            userContext.setUser({
+              firstname: userData.firstname,
+              email: userData.email,
+              birthday: userData.birthday
+            }); // Set user data in the context
+            console.log("User set in userContext:", userData);
+            console.log("User id:", userData.id);
+          }
           // Log the value of data.onBoarding
           console.log("Value of data.onBoarding:", data.onBoarding);
-          
+        
           // Set onBoarding state
           setOnBoarding(data.onBoarding);
-          
+        
           // Redirect user based on onBoarding state
           if (data.onBoarding) {
             router.push("/today");
-            console.log("Redirected to /today"); 
+            console.log("Redirected to /today");
           } else {
             router.push("/onboarding");
             console.log("Redirected to /onboarding");
           }
-          
+
           setUser({ email, firstname, birthday, setUser });
-          console.log("User set"); 
+          console.log("User set");
         }
       }
     } catch (error) {
-      console.error("Error in handlePasswordCheck", error); 
+      console.error("Error in handlePasswordCheck", error);
     }
   };
 
