@@ -18,6 +18,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
 
   const showTabBar = [
     "today",
+    "review",
     "add",
     "review",
     "organize",

@@ -1,5 +1,5 @@
 "use client";
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import CardAppTitle from "../components/CardAppTitle";
 import CardAppText from "../components/CardAppText";
 import { faEnvelope } from "@fortawesome/free-solid-svg-icons";
@@ -22,6 +22,9 @@ const MailAuth = () => {
 
   const { email, setEmail } = userContext;
   const [cgu, setCgu] = useState(false);
+  useEffect(() => {
+    console.log("cgu state updated:", cgu);
+  }, [cgu]);
   const router = useRouter();
 
   // État pour suivre si l'email est valide
