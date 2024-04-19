@@ -70,7 +70,6 @@ const Today = () => {
 
   const handleCardClick = (cardId: number) => {
     console.log(`Card clicked: ${cardId}`);
-    userContext.setSelectedCardId(cardId);
     router.push(`/today/review?id=${cardId}`);
   };
 
