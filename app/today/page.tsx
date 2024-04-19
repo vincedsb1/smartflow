@@ -24,12 +24,6 @@ const Today = () => {
   const [isError, setIsError] = useState<boolean>(false);
 
   const [myModalContent, setMyModalContent] = useState("");
-  const [selectedCard, setSelectedCard] = useState<UserCardProps | null>(null);
-
-  const selectCard = (card: UserCardProps) => {
-    console.log("Card selected: ", card);
-    setSelectedCard(card);
-  };
 
   useEffect(() => {
     if (!userContext || !userContext.token || !userContext.user) {
@@ -74,9 +68,15 @@ const Today = () => {
     return <div>Error</div>;
   }
 
+  const handleCardClick = (cardId: number) => {
+    console.log(`Card clicked: ${cardId}`);
+    userContext.setSelectedCardId(cardId);
+    router.push(`/today/review?id=${cardId}`);
+  };
+
   const rows = cards.map((card) => ({
     mainLabel: card.title,
-    onClick: () => selectCard(card),
+    link: "/today/review?id=" + card.id,
   }));
 
   return (
@@ -117,10 +117,7 @@ const Today = () => {
           radius="lg"
           className="w-80 font-bold font-text"
           onClick={() => {
-            if (selectedCard) {
-              userContext.setSelectedCard(selectedCard);
-              router.push(`/today/cardselected/`);
-            }
+            router.push(`/today/review/`);
           }}
         >
           Réciter
