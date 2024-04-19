@@ -85,8 +85,8 @@ const UserContextProvider: React.FC<UserContextProviderProps> = ({
       setToken(userToken);
     }
   }, []);
-
-  // Function to set the token and store it in local storage
+  
+// Function to set the token and store it in local storage
   const setTokenAndStore = (newToken: string | null) => {
     setToken(newToken);
     if (newToken) {
@@ -125,6 +125,30 @@ const UserContextProvider: React.FC<UserContextProviderProps> = ({
       console.log("Token is not set");
     }
   }, [token, setFirstname, setBirthday]);
+
+  // Fetch user cards from the API
+  const fetchUserCards = useCallback(async () => {
+    console.log("Token sent to API:", token);
+    const response = await fetch("/api/users/cards", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    if (response.ok) {
+      const data = await response.json();
+      console.log("Data received from API:", data);
+      setCards(data);
+    } else {
+      console.log("API response was not ok, status:", response.status);
+    }
+  }, [token, setCards]);
+
+  useEffect(() => {
+    if (token) {
+      fetchUserCards();
+    }
+  }, [token, fetchUserCards]);
 
   // Fetch user card details from the API
   const contextValue = {
