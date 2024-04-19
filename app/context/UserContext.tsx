@@ -1,13 +1,11 @@
 "use client";
 
-import { Card, CardProps } from "@nextui-org/react";
 import React, {
   createContext,
   useState,
   ReactNode,
   useContext,
   useEffect,
-  useCallback,
 } from "react";
 
 interface UserContext {
