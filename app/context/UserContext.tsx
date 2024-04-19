@@ -10,12 +10,8 @@ import React, {
   useCallback,
 } from "react";
 
-<<<<<<< HEAD
 interface UserContext {
-=======
-interface IUserContext {
   id: string | null;
->>>>>>> 1aca48ee0aefb3a658eb6ad76d13b23651f33ef5
   user: any;
   setUser: React.Dispatch<any>;
   email: string | null;
@@ -32,10 +28,6 @@ interface IUserContext {
   setOnBoarding: React.Dispatch<React.SetStateAction<boolean>>;
   selectedCardId: number | null;
   setSelectedCardId: React.Dispatch<React.SetStateAction<number | null>>;
-  // cards: any[];
-  // setCards: React.Dispatch<React.SetStateAction<any[]>>;
-  // selectedCard: UserCardProps | null;
-  // setSelectedCard: React.Dispatch<React.SetStateAction<UserCardProps | null>>;
 }
 
 const UserContext = createContext<UserContext | undefined>(undefined);
@@ -79,7 +71,6 @@ const UserContextProvider: React.FC<UserContextProviderProps> = ({
     console.log("Token state updated:", token);
   }, [token]);
   const [onBoarding, setOnBoarding] = useState<boolean>(false);
-<<<<<<< HEAD
   useEffect(() => {
     console.log("Onboarding state updated:", onBoarding);
   }, [onBoarding]);
@@ -87,19 +78,7 @@ const UserContextProvider: React.FC<UserContextProviderProps> = ({
   useEffect(() => {
     console.log("Selected card ID state updated:", selectedCardId);
   }, [selectedCardId]);
-  // const [cards, setCards] = useState<any[]>([]);
-  // useEffect(() => {
-  //   console.log("Cards state updated:", cards);
-  // }, [cards]);
-  // const [selectedCard, setSelectedCard] = useState<UserCardProps | null>(null);
-  // useEffect(() => {
-  //   console.log("Selected card state updated:", selectedCard);
-  // }, [selectedCard]);
-=======
-  const [cards, setCards] = useState<any[]>([]);
-  const [selectedCard, setSelectedCard] = useState<UserCardProps | null>(null);  
   const [id, setId] = useState<string | null>(null);
->>>>>>> 1aca48ee0aefb3a658eb6ad76d13b23651f33ef5
   useEffect(() => {
     const userToken = localStorage.getItem("userToken");
     if (userToken) {
@@ -107,10 +86,7 @@ const UserContextProvider: React.FC<UserContextProviderProps> = ({
     }
   }, []);
 
-<<<<<<< HEAD
-=======
-// Function to set the token and store it in local storage
->>>>>>> 1aca48ee0aefb3a658eb6ad76d13b23651f33ef5
+  // Function to set the token and store it in local storage
   const setTokenAndStore = (newToken: string | null) => {
     setToken(newToken);
     if (newToken) {
@@ -150,40 +126,6 @@ const UserContextProvider: React.FC<UserContextProviderProps> = ({
     }
   }, [token, setFirstname, setBirthday]);
 
-<<<<<<< HEAD
-  // const fetchUserCards = useCallback(async () => {
-  //   console.log("Token sent to API:", token);
-  //   const response = await fetch("/api/users/cards", {
-  //     headers: {
-  //       Authorization: `Bearer ${token}`,
-  //     },
-  //   });
-=======
-  // Fetch user cards from the API
-  const fetchUserCards = useCallback(async () => {
-    console.log("Token sent to API:", token);
-    const response = await fetch("/api/users/cards", {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
->>>>>>> 1aca48ee0aefb3a658eb6ad76d13b23651f33ef5
-
-  //   if (response.ok) {
-  //     const data = await response.json();
-  //     console.log("Data received from API:", data);
-  //     setCards(data);
-  //   } else {
-  //     console.log("API response was not ok, status:", response.status);
-  //   }
-  // }, [token, setCards]);
-
-  // useEffect(() => {
-  //   if (token) {
-  //     fetchUserCards();
-  //   }
-  // }, [token, fetchUserCards]);
-
   // Fetch user card details from the API
   const contextValue = {
     id,
@@ -204,10 +146,6 @@ const UserContextProvider: React.FC<UserContextProviderProps> = ({
     setOnBoarding,
     selectedCardId,
     setSelectedCardId,
-    // cards,
-    // setCards,
-    // selectedCard,
-    // setSelectedCard,
   };
 
   return (
@@ -215,12 +153,8 @@ const UserContextProvider: React.FC<UserContextProviderProps> = ({
   );
 };
 
-<<<<<<< HEAD
 export function useUser(): UserContext {
-=======
-// Custom hook to use the user context
-export function useUser(): IUserContext {
->>>>>>> 1aca48ee0aefb3a658eb6ad76d13b23651f33ef5
+  // Custom hook to use the user context
   const context = useContext(UserContext);
   if (context === undefined) {
     throw new Error("useUser must be used within a UserContextProvider");
