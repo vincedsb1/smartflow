@@ -1,4 +1,5 @@
-import { Card, CardProps } from "@nextui-org/react";
+"use client";
+
 import React, {
   createContext,
   useState,
@@ -8,7 +9,7 @@ import React, {
   useCallback,
 } from "react";
 
-interface IUserContext {
+interface UserContext {
   id: string | null;
   user: any;
   setUser: React.Dispatch<any>;
@@ -24,13 +25,9 @@ interface IUserContext {
   setToken: (value: string | null) => void;
   onBoarding: boolean;
   setOnBoarding: React.Dispatch<React.SetStateAction<boolean>>;
-  cards: any[];
-  setCards: React.Dispatch<React.SetStateAction<any[]>>;
-  selectedCard: UserCardProps | null;
-  setSelectedCard: React.Dispatch<React.SetStateAction<UserCardProps | null>>;
 }
 
-const UserContext = createContext<IUserContext | undefined>(undefined);
+const UserContext = createContext<UserContext | undefined>(undefined);
 
 interface UserContextProviderProps {
   children: ReactNode;
@@ -47,14 +44,34 @@ const UserContextProvider: React.FC<UserContextProviderProps> = ({
   children,
 }) => {
   const [user, setUser] = useState<any>(null);
+  useEffect(() => {
+    console.log("User state updated:", user);
+  }, [user]);
   const [email, setEmail] = useState<string | null>(null);
+  useEffect(() => {
+    console.log("Email state updated:", email);
+  }, [email]);
   const [firstname, setFirstname] = useState<string>("");
+  useEffect(() => {
+    console.log("Firstname state updated:", firstname);
+  }, [firstname]);
   const [birthday, setBirthday] = useState<Date | null>(null);
+  useEffect(() => {
+    console.log("Birthday state updated:", birthday);
+  }, [birthday]);
   const [password, setPassword] = useState<string | null>(null);
+  useEffect(() => {
+    console.log("Password state updated:", password);
+  }, [password]);
   const [token, setToken] = useState<string | null>(null);
+  useEffect(() => {
+    console.log("Token state updated:", token);
+  }, [token]);
   const [onBoarding, setOnBoarding] = useState<boolean>(false);
+  useEffect(() => {
+    console.log("Onboarding state updated:", onBoarding);
+  }, [onBoarding]);
   const [cards, setCards] = useState<any[]>([]);
-  const [selectedCard, setSelectedCard] = useState<UserCardProps | null>(null);  
   const [id, setId] = useState<string | null>(null);
   useEffect(() => {
     const userToken = localStorage.getItem("userToken");
@@ -63,7 +80,7 @@ const UserContextProvider: React.FC<UserContextProviderProps> = ({
     }
   }, []);
 
-// Function to set the token and store it in local storage
+  // Function to set the token and store it in local storage
   const setTokenAndStore = (newToken: string | null) => {
     setToken(newToken);
     if (newToken) {
@@ -143,9 +160,8 @@ const UserContextProvider: React.FC<UserContextProviderProps> = ({
 
     token,
     setToken: setTokenAndStore,
-    onBoarding, setOnBoarding,
-    cards, setCards,
-    selectedCard, setSelectedCard,
+    onBoarding,
+    setOnBoarding,
   };
 
   return (
@@ -153,8 +169,8 @@ const UserContextProvider: React.FC<UserContextProviderProps> = ({
   );
 };
 
-// Custom hook to use the user context
-export function useUser(): IUserContext {
+export function useUser(): UserContext {
+  // Custom hook to use the user context
   const context = useContext(UserContext);
   if (context === undefined) {
     throw new Error("useUser must be used within a UserContextProvider");
