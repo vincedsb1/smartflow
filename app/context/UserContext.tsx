@@ -45,6 +45,7 @@ interface UserCardProps {
   answer: string;
 }
 
+// Context provider for user data
 const UserContextProvider: React.FC<UserContextProviderProps> = ({
   children,
 }) => {
@@ -95,6 +96,7 @@ const UserContextProvider: React.FC<UserContextProviderProps> = ({
     }
   }, []);
 
+// Function to set the token and store it in local storage
   const setTokenAndStore = (newToken: string | null) => {
     setToken(newToken);
     if (newToken) {
@@ -104,6 +106,7 @@ const UserContextProvider: React.FC<UserContextProviderProps> = ({
     }
   };
 
+  // Fetch user details from the API
   useEffect(() => {
     const fetchUserDetails = async () => {
       console.log("Token sent to API:", token);
@@ -116,6 +119,7 @@ const UserContextProvider: React.FC<UserContextProviderProps> = ({
       if (response.ok) {
         const data = await response.json();
         console.log("Data received from API:", data);
+        setId(data.id);
         setFirstname(data.firstname);
         setBirthday(new Date(data.birthday));
         setEmail(data.email);
@@ -155,7 +159,9 @@ const UserContextProvider: React.FC<UserContextProviderProps> = ({
   //   }
   // }, [token, fetchUserCards]);
 
+  // Fetch user card details from the API
   const contextValue = {
+    id,
     user,
     setUser,
     email,
@@ -166,6 +172,7 @@ const UserContextProvider: React.FC<UserContextProviderProps> = ({
     setBirthday,
     password,
     setPassword,
+
     token,
     setToken: setTokenAndStore,
     onBoarding,

@@ -10,15 +10,18 @@ import {
   ModalHeader,
 } from "@nextui-org/react";
 import AddCategory from "../AddCategory";
+import { useUser } from "../../context/UserContext";
+import { useRouter } from "next/navigation";
 
 // Définition des propriétés pour la modale personnalisée
 interface CustomModalProps {
-  isOpen: boolean; // Si vrai, la modale est ouverte
-  onOpenChange: () => void; // Fonction à exécuter lors du changement d'état d'ouverture de la modale
-  title: string; // Titre de la modale
-  content: React.ReactNode; // Contenu de la modale
+  isOpen: boolean;
+  onOpenChange: () => void;
+  title: string;
+  content: React.ReactNode;
   onValidate: (categoryName: string) => void;
-  // Fonction à exécuter lors de la validation de la modale
+  token: string,
+  userId: string;
 }
 
 // Composant de la modale personnalisée
@@ -28,9 +31,10 @@ const CustomModal: React.FC<CustomModalProps> = ({
   title,
   content,
   onValidate,
+  token,
 }) => {
   const [categoryName, setCategoryName] = useState("");
-
+  const { id: userId } = useUser();
   useEffect(() => {
     if (React.isValidElement(content) && content.type === AddCategory) {
       setCategoryName(content.props.categoryName);
@@ -40,6 +44,30 @@ const CustomModal: React.FC<CustomModalProps> = ({
       );
     }
   }, [content]);
+
+  // Fonction pour supprimer un utilisateur
+  async function deleteUser(userId: string, token: string) {
+    if (isNaN(Number(userId))) {
+      throw new Error("User ID must be a number");
+    }
+
+    const response = await fetch(`api/users/${userId}`, {
+      method: 'DELETE',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    return await response.json();
+  }
+
+  const router = useRouter();
+
 
   return (
     <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
@@ -52,19 +80,30 @@ const CustomModal: React.FC<CustomModalProps> = ({
               <Button color="danger" variant="light" onPress={onClose}>
                 Fermer
               </Button>
-              <Button
-                color="primary"
-                onPress={() => {
-                  onClose();
-                  console.log(
-                    "CustomModal.tsx - Validating with category name:",
-                    categoryName
-                  );
-                  onValidate(categoryName);
-                }}
-              >
-                Valider
-              </Button>
+  <Button
+    color="primary"
+    onPress={async () => {
+      onClose();
+      console.log(
+        "CustomModal.tsx - Validating with category name:",
+        categoryName
+      );
+      try {
+        if (userId) {
+          await deleteUser(userId, token);
+          console.log('User deleted successfully');
+          router.push('/welcome');
+        } else {
+          throw new Error('User ID is null');
+        }
+      } catch (error) {
+        console.error('There was an error!', error);
+      }
+      onValidate(categoryName);
+    }}
+  >
+    Valider
+  </Button>
             </ModalFooter>
           </>
         )}
