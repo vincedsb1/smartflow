@@ -6,6 +6,7 @@ import React, {
   ReactNode,
   useContext,
   useEffect,
+  useCallback,
 } from "react";
 
 interface UserContext {
@@ -24,8 +25,6 @@ interface UserContext {
   setToken: (value: string | null) => void;
   onBoarding: boolean;
   setOnBoarding: React.Dispatch<React.SetStateAction<boolean>>;
-  selectedCardId: number | null;
-  setSelectedCardId: React.Dispatch<React.SetStateAction<number | null>>;
 }
 
 const UserContext = createContext<UserContext | undefined>(undefined);
@@ -72,10 +71,7 @@ const UserContextProvider: React.FC<UserContextProviderProps> = ({
   useEffect(() => {
     console.log("Onboarding state updated:", onBoarding);
   }, [onBoarding]);
-  const [selectedCardId, setSelectedCardId] = useState<number | null>(null);
-  useEffect(() => {
-    console.log("Selected card ID state updated:", selectedCardId);
-  }, [selectedCardId]);
+  const [cards, setCards] = useState<any[]>([]);
   const [id, setId] = useState<string | null>(null);
   useEffect(() => {
     const userToken = localStorage.getItem("userToken");
@@ -124,6 +120,30 @@ const UserContextProvider: React.FC<UserContextProviderProps> = ({
     }
   }, [token, setFirstname, setBirthday]);
 
+  // Fetch user cards from the API
+  const fetchUserCards = useCallback(async () => {
+    console.log("Token sent to API:", token);
+    const response = await fetch("/api/users/cards", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    if (response.ok) {
+      const data = await response.json();
+      console.log("Data received from API:", data);
+      setCards(data);
+    } else {
+      console.log("API response was not ok, status:", response.status);
+    }
+  }, [token, setCards]);
+
+  useEffect(() => {
+    if (token) {
+      fetchUserCards();
+    }
+  }, [token, fetchUserCards]);
+
   // Fetch user card details from the API
   const contextValue = {
     id,
@@ -142,8 +162,6 @@ const UserContextProvider: React.FC<UserContextProviderProps> = ({
     setToken: setTokenAndStore,
     onBoarding,
     setOnBoarding,
-    selectedCardId,
-    setSelectedCardId,
   };
 
   return (
