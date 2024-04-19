@@ -25,6 +25,8 @@ interface ListRowProps {
   modalContent?: string; // Contenu de la modale
   onClick?: () => void; // Fonction à exécuter lors du clic
   selected?: boolean; // Si vrai, la ligne est sélectionnée
+  token?: string; // Token d'authentification
+  userId?: string; // Identifiant de l'utilisateur
 }
 
 // Définition des propriétés pour la liste
@@ -43,6 +45,8 @@ interface ListProps {
   modalContent: React.ReactNode | string; // Contenu de la modale
   selectable?: boolean; // Si vrai, les lignes sont sélectionnables
   onSelect?: (index: number) => void; // Fonction à exécuter lors de la sélection d'une ligne
+  token?: string; // Token d'authentification
+  userId?: string; // Identifiant de l'utilisateur
 }
 
 // Composant de la liste
@@ -60,6 +64,8 @@ const List: React.FC<ListProps> = ({
   modalContent,
   selectable = false,
   onSelect,
+  token,
+  userId,
 }) => {
   const { selectedRow, handleRowSelection } = useRowSelection(); // Utilisation du hook personnalisé useRowSelection
 
@@ -196,11 +202,14 @@ const List: React.FC<ListProps> = ({
           if (setModalIsOpen) {
             setModalIsOpen(!modalIsOpen);
           }
+          
         }}
         title={modalTitle || ""}
         content={modalContent}
         onValidate={() => {}}
-      />
+        token={token || ""}
+        userId={userId || ""}
+        />
     </div>
   );
 };

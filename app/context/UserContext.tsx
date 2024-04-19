@@ -10,7 +10,12 @@ import React, {
   useCallback,
 } from "react";
 
+<<<<<<< HEAD
 interface UserContext {
+=======
+interface IUserContext {
+  id: string | null;
+>>>>>>> 1aca48ee0aefb3a658eb6ad76d13b23651f33ef5
   user: any;
   setUser: React.Dispatch<any>;
   email: string | null;
@@ -45,6 +50,7 @@ interface UserCardProps {
   answer: string;
 }
 
+// Context provider for user data
 const UserContextProvider: React.FC<UserContextProviderProps> = ({
   children,
 }) => {
@@ -73,6 +79,7 @@ const UserContextProvider: React.FC<UserContextProviderProps> = ({
     console.log("Token state updated:", token);
   }, [token]);
   const [onBoarding, setOnBoarding] = useState<boolean>(false);
+<<<<<<< HEAD
   useEffect(() => {
     console.log("Onboarding state updated:", onBoarding);
   }, [onBoarding]);
@@ -88,6 +95,11 @@ const UserContextProvider: React.FC<UserContextProviderProps> = ({
   // useEffect(() => {
   //   console.log("Selected card state updated:", selectedCard);
   // }, [selectedCard]);
+=======
+  const [cards, setCards] = useState<any[]>([]);
+  const [selectedCard, setSelectedCard] = useState<UserCardProps | null>(null);  
+  const [id, setId] = useState<string | null>(null);
+>>>>>>> 1aca48ee0aefb3a658eb6ad76d13b23651f33ef5
   useEffect(() => {
     const userToken = localStorage.getItem("userToken");
     if (userToken) {
@@ -95,6 +107,10 @@ const UserContextProvider: React.FC<UserContextProviderProps> = ({
     }
   }, []);
 
+<<<<<<< HEAD
+=======
+// Function to set the token and store it in local storage
+>>>>>>> 1aca48ee0aefb3a658eb6ad76d13b23651f33ef5
   const setTokenAndStore = (newToken: string | null) => {
     setToken(newToken);
     if (newToken) {
@@ -104,6 +120,7 @@ const UserContextProvider: React.FC<UserContextProviderProps> = ({
     }
   };
 
+  // Fetch user details from the API
   useEffect(() => {
     const fetchUserDetails = async () => {
       console.log("Token sent to API:", token);
@@ -116,6 +133,7 @@ const UserContextProvider: React.FC<UserContextProviderProps> = ({
       if (response.ok) {
         const data = await response.json();
         console.log("Data received from API:", data);
+        setId(data.id);
         setFirstname(data.firstname);
         setBirthday(new Date(data.birthday));
         setEmail(data.email);
@@ -132,6 +150,7 @@ const UserContextProvider: React.FC<UserContextProviderProps> = ({
     }
   }, [token, setFirstname, setBirthday]);
 
+<<<<<<< HEAD
   // const fetchUserCards = useCallback(async () => {
   //   console.log("Token sent to API:", token);
   //   const response = await fetch("/api/users/cards", {
@@ -139,6 +158,16 @@ const UserContextProvider: React.FC<UserContextProviderProps> = ({
   //       Authorization: `Bearer ${token}`,
   //     },
   //   });
+=======
+  // Fetch user cards from the API
+  const fetchUserCards = useCallback(async () => {
+    console.log("Token sent to API:", token);
+    const response = await fetch("/api/users/cards", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+>>>>>>> 1aca48ee0aefb3a658eb6ad76d13b23651f33ef5
 
   //   if (response.ok) {
   //     const data = await response.json();
@@ -155,7 +184,9 @@ const UserContextProvider: React.FC<UserContextProviderProps> = ({
   //   }
   // }, [token, fetchUserCards]);
 
+  // Fetch user card details from the API
   const contextValue = {
+    id,
     user,
     setUser,
     email,
@@ -166,6 +197,7 @@ const UserContextProvider: React.FC<UserContextProviderProps> = ({
     setBirthday,
     password,
     setPassword,
+
     token,
     setToken: setTokenAndStore,
     onBoarding,
@@ -183,7 +215,12 @@ const UserContextProvider: React.FC<UserContextProviderProps> = ({
   );
 };
 
+<<<<<<< HEAD
 export function useUser(): UserContext {
+=======
+// Custom hook to use the user context
+export function useUser(): IUserContext {
+>>>>>>> 1aca48ee0aefb3a658eb6ad76d13b23651f33ef5
   const context = useContext(UserContext);
   if (context === undefined) {
     throw new Error("useUser must be used within a UserContextProvider");
