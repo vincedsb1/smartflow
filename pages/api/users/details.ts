@@ -34,6 +34,7 @@ export default async function handle(
       if (user) {
         console.log("User details retrieved from database:", user);
         res.json({
+          id: user.id,
           firstname: user.firstname,
           email: user.email,
           birthday: user.birthday,

@@ -40,15 +40,26 @@ const AddCategoryModal: React.FC<AddCategoryModalProps> = ({
   }
 
   const [categoryName, setCategoryName] = useState("");
-
   const [colors, setColors] = useState<Color[]>(initialColors);
+  const [isNameEmpty, setIsNameEmpty] = useState(true);
+  const [isColorSelected, setIsColorSelected] = useState(false);
 
   useEffect(() => {
     if (isOpen) {
       setCategoryName("");
       setColors(initialColors);
+      setIsNameEmpty(true);
+      setIsColorSelected(false);
     }
   }, [isOpen]);
+
+  useEffect(() => {
+    setIsNameEmpty(categoryName === "");
+  }, [categoryName]);
+
+  useEffect(() => {
+    setIsColorSelected(colors.some((color) => color.selected));
+  }, [colors]);
 
   const handleColorClick = (colorId: number) => {
     setColors(
@@ -66,7 +77,7 @@ const AddCategoryModal: React.FC<AddCategoryModalProps> = ({
       alert("Le nom de la catégorie ne doit contenir que des lettres et des chiffres");
       return;
     }
-  
+
     const selectedColor = colors.find((color) => color.selected);
     if (!selectedColor) {
       alert("Please select a color");
@@ -83,12 +94,12 @@ const AddCategoryModal: React.FC<AddCategoryModalProps> = ({
         colorId: selectedColor.id,
       }),
     });
-  
+
     if (!response.ok) {
       console.error("Error creating category");
       return;
     }
-  
+
     const data = await response.json();
     onValidate(categoryName, selectedColor.id);
   };
@@ -115,13 +126,11 @@ const AddCategoryModal: React.FC<AddCategoryModalProps> = ({
               {colors.map((color) => (
                 <div
                   key={color.id}
-                  className={`w-8 h-8 rounded-full hover:scale-105 hover:ring-2 ring-neutral-900 dark:ring-neutral-100 active:scale-110 transition-all bg-${
-                    color.name
-                  } m-3 cursor-pointer ${
-                    color.selected
+                  className={`w-8 h-8 rounded-full hover:scale-105 hover:ring-2 ring-neutral-900 dark:ring-neutral-100 active:scale-110 transition-all bg-${color.name
+                    } m-3 cursor-pointer ${color.selected
                       ? "ring-2 ring-neutral-900 dark:ring-neutral-100"
                       : ""
-                  }`}
+                    }`}
                   onClick={() => handleColorClick(color.id)}
                 ></div>
               ))}
@@ -130,7 +139,7 @@ const AddCategoryModal: React.FC<AddCategoryModalProps> = ({
         </ModalBody>
         <ModalFooter>
           <Button onClick={onClose}>Annuler</Button>
-          <Button color="primary" onClick={createCategory}>
+          <Button color="primary" onClick={createCategory} isDisabled={isNameEmpty || !isColorSelected}>
             Créer la catégorie
           </Button>
         </ModalFooter>
