@@ -88,12 +88,13 @@ const MailAuth = () => {
         className="flex flex-col justify-center w-full"
       >
         <div id="mailAuthBackIcon" className="w-full flex flex-col mt-16">
-          <Link href="/welcome">
-            <FontAwesomeIcon
-              icon={faChevronLeft}
-              className="text-neutral-800 dark:text-neutral-200 text-xs w-4 h-4 m-5"
-            />
-          </Link>
+          <button
+            type="button"
+            onClick={() => router.back()}
+            className="text-neutral-800 dark:text-neutral-200 text-xs w-4 h-4 m-5"
+          >
+            <FontAwesomeIcon icon={faChevronLeft} />
+          </button>
         </div>
         <div
           id="mailAuthHeaderContainer"

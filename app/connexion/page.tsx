@@ -1,6 +1,5 @@
 "use client";
 import React, { useContext, useState } from "react";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 
 import CardAppTitle from "../components/CardAppTitle";
@@ -24,7 +23,8 @@ const ConnexionPage = () => {
     throw new Error("UserContext must be used within a UserContextProvider");
   }
 
-  const { email, firstname, birthday, setUser, onBoarding, setOnBoarding } = userContext;
+  const { email, firstname, birthday, setUser, onBoarding, setOnBoarding } =
+    userContext;
   const [password, setPassword] = useState("");
   const [displayMessage, setDisplayMessage] = useState("");
   const message = "Le mot de passe est incorrect, veuillez réessayer.";
@@ -60,30 +60,30 @@ const ConnexionPage = () => {
           console.log("Token received from API (Page connexion):", data.token);
           userContext.setToken(data.token);
           console.log("Token set in userContext"); // Log after setting the token in userContext
-        
-          const userResponse = await fetch('/api/users/details', {
+
+          const userResponse = await fetch("/api/users/details", {
             headers: {
               Authorization: `Bearer ${data.token}`,
             },
           });
-        
+
           if (userResponse.ok) {
             const userData = await userResponse.json();
             console.log("User data received from API:", userData); // Log the user data
             userContext.setUser({
               firstname: userData.firstname,
               email: userData.email,
-              birthday: userData.birthday
+              birthday: userData.birthday,
             }); // Set user data in the context
             console.log("User set in userContext:", userData);
             console.log("User id:", userData.id);
           }
           // Log the value of data.onBoarding
           console.log("Value of data.onBoarding:", data.onBoarding);
-        
+
           // Set onBoarding state
           setOnBoarding(data.onBoarding);
-        
+
           // Redirect user based on onBoarding state
           if (data.onBoarding) {
             router.push("/today");
@@ -102,7 +102,6 @@ const ConnexionPage = () => {
     }
   };
 
-
   return (
     <div
       id="connexionMainContainer"
@@ -113,12 +112,13 @@ const ConnexionPage = () => {
         className="flex flex-col justify-center w-full"
       >
         <div id="themeSwitcherBackIcon" className="w-full flex flex-col mt-16">
-          <Link href="/welcome">
-            <FontAwesomeIcon
-              icon={faChevronLeft}
-              className="text-neutral-800 dark:text-neutral-200 text-xs w-4 h-4 m-5"
-            />
-          </Link>
+          <button
+            type="button"
+            onClick={() => router.back()}
+            className="text-neutral-800 dark:text-neutral-200 text-xs w-4 h-4 m-5"
+          >
+            <FontAwesomeIcon icon={faChevronLeft} />
+          </button>
         </div>
         <div
           id="connexionHeaderContainer"
