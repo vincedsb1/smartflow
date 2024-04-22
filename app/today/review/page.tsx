@@ -7,7 +7,7 @@ import { faChevronLeft } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import CardAppTitle from "@/app/components/CardAppTitle";
 import { Button } from "@nextui-org/button";
-import { Bs1Circle } from "react-icons/bs";
+import { Progress } from "@nextui-org/react";
 
 const Review: React.FC = () => {
   const userContext = useContext(UserContext);
@@ -19,14 +19,24 @@ const Review: React.FC = () => {
   const [id, setId] = useState<string | null>(null);
   const [title, setTitle] = useState("");
   const [answer, setAnswer] = useState<string | null>(null);
+  const [categoryName, setCategoryName] = useState("");
+  const [nbcard, setNbcard] = useState<string | null>(null);
+  const [level, setLevel] = useState(1);
+
+  const calculatePercentage = (level: number): number => {
+    return Math.round((level * 100) / 7);
+  };
 
   useEffect(() => {
     if (typeof window !== "undefined") {
       const urlParams = new URLSearchParams(window.location.search);
       const id = urlParams.get("id");
+      const nbcard = urlParams.get("nbcard");
       setId(id);
+      setNbcard(nbcard);
     }
   }, []);
+  console.log("nbcard", nbcard);
 
   useEffect(() => {
     if (id) {
@@ -46,6 +56,9 @@ const Review: React.FC = () => {
           console.log("Card fetched review: ", data);
           setTitle(data.title);
           setAnswer(data.answer);
+          setLevel(data.level);
+          // Définissez categoryName avec data.categoryName
+          setCategoryName(data.categoryName);
         })
         .catch((error) => {
           console.error(
@@ -65,26 +78,18 @@ const Review: React.FC = () => {
     setCardTitle("Réponse");
   };
 
-  const handleNextCard = () => {
-    // Add your logic for handling the next card here
-  };
+  const handleNextCard = () => {};
 
   return (
-    // <div>
-    //   <h1>Review for card with ID: {id}</h1>
-    //   <h2>Title: {title}</h2>
-    //   <p>Answer: {answer}</p>
-    // </div>
-
     <div
       id="reviewPageMainContainer"
       className="flex flex-col justify-between min-h-screen w-full"
     >
       <div
         id="reviewPageTopContainer"
-        className="flex flex-col justify-center w-full"
+        className="flex flex-col justify-center items-center w-full"
       >
-        <div id="reviewBackIcon" className="w-full flex flex-row mt-16 ">
+        <div id="reviewBackIcon" className="w-full flex flex-row mt-16 mb-4">
           <button
             type="button"
             onClick={() => router.back()}
@@ -96,77 +101,138 @@ const Review: React.FC = () => {
             id=""
             className="flex flex-row justify-between items-center mt-2 w-14/20"
           >
-            <CardAppTitle title="Réciter" size="small" />
+            <CardAppTitle title="Réciter" size="big" />
           </div>
         </div>
         <div
           id="reviewPageHeaderContainer"
-          className="flex flex-col justify-center items-center w-full "
+          className="flex flex-col justify-center items-center w-80"
         >
           <div
-            id="reviewPageTitle"
-            className="flex flex-row justify-between items-center w-16/20 mb-6"
+            id="reviewHeaderTopContainer"
+            className="flex flex-row justify-between w-full mb-4"
           >
-            {title}
-            <Bs1Circle className="mb-2" />
+            <div
+              id="reviewTitleCategoryColorContainer"
+              className="flex flex-row "
+            >
+              <div id="reviewColor" className="bg-red-500 w-[6px] h-full"></div>
+              <div
+                id="reviewTitleCategoryContainer"
+                className="flex flex-col w-full ml-2"
+              >
+                <div
+                  id="reviewTitleContainer"
+                  className="flex flex-row w-full font-title font-bold text-neutral-600 dark:text-neutral-400"
+                >
+                  {title}
+                </div>
+                <div
+                  id="reviewCategoryContainer"
+                  className="flex flex-row w-full font-title text-neutral-500"
+                >
+                  {categoryName}
+                </div>
+              </div>
+            </div>
+            <div
+              id="reviewCounterContainer"
+              className="flex flex-row font-title text-neutral-600 dark:text-neutral-400"
+            >
+              1/{nbcard}
+            </div>
           </div>
           <div
-            id="reviewCard"
-            className="flex flex-col bg-white dark:bg-neutral-800 rounded-xl shadow-sf justify-center items-center  w-14/20 h-96"
+            id="reviewHeaderBottomContainer"
+            className="flex flex-col w-full"
           >
-            {showAnswer ? answer : title}
+            <div id="reviewProgressContainer" className="flex flex-row w-full">
+              <Progress
+                aria-label="Loading..."
+                label={`${calculatePercentage(level)} %`}
+                size="md"
+                value={calculatePercentage(level)}
+                valueLabel={`Niveau ${level}`}
+                showValueLabel={true}
+                className="max-w-md text-neutral-500 text-sm font-title"
+              />
+            </div>
           </div>
+        </div>
+      </div>
+      <div
+        id="reviewMiddleContainer"
+        className="flex flex-col justify-center items-center w-full"
+      >
+        <div
+          id="reviewCard"
+          className="flex flex-col bg-white dark:bg-neutral-800 rounded-xl shadow-sf justify-around items-center  w-14/20 h-96 p-6"
+        >
+          {showAnswer ? (
+            answer
+          ) : (
+            <>
+              <div
+                id="instructions"
+                className="font-text text-neutral-500 dark:text-neutral-400"
+              >
+                Récitez la fiche
+              </div>
+              <div className="flex space-x-2 justify-center items-center bg-white dark:invert">
+                <div className="h-2 w-2 rounded-full animate-bounce  bg-cyan-600 [animation-delay:-0.3s]"></div>
+                <div className="h-2 w-2 rounded-full animate-bounce bg-cyan-600 [animation-delay:-0.15s]"></div>
+                <div className="h-2 w-2 rounded-full animate-bounce bg-cyan-600 [animation-delay:-0s]"></div>
+              </div>
+            </>
+          )}
         </div>
       </div>
       <div
         id="reviewPageBottomContainer"
         className="flex flex-col justify-center items-center w-full mb-32"
       >
-        <Button
-          type="submit"
-          color="primary"
-          variant="solid"
-          size="lg"
-          className="w-80 font-bold font-text"
-          onClick={handleShowAnswer}
-        >
-          Voir la réponse
-        </Button>
+        {showAnswer ? (
+          <>
+            <div
+              id="buttonContainer"
+              className="flex flex-row justify-around w-full"
+            >
+              <Button
+                type="submit"
+                color="secondary"
+                variant="solid"
+                size="lg"
+                className="w-40 font-bold font-text"
+                onClick={handleShowAnswer}
+              >
+                Incorrect
+              </Button>
+              <Button
+                type="submit"
+                color="primary"
+                variant="solid"
+                size="lg"
+                className="w-40 font-bold font-text"
+                onClick={handleShowAnswer}
+              >
+                Valider
+              </Button>
+            </div>
+          </>
+        ) : (
+          <Button
+            type="submit"
+            color="primary"
+            variant="solid"
+            size="lg"
+            className="w-80 font-bold font-text"
+            onClick={handleShowAnswer}
+          >
+            Voir la réponse
+          </Button>
+        )}
       </div>
     </div>
-
-    // <div className="flex flex-col items-center justify-center h-screen">
-    //   <div className="py-4" style={{ height: "405px", width: "270px" }}>
-    //     <div className="pb-0 pt-2 px-4 flex-col items-center justify-center">
-    //       <h4 className="font-bold text-large text-center">{title}</h4>
-    //     </div>
-    //     <div className="overflow-visible py-2">
-    //       {showAnswer && <p className="text-lg">{answer}</p>}
-    //     </div>
-    //   </div>
-    //   <div className="mt-24">
-    //     {!showAnswer && (
-    //       <button onClick={handleShowAnswer}>Voir la réponse</button>
-    //     )}
-    //     {showAnswer && (
-    //       <div className="flex justify-between space-x-4">
-    //         <div>
-    //           <button
-    //             className="rounded-full bg-green-500 text-white w-10 h-10 flex items-center justify-center"
-    //             onClick={handleNextCard}
-    //           >
-    //             👍
-    //           </button>
-    //         </div>
-    //         <div className="ml-auto">
-    //           <button className="rounded-full bg-red-500 text-white w-10 h-10 flex items-center justify-center">
-    //             👎
-    //           </button>
-    //         </div>
-    //       </div>
-    //     )}
-    //   </div>
-    // </div>
   );
 };
 
