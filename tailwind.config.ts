@@ -26,14 +26,17 @@ const config: Config = {
           DEFAULT: "#0891b2",
           foreground: "#ffffff",
         },
+        secondary: {
+          DEFAULT: "#a3a3a3",
+        },
 
         light: {
           primary: "#f5f5f5",
-          secondary: "#your-light-secondary-color",
+          secondary: "#e0e0e0",
         },
         dark: {
           primary: "#1F2937",
-          secondary: "#your-dark-secondary-color",
+          secondary: "#2b6cb0",
         },
       },
       boxShadow: {
@@ -81,6 +84,10 @@ const config: Config = {
         "120": "120ms",
         "150": "150ms",
         "200": "200ms",
+      },
+      animationDelay: {
+        "300": "300ms",
+        "150": "150ms",
       },
     },
   },

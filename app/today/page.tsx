@@ -75,7 +75,7 @@ const Today = () => {
 
   const rows = cards.map((card) => ({
     mainLabel: card.title,
-    link: "/today/review?id=" + card.id,
+    link: "/today/review?id=" + card.id + "&nbcard=" + cards.length,
   }));
 
   return (
