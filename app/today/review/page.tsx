@@ -80,6 +80,38 @@ const Review: React.FC = () => {
 
   const handleNextCard = () => {};
 
+  const handleIncorrectReview = () => {
+    fetch(`http://localhost:3000/api/cards/${id}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${userContext.token}`,
+      },
+      body: JSON.stringify({ isReviewPositive: false }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        // Gérer la réponse de l'API ici
+      })
+      .catch((error) => console.error("Error:", error));
+  };
+
+  const handlePositiveReview = () => {
+    fetch(`http://localhost:3000/api/cards/${id}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${userContext.token}`,
+      },
+      body: JSON.stringify({ isReviewPositive: true }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        // Gérer la réponse de l'API ici
+      })
+      .catch((error) => console.error("Error:", error));
+  };
+
   return (
     <div
       id="reviewPageMainContainer"
@@ -199,11 +231,11 @@ const Review: React.FC = () => {
             >
               <Button
                 type="submit"
-                color="secondary"
+                color="default"
                 variant="solid"
                 size="lg"
                 className="w-40 font-bold font-text"
-                onClick={handleShowAnswer}
+                onClick={handleIncorrectReview}
               >
                 Incorrect
               </Button>
@@ -213,7 +245,7 @@ const Review: React.FC = () => {
                 variant="solid"
                 size="lg"
                 className="w-40 font-bold font-text"
-                onClick={handleShowAnswer}
+                onClick={handlePositiveReview}
               >
                 Valider
               </Button>
