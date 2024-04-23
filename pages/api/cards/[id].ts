@@ -60,7 +60,49 @@ export default async function handle(
         .status(500)
         .json({ error: "An error occurred while retrieving the card" });
     }
+  } else if (req.method === "PATCH") {
+    const { isReviewPositive } = req.body;
+
+    if (typeof isReviewPositive !== "boolean") {
+      return res.status(400).json({ error: "Invalid review value" });
+    }
+
+    try {
+      const card = await prisma.card.findUnique({
+        where: {
+          id: Number(id),
+        },
+      });
+
+      if (!card || card.userId !== Number(userId)) {
+        return res.status(404).json({ error: "Card not found" });
+      }
+
+      let newLevel = card.level;
+      let newActive = card.active;
+
+      if (isReviewPositive) {
+        newLevel = card.level === 7 ? 7 : card.level + 1;
+        newActive = card.level === 7 ? false : card.active;
+      } else {
+        newLevel = 1;
+      }
+
+      const updatedCard = await prisma.card.update({
+        where: {
+          id: Number(id),
+        },
+        data: {
+          level: newLevel,
+          active: newActive,
+        },
+      });
+
+      return res.json(updatedCard);
+    } catch (error) {
+      return res.status(500).json({ error: "Something went wrong" });
+    }
   } else {
-    res.status(405).json({ error: "Method not allowed" });
+    return res.status(405).json({ error: "Method not allowed" });
   }
 }
