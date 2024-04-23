@@ -40,6 +40,7 @@ model Card {
   answer        String    @db.VarChar(1000)
   level         Int
   lastReviewDate DateTime
+  active        Boolean   @default(true)
   userId        Int
   user            User            @relation(fields: [userId], references: [id], onDelete: Cascade)
   categoryId    Int?
