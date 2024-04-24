@@ -19,6 +19,8 @@ const Today = () => {
     throw new Error("UserContext must be used within a UserContextProvider");
   }
 
+  const { setCardsToReview } = userContext;
+
   const [cards, setCards] = useState<UserCardProps[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [isError, setIsError] = useState<boolean>(false);
@@ -47,6 +49,8 @@ const Today = () => {
       .then((data) => {
         console.log("Cards fetched: ", data);
         setCards(data);
+        setCardsToReview(data);
+        console.log("Nombre de Card : ", data.length);
         setIsLoading(false);
       })
       .catch((error) => {
@@ -54,7 +58,7 @@ const Today = () => {
         setIsError(true);
         setIsLoading(false);
       });
-  }, [userContext]);
+  }, []);
 
   if (isLoading) {
     return (
@@ -92,10 +96,13 @@ const Today = () => {
           className="flex flex-col w-full items-center"
         >
           <div className="w-16/20 mt-20">
-            <CardAppTitle title="Aujourd'hui" />
+            <CardAppTitle title="Aujourd'hui" size="big" />
           </div>
           <div className="w-16/20 mb-14">
-            <CardAppText icon={faListUl} text="Vous avez 3 fiches à réciter." />
+            <CardAppText
+              icon={faListUl}
+              text={`Vous avez ${cards.length} fiches à réciter.`}
+            />
           </div>
         </div>
         <div id="todayListContainer" className="w-18/20">
