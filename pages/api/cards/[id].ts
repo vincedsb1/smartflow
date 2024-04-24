@@ -1,6 +1,7 @@
 import { PrismaClient } from "@prisma/client";
 import { NextApiRequest, NextApiResponse } from "next";
 import jwt from "jsonwebtoken";
+import moment from "moment-timezone";
 
 const prisma = new PrismaClient();
 
@@ -88,6 +89,9 @@ export default async function handle(
         newLevel = 1;
       }
 
+      const now = new Date();
+      console.log("Review date: ", moment(now).tz("Europe/Paris").format());
+
       const updatedCard = await prisma.card.update({
         where: {
           id: Number(id),
@@ -95,6 +99,7 @@ export default async function handle(
         data: {
           level: newLevel,
           active: newActive,
+          lastReviewDate: now,
         },
       });
 

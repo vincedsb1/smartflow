@@ -25,6 +25,8 @@ interface UserContext {
   setToken: (value: string | null) => void;
   onBoarding: boolean;
   setOnBoarding: React.Dispatch<React.SetStateAction<boolean>>;
+  cardsToReview: UserCardProps[];
+  setCardsToReview: (cards: UserCardProps[]) => void;
 }
 
 const UserContext = createContext<UserContext | undefined>(undefined);
@@ -37,6 +39,8 @@ interface UserCardProps {
   id: number;
   title: string;
   answer: string;
+  categoryName: string;
+  level: number;
 }
 
 // Context provider for user data
@@ -72,6 +76,12 @@ const UserContextProvider: React.FC<UserContextProviderProps> = ({
     console.log("Onboarding state updated:", onBoarding);
   }, [onBoarding]);
   const [cards, setCards] = useState<any[]>([]);
+
+  const [cardsToReview, setCardsToReview] = useState<any[]>([]);
+  useEffect(() => {
+    console.log("Cards to Review in Context:", cardsToReview);
+  }, [cardsToReview]);
+
   const [id, setId] = useState<string | null>(null);
   useEffect(() => {
     const userToken = localStorage.getItem("userToken");
@@ -162,6 +172,8 @@ const UserContextProvider: React.FC<UserContextProviderProps> = ({
     setToken: setTokenAndStore,
     onBoarding,
     setOnBoarding,
+    cardsToReview,
+    setCardsToReview,
   };
 
   return (
