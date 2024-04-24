@@ -24,6 +24,36 @@ export async function seedCards(users: User[]) {
 
   await prisma.card.create({
     data: {
+      title: `Les bases de la psychologie cognitive`,
+      answer: `La psychologie cognitive étudie les processus mentaux tels que la perception, la mémoire, le raisonnement et le langage. Elle cherche à comprendre comment les individus traitent l'information et prennent des décisions.`,
+      level: 1,
+      lastReviewDate: new Date(),
+      active: true,
+      user: {
+        connect: {
+          id: alice?.id,
+        },
+      },
+    },
+  });
+
+  await prisma.card.create({
+    data: {
+      title: `La théorie de l'offre et de la demande`,
+      answer: `La théorie de l'offre et de la demande est un concept fondamental en économie. Elle stipule que le prix d'un bien ou d'un service est déterminé par l'interaction entre l'offre disponible et la demande des consommateurs.`,
+      level: 1,
+      lastReviewDate: new Date(),
+      active: true,
+      user: {
+        connect: {
+          id: alice?.id,
+        },
+      },
+    },
+  });
+
+  await prisma.card.create({
+    data: {
       title: `La Révolution Industrielle`,
       answer: `La Révolution Industrielle a marqué un tournant majeur dans l'histoire, entraînant des changements sociaux, économiques et technologiques profonds. Elle a débuté au XVIIIe siècle en Angleterre et s'est étendue à travers le monde.`,
       level: 1,

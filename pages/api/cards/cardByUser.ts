@@ -1,11 +1,12 @@
 import { PrismaClient, User } from "@prisma/client";
 import { NextApiRequest, NextApiResponse } from "next";
 import verifyToken from "../../api/auth/authMiddleware";
+import moment from "moment";
 
 const prisma = new PrismaClient();
 
 interface CustomNextApiRequest extends NextApiRequest {
-  user: { userId: number; iat: number; exp: number }; // Mise à jour pour refléter la structure correcte
+  user: { userId: number; iat: number; exp: number };
 }
 
 export default function handle(
@@ -19,19 +20,22 @@ export default function handle(
       return res.status(405).json({ message: "Method not allowed" });
     }
 
-    const { userId } = req.user; // Destructuration pour obtenir userId
+    const { userId } = req.user;
     console.log("user:", req.user);
 
     if (!userId) {
-      // Vérification de userId au lieu de user directement
       return res.status(401).json({ message: "Not authenticated" });
     }
 
     try {
       console.log("Fetching cards for user ID:", userId);
+      const today = moment().startOf("day");
       const cards = await prisma.card.findMany({
         where: {
-          userId: userId, // Utilisation de userId
+          userId: userId,
+          lastReviewDate: {
+            lt: today.toDate(),
+          },
         },
       });
 
