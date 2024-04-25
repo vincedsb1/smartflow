@@ -186,7 +186,6 @@ const EditCards = () => {
         </div>
         <div className="w-18/20 flex-grow mx-auto">
           <h1>Catégories</h1>
-          <h2>{category.name}</h2>
           <List
             rows={rows}
             isLargeRow={false}
