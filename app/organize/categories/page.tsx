@@ -102,10 +102,6 @@ const OrganizeCategories = () => {
             />
           </Link>
         </div>
-        <div
-          id="organizeHeaderContainer"
-          className="flex flex-col justify-center items-center w-full"
-        ></div>
         <div id="organizeList" className="">
           <List
             rows={rows}

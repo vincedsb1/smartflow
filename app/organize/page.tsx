@@ -27,6 +27,7 @@ const Organize = () => {
   const [myModalIsOpen, setMyModalIsOpen] = useState(false);
   const [myModalTitle, setMyModalTitle] = useState("");
   const [myModalContent, setMyModalContent] = useState("");
+  
   return (
     <div
       id="organizeMainContainer"
