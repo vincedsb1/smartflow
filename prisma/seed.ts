@@ -25,11 +25,11 @@ async function main() {
 
   // Check if users exist and have at least 3 elements
   if (users && users.length >= 3) {
-    // Create new cards
-    await seedCards(users);
-
     // Category creation
     await seedCategories(users);
+
+    // Create new cards
+    await seedCards(users);
   }
 }
 
