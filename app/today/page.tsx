@@ -27,38 +27,43 @@ const Today = () => {
 
   const [myModalContent, setMyModalContent] = useState("");
 
-  useEffect(() => {
-    if (!userContext || !userContext.token || !userContext.user) {
-      console.error("Token is not defined");
-      setIsError(true);
-      setIsLoading(false);
-      return;
-    }
+  const [isTokenLoaded, setIsTokenLoaded] = useState<boolean>(false);
 
-    fetch("/api/cards/cardByUser", {
-      headers: {
-        Authorization: `Bearer ${userContext.token}`,
-      },
-    })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        }
-        return response.json();
+  useEffect(() => {
+    // Vérifiez si le token est disponible
+    if (userContext.token) {
+      setIsTokenLoaded(true);
+    }
+  }, [userContext.token]);
+
+  useEffect(() => {
+    // Ne faites la requête fetch que si le token est chargé
+    if (isTokenLoaded) {
+      fetch("/api/cards/cardByUser", {
+        headers: {
+          Authorization: `Bearer ${userContext.token}`,
+        },
       })
-      .then((data) => {
-        console.log("Cards fetched: ", data);
-        setCards(data);
-        setCardsToReview(data);
-        console.log("Nombre de Card : ", data.length);
-        setIsLoading(false);
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-        setIsError(true);
-        setIsLoading(false);
-      });
-  }, []);
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error("Network response was not ok");
+          }
+          return response.json();
+        })
+        .then((data) => {
+          console.log("Cards fetched: ", data);
+          setCards(data);
+          setCardsToReview(data);
+          console.log("Nombre de Card : ", data.length);
+          setIsLoading(false);
+        })
+        .catch((error) => {
+          console.error("Error:", error);
+          setIsError(true);
+          setIsLoading(false);
+        });
+    }
+  }, [isTokenLoaded, setCardsToReview, userContext.token]);
 
   if (isLoading) {
     return (
@@ -80,6 +85,7 @@ const Today = () => {
   const rows = cards.map((card) => ({
     mainLabel: card.title,
     link: "/today/review?id=" + card.id + "&nbcard=" + cards.length,
+    color: card.categoryColorName || "white",
   }));
 
   return (

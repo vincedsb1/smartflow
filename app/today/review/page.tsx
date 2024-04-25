@@ -224,7 +224,7 @@ const Review: React.FC = () => {
       >
         <div
           id="reviewCard"
-          className="flex flex-col bg-white border-neutral-300 border-1 dark:border-neutral-700 dark:bg-neutral-800 rounded-2xl shadow-sf justify-around items-center  w-16/20 h-80 p-6"
+          className="flex flex-col bg-white border-neutral-300 border-1 dark:border-neutral-700 dark:bg-neutral-800 rounded-2xl shadow-sf justify-around items-center  w-16/20 h-80 p-6 font-text"
         >
           {showAnswer ? (
             answer

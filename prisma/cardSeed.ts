@@ -34,6 +34,11 @@ export async function seedCards(users: User[]) {
           id: alice?.id,
         },
       },
+      category: {
+        connect: {
+          id: 1,
+        },
+      },
     },
   });
 
@@ -47,6 +52,11 @@ export async function seedCards(users: User[]) {
       user: {
         connect: {
           id: alice?.id,
+        },
+      },
+      category: {
+        connect: {
+          id: 2,
         },
       },
     },
@@ -64,6 +74,11 @@ export async function seedCards(users: User[]) {
           id: bob?.id,
         },
       },
+      category: {
+        connect: {
+          id: 3,
+        },
+      },
     },
   });
 
@@ -77,6 +92,11 @@ export async function seedCards(users: User[]) {
       user: {
         connect: {
           id: charlie?.id,
+        },
+      },
+      category: {
+        connect: {
+          id: 4,
         },
       },
     },

@@ -37,9 +37,29 @@ export default function handle(
             lt: today.toDate(),
           },
         },
+        include: {
+          category: {
+            select: {
+              color: {
+                select: {
+                  name: true,
+                },
+              },
+            },
+          },
+        },
       });
 
-      return res.json(cards);
+      // Map over the cards and reformat each card
+      const reformattedCards = cards.map((card) => {
+        return {
+          ...card,
+          categoryColorName: card.category?.color.name,
+          category: undefined,
+        };
+      });
+
+      return res.json(reformattedCards);
     } catch (error) {
       console.error(error);
       return res
