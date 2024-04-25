@@ -27,27 +27,28 @@ interface ListRowProps {
   selected?: boolean; // Si vrai, la ligne est sélectionnée
   token?: string; // Token d'authentification
   userId?: string; // Identifiant de l'utilisateur
+
 }
 
 // Définition des propriétés pour la liste
 interface ListProps {
   rows: ListRowProps[]; // Lignes de la liste
-  title: string; // Titre de la liste
+  title?: string; // Titre de la liste
   isLargeRow: boolean; // Si vrai, les lignes sont plus grandes
   belowListLink?: string; // Lien à afficher en dessous de la liste
   onBelowListLinkClick?: () => void; // Fonction à exécuter lors du clic sur le lien en dessous de la liste
   isModal?: boolean; // Si vrai, ouvre une modale lors du clic sur une ligne
-  modalIsOpen?: boolean; // Si vrai, la modale est ouverte
-  setModalIsOpen?: (isOpen: boolean) => void; // Fonction pour changer l'état d'ouverture de la modale
-  setModalTitle?: (title: string) => void; // Fonction pour changer le titre de la modale
-  setModalContent?: (content: string) => void; // Fonction pour changer le contenu de la modale
-  modalTitle?: string; // Titre de la modale
-  modalContent: React.ReactNode | string; // Contenu de la modale
+  modalIsOpen?: boolean;
+  setModalIsOpen?: React.Dispatch<React.SetStateAction<boolean>>;
+  setModalTitle?: React.Dispatch<React.SetStateAction<string>>;
+  setModalContent?: React.Dispatch<React.SetStateAction<string>>;
+  modalTitle?: string;
+  modalContent?: string;
   selectable?: boolean; // Si vrai, les lignes sont sélectionnables
   onSelect?: (index: number) => void; // Fonction à exécuter lors de la sélection d'une ligne
   token?: string; // Token d'authentification
   userId?: string; // Identifiant de l'utilisateur
-}
+  selectedIndex?: number | null;}
 
 // Composant de la liste
 const List: React.FC<ListProps> = ({
@@ -66,9 +67,10 @@ const List: React.FC<ListProps> = ({
   onSelect,
   token,
   userId,
+  selectedIndex,
 }) => {
-  const { selectedRow, handleRowSelection } = useRowSelection(); // Utilisation du hook personnalisé useRowSelection
-
+  const { selectedRow, handleRowSelection } = useRowSelection(selectedIndex);
+    
   const isOpen = modalIsOpen || false; // État d'ouverture de la modale
 
   // Fonction à exécuter lors du clic sur le lien en dessous de la liste
@@ -89,7 +91,7 @@ const List: React.FC<ListProps> = ({
 
   return (
     <div id="ListContainer" className="flex flex-col mx-5">
-      <ListTitle title={title} />
+      <ListTitle title={title || ""} />
       <div
         id="ListContainer"
         className="flex flex-col bg-white dark:bg-neutral-800 rounded-xl shadow-sf"
@@ -103,13 +105,13 @@ const List: React.FC<ListProps> = ({
               onClick={
                 selectable
                   ? () => {
-                      handleRowSelection(index); // Utilisation de la fonction retournée par le hook useRowSelection
-                      onSelect && onSelect(index);
-                      row.onClick && row.onClick();
-                      console.log("Index de la ligne sélectionnée : ", index);
-                    }
+                    handleRowSelection(index); // Utilisation de la fonction retournée par le hook useRowSelection
+                    onSelect && onSelect(index);
+                    row.onClick && row.onClick();
+                    console.log("Index de la ligne sélectionnée : ", index);
+                  }
                   : row.isModal
-                  ? () => {
+                    ? () => {
                       if (setModalIsOpen) {
                         setModalIsOpen(true);
                       }
@@ -120,44 +122,38 @@ const List: React.FC<ListProps> = ({
                         setModalContent(row.modalContent || "");
                       }
                     }
-                  : row.onClick
+                    : row.onClick
               }
             >
               <div
                 key={index}
                 id="ListRow"
-                className={`flex flex-row hover:bg-cyan-200 dark:hover:bg-cyan-900 ${
-                  isLargeRow ? "h-16" : "h-12"
-                } ${row.bgcolor || ""} ${index === 0 ? "mt-3" : ""} ${
-                  index === rows.length - 1 ? "mb-3" : ""
-                } ${getColorClass(row.colorState)} ${
-                  selectable && selectedRow === index
+                className={`flex flex-row hover:bg-cyan-200 dark:hover:bg-cyan-900 ${isLargeRow ? "h-16" : "h-12"
+                  } ${row.bgcolor || ""} ${index === 0 ? "mt-3" : ""} ${index === rows.length - 1 ? "mb-3" : ""
+                  } ${getColorClass(row.colorState)} ${selectable && selectedRow === index
                     ? "bg-cyan-300 dark:bg-cyan-700"
                     : ""
-                }`}
+                  }`}
               >
                 <div
                   id="ListRowStartIconContainer"
-                  className={`flex flex-row justify-center items-center ${
-                    row.color ? "w-3/20" : "w-1/20 mr-1"
-                  }`}
+                  className={`flex flex-row justify-center items-center ${row.color ? "w-3/20" : "w-1/20 mr-1"
+                    }`}
                 >
                   {row.color && (
                     <div
                       id="colorIndicator"
-                      className={`h-3 w-3 rounded-full ${
-                        colorClasses[row.color]
-                      }`}
+                      className={`h-3 w-3 rounded-full ${colorClasses[row.color]
+                        }`}
                     ></div>
                   )}
                 </div>
                 <div
                   id="ListRowLabels"
-                  className={`flex flex-col flex-grow justify-center ${
-                    rows.length > 1 && index !== rows.length - 1
-                      ? "border-b border-neutral-200 dark:border-neutral-700"
-                      : ""
-                  }`}
+                  className={`flex flex-col flex-grow justify-center ${rows.length > 1 && index !== rows.length - 1
+                    ? "border-b border-neutral-200 dark:border-neutral-700"
+                    : ""
+                    }`}
                 >
                   <div id="ListRowTopLabel" className="font-text ">
                     {row.mainLabel}
@@ -173,11 +169,10 @@ const List: React.FC<ListProps> = ({
                 </div>
                 <div
                   id="ListRowEndIcon"
-                  className={`w-2/20  flex flex-row justify-center items-center ${
-                    rows.length > 1 && index !== rows.length - 1
-                      ? "border-b border-neutral-200 dark:border-neutral-700"
-                      : ""
-                  }`}
+                  className={`w-2/20  flex flex-row justify-center items-center ${rows.length > 1 && index !== rows.length - 1
+                    ? "border-b border-neutral-200 dark:border-neutral-700"
+                    : ""
+                    }`}
                 >
                   {row.icon && (
                     <FontAwesomeIcon
@@ -202,14 +197,14 @@ const List: React.FC<ListProps> = ({
           if (setModalIsOpen) {
             setModalIsOpen(!modalIsOpen);
           }
-          
+
         }}
         title={modalTitle || ""}
         content={modalContent}
-        onValidate={() => {}}
+        onValidate={() => { }}
         token={token || ""}
         userId={userId || ""}
-        />
+      />
     </div>
   );
 };

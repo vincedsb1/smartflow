@@ -19,11 +19,10 @@ export default function handle(
       return res.status(405).json({ message: "Method not allowed" });
     }
 
-    const { userId } = req.user; // Destructuration pour obtenir userId
+    const { userId } = req.user; 
     console.log("user:", req.user);
 
     if (!userId) {
-      // Vérification de userId au lieu de user directement
       return res.status(401).json({ message: "Not authenticated" });
     }
 
@@ -31,9 +30,13 @@ export default function handle(
       console.log("Fetching cards for user ID:", userId);
       const cards = await prisma.card.findMany({
         where: {
-          userId: userId, // Utilisation de userId
+          userId: userId,
+        },
+        include: {
+          category: true,
         },
       });
+      console.log("Cards fetched:", cards);
 
       return res.json(cards);
     } catch (error) {
