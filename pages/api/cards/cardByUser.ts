@@ -1,11 +1,12 @@
 import { PrismaClient, User } from "@prisma/client";
 import { NextApiRequest, NextApiResponse } from "next";
 import verifyToken from "../../api/auth/authMiddleware";
+import moment from "moment";
 
 const prisma = new PrismaClient();
 
 interface CustomNextApiRequest extends NextApiRequest {
-  user: { userId: number; iat: number; exp: number }; // Mise à jour pour refléter la structure correcte
+  user: { userId: number; iat: number; exp: number };
 }
 
 export default function handle(
@@ -19,7 +20,9 @@ export default function handle(
       return res.status(405).json({ message: "Method not allowed" });
     }
 
-    const { userId } = req.user; 
+
+    const { userId } = req.user;
+
     console.log("user:", req.user);
 
     if (!userId) {
@@ -28,17 +31,42 @@ export default function handle(
 
     try {
       console.log("Fetching cards for user ID:", userId);
+      const today = moment().startOf("day");
       const cards = await prisma.card.findMany({
         where: {
           userId: userId,
         },
         include: {
           category: true,
+
+          lastReviewDate: {
+            lt: today.toDate(),
+          },
         },
+        include: {
+          category: {
+            select: {
+              color: {
+                select: {
+                  name: true,
+                },
+              },
+            },
+          },
+        },
+      });
+
+      // Map over the cards and reformat each card
+      const reformattedCards = cards.map((card) => {
+        return {
+          ...card,
+          categoryColorName: card.category?.color.name,
+          category: undefined,
+        };
       });
       console.log("Cards fetched:", cards);
 
-      return res.json(cards);
+      return res.json(reformattedCards);
     } catch (error) {
       console.error(error);
       return res

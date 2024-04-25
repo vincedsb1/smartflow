@@ -155,7 +155,7 @@ const List: React.FC<ListProps> = ({
                     : ""
                     }`}
                 >
-                  <div id="ListRowTopLabel" className="font-text ">
+                  <div id="ListRowTopLabel" className="font-text truncate w-60">
                     {row.mainLabel}
                   </div>
                   {row.secondaryLabel && (
@@ -197,7 +197,6 @@ const List: React.FC<ListProps> = ({
           if (setModalIsOpen) {
             setModalIsOpen(!modalIsOpen);
           }
-
         }}
         title={modalTitle || ""}
         content={modalContent}

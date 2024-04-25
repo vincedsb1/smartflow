@@ -19,42 +19,51 @@ const Today = () => {
     throw new Error("UserContext must be used within a UserContextProvider");
   }
 
+  const { setCardsToReview } = userContext;
+
   const [cards, setCards] = useState<UserCardProps[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [isError, setIsError] = useState<boolean>(false);
 
   const [myModalContent, setMyModalContent] = useState("");
 
-  useEffect(() => {
-    if (!userContext || !userContext.token || !userContext.user) {
-      console.error("Token is not defined");
-      setIsError(true);
-      setIsLoading(false);
-      return;
-    }
+  const [isTokenLoaded, setIsTokenLoaded] = useState<boolean>(false);
 
-    fetch("/api/cards/cardByUser", {
-      headers: {
-        Authorization: `Bearer ${userContext.token}`,
-      },
-    })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        }
-        return response.json();
+  useEffect(() => {
+    // Vérifiez si le token est disponible
+    if (userContext.token) {
+      setIsTokenLoaded(true);
+    }
+  }, [userContext.token]);
+
+  useEffect(() => {
+    // Ne faites la requête fetch que si le token est chargé
+    if (isTokenLoaded) {
+      fetch("/api/cards/cardByUser", {
+        headers: {
+          Authorization: `Bearer ${userContext.token}`,
+        },
       })
-      .then((data) => {
-        console.log("Cards fetched: ", data);
-        setCards(data);
-        setIsLoading(false);
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-        setIsError(true);
-        setIsLoading(false);
-      });
-  }, [userContext]);
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error("Network response was not ok");
+          }
+          return response.json();
+        })
+        .then((data) => {
+          console.log("Cards fetched: ", data);
+          setCards(data);
+          setCardsToReview(data);
+          console.log("Nombre de Card : ", data.length);
+          setIsLoading(false);
+        })
+        .catch((error) => {
+          console.error("Error:", error);
+          setIsError(true);
+          setIsLoading(false);
+        });
+    }
+  }, [isTokenLoaded, setCardsToReview, userContext.token]);
 
   if (isLoading) {
     return (
@@ -76,6 +85,7 @@ const Today = () => {
   const rows = cards.map((card) => ({
     mainLabel: card.title,
     link: "/today/review?id=" + card.id + "&nbcard=" + cards.length,
+    color: card.categoryColorName || "white",
   }));
 
   return (
@@ -92,10 +102,13 @@ const Today = () => {
           className="flex flex-col w-full items-center"
         >
           <div className="w-16/20 mt-20">
-            <CardAppTitle title="Aujourd'hui" />
+            <CardAppTitle title="Aujourd'hui" size="big" />
           </div>
           <div className="w-16/20 mb-14">
-            <CardAppText icon={faListUl} text="Vous avez 3 fiches à réciter." />
+            <CardAppText
+              icon={faListUl}
+              text={`Vous avez ${cards.length} fiches à réciter.`}
+            />
           </div>
         </div>
         <div id="todayListContainer" className="w-18/20">
