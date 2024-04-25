@@ -159,7 +159,7 @@ const List: React.FC<ListProps> = ({
                       : ""
                   }`}
                 >
-                  <div id="ListRowTopLabel" className="font-text truncate">
+                  <div id="ListRowTopLabel" className="font-text truncate w-60">
                     {row.mainLabel}
                   </div>
                   {row.secondaryLabel && (
