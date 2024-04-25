@@ -57,7 +57,6 @@ const Review: React.FC = () => {
           setTitle(data.title);
           setAnswer(data.answer);
           setLevel(data.level);
-          // Définissez categoryName avec data.categoryName
           setCategoryName(data.categoryName);
         })
         .catch((error) => {
@@ -78,7 +77,66 @@ const Review: React.FC = () => {
     setCardTitle("Réponse");
   };
 
-  const handleNextCard = () => {};
+  const handleNextCard = () => {
+    // Remove the current card from cardsToReview
+    const updatedCardsToReview = userContext.cardsToReview.filter((card) => {
+      if (id === null) {
+        return true;
+      }
+      const idNumber = parseInt(id);
+      return !isNaN(idNumber) && card.id !== idNumber;
+    });
+    userContext.setCardsToReview(updatedCardsToReview);
+
+    // If there are still cards to review, go to the next one
+    if (updatedCardsToReview.length > 0) {
+      const nextCard = updatedCardsToReview[0];
+      setId(nextCard.id.toString());
+      setTitle(nextCard.title);
+      setAnswer(nextCard.answer);
+      setCategoryName(nextCard.categoryName);
+      setLevel(nextCard.level);
+    } else {
+      // If there are no more cards to review, redirect the user
+      router.push("/today");
+    }
+
+    // Reset the display of the answer
+    setShowAnswer(false);
+  };
+
+  const handleIncorrectReview = () => {
+    fetch(`http://localhost:3000/api/cards/${id}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${userContext.token}`,
+      },
+      body: JSON.stringify({ isReviewPositive: false }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        handleNextCard();
+      })
+      .catch((error) => console.error("Error:", error));
+  };
+
+  const handlePositiveReview = () => {
+    fetch(`http://localhost:3000/api/cards/${id}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${userContext.token}`,
+      },
+      body: JSON.stringify({ isReviewPositive: true }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        // Gérer la réponse de l'API ici
+        handleNextCard();
+      })
+      .catch((error) => console.error("Error:", error));
+  };
 
   return (
     <div
@@ -166,7 +224,7 @@ const Review: React.FC = () => {
       >
         <div
           id="reviewCard"
-          className="flex flex-col bg-white dark:bg-neutral-800 rounded-xl shadow-sf justify-around items-center  w-14/20 h-96 p-6"
+          className="flex flex-col bg-white border-neutral-300 border-1 dark:border-neutral-700 dark:bg-neutral-800 rounded-2xl shadow-sf justify-around items-center  w-16/20 h-80 p-6 font-text"
         >
           {showAnswer ? (
             answer
@@ -199,11 +257,11 @@ const Review: React.FC = () => {
             >
               <Button
                 type="submit"
-                color="secondary"
+                color="default"
                 variant="solid"
                 size="lg"
                 className="w-40 font-bold font-text"
-                onClick={handleShowAnswer}
+                onClick={handleIncorrectReview}
               >
                 Incorrect
               </Button>
@@ -213,7 +271,7 @@ const Review: React.FC = () => {
                 variant="solid"
                 size="lg"
                 className="w-40 font-bold font-text"
-                onClick={handleShowAnswer}
+                onClick={handlePositiveReview}
               >
                 Valider
               </Button>
