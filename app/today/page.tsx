@@ -37,7 +37,7 @@ const Today = () => {
   }, [userContext.token]);
 
   useEffect(() => {
-    // Ne faites la requête fetch que si le token est chargé
+    // Ne faire la requête fetch que si le token est chargé
     if (isTokenLoaded) {
       fetch("/api/cards/cardByUser?toReview=true", {
         headers: {
