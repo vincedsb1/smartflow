@@ -39,7 +39,7 @@ const Today = () => {
   useEffect(() => {
     // Ne faites la requête fetch que si le token est chargé
     if (isTokenLoaded) {
-      fetch("/api/cards/cardByUser", {
+      fetch("/api/cards/cardByUser?toReview=true", {
         headers: {
           Authorization: `Bearer ${userContext.token}`,
         },
