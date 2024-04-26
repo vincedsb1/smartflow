@@ -12,7 +12,6 @@ import { UserContext, useUser } from "@/app/context/UserContext";
 import { Card, CircularProgress } from "@nextui-org/react";
 import Link from "next/link";
 
-
 interface Card {
   category: any;
   id: number;
@@ -33,7 +32,6 @@ const OrganizeCards = () => {
   const [myModalContent, setMyModalContent] = useState("");
   const user = useContext(UserContext);
   const { setSelectedCard } = useUser();
-
 
   useEffect(() => {
     if (!userContext.token || !userContext.user) {
@@ -79,8 +77,6 @@ const OrganizeCards = () => {
     return <div>Error</div>;
   }
 
-
-
   const rows = cards.map((card) => ({
     mainLabel: card.title,
     link: "/organize/cards/edit-cards",
@@ -90,6 +86,9 @@ const OrganizeCards = () => {
         title: card.title,
         answer: card.answer,
         category: card.category,
+        categoryName: card.category?.name, // Remplacez par la propriété appropriée
+        level: card.category?.level, // Remplacez par la propriété appropriée
+        categoryColorName: card.category?.colorName, // Remplacez par la propriété appropriée
       });
       console.log("Selected card:", card);
       console.log("Selected card:", card.category);
@@ -135,7 +134,11 @@ const OrganizeCards = () => {
 };
 
 export default OrganizeCards;
-function setSelectedCard(arg0: { id: number; title: string; answer: string; category: any; }) {
+function setSelectedCard(arg0: {
+  id: number;
+  title: string;
+  answer: string;
+  category: any;
+}) {
   throw new Error("Function not implemented.");
 }
-

@@ -20,7 +20,6 @@ export default function handle(
       return res.status(405).json({ message: "Method not allowed" });
     }
 
-
     const { userId } = req.user;
 
     console.log("user:", req.user);
@@ -35,10 +34,6 @@ export default function handle(
       const cards = await prisma.card.findMany({
         where: {
           userId: userId,
-        },
-        include: {
-          category: true,
-
           lastReviewDate: {
             lt: today.toDate(),
           },

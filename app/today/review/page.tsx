@@ -147,19 +147,30 @@ const Review: React.FC = () => {
         id="reviewPageTopContainer"
         className="flex flex-col justify-center items-center w-full"
       >
-        <div id="reviewBackIcon" className="w-full flex flex-row mt-16 mb-4">
-          <button
-            type="button"
-            onClick={() => router.back()}
-            className="text-neutral-800 dark:text-neutral-200 text-xs w-4 h-4 m-5 "
-          >
-            <FontAwesomeIcon icon={faChevronLeft} />
-          </button>
+        <div
+          id="reviewTopContainer"
+          className="w-full flex flex-row justify-between mt-16 mb-4"
+        >
+          <div id="reviewBackTitle" className="flex flex-row">
+            <button
+              type="button"
+              onClick={() => router.back()}
+              className="text-neutral-800 dark:text-neutral-200 text-xs w-4 h-4 m-5 "
+            >
+              <FontAwesomeIcon icon={faChevronLeft} />
+            </button>
+            <div
+              id="reviewPageTitle"
+              className="flex flex-row justify-between items-center mt-2 w-14/20"
+            >
+              <CardAppTitle title="Réciter" size="big" />
+            </div>
+          </div>
           <div
-            id=""
-            className="flex flex-row justify-between items-center mt-2 w-14/20"
+            id="reviewCounterContainer"
+            className="flex flex-row font-title items-center mr-8 font-bold  text-neutral-600 dark:text-neutral-400"
           >
-            <CardAppTitle title="Réciter" size="big" />
+            1/{nbcard}
           </div>
         </div>
         <div
@@ -187,17 +198,11 @@ const Review: React.FC = () => {
                 </div>
                 <div
                   id="reviewCategoryContainer"
-                  className="flex flex-row w-full font-title text-neutral-500"
+                  className="flex flex-row w-full font-title text-neutral-500 truncate"
                 >
                   {categoryName}
                 </div>
               </div>
-            </div>
-            <div
-              id="reviewCounterContainer"
-              className="flex flex-row font-title text-neutral-600 dark:text-neutral-400"
-            >
-              1/{nbcard}
             </div>
           </div>
           <div
