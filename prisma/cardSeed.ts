@@ -12,7 +12,7 @@ export async function seedCards(users: User[]) {
       title: `Introduction à la théorie des couleurs`,
       answer: `La théorie des couleurs explore la manière dont les couleurs interagissent et sont perçues. Issac Newton a introduit la première théorie moderne des couleurs, distinguant les couleurs primaires et secondaires.`,
       level: 1,
-      lastReviewDate: new Date(),
+      lastReviewDate: new Date(2024, 3, 1),
       active: true,
       user: {
         connect: {
@@ -27,7 +27,7 @@ export async function seedCards(users: User[]) {
       title: `Les bases de la psychologie cognitive`,
       answer: `La psychologie cognitive étudie les processus mentaux tels que la perception, la mémoire, le raisonnement et le langage. Elle cherche à comprendre comment les individus traitent l'information et prennent des décisions.`,
       level: 1,
-      lastReviewDate: new Date(),
+      lastReviewDate: new Date(2024, 3, 1),
       active: true,
       user: {
         connect: {
@@ -47,7 +47,7 @@ export async function seedCards(users: User[]) {
       title: `La théorie de l'offre et de la demande`,
       answer: `La théorie de l'offre et de la demande est un concept fondamental en économie. Elle stipule que le prix d'un bien ou d'un service est déterminé par l'interaction entre l'offre disponible et la demande des consommateurs.`,
       level: 1,
-      lastReviewDate: new Date(),
+      lastReviewDate: new Date(2024, 3, 1),
       active: true,
       user: {
         connect: {
@@ -67,7 +67,7 @@ export async function seedCards(users: User[]) {
       title: `La Révolution Industrielle`,
       answer: `La Révolution Industrielle a marqué un tournant majeur dans l'histoire, entraînant des changements sociaux, économiques et technologiques profonds. Elle a débuté au XVIIIe siècle en Angleterre et s'est étendue à travers le monde.`,
       level: 1,
-      lastReviewDate: new Date(),
+      lastReviewDate: new Date(2024, 3, 1),
       active: true,
       user: {
         connect: {
@@ -87,7 +87,7 @@ export async function seedCards(users: User[]) {
       title: `Introduction à ReactJS`,
       answer: `ReactJS est une bibliothèque JavaScript utilisée pour construire des interfaces utilisateur interactives. Elle repose sur un concept de composants réutilisables et offre des performances élevées grâce à la virtual DOM.`,
       level: 1,
-      lastReviewDate: new Date(),
+      lastReviewDate: new Date(2024, 3, 1),
       active: true,
       user: {
         connect: {

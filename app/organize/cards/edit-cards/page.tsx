@@ -1,12 +1,12 @@
 "use client";
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faChevronLeft } from '@fortawesome/free-solid-svg-icons';
+import { faChevronLeft } from "@fortawesome/free-solid-svg-icons";
 import { useRouter } from "next/navigation";
-import { useUser } from '@/app/context/UserContext';
+import { useUser } from "@/app/context/UserContext";
 import { Button } from "@nextui-org/react";
 import { Input } from "@nextui-org/react";
-import List from '@/app/components/List';
+import List from "@/app/components/List";
 import { UserContext } from "@/app/context/UserContext";
 
 interface Category {
@@ -24,19 +24,22 @@ const EditCards = () => {
   }
   const router = useRouter();
   const { selectedCard } = useUser();
-  console.log('selectedCard:', selectedCard);
+  console.log("selected Category:", selectedCard);
 
   // Déclaration des états
-  const [title, setTitle] = React.useState('');
-  const [answer, setAnswer] = React.useState('');
+  const [title, setTitle] = React.useState("");
+  const [answer, setAnswer] = React.useState("");
   const [categories, setCategories] = useState<Category[]>([]);
   const [isError, setIsError] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [selectedCategoryIndex, setSelectedCategoryIndex] = useState<number | null>(null);
-  const [selectedCategory, setSelectedCategory] = useState<Category | null>(null);
+  const [selectedCategoryIndex, setSelectedCategoryIndex] = useState<
+    number | null
+  >(null);
+  const [selectedCategory, setSelectedCategory] = useState<Category | null>(
+    null
+  );
 
   const user = useContext(UserContext);
-
 
   // Récupération des catégories
   useEffect(() => {
@@ -66,9 +69,15 @@ const EditCards = () => {
         setIsLoading(false);
 
         // Après avoir défini les catégories, trouvez l'index de la catégorie correspondante
-        const categoryIndex = data.findIndex((category: Category) => category.id === Number(selectedCard?.category ?? 0));
+        const categoryIndex = data.findIndex(
+          (category: Category) =>
+            category.id === Number(selectedCard?.category ?? 0)
+        );
         if (selectedCard && selectedCard.category) {
-          const categoryIndex = data.findIndex((category: Category) => category.id === Number(selectedCard.category));
+          const categoryIndex = data.findIndex(
+            (category: Category) =>
+              category.id === Number(selectedCard.category)
+          );
           setSelectedCategoryIndex(categoryIndex);
         }
       })
@@ -79,35 +88,41 @@ const EditCards = () => {
       });
   }, [userContext.token, userContext.user, selectedCard]);
 
-
   // Mise à jour des états
   React.useEffect(() => {
-    setTitle(selectedCard?.title || '');
-    setAnswer(selectedCard?.answer || '');
+    setTitle(selectedCard?.title || "");
+    setAnswer(selectedCard?.answer || "");
     if (selectedCard?.category) {
-      const selectedCategoryIndex = categories.findIndex(category => category.id === Number(selectedCard.category));
-      setSelectedCategoryIndex(selectedCategoryIndex !== -1 ? selectedCategoryIndex : null);
+      const selectedCategoryIndex = categories.findIndex(
+        (category) => category.id === Number(selectedCard.category)
+      );
+      setSelectedCategoryIndex(
+        selectedCategoryIndex !== -1 ? selectedCategoryIndex : null
+      );
     }
   }, [selectedCard, categories]);
 
   const handleSave = async () => {
     try {
-      const response = await fetch('/api/cards/editCard', {
-        method: 'PUT',
+      const response = await fetch("/api/cards/editCard", {
+        method: "PUT",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
           id: selectedCard?.id,
           title,
           answer,
-          categoryId: selectedCategoryIndex !== null ? categories[selectedCategoryIndex].id : null,
+          categoryId:
+            selectedCategoryIndex !== null
+              ? categories[selectedCategoryIndex].id
+              : null,
         }),
       });
 
       if (!response.ok) {
         throw new Error(
-          'Une erreur est survenue lors de la mise à jour de la carte'
+          "Une erreur est survenue lors de la mise à jour de la carte"
         );
       }
       router.back();
@@ -118,13 +133,13 @@ const EditCards = () => {
 
   // Fonction pour gérer le changement de titre
   const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log('Title changed:', e.target.value);
+    console.log("Title changed:", e.target.value);
     setTitle(e.target.value);
   };
 
   // Fonction pour gérer le changement de réponse
   const handleAnswerChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log('Answer changed:', e.target.value);
+    console.log("Answer changed:", e.target.value);
     setAnswer(e.target.value);
   };
 
@@ -136,7 +151,7 @@ const EditCards = () => {
     return <div>Aucune carte sélectionnée</div>;
   }
 
-  console.log('selectedCard:', selectedCard);
+  console.log("selectedCard:", selectedCard);
 
   const rows = categories.map((category) => ({
     mainLabel: category.name,
@@ -156,7 +171,6 @@ const EditCards = () => {
         className="flex flex-col justify-center w-full mx-auto"
       >
         <div id="backIcon" className="w-full flex flex-col mt-16 ml-6">
-
           <FontAwesomeIcon
             onClick={handleBack}
             icon={faChevronLeft}
