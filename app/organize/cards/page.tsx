@@ -86,12 +86,12 @@ const OrganizeCards = () => {
         title: card.title,
         answer: card.answer,
         category: card.category,
-        categoryName: card.category?.name, // Remplacez par la propriété appropriée
-        level: card.category?.level, // Remplacez par la propriété appropriée
-        categoryColorName: card.category?.colorName, // Remplacez par la propriété appropriée
+        categoryName: card.category?.name,
+        level: card.category?.level,
+        categoryColorName: card.category?.colorName,
       });
       console.log("Selected card:", card);
-      console.log("Selected card:", card.category);
+      console.log("Selected category:", card.category);
     },
   }));
 
