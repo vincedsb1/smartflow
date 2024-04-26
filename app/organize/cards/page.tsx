@@ -11,59 +11,65 @@ import List from "../../components/List";
 import { UserContext, useUser } from "@/app/context/UserContext";
 import { Card, CircularProgress } from "@nextui-org/react";
 import Link from "next/link";
-
-interface Card {
-  category: any;
-  id: number;
-  title: string;
-  answer: string;
-}
+import CardAppTitle from "../../components/CardAppTitle";
+import CardAppText from "../../components/CardAppText";
+import { faListUl } from "@fortawesome/free-solid-svg-icons";
+import { UserCardProps } from "../../context/UserContext";
+const { useRouter } = require("next/navigation");
 
 const OrganizeCards = () => {
   const userContext = useContext(UserContext);
+  const router = useRouter();
+
   if (!userContext) {
     throw new Error("UserContext must be used within a UserContextProvider");
   }
-  const [cards, setCards] = useState<Card[]>([]);
+
+  const { setCardsToReview } = userContext;
+
+  const [cards, setCards] = useState<UserCardProps[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [isError, setIsError] = useState<boolean>(false);
-  const [myModalIsOpen, setMyModalIsOpen] = useState(false);
-  const [myModalTitle, setMyModalTitle] = useState("");
+
   const [myModalContent, setMyModalContent] = useState("");
-  const user = useContext(UserContext);
-  const { setSelectedCard } = useUser();
+
+  const [isTokenLoaded, setIsTokenLoaded] = useState<boolean>(false);
 
   useEffect(() => {
-    if (!userContext.token || !userContext.user) {
-      console.error("User or token is not defined");
-      setIsError(true);
-      setIsLoading(false);
-      return;
+    // Vérifiez si le token est disponible
+    if (userContext.token) {
+      setIsTokenLoaded(true);
     }
+  }, [userContext.token]);
 
-    console.log("Token:", userContext.token);
-
-    fetch("/api/cards/cardByUser", {
-      headers: {
-        Authorization: `Bearer ${userContext.token}`,
-      },
-    })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        }
-        return response.json();
+  useEffect(() => {
+    // Ne faire la requête fetch que si le token est chargé
+    if (isTokenLoaded) {
+      fetch("/api/cards/cardByUser?toReview=true", {
+        headers: {
+          Authorization: `Bearer ${userContext.token}`,
+        },
       })
-      .then((data) => {
-        setCards(data);
-        setIsLoading(false);
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-        setIsError(true);
-        setIsLoading(false);
-      });
-  }, [userContext.token, userContext.user]);
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error("Network response was not ok");
+          }
+          return response.json();
+        })
+        .then((data) => {
+          console.log("Cards fetched: ", data);
+          setCards(data);
+          setCardsToReview(data);
+          console.log("Nombre de Card : ", data.length);
+          setIsLoading(false);
+        })
+        .catch((error) => {
+          console.error("Error:", error);
+          setIsError(true);
+          setIsLoading(false);
+        });
+    }
+  }, [isTokenLoaded, setCardsToReview, userContext.token]);
 
   if (isLoading) {
     return (
@@ -77,32 +83,25 @@ const OrganizeCards = () => {
     return <div>Error</div>;
   }
 
+  const handleCardClick = (cardId: number) => {
+    console.log(`Card clicked: ${cardId}`);
+    router.push(`/today/review?id=${cardId}`);
+  };
+
   const rows = cards.map((card) => ({
     mainLabel: card.title,
-    link: "/organize/cards/edit-cards",
-    onClick: () => {
-      setSelectedCard({
-        id: card.id,
-        title: card.title,
-        answer: card.answer,
-        category: card.category,
-        categoryName: card.category?.name,
-        level: card.category?.level,
-        categoryColorName: card.category?.colorName,
-      });
-      console.log("Selected card:", card);
-      console.log("Selected category:", card.category);
-    },
+    link: "/today/review?id=" + card.id + "&nbcard=" + cards.length,
+    color: card.categoryColorName || "white",
   }));
 
   return (
     <div
-      id="organizeMainContainer"
-      className="flex flex-col justify-between min-h-screen w-full"
+      id="todayMainContainer"
+      className="flex flex-col justify-between align-middle items-center min-h-screen"
     >
       <div
-        id="organizeContainer"
-        className="flex flex-col justify-center w-full"
+        id="todayTitleHintListContainer"
+        className="flex flex-col w-full items-center"
       >
         <div id="themeSwitcherBackIcon" className="w-full flex flex-col mt-16">
           <Link href="/organize">
@@ -112,18 +111,11 @@ const OrganizeCards = () => {
             />
           </Link>
         </div>
-        <div
-          id="organizeHeaderContainer"
-          className="flex flex-col justify-center items-center w-full"
-        ></div>
-        <div id="organizeList" className="">
+        <div id="todayListContainer" className="w-18/20">
           <List
             rows={rows}
             title="Fiches"
             isLargeRow={false}
-            belowListLink={""}
-            setModalIsOpen={setMyModalIsOpen}
-            setModalTitle={setMyModalTitle}
             setModalContent={setMyModalContent}
             modalContent={myModalContent}
           />
@@ -134,11 +126,3 @@ const OrganizeCards = () => {
 };
 
 export default OrganizeCards;
-function setSelectedCard(arg0: {
-  id: number;
-  title: string;
-  answer: string;
-  category: any;
-}) {
-  throw new Error("Function not implemented.");
-}
