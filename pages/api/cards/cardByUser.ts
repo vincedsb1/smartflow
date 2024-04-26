@@ -21,6 +21,7 @@ export default function handle(
     }
 
     const { userId } = req.user;
+
     console.log("user:", req.user);
 
     if (!userId) {
@@ -58,6 +59,7 @@ export default function handle(
           category: undefined,
         };
       });
+      console.log("Cards fetched:", cards);
 
       return res.json(reformattedCards);
     } catch (error) {

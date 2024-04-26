@@ -9,6 +9,18 @@ import React, {
   useCallback,
 } from "react";
 
+interface UserContextProviderProps {
+  children: ReactNode;
+}
+
+//selction des cards de l'utilisateur
+interface UserCardProps {
+  id: number;
+  title: string;
+  answer: string;
+  category: string;
+}
+
 interface UserContext {
   id: string | null;
   user: any;
@@ -25,11 +37,14 @@ interface UserContext {
   setToken: (value: string | null) => void;
   onBoarding: boolean;
   setOnBoarding: React.Dispatch<React.SetStateAction<boolean>>;
+  selectedCard: UserCardProps | null;
+  setSelectedCard: React.Dispatch<React.SetStateAction<UserCardProps | null>>;
   cardsToReview: UserCardProps[];
   setCardsToReview: (cards: UserCardProps[]) => void;
 }
 
 const UserContext = createContext<UserContext | undefined>(undefined);
+
 
 interface UserContextProviderProps {
   children: ReactNode;
@@ -76,6 +91,7 @@ const UserContextProvider: React.FC<UserContextProviderProps> = ({
   useEffect(() => {
     console.log("Onboarding state updated:", onBoarding);
   }, [onBoarding]);
+  const [selectedCard, setSelectedCard] = useState<UserCardProps | null>(null);
   const [cards, setCards] = useState<any[]>([]);
 
   const [cardsToReview, setCardsToReview] = useState<any[]>([]);
@@ -168,11 +184,12 @@ const UserContextProvider: React.FC<UserContextProviderProps> = ({
     setBirthday,
     password,
     setPassword,
-
     token,
     setToken: setTokenAndStore,
     onBoarding,
     setOnBoarding,
+    selectedCard,
+    setSelectedCard,
     cardsToReview,
     setCardsToReview,
   };

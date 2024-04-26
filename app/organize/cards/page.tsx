@@ -8,11 +8,12 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useContext, useEffect, useState } from "react";
 import List from "../../components/List";
-import { UserContext } from "@/app/context/UserContext";
+import { UserContext, useUser } from "@/app/context/UserContext";
 import { Card, CircularProgress } from "@nextui-org/react";
 import Link from "next/link";
 
 interface Card {
+  category: any;
   id: number;
   title: string;
   answer: string;
@@ -30,6 +31,7 @@ const OrganizeCards = () => {
   const [myModalTitle, setMyModalTitle] = useState("");
   const [myModalContent, setMyModalContent] = useState("");
   const user = useContext(UserContext);
+  const { setSelectedCard } = useUser();
 
   useEffect(() => {
     if (!userContext.token || !userContext.user) {
@@ -77,8 +79,22 @@ const OrganizeCards = () => {
 
   const rows = cards.map((card) => ({
     mainLabel: card.title,
+    link: "/organize/cards/edit-cards",
+    onClick: () => {
+      setSelectedCard({
+        id: card.id,
+        title: card.title,
+        answer: card.answer,
+        category: card.category,
+        categoryName: card.category?.name, // Remplacez par la propriété appropriée
+        level: card.category?.level, // Remplacez par la propriété appropriée
+        categoryColorName: card.category?.colorName, // Remplacez par la propriété appropriée
+      });
+      console.log("Selected card:", card);
+      console.log("Selected card:", card.category);
+    },
   }));
-  console.log("rows:", rows);
+
   return (
     <div
       id="organizeMainContainer"
@@ -105,6 +121,7 @@ const OrganizeCards = () => {
             rows={rows}
             title="Fiches"
             isLargeRow={false}
+            belowListLink={""}
             setModalIsOpen={setMyModalIsOpen}
             setModalTitle={setMyModalTitle}
             setModalContent={setMyModalContent}
@@ -117,3 +134,11 @@ const OrganizeCards = () => {
 };
 
 export default OrganizeCards;
+function setSelectedCard(arg0: {
+  id: number;
+  title: string;
+  answer: string;
+  category: any;
+}) {
+  throw new Error("Function not implemented.");
+}

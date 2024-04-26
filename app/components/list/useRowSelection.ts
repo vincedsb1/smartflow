@@ -1,13 +1,13 @@
 import { useState } from "react";
 
-const useRowSelection = () => {
-  const [selectedRow, setSelectedRow] = useState<number | null>(null);
+function useRowSelection(initialIndex: number | null = null) {
+  const [selectedRow, setSelectedRow] = useState<number | null>(initialIndex);
 
   const handleRowSelection = (index: number) => {
     setSelectedRow(index);
   };
 
   return { selectedRow, handleRowSelection };
-};
+}
 
 export default useRowSelection;
