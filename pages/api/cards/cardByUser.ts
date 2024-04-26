@@ -21,6 +21,7 @@ export default function handle(
     }
 
     const { userId } = req.user;
+    const toReview = req.query.toReview === "true"; // Convert the query parameter to a boolean
 
     console.log("user:", req.user);
 
@@ -31,13 +32,19 @@ export default function handle(
     try {
       console.log("Fetching cards for user ID:", userId);
       const today = moment().startOf("day");
-      const cards = await prisma.card.findMany({
-        where: {
+      const whereCondition: { userId: number; lastReviewDate?: { lt: Date } } =
+        {
           userId: userId,
-          lastReviewDate: {
-            lt: today.toDate(),
-          },
-        },
+        };
+
+      if (toReview) {
+        whereCondition.lastReviewDate = {
+          lt: today.toDate(),
+        };
+      }
+
+      const cards = await prisma.card.findMany({
+        where: whereCondition,
         include: {
           category: {
             select: {
