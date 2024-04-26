@@ -22,6 +22,7 @@ const Review: React.FC = () => {
   const [categoryName, setCategoryName] = useState("");
   const [nbcard, setNbcard] = useState<string | null>(null);
   const [level, setLevel] = useState(1);
+  const [cardCount, setCardCount] = useState(1);
 
   const calculatePercentage = (level: number): number => {
     return Math.round((level * 100) / 7);
@@ -103,6 +104,7 @@ const Review: React.FC = () => {
 
     // Reset the display of the answer
     setShowAnswer(false);
+    setCardCount(cardCount + 1);
   };
 
   const handleIncorrectReview = () => {
@@ -170,7 +172,7 @@ const Review: React.FC = () => {
             id="reviewCounterContainer"
             className="flex flex-row font-title items-center mr-8 font-bold  text-neutral-600 dark:text-neutral-400"
           >
-            1/{nbcard}
+            {cardCount}/{nbcard}
           </div>
         </div>
         <div
