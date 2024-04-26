@@ -90,7 +90,7 @@ const OrganizeCards = () => {
 
   const rows = cards.map((card) => ({
     mainLabel: card.title,
-    link: "/today/review?id=" + card.id + "&nbcard=" + cards.length,
+    link: "/organize/cards/edit?id=" + card.id,
     color: card.categoryColorName || "white",
   }));
 

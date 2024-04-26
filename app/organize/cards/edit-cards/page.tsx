@@ -17,7 +17,7 @@ interface Category {
 }
 
 // Page de modification d'une carte
-const EditCards = () => {
+const EditCardsOld = () => {
   const userContext = useContext(UserContext);
   if (!userContext) {
     throw new Error("UserContext must be used within a UserContextProvider");
@@ -101,6 +101,8 @@ const EditCards = () => {
       );
     }
   }, [selectedCard, categories]);
+
+  // Fonction pour sauvegarder les modifications
 
   const handleSave = async () => {
     try {
@@ -226,4 +228,4 @@ const EditCards = () => {
   );
 };
 
-export default EditCards;
+export default EditCardsOld;
