@@ -78,6 +78,8 @@ const EditCardsOld = () => {
             (category: Category) =>
               category.id === Number(selectedCard.category)
           );
+          console.log('Categories:', data);
+          console.log('Selected category index:', categoryIndex);
           setSelectedCategoryIndex(categoryIndex);
         }
       })
