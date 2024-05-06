@@ -57,10 +57,8 @@ const OrganizeCards = () => {
           return response.json();
         })
         .then((data) => {
-          console.log("Cards fetched: ", data);
           setCards(data);
           setCardsToReview(data);
-          console.log("Nombre de Card : ", data.length);
           setIsLoading(false);
         })
         .catch((error) => {
