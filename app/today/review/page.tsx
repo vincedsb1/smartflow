@@ -37,7 +37,6 @@ const Review: React.FC = () => {
       setNbcard(nbcard);
     }
   }, []);
-  console.log("nbcard", nbcard);
 
   useEffect(() => {
     if (id) {

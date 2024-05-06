@@ -45,7 +45,6 @@ interface UserContext {
 
 const UserContext = createContext<UserContext | undefined>(undefined);
 
-
 interface UserContextProviderProps {
   children: ReactNode;
 }
@@ -95,9 +94,7 @@ const UserContextProvider: React.FC<UserContextProviderProps> = ({
   const [cards, setCards] = useState<any[]>([]);
 
   const [cardsToReview, setCardsToReview] = useState<any[]>([]);
-  useEffect(() => {
-    console.log("Cards to Review in Context:", cardsToReview);
-  }, [cardsToReview]);
+  useEffect(() => {}, [cardsToReview]);
 
   const [id, setId] = useState<string | null>(null);
   useEffect(() => {

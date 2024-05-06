@@ -51,10 +51,8 @@ const Today = () => {
           return response.json();
         })
         .then((data) => {
-          console.log("Cards fetched: ", data);
           setCards(data);
           setCardsToReview(data);
-          console.log("Nombre de Card : ", data.length);
           setIsLoading(false);
         })
         .catch((error) => {
@@ -121,7 +119,7 @@ const Today = () => {
           />
         </div>
       </div>
-      <div id="todayMainButton" className="w-16/20 mb-32">
+      <div id="todayMainButton" className="w-16/20 mb-32 flex justify-center">
         <Button
           color="primary"
           variant="solid"

@@ -7,7 +7,7 @@ import { faChevronLeft } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import CardAppTitle from "@/app/components/CardAppTitle";
 import { Button } from "@nextui-org/button";
-import { Progress } from "@nextui-org/react";
+import { CircularProgress, Progress } from "@nextui-org/react";
 import { Input } from "@nextui-org/react";
 import { Textarea } from "@nextui-org/react";
 import List from "../../../components/List";
@@ -29,6 +29,8 @@ const EditCards: React.FC = () => {
   const [nbcard, setNbcard] = useState<string | null>(null);
   const [level, setLevel] = useState(1);
   const [cardCount, setCardCount] = useState(1);
+  const [categoryId, setCategoryId] = useState();
+  const [categoryIndex, setCategoryIndex] = useState();
 
   const calculatePercentage = (level: number): number => {
     return Math.round((level * 100) / 7);
@@ -43,7 +45,6 @@ const EditCards: React.FC = () => {
       setNbcard(nbcard);
     }
   }, []);
-  console.log("nbcard", nbcard);
 
   useEffect(() => {
     if (id) {
@@ -65,6 +66,7 @@ const EditCards: React.FC = () => {
           setAnswer(data.answer);
           setLevel(data.level);
           setCategoryName(data.categoryName);
+          setCategoryId(data.categoryId);
         })
         .catch((error) => {
           console.error(
@@ -130,8 +132,6 @@ const EditCards: React.FC = () => {
       return;
     }
 
-    console.log("Token:", userContext.token);
-
     fetch("/api/categories", {
       headers: {
         Authorization: `Bearer ${userContext.token}`,
@@ -144,16 +144,21 @@ const EditCards: React.FC = () => {
         return response.json();
       })
       .then((data) => {
-        console.log(data);
+        console.log("Catégories de Edit : ", data);
         setCategories(data);
         setIsLoading(false);
+        const categoryIndex = data.findIndex(
+          (category: any) => category.id === categoryId
+        );
+        console.log("Catégories Index : ", categoryIndex);
+        setCategoryIndex(categoryIndex);
       })
       .catch((error) => {
         console.error("Error:", error);
         setIsError(true);
         setIsLoading(false);
       });
-  }, [userContext.token, userContext.user]);
+  }, [userContext.token, userContext.user, categoryId]);
 
   const rows = Array.isArray(categories)
     ? categories.map((category) => ({
@@ -161,7 +166,6 @@ const EditCards: React.FC = () => {
         color: category.colorName,
       }))
     : [];
-  console.log("rows:", rows);
 
   return (
     <div
@@ -228,18 +232,25 @@ const EditCards: React.FC = () => {
             <CardAppTitle title="Catégorie" size="small" />
           </div>
           <div id="List" className="w-18/20 mb-8">
-            <List
-              rows={rows}
-              title=""
-              isLargeRow={false}
-              selectable={true}
-              // setModalIsOpen={setMyModalIsOpen}
-              // setModalTitle={setMyModalTitle}
-              // setModalContent={setMyModalContent}
-              // modalContent={myModalContent}
-              // belowListLink="Ajouter une catégorie"
-              // onBelowListLinkClick={() => router.push("/organize/addCategory")}
-            />
+            {categoryIndex !== null &&
+            categoryIndex !== undefined &&
+            categoryIndex > -1 ? (
+              <List
+                rows={rows}
+                title=""
+                isLargeRow={false}
+                selectable={true}
+                selectedIndex={categoryIndex}
+                // setModalIsOpen={setMyModalIsOpen}
+                // setModalTitle={setMyModalTitle}
+                // setModalContent={setMyModalContent}
+                // modalContent={myModalContent}
+                // belowListLink="Ajouter une catégorie"
+                // onBelowListLinkClick={() => router.push("/organize/addCategory")}
+              />
+            ) : (
+              <div>Chargement...</div>
+            )}
           </div>
         </div>
       </div>
