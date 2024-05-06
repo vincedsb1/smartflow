@@ -66,7 +66,6 @@ export default function handle(
           category: undefined,
         };
       });
-      console.log("Cards fetched:", cards);
 
       return res.json(reformattedCards);
     } catch (error) {
