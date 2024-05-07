@@ -109,7 +109,7 @@ const OrganizeCards = () => {
             />
           </Link>
         </div>
-        <div id="todayListContainer" className="w-18/20">
+        <div id="todayListContainer" className="w-full">
           <List
             rows={rows}
             title="Fiches"
