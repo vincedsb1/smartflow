@@ -30,10 +30,26 @@ const EditCards: React.FC = () => {
   const [level, setLevel] = useState(1);
   const [cardCount, setCardCount] = useState(1);
   const [categoryId, setCategoryId] = useState();
+  useEffect(() => {
+    console.log("categoryId depuis la page edit:", setCategoryId);
+  }, [setCategoryId]);
   const [categoryIndex, setCategoryIndex] = useState();
+  useEffect(() => {
+    console.log("categoryIndex depuis la page edit:", categoryIndex);
+  }, [categoryIndex]);
 
-  const calculatePercentage = (level: number): number => {
-    return Math.round((level * 100) / 7);
+  const handleSelectRow = (index: number) => {
+    console.log("Index de la ligne sélectionnée dans EditCards:", index);
+    // Vérifiez si les catégories sont bien un tableau et que l'index est dans la plage
+    if (Array.isArray(categories) && index >= 0 && index < categories.length) {
+      const selectedCategory = categories[index];
+      console.log("Catégorie sélectionnée:", selectedCategory);
+      // Ici, vous pouvez accéder à l'id de la catégorie sélectionnée
+      const categoryId = selectedCategory.id;
+      console.log("ID de la catégorie sélectionnée:", categoryId);
+      // Mettre à jour l'état avec l'ID de la catégorie sélectionnée
+      setCategoryId(categoryId);
+    }
   };
 
   useEffect(() => {
@@ -95,19 +111,15 @@ const EditCards: React.FC = () => {
 
   const handleSave = async () => {
     try {
-      const response = await fetch("/api/cards/editCard", {
+      const response = await fetch(`/api/cards/edit/${id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          id: id,
           title,
           answer,
-          // categoryId:
-          //   selectedCategoryIndex !== null
-          //     ? categories[selectedCategoryIndex].id
-          //     : null,
+          categoryId,
         }),
       });
 
@@ -240,13 +252,8 @@ const EditCards: React.FC = () => {
                 title=""
                 isLargeRow={false}
                 selectable={true}
+                onSelect={handleSelectRow}
                 selectedIndex={categoryIndex}
-                // setModalIsOpen={setMyModalIsOpen}
-                // setModalTitle={setMyModalTitle}
-                // setModalContent={setMyModalContent}
-                // modalContent={myModalContent}
-                // belowListLink="Ajouter une catégorie"
-                // onBelowListLinkClick={() => router.push("/organize/addCategory")}
               />
             ) : (
               <div>Chargement...</div>
