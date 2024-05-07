@@ -5,10 +5,20 @@ import List from "../components/List";
 import CardAppTitle from "../components/CardAppTitle";
 import CardAppText from "../components/CardAppText";
 import { CircularProgress } from "@nextui-org/react";
-import { faListUl } from "@fortawesome/free-solid-svg-icons";
+import {
+  faListUl,
+  fa1,
+  fa2,
+  fa3,
+  fa4,
+  fa5,
+  fa6,
+  fa7,
+} from "@fortawesome/free-solid-svg-icons";
 import { UserContext } from "../context/UserContext";
 import { UserCardProps } from "../context/UserContext";
 import { Button } from "@nextui-org/react";
+import { Font } from "@react-email/components";
 const { useRouter } = require("next/navigation");
 
 const Today = () => {
@@ -20,7 +30,7 @@ const Today = () => {
   }
 
   const { setCardsToReview } = userContext;
-
+  const levelIcons = [fa1, fa2, fa3, fa4, fa5, fa6, fa7];
   const [cards, setCards] = useState<UserCardProps[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [isError, setIsError] = useState<boolean>(false);
@@ -54,6 +64,7 @@ const Today = () => {
           setCards(data);
           setCardsToReview(data);
           setIsLoading(false);
+          console.log("Data received from Today", data);
         })
         .catch((error) => {
           console.error("Error:", error);
@@ -84,6 +95,7 @@ const Today = () => {
     mainLabel: card.title,
     link: "/today/review?id=" + card.id + "&nbcard=" + cards.length,
     color: card.categoryColorName || "white",
+    icon: levelIcons[card.level - 1],
   }));
 
   return (
@@ -99,27 +111,27 @@ const Today = () => {
           id="todayTitleHintContainer"
           className="flex flex-col w-full items-center"
         >
-          <div className="w-16/20 mt-20">
+          <div className="w-18/20 mt-20">
             <CardAppTitle title="Aujourd'hui" size="big" />
           </div>
-          <div className="w-16/20 mb-14">
+          <div className="w-18/20 mb-14">
             <CardAppText
               icon={faListUl}
               text={`Vous avez ${cards.length} fiches à réciter.`}
             />
           </div>
         </div>
-        <div id="todayListContainer" className="w-18/20">
+        <div id="todayListContainer" className="w-full">
           <List
             rows={rows}
             title="Fiches"
-            isLargeRow={false}
+            isLargeRow={true}
             setModalContent={setMyModalContent}
             modalContent={myModalContent}
           />
         </div>
       </div>
-      <div id="todayMainButton" className="w-16/20 mb-32 flex justify-center">
+      <div id="todayMainButton" className="w-18/20 mb-32 flex justify-center">
         <Button
           color="primary"
           variant="solid"
