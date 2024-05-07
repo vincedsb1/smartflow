@@ -38,6 +38,11 @@ const config: Config = {
           primary: "#1F2937",
           secondary: "#2b6cb0",
         },
+        neutral: {
+          50: "#fafafa",
+          800: "#262626",
+          // ...autres nuances si nécessaire...
+        },
       },
       boxShadow: {
         sf: "-3px 2px 16px -9px rgba(0,0,0,0.05)",
