@@ -7,7 +7,8 @@ export default async function handle(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  const { id, title, answer, categoryId } = req.body;
+  const { id } = req.query;
+  const { title, answer, categoryId } = req.body;
 
   if (req.method === "PUT") {
     try {
@@ -18,11 +19,9 @@ export default async function handle(
 
       res.json(card);
     } catch (error) {
-      res
-        .status(500)
-        .json({
-          error: "Une erreur est survenue lors de la mise à jour de la carte",
-        });
+      res.status(500).json({
+        error: "Une erreur est survenue lors de la mise à jour de la carte",
+      });
     }
   } else {
     res.status(405).json({ error: "Cette méthode n'est pas autorisée" });
