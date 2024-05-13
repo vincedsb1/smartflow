@@ -1,4 +1,4 @@
-import { PrismaClient } from "@prisma/client";
+import { PrismaClient, Card } from "@prisma/client";
 import { NextApiRequest, NextApiResponse } from "next";
 import verifyToken from "../../api/auth/authMiddleware";
 import moment from "moment";
@@ -85,13 +85,15 @@ export default function handle(
       });
 
       // Map over the cards and reformat each card
-      const reformattedCards = cards.map((card) => {
-        return {
-          ...card,
-          categoryColorName: card.category?.color.name,
-          category: undefined,
-        };
-      });
+      const reformattedCards = cards.map(
+        (card: Card & { category: { color: { name: string } } | null }) => {
+          return {
+            ...card,
+            categoryColorName: card.category?.color.name,
+            category: undefined,
+          };
+        }
+      );
 
       return res.json(reformattedCards);
     } catch (error) {
