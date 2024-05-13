@@ -18,7 +18,6 @@ import {
 import { UserContext } from "../context/UserContext";
 import { UserCardProps } from "../context/UserContext";
 import { Button } from "@nextui-org/react";
-import { Font } from "@react-email/components";
 const { useRouter } = require("next/navigation");
 
 const Today = () => {
@@ -121,7 +120,7 @@ const Today = () => {
             />
           </div>
         </div>
-        <div id="todayListContainer" className="w-full">
+        <div id="todayListContainer" className="w-full mb-8">
           <List
             rows={rows}
             title="Fiches"
@@ -131,7 +130,7 @@ const Today = () => {
           />
         </div>
       </div>
-      <div id="todayMainButton" className="w-18/20 mb-32 flex justify-center">
+      <div id="todayMainButton" className="w-18/20 mb-24 flex justify-center">
         <Button
           color="primary"
           variant="solid"

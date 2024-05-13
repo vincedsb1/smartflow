@@ -22,9 +22,15 @@ const TabBar: React.FC = () => {
     } hover:text-cyan-600 dark:hover:text-cyan-400 transition-all hover:scale-105`;
 
   return (
-    <div className="fixed bottom-0 left-0 right-0">
-      <div className="border-t-2 border-neutral-400 dark:border-neutral-600">
-        <div className="flex flex-row justify-around bg-neutral-300 dark:bg-neutral-800 p-2 h-20 items-center px-7 pb-7 ">
+    <div id="tabBarMainContainer" className="fixed bottom-0 left-0 right-0 ">
+      <div
+        id="tabBarContainer"
+        className="border-t-2 border-neutral-400 dark:border-neutral-600"
+      >
+        <div
+          id="tabBar"
+          className="flex flex-row justify-around bg-neutral-300 dark:bg-neutral-800 p-2 h-16 items-center px-7 bg-opacity-60 backdrop-filter backdrop-blur-lg"
+        >
           <Link href="/today">
             <FontAwesomeIcon
               icon={faBookOpen}
