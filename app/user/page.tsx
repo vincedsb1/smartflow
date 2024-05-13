@@ -17,23 +17,18 @@ const UserProfile: React.FC = () => {
   const { firstname, email, birthday, user, token, setUser, setToken } =
     useUser();
   const userId = user?.id;
-  console.log("User ID:", userId);
-  console.log(firstname, email, birthday);
   const router = useRouter();
 
-  useEffect(() => {
-    // If the user or token is null or undefined, redirect to "/welcome"
-    if (!user || user === undefined || !token || token === undefined) {
-      router.push("/");
-    }
-  }, [user, token, router]);
+  // useEffect(() => {
+  //   // If the user or token is null or undefined, redirect to "/welcome"
+  //   if (!user || user === undefined || !token || token === undefined) {
+  //     router.push("/");
+  //   }
+  // }, [user, token, router]);
 
   const handleLogout = () => {
     setUser(null);
     setToken(null);
-    // if (!user || !token) {
-    //   router.push("/welcome");
-    // }
   };
   const formattedBirthday = birthday
     ? new Date(birthday).toLocaleDateString("fr-FR")
@@ -160,7 +155,7 @@ const UserProfile: React.FC = () => {
           userId={user?.id}
         />
       </div>
-      <div id="userOtherContainer" className="w-full ">
+      <div id="userOtherContainer" className="w-full mb-24">
         <List
           rows={bottomRows}
           title={"Autre"}
@@ -176,7 +171,6 @@ const UserProfile: React.FC = () => {
           userId={user?.id}
         />
       </div>
-      <div id="userOtherContainer" className=""></div>
     </div>
   );
 };

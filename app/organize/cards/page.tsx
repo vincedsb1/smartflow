@@ -113,7 +113,7 @@ const OrganizeCards = () => {
           <List
             rows={rows}
             title="Fiches"
-            isLargeRow={false}
+            isLargeRow={true}
             setModalContent={setMyModalContent}
             modalContent={myModalContent}
           />
