@@ -10,7 +10,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useRouter } from "next/navigation";
 import { UserContext } from "../context/UserContext";
 
-
 const CardCreation = () => {
   const userContext = useContext(UserContext);
   const [step, setStep] = useState(1);
@@ -33,7 +32,6 @@ const CardCreation = () => {
     }
   }, [step, content, cardTitle, selectedCategoryId]);
 
-
   useEffect(() => {
     if (step === 4) {
       console.log("Contenu de la carte : ", content);
@@ -42,11 +40,12 @@ const CardCreation = () => {
 
   const router = useRouter();
 
-
   const handleContinueClick = () => {
     const titleRegex = /^[a-zA-Z0-9]+$/;
     if (!titleRegex.test(cardTitle)) {
-      alert("Le titre de la carte ne doit contenir que des lettres et des chiffres");
+      alert(
+        "Le titre de la carte ne doit contenir que des lettres et des chiffres"
+      );
       return;
     }
     if (step === 3) {
@@ -126,19 +125,25 @@ const CardCreation = () => {
 
       <div
         id="addBottomContainer"
-        className="flex flex-col justify-center items-center w-full mb-32 "
+        className="flex justify-center items-center w-full mb-32 "
       >
-        {/* <Button onClick={handleContinueClick}>Continuer</Button> */}
         <Button
           type="submit"
           color="primary"
-          isDisabled={cardTitle === "" || (step === 3 && (content === "" || cardTitle === ""))}
+          isDisabled={
+            cardTitle === "" ||
+            (step === 3 && (content === "" || cardTitle === ""))
+          }
           variant="solid"
           size="lg"
-          className="w-80 font-bold font-text"
+          className="w-18/20 font-bold font-text"
           onClick={handleContinueClick}
         >
-          {step === 2 && selectedCategoryId === null ? "Continuer sans catégorie" : (step < 4 ? "Continuer" : "Voir la fiche")}
+          {step === 2 && selectedCategoryId === null
+            ? "Continuer sans catégorie"
+            : step < 4
+            ? "Continuer"
+            : "Voir la fiche"}
         </Button>
       </div>
     </div>
