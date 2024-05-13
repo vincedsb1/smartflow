@@ -4,6 +4,10 @@ import React, { useEffect, useState, useContext } from "react";
 import { UserContext } from "../../context/UserContext";
 import { useRouter } from "next/navigation";
 import { faChevronLeft } from "@fortawesome/free-solid-svg-icons";
+import {
+  faCircleXmark,
+  faCircleCheck,
+} from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import CardAppTitle from "@/app/components/CardAppTitle";
 import { Button } from "@nextui-org/button";
@@ -142,7 +146,7 @@ const Review: React.FC = () => {
   return (
     <div
       id="reviewPageMainContainer"
-      className="flex flex-col justify-between min-h-screen w-full"
+      className="flex flex-col justify-between min-h-screen w-full "
     >
       <div
         id="reviewPageTopContainer"
@@ -218,7 +222,7 @@ const Review: React.FC = () => {
                 value={calculatePercentage(level)}
                 valueLabel={`Niveau ${level}`}
                 showValueLabel={true}
-                className="max-w-md text-neutral-500 text-sm font-title"
+                className="max-w-md text-neutral-500 text-sm font-title  "
               />
             </div>
           </div>
@@ -242,7 +246,7 @@ const Review: React.FC = () => {
               >
                 Récitez la fiche
               </div>
-              <div className="flex space-x-2 justify-center items-center bg-white dark:invert">
+              <div className="flex space-x-2 justify-center items-center bg-white dark:bg-neutral-800">
                 <div className="h-2 w-2 rounded-full animate-bounce  bg-cyan-600 [animation-delay:-0.3s]"></div>
                 <div className="h-2 w-2 rounded-full animate-bounce bg-cyan-600 [animation-delay:-0.15s]"></div>
                 <div className="h-2 w-2 rounded-full animate-bounce bg-cyan-600 [animation-delay:-0s]"></div>
@@ -253,33 +257,43 @@ const Review: React.FC = () => {
       </div>
       <div
         id="reviewPageBottomContainer"
-        className="flex flex-col justify-center items-center w-full mb-32"
+        className="flex flex-col justify-center items-center w-full mb-28"
       >
         {showAnswer ? (
           <>
             <div
               id="buttonContainer"
-              className="flex flex-row justify-around w-full"
+              className="flex flex-row justify-around w-16/20"
             >
               <Button
                 type="submit"
-                color="default"
+                color="primary"
                 variant="solid"
                 size="lg"
-                className="w-40 font-bold font-text"
+                className="w-12 font-bold font-text bg-red-500 dark:bg-red-600 hover:scale-105 transition-all"
                 onClick={handleIncorrectReview}
+                radius="full"
+                isIconOnly
               >
-                Incorrect
+                <FontAwesomeIcon
+                  icon={faCircleXmark}
+                  className="text-3xl dark:text-neutral-100 text-neutral-50"
+                />
               </Button>
               <Button
                 type="submit"
                 color="primary"
                 variant="solid"
                 size="lg"
-                className="w-40 font-bold font-text"
+                className="w-12 font-bold font-text bg-emerald-500 dark:bg-emerald-600 hover:scale-105 transition-all"
                 onClick={handlePositiveReview}
+                radius="full"
+                isIconOnly
               >
-                Valider
+                <FontAwesomeIcon
+                  icon={faCircleCheck}
+                  className="text-3xl dark:text-neutral-100 text-neutral-50"
+                />
               </Button>
             </div>
           </>

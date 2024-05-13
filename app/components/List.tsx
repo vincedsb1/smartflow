@@ -161,7 +161,10 @@ const List: React.FC<ListProps> = ({
                       : ""
                   }`}
                 >
-                  <div id="ListRowTopLabel" className="font-text truncate w-60">
+                  <div
+                    id="ListRowTopLabel"
+                    className="font-text line-clamp-2 w-60"
+                  >
                     {row.mainLabel}
                   </div>
                   {row.secondaryLabel && (
@@ -175,7 +178,7 @@ const List: React.FC<ListProps> = ({
                 </div>
                 <div
                   id="ListRowEndIcon"
-                  className={`w-2/20  flex flex-row justify-center items-center ${
+                  className={`w-3/20  flex flex-row justify-center items-center ${
                     rows.length > 1 && index !== rows.length - 1
                       ? "border-b border-neutral-200 dark:border-neutral-700"
                       : ""
