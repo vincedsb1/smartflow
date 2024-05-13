@@ -41,6 +41,7 @@ interface UserContext {
   setSelectedCard: React.Dispatch<React.SetStateAction<UserCardProps | null>>;
   cardsToReview: UserCardProps[];
   setCardsToReview: (cards: UserCardProps[]) => void;
+  setShouldRunContext: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const UserContext = createContext<UserContext | undefined>(undefined);
@@ -62,6 +63,13 @@ interface UserCardProps {
 const UserContextProvider: React.FC<UserContextProviderProps> = ({
   children,
 }) => {
+  const [shouldRunContext, setShouldRunContext] = useState(true);
+  useEffect(() => {
+    if (shouldRunContext) {
+      console.log("User context provider is running");
+      setShouldRunContext(false);
+    }
+  }, [shouldRunContext]);
   const [user, setUser] = useState<any>(null);
   useEffect(() => {
     console.log("User state updated:", user);
@@ -94,7 +102,7 @@ const UserContextProvider: React.FC<UserContextProviderProps> = ({
   const [cards, setCards] = useState<any[]>([]);
 
   const [cardsToReview, setCardsToReview] = useState<any[]>([]);
-  useEffect(() => {}, [cardsToReview]);
+  useEffect(() => { }, [cardsToReview]);
 
   const [id, setId] = useState<string | null>(null);
   useEffect(() => {
@@ -144,29 +152,6 @@ const UserContextProvider: React.FC<UserContextProviderProps> = ({
     }
   }, [token, setFirstname, setBirthday]);
 
-  // // Fetch user cards from the API
-  // const fetchUserCards = useCallback(async () => {
-  //   console.log("Token sent to API:", token);
-  //   const response = await fetch("/api/users/cards", {
-  //     headers: {
-  //       Authorization: `Bearer ${token}`,
-  //     },
-  //   });
-
-  //   if (response.ok) {
-  //     const data = await response.json();
-  //     console.log("Data received from API:", data);
-  //     setCards(data);
-  //   } else {
-  //     console.log("API response was not ok, status:", response.status);
-  //   }
-  // }, [token, setCards]);
-
-  // useEffect(() => {
-  //   if (token) {
-  //     fetchUserCards();
-  //   }
-  // }, [token, fetchUserCards]);
 
   // Fetch user card details from the API
   const contextValue = {
@@ -189,6 +174,7 @@ const UserContextProvider: React.FC<UserContextProviderProps> = ({
     setSelectedCard,
     cardsToReview,
     setCardsToReview,
+    setShouldRunContext,
   };
 
   return (
