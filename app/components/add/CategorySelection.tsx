@@ -75,7 +75,7 @@ const CategorySelection: React.FC<CategorySelectionProps> = ({
 
     setCategories((prevCategories) => [
       ...prevCategories,
-      { id: Date.now(), name: categoryName, colorName: colorName }, // Utilisez colorName ici
+      { id: Date.now(), name: categoryName, colorName: colorName },
     ]);
     onClose();
   };
@@ -108,16 +108,16 @@ const CategorySelection: React.FC<CategorySelectionProps> = ({
           id="addHeaderContainer"
           className="flex flex-col justify-center items-center w-full "
         >
-          <div id="addTitle" className="flex flex-col w-16/20 ">
+          <div id="addTitle" className="flex flex-col w-18/20 ">
             <CardAppTitle title="Nouvelle fiche" size="big" />
           </div>
-          <div id="addHint" className="flex flex-col items-center w-16/20 mb-8">
+          <div id="addHint" className="flex flex-col items-center w-18/20 mb-8">
             <CardAppText
               text="Dans quelle catégorie voulez-vous ranger la fiche ?"
               icon={faTag}
             />
           </div>
-          <div id="categoryList" className="w-18/20 mb-8">
+          <div id="categoryList" className="w-full mb-8">
             <List
               rows={rows}
               title="Catégories"

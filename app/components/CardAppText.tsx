@@ -31,11 +31,11 @@ function CardAppText({ text, icon, iconColor = "normal" }: CardAppText) {
       {icon && (
         <div
           id="hintIconMainContainer"
-          className="w-8/20 flex flex-row justify-center align-middle items-center"
+          className="w-6/20 flex flex-row justify-center align-middle items-center "
         >
           <div
             id="hintIconContainer"
-            className="w-12 h-12 flex items-center justify-center"
+            className="w-12 h-12 flex items-center justify-center "
           >
             <FontAwesomeIcon icon={icon} className={`${iconColorClass}`} />
           </div>
