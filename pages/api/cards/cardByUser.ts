@@ -21,7 +21,7 @@ export default function handle(
     }
 
     const { userId } = req.user;
-    const toReview = req.query.toReview === "true"; // Convert the query parameter to a boolean
+    const toReview = req.query.toReview === "true";
 
     console.log("user:", req.user);
 
@@ -32,15 +32,41 @@ export default function handle(
     try {
       console.log("Fetching cards for user ID:", userId);
       const today = moment().startOf("day");
-      const whereCondition: { userId: number; lastReviewDate?: { lt: Date } } =
-        {
-          userId: userId,
-        };
+      let whereCondition: { userId: number; OR?: any[] } = { userId: userId };
 
       if (toReview) {
-        whereCondition.lastReviewDate = {
-          lt: today.toDate(),
-        };
+        const twoDaysAgo = moment().subtract(1, "days").startOf("day"); // level 2 : tous les 2 jours
+        const sixDaysAgo = moment().subtract(3, "days").startOf("day"); // level 3 : tous les 4 jours
+        const twelveDaysAgo = moment().subtract(7, "days").startOf("day"); // level 4 : tous les 8 jours
+        const twentyTwoDaysAgo = moment().subtract(15, "days").startOf("day"); // level 5 : tous les 16 jours
+
+        whereCondition.OR = [
+          { AND: [{ level: 1 }, { lastReviewDate: { lt: today.toDate() } }] },
+          {
+            AND: [
+              { level: 2 },
+              { lastReviewDate: { lt: twoDaysAgo.toDate() } },
+            ],
+          },
+          {
+            AND: [
+              { level: 3 },
+              { lastReviewDate: { lt: sixDaysAgo.toDate() } },
+            ],
+          },
+          {
+            AND: [
+              { level: 4 },
+              { lastReviewDate: { lt: twelveDaysAgo.toDate() } },
+            ],
+          },
+          {
+            AND: [
+              { level: 5 },
+              { lastReviewDate: { lt: twentyTwoDaysAgo.toDate() } },
+            ],
+          },
+        ];
       }
 
       const cards = await prisma.card.findMany({

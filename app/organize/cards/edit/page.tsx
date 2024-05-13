@@ -212,12 +212,12 @@ const EditCards: React.FC = () => {
           id="reviewMiddleContainer"
           className="flex flex-col justify-center items-center w-full"
         >
-          <div id="firstNamePageTitle" className="flex flex-col w-16/20">
+          <div id="firstNamePageTitle" className="flex flex-col w-18/20">
             <CardAppTitle title="Titre" size="small" />
           </div>
           <div
             id="firstNameInputContainer"
-            className="flex flex-col justify-between items-center w-16/20"
+            className="flex flex-col justify-between items-center w-18/20"
           >
             <Input
               value={title}
@@ -225,12 +225,12 @@ const EditCards: React.FC = () => {
               className="mb-6 h-9 w-full"
             />
           </div>
-          <div id="firstNamePageTitle" className="flex flex-col w-16/20">
+          <div id="firstNamePageTitle" className="flex flex-col w-18/20">
             <CardAppTitle title="Réponse" size="small" />
           </div>
           <div
             id="firstNameInputContainer"
-            className="flex flex-col justify-between items-center w-16/20 mb-6"
+            className="flex flex-col justify-between items-center w-18/20 mb-6"
           >
             <Textarea
               label="Description"
@@ -240,10 +240,10 @@ const EditCards: React.FC = () => {
               value={answer}
             />
           </div>
-          <div id="ListTitle" className="flex flex-col w-16/20">
+          <div id="ListTitle" className="flex flex-col w-18/20">
             <CardAppTitle title="Catégorie" size="small" />
           </div>
-          <div id="List" className="w-18/20 mb-8">
+          <div id="List" className="w-full mb-8">
             {categoryIndex !== null &&
             categoryIndex !== undefined &&
             categoryIndex > -1 ? (
@@ -263,14 +263,14 @@ const EditCards: React.FC = () => {
       </div>
       <div
         id="reviewPageBottomContainer"
-        className="flex flex-col justify-center items-center w-full mb-32"
+        className="flex justify-center items-center w-full mb-32 "
       >
         <Button
           type="submit"
           color="primary"
           variant="solid"
           size="lg"
-          className="w-80 font-bold font-text"
+          className="w-18/20 font-bold font-text"
           onClick={handleSave}
         >
           Enregistrer
