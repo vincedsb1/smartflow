@@ -44,6 +44,7 @@ const VerifyEmail = () => {
                     <Button color="primary">
                         Retour à l&apos;accueil
                     </Button>
+                    
                 </Link>
             </div>
         </div>
