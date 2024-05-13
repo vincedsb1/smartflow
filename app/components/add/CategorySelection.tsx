@@ -75,7 +75,7 @@ const CategorySelection: React.FC<CategorySelectionProps> = ({
 
     setCategories((prevCategories) => [
       ...prevCategories,
-      { id: Date.now(), name: categoryName, colorName: colorName }, // Utilisez colorName ici
+      { id: Date.now(), name: categoryName, colorName: colorName },
     ]);
     onClose();
   };
