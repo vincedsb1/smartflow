@@ -46,6 +46,7 @@ model Card {
   categoryId    Int?
   category      Category?  @relation(fields: [categoryId], references: [id])
   notifications Notification[]
+  createdAt     DateTime  @default(now())
 }
 
 model Category {
