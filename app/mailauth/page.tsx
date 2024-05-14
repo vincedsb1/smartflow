@@ -126,6 +126,7 @@ const MailAuth = () => {
             <div id="mailAuthInputContainer" className="w-16/20">
               <Input
                 value={email || ""}
+                defaultValue="alice@prisma.io"
                 onChange={handleChangeEmail}
                 isRequired
                 size="md"
