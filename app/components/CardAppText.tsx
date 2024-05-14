@@ -19,8 +19,11 @@ function CardAppText({ text, icon, iconColor = "normal" }: CardAppText) {
     case "error":
       iconColorClass = "text-red-800 dark:text-red-400 text-3xl";
       break;
+    case "normal":
+      iconColorClass = "text-cyan-700 dark:text-cyan-500 text-3xl";
+      break;
     default:
-      iconColorClass = "text-neutral-800 dark:text-neutral-400 text-2xl";
+      iconColorClass = "text-primary dark:text-neutral-400 text-2xl";
   }
 
   return (
@@ -31,7 +34,7 @@ function CardAppText({ text, icon, iconColor = "normal" }: CardAppText) {
       {icon && (
         <div
           id="hintIconMainContainer"
-          className="w-6/20 flex flex-row justify-center align-middle items-center "
+          className="w-4/20 flex flex-row justify-center align-middle items-center "
         >
           <div
             id="hintIconContainer"
@@ -43,10 +46,10 @@ function CardAppText({ text, icon, iconColor = "normal" }: CardAppText) {
       )}
       <div
         id="cardExplanationsText"
-        className="flex flex-row justify-start align-middle items-center"
+        className="w-16/20 flex flex-row justify-start align-middle items-center"
       >
         <p
-          className={`text-neutral-800 dark:text-neutral-400 font-text font-bold text-xl leading-6 ${
+          className={`text-neutral-800 dark:text-neutral-400 font-text font-bold text-xl leading-6 line-clamp-3 ${
             icon ? "mr-8" : "mx-8"
           }`}
           id="tex-card"
