@@ -13,6 +13,7 @@ import { UserContext } from "../context/UserContext";
 const CardCreation = () => {
   const userContext = useContext(UserContext);
   const [step, setStep] = useState(1);
+  const [cardId, setCardId] = useState<number | null>(null);
 
   const handleCategoryChange = (id: number) => {
     setSelectedCategoryId(id);
@@ -49,7 +50,6 @@ const CardCreation = () => {
       return;
     }
     if (step === 3) {
-      console.log("Route Add card");
       const token = localStorage.getItem("token");
       fetch("/api/cards/create", {
         method: "POST",
@@ -64,7 +64,10 @@ const CardCreation = () => {
         }),
       })
         .then((response) => response.json())
-        .then((data) => console.log(data))
+        .then((data) => {
+          console.log(data);
+          setCardId(data.id);
+        })
         .catch((error) => {
           console.error("Error:", error);
         });
@@ -72,7 +75,8 @@ const CardCreation = () => {
     if (step < 4) {
       setStep(step + 1);
     } else {
-      router.push("/today");
+      const nbCard = (userContext?.NbCardsToReview ?? 0) + 1;
+      router.push(`/today/review?id=${cardId}&nbcard=${nbCard}`);
     }
   };
 
@@ -96,7 +100,7 @@ const CardCreation = () => {
                     break;
                   case 3:
                     setSelectedCategoryId(null);
-                    setContent(""); // Réinitialisez l'état content ici
+                    setContent("");
                     break;
                   case 4:
                     setContent("");

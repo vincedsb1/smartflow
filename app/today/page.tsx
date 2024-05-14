@@ -62,6 +62,7 @@ const Today = () => {
         .then((data) => {
           setCards(data);
           setCardsToReview(data);
+          userContext.setNbCardsToReview(data.length);
           setIsLoading(false);
           console.log("Data received from Today", data);
         })

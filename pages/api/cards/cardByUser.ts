@@ -32,45 +32,9 @@ export default function handle(
     try {
       console.log("Fetching cards for user ID:", userId);
       const today = moment().startOf("day");
-      let whereCondition: { userId: number; OR?: any[] } = { userId: userId };
-
-      if (toReview) {
-        const twoDaysAgo = moment().subtract(1, "days").startOf("day"); // level 2 : tous les 2 jours
-        const sixDaysAgo = moment().subtract(3, "days").startOf("day"); // level 3 : tous les 4 jours
-        const twelveDaysAgo = moment().subtract(7, "days").startOf("day"); // level 4 : tous les 8 jours
-        const twentyTwoDaysAgo = moment().subtract(15, "days").startOf("day"); // level 5 : tous les 16 jours
-
-        whereCondition.OR = [
-          { AND: [{ level: 1 }, { lastReviewDate: { lt: today.toDate() } }] },
-          {
-            AND: [
-              { level: 2 },
-              { lastReviewDate: { lt: twoDaysAgo.toDate() } },
-            ],
-          },
-          {
-            AND: [
-              { level: 3 },
-              { lastReviewDate: { lt: sixDaysAgo.toDate() } },
-            ],
-          },
-          {
-            AND: [
-              { level: 4 },
-              { lastReviewDate: { lt: twelveDaysAgo.toDate() } },
-            ],
-          },
-          {
-            AND: [
-              { level: 5 },
-              { lastReviewDate: { lt: twentyTwoDaysAgo.toDate() } },
-            ],
-          },
-        ];
-      }
 
       const cards = await prisma.card.findMany({
-        where: whereCondition,
+        where: { userId },
         include: {
           category: {
             select: {
@@ -84,16 +48,52 @@ export default function handle(
         },
       });
 
-      // Map over the cards and reformat each card
-      const reformattedCards = cards.map(
-        (card: Card & { category: { color: { name: string } } | null }) => {
-          return {
-            ...card,
-            categoryColorName: card.category?.color.name,
-            category: undefined,
-          };
-        }
-      );
+      const reformattedCards = cards
+        .filter((card) => {
+          if (toReview) {
+            const createdAt = moment(card.createdAt);
+            const lastReviewDate = moment(card.lastReviewDate);
+            const sameDate = createdAt.isSame(lastReviewDate, "minute");
+
+            if (sameDate && card.level === 1) {
+              return true;
+            }
+
+            switch (card.level) {
+              case 1:
+                return lastReviewDate.isBefore(today);
+              case 2:
+                return lastReviewDate.isBefore(
+                  moment().subtract(1, "days").startOf("day")
+                );
+              case 3:
+                return lastReviewDate.isBefore(
+                  moment().subtract(3, "days").startOf("day")
+                );
+              case 4:
+                return lastReviewDate.isBefore(
+                  moment().subtract(7, "days").startOf("day")
+                );
+              case 5:
+                return lastReviewDate.isBefore(
+                  moment().subtract(15, "days").startOf("day")
+                );
+              default:
+                return false;
+            }
+          }
+
+          return true;
+        })
+        .map(
+          (card: Card & { category: { color: { name: string } } | null }) => {
+            return {
+              ...card,
+              categoryColorName: card.category?.color.name,
+              category: undefined,
+            };
+          }
+        );
 
       return res.json(reformattedCards);
     } catch (error) {

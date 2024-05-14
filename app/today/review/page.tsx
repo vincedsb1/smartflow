@@ -122,6 +122,7 @@ const Review: React.FC = () => {
       .then((response) => response.json())
       .then((data) => {
         handleNextCard();
+        userContext.setNbCardsToReview(userContext.NbCardsToReview - 1);
       })
       .catch((error) => console.error("Error:", error));
   };
@@ -137,8 +138,8 @@ const Review: React.FC = () => {
     })
       .then((response) => response.json())
       .then((data) => {
-        // Gérer la réponse de l'API ici
         handleNextCard();
+        userContext.setNbCardsToReview(userContext.NbCardsToReview - 1);
       })
       .catch((error) => console.error("Error:", error));
   };
