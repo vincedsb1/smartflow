@@ -2,7 +2,7 @@ import cards from "@/pages/api/cards";
 import { faListUl } from "@fortawesome/free-solid-svg-icons";
 import { Button } from "@nextui-org/button";
 import List from "../List";
-import router from "next/navigation";
+import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import CardAppText from "../CardAppText";
 import CardAppTitle from "../CardAppTitle";
@@ -21,6 +21,7 @@ interface CardsToReviewListProps {
 
 const CardsToReviewList: React.FC<CardsToReviewListProps> = ({ rows }) => {
   const [myModalContent, setMyModalContent] = useState("");
+  const router = useRouter();
   return (
     <div
       id="todayMainContainer"
