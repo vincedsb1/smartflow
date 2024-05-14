@@ -1,26 +1,33 @@
-import { PrismaClient } from '@prisma/client'
-import type { NextApiRequest, NextApiResponse } from 'next'
-import { Resend } from 'resend'
-import React from 'react'
-import ReactDOMServer from 'react-dom/server'
-import EmailChangeMail from '@/emails/EmailChangeMail'
+import { PrismaClient } from "@prisma/client";
+import type { NextApiRequest, NextApiResponse } from "next";
+import { Resend } from "resend";
+import React from "react";
+import ReactDOMServer from "react-dom/server";
+import EmailChangeMail from "@/emails/EmailChangeMail";
+import { v4 as uuidv4 } from "uuid";
 
-const prisma = new PrismaClient()
+const prisma = new PrismaClient();
 
 export const resend = new Resend(process.env.RESEND_API_KEY);
+console.log(process.env.RESEND_API_KEY);
 
-export default async function handle(req: NextApiRequest, res: NextApiResponse) {
-  const { currentEmail, newEmail } = req.body
+export default async function handle(
+  req: NextApiRequest,
+  res: NextApiResponse
+) {
+  const { currentEmail, newEmail } = req.body;
 
-  if (req.method === 'POST') {
+  if (req.method === "POST") {
     if (!currentEmail || !newEmail) {
-      return res.status(400).json({ error: 'Current email or new email is not defined' })
+      return res
+        .status(400)
+        .json({ error: "Current email or new email is not defined" });
     }
 
     // Simple validation for email
     const emailRegex = /\S+@\S+\.\S+/;
     if (!emailRegex.test(newEmail)) {
-      return res.status(400).json({ error: 'Veuillez entrer un email valide' });
+      return res.status(400).json({ error: "Veuillez entrer un email valide" });
     }
 
     try {
@@ -28,31 +35,47 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse) 
         where: {
           email: currentEmail,
         },
-      })
+      });
 
       if (!user) {
-        return res.status(400).json({ error: 'Current email not found' })
+        return res.status(400).json({ error: "Current email not found" });
       }
 
       const newEmailExists = await prisma.user.findUnique({
         where: {
           email: newEmail,
         },
-      })
+      });
 
       if (newEmailExists) {
-        return res.status(400).json({ error: 'New email already exists' })
+        return res.status(400).json({ error: "New email already exists" });
       }
 
-      await prisma.user.update({
-        where: { email: currentEmail },
-        data: { email: newEmail },
-      })
+      const token = uuidv4();
+
+      const existingVerification = await prisma.emailVerification.findUnique({
+        where: { userId: user.id },
+      });
+
+      if (existingVerification) {
+        await prisma.emailVerification.update({
+          where: { userId: user.id },
+          data: { email: newEmail, token: token },
+        });
+      } else {
+        await prisma.emailVerification.create({
+          data: {
+            email: newEmail,
+            token: token,
+            userId: user.id,
+          },
+        });
+      }
 
       const emailContent = ReactDOMServer.renderToString(
         React.createElement(EmailChangeMail, {
           email: newEmail,
-          link: 'http://localhost:3000/', 
+          link: `http://localhost:3000/verify-email?token=${token}&email=${newEmail}`,
         })
       );
 
@@ -63,11 +86,14 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse) 
         html: emailContent,
       });
 
-      return res.status(200).json({ message: 'Email updated successfully' })
+      return res.status(200).json({ message: "Verification email sent" });
     } catch (error) {
-      return res.status(500).json({ error: 'An error occurred while changing the email' })
+      console.log(error);
+      return res
+        .status(500)
+        .json({ error: "An error occurred while changing the email" });
     }
   } else {
-    res.status(405).json({ error: 'We only support POST' })
+    res.status(405).json({ error: "We only support POST" });
   }
 }

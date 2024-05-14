@@ -42,8 +42,8 @@ interface UserContext {
   cardsToReview: UserCardProps[];
   setCardsToReview: (cards: UserCardProps[]) => void;
   NbCardsToReview: number;
-
   setNbCardsToReview: React.Dispatch<React.SetStateAction<number>>;
+  setShouldRunContext: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const UserContext = createContext<UserContext | undefined>(undefined);
@@ -65,6 +65,13 @@ interface UserCardProps {
 const UserContextProvider: React.FC<UserContextProviderProps> = ({
   children,
 }) => {
+  const [shouldRunContext, setShouldRunContext] = useState(true);
+  useEffect(() => {
+    if (shouldRunContext) {
+      console.log("User context provider is running");
+      setShouldRunContext(false);
+    }
+  }, [shouldRunContext]);
   const [user, setUser] = useState<any>(null);
   const [email, setEmail] = useState<string | null>(null);
   const [firstname, setFirstname] = useState<string>("");
@@ -80,7 +87,7 @@ const UserContextProvider: React.FC<UserContextProviderProps> = ({
   }, [NbCardsToReview]);
 
   const [cardsToReview, setCardsToReview] = useState<any[]>([]);
-  useEffect(() => {}, [cardsToReview]);
+  useEffect(() => { }, [cardsToReview]);
 
   const [id, setId] = useState<string | null>(null);
   useEffect(() => {
@@ -127,6 +134,8 @@ const UserContextProvider: React.FC<UserContextProviderProps> = ({
     }
   }, [token, setFirstname, setBirthday]);
 
+
+  // Fetch user card details from the API
   const contextValue = {
     id,
     user,
@@ -149,6 +158,7 @@ const UserContextProvider: React.FC<UserContextProviderProps> = ({
     setCardsToReview,
     NbCardsToReview,
     setNbCardsToReview,
+    setShouldRunContext,
   };
 
   return (
