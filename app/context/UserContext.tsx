@@ -41,6 +41,8 @@ interface UserContext {
   setSelectedCard: React.Dispatch<React.SetStateAction<UserCardProps | null>>;
   cardsToReview: UserCardProps[];
   setCardsToReview: (cards: UserCardProps[]) => void;
+  NbCardsToReview: number;
+  setNbCardsToReview: React.Dispatch<React.SetStateAction<number>>;
   setShouldRunContext: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
@@ -71,35 +73,18 @@ const UserContextProvider: React.FC<UserContextProviderProps> = ({
     }
   }, [shouldRunContext]);
   const [user, setUser] = useState<any>(null);
-  useEffect(() => {
-    console.log("User state updated:", user);
-  }, [user]);
   const [email, setEmail] = useState<string | null>(null);
-  useEffect(() => {
-    console.log("Email state updated:", email);
-  }, [email]);
   const [firstname, setFirstname] = useState<string>("");
-  useEffect(() => {
-    console.log("Firstname state updated:", firstname);
-  }, [firstname]);
   const [birthday, setBirthday] = useState<Date | null>(null);
-  useEffect(() => {
-    console.log("Birthday state updated:", birthday);
-  }, [birthday]);
   const [password, setPassword] = useState<string | null>(null);
-  useEffect(() => {
-    console.log("Password state updated:", password);
-  }, [password]);
   const [token, setToken] = useState<string | null>(null);
-  useEffect(() => {
-    console.log("Token state updated:", token);
-  }, [token]);
   const [onBoarding, setOnBoarding] = useState<boolean>(false);
-  useEffect(() => {
-    console.log("Onboarding state updated:", onBoarding);
-  }, [onBoarding]);
   const [selectedCard, setSelectedCard] = useState<UserCardProps | null>(null);
   const [cards, setCards] = useState<any[]>([]);
+  const [NbCardsToReview, setNbCardsToReview] = useState<number>(0);
+  useEffect(() => {
+    console.log("NbCardsToReview from context:", NbCardsToReview);
+  }, [NbCardsToReview]);
 
   const [cardsToReview, setCardsToReview] = useState<any[]>([]);
   useEffect(() => { }, [cardsToReview]);
@@ -125,7 +110,6 @@ const UserContextProvider: React.FC<UserContextProviderProps> = ({
   // Fetch user details from the API
   useEffect(() => {
     const fetchUserDetails = async () => {
-      console.log("Token sent to API:", token);
       const response = await fetch("/api/users/details", {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -134,7 +118,6 @@ const UserContextProvider: React.FC<UserContextProviderProps> = ({
 
       if (response.ok) {
         const data = await response.json();
-        console.log("Data received from API:", data);
         setId(data.id);
         setFirstname(data.firstname);
         setBirthday(new Date(data.birthday));
@@ -145,7 +128,6 @@ const UserContextProvider: React.FC<UserContextProviderProps> = ({
     };
 
     if (token) {
-      console.log("Token is set, fetching user details");
       fetchUserDetails();
     } else {
       console.log("Token is not set");
@@ -174,6 +156,8 @@ const UserContextProvider: React.FC<UserContextProviderProps> = ({
     setSelectedCard,
     cardsToReview,
     setCardsToReview,
+    NbCardsToReview,
+    setNbCardsToReview,
     setShouldRunContext,
   };
 
