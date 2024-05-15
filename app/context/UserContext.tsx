@@ -87,7 +87,7 @@ const UserContextProvider: React.FC<UserContextProviderProps> = ({
   }, [NbCardsToReview]);
 
   const [cardsToReview, setCardsToReview] = useState<any[]>([]);
-  useEffect(() => { }, [cardsToReview]);
+  useEffect(() => {}, [cardsToReview]);
 
   const [id, setId] = useState<string | null>(null);
   useEffect(() => {
@@ -107,33 +107,32 @@ const UserContextProvider: React.FC<UserContextProviderProps> = ({
     }
   };
 
-  // Fetch user details from the API
-  useEffect(() => {
-    const fetchUserDetails = async () => {
-      const response = await fetch("/api/users/details", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+  // // Fetch user details from the API
+  // useEffect(() => {
+  //   const fetchUserDetails = async () => {
+  //     const response = await fetch("/api/users/details", {
+  //       headers: {
+  //         Authorization: `Bearer ${token}`,
+  //       },
+  //     });
 
-      if (response.ok) {
-        const data = await response.json();
-        setId(data.id);
-        setFirstname(data.firstname);
-        setBirthday(new Date(data.birthday));
-        setEmail(data.email);
-      } else {
-        console.log("API response was not ok, status:", response.status);
-      }
-    };
+  //     if (response.ok) {
+  //       const data = await response.json();
+  //       setId(data.id);
+  //       setFirstname(data.firstname);
+  //       setBirthday(new Date(data.birthday));
+  //       setEmail(data.email);
+  //     } else {
+  //       console.log("API response was not ok, status:", response.status);
+  //     }
+  //   };
 
-    if (token) {
-      fetchUserDetails();
-    } else {
-      console.log("Token is not set");
-    }
-  }, [token, setFirstname, setBirthday]);
-
+  //   if (token) {
+  //     fetchUserDetails();
+  //   } else {
+  //     console.log("Token is not set");
+  //   }
+  // }, [token, setFirstname, setBirthday]);
 
   // Fetch user card details from the API
   const contextValue = {
