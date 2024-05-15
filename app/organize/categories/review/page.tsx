@@ -1,13 +1,12 @@
 "use client";
 import { colorClasses } from "@/app/components/utils/colorUtils";
 import { UserContext } from "@/app/context/UserContext";
-import { Button } from "@nextui-org/react";
-import { Color } from "@prisma/client";
+import { Button, Link } from "@nextui-org/react";
 import { useEffect, useState } from 'react';
 import { useContext } from 'react';
 import { useRouter } from 'next/navigation';
-
-
+import { faChevronLeft } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 // Composant de la page de modification d'une catégorie
 const EditCategorie = () => {
@@ -85,6 +84,7 @@ const EditCategorie = () => {
                         setTitle(category.name);
                         setColorId(category.colorId);
                         setColorName(category.color.name);
+
                         setColors(
                             colors.map((color) =>
                                 color.id === category.colorId
@@ -177,13 +177,25 @@ const EditCategorie = () => {
 
 
     return (
-        <div id="edit-categorie" className="flex flex-col  min-h-screen w-full">
-            <div id="title" className="mt-6">
-                <h1 className="text-neutral-600 font-semibold">Libellé</h1>
+        <div
+            id="modifyCategoryContainer"
+            className="flex flex-col justify-between min-h-screen w-full"
+        >
+            <div
+                id="backButton"
+                className="flex flex-col justify-center w-16/20 mt-10"
+            >
+                <Link href="/organize">
+                    <FontAwesomeIcon
+                        icon={faChevronLeft}
+                        className="text-neutral-800 dark:text-neutral-200 text-xs w-4 h-4 m-5"
+                    />
+                </Link>
             </div>
-            <div id="input" className="mt-2">
+            <div id="inputChangeNameCategorie" className="">
+                <h1 className="text-neutral-600 font-semibold">Libellé</h1>
                 <input
-                    className="bg-neutral-50 rounded-2xl p-2 w-80 h-12 mb-10 flex justify-center items-center"
+                    className="bg-neutral-50 rounded-2xl p-2 w-80 h-12 flex justify-center items-center"
                     type="text" value={title} onChange={(e) => setTitle(e.target.value)} />
             </div>
             <div>
@@ -202,7 +214,7 @@ const EditCategorie = () => {
                     ))}
                 </div>
             </div>
-            <div id="button" className="mt-6 ">
+            <div id="button" className="flex justify-center items-center w-full mb-32 ">
                 <Button
                     type="submit"
                     color="primary"
