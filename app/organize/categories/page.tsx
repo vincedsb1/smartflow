@@ -12,6 +12,7 @@ import { UserContext } from "@/app/context/UserContext";
 import { Card, CircularProgress } from "@nextui-org/react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { link } from "fs";
 
 interface Category {
   id: number;
@@ -32,6 +33,7 @@ const OrganizeCategories = () => {
   const [myModalContent, setMyModalContent] = useState("");
   const user = useContext(UserContext);
 
+  // Fetch categories
   useEffect(() => {
     if (!userContext.token || !userContext.user) {
       console.error("User or token is not defined");
@@ -80,6 +82,7 @@ const OrganizeCategories = () => {
   }
 
   const rows = categories.map((category) => ({
+    link: "/organize/categories/review?id=" + category.id + "&nbcategories=" + categories.length,
     mainLabel: category.name,
     color: category.colorName,
   }));
