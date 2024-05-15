@@ -4,7 +4,7 @@ import React, { useContext, useState, useEffect } from "react";
 import List from "../components/List";
 import CardAppTitle from "../components/CardAppTitle";
 import CardAppText from "../components/CardAppText";
-import { CircularProgress } from "@nextui-org/react";
+import { CircularProgress, code } from "@nextui-org/react";
 import {
   faListUl,
   fa1,
@@ -18,9 +18,14 @@ import {
 import { UserContext } from "../context/UserContext";
 import { UserCardProps } from "../context/UserContext";
 import { Button } from "@nextui-org/react";
-const { useRouter } = require("next/navigation");
+import CardsToReviewList from "../components/today/CardsToReviewList";
+import AllCardsReviewed from "../components/today/AllCardsReviewed";
+import NoCardsToReview from "../components/today/NoCardsToReview";
+import NoCard from "../components/today/NoCard";
+import { IconDefinition } from "@fortawesome/fontawesome-svg-core";
 
 const Today = () => {
+  const { useRouter } = require("next/navigation");
   const userContext = useContext(UserContext);
   const router = useRouter();
 
@@ -33,8 +38,7 @@ const Today = () => {
   const [cards, setCards] = useState<UserCardProps[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [isError, setIsError] = useState<boolean>(false);
-
-  const [myModalContent, setMyModalContent] = useState("");
+  const [code, setCode] = useState<number>(0);
 
   const [isTokenLoaded, setIsTokenLoaded] = useState<boolean>(false);
 
@@ -60,11 +64,19 @@ const Today = () => {
           return response.json();
         })
         .then((data) => {
-          setCards(data);
-          setCardsToReview(data);
-          userContext.setNbCardsToReview(data.length);
+          setCards(data.cards);
+          setCardsToReview(data.cards);
+          if (data.cards) {
+            setCards(data.cards);
+            setCardsToReview(data.cards);
+            userContext.setNbCardsToReview(data.cards.length);
+          } else {
+            console.error("data.cards is undefined");
+          }
           setIsLoading(false);
           console.log("Data received from Today", data);
+          console.log("Data.code", data.code);
+          setCode(data.code);
         })
         .catch((error) => {
           console.error("Error:", error);
@@ -86,67 +98,33 @@ const Today = () => {
     return <div>Error</div>;
   }
 
-  const handleCardClick = (cardId: number) => {
-    console.log(`Card clicked: ${cardId}`);
-    router.push(`/today/review?id=${cardId}`);
-  };
+  let rows: {
+    mainLabel: string;
+    link: string;
+    color: string;
+    icon: IconDefinition;
+  }[] = [];
+  if (cards) {
+    rows = cards.map((card) => ({
+      mainLabel: card.title,
+      link: "/today/review?id=" + card.id + "&nbcard=" + cards.length,
+      color: card.categoryColorName || "white",
+      icon: levelIcons[card.level - 1],
+    }));
+  }
 
-  const rows = cards.map((card) => ({
-    mainLabel: card.title,
-    link: "/today/review?id=" + card.id + "&nbcard=" + cards.length,
-    color: card.categoryColorName || "white",
-    icon: levelIcons[card.level - 1],
-  }));
-
-  return (
-    <div
-      id="todayMainContainer"
-      className="flex flex-col justify-between align-middle items-center min-h-screen"
-    >
-      <div
-        id="todayTitleHintListContainer"
-        className="flex flex-col w-full items-center"
-      >
-        <div
-          id="todayTitleHintContainer"
-          className="flex flex-col w-full items-center"
-        >
-          <div className="w-18/20 mt-20">
-            <CardAppTitle title="Aujourd'hui" size="big" />
-          </div>
-          <div className="w-18/20 mb-14">
-            <CardAppText
-              icon={faListUl}
-              text={`Vous avez ${cards.length} fiches à réciter.`}
-            />
-          </div>
-        </div>
-        <div id="todayListContainer" className="w-full mb-8">
-          <List
-            rows={rows}
-            title="Fiches"
-            isLargeRow={true}
-            setModalContent={setMyModalContent}
-            modalContent={myModalContent}
-          />
-        </div>
-      </div>
-      <div id="todayMainButton" className="w-18/20 mb-24 flex justify-center">
-        <Button
-          color="primary"
-          variant="solid"
-          size="lg"
-          radius="lg"
-          className="w-80 font-bold font-text"
-          onClick={() => {
-            router.push(`/today/review/`);
-          }}
-        >
-          Réciter
-        </Button>
-      </div>
-    </div>
-  );
+  switch (code) {
+    case 1:
+      return <NoCard />;
+    case 2:
+      return <NoCardsToReview />;
+    case 3:
+      return <AllCardsReviewed />;
+    case 4:
+      return <CardsToReviewList rows={rows} />;
+    default:
+      return <div>Unknown code</div>;
+  }
 };
 
 export default Today;
