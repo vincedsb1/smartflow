@@ -6,12 +6,16 @@ import {
   faTag,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState, useCallback } from "react";
 import List from "../../components/List";
 import { UserContext } from "@/app/context/UserContext";
-import { Card, CircularProgress } from "@nextui-org/react";
+import { CircularProgress } from "@nextui-org/react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import BelowListLink from "../../components/list/BelowListLink";
+import { useDisclosure } from "@nextui-org/react";
+import { colorClasses } from "../../components/utils/colorUtils";
+import AddCategoryModal from "../../components/category/AddCategoryModal";
 
 interface Category {
   id: number;
@@ -19,53 +23,67 @@ interface Category {
   colorName: string;
 }
 
-const OrganizeCategories = () => {
+interface OrganizeCategoriesProps {
+  onCategoryChange: (id: number) => void;
+}
+
+const OrganizeCategories: React.FC<OrganizeCategoriesProps> = ({
+  onCategoryChange,
+}) => {
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const [selectedCategoryId, setSelectedCategoryId] = useState<number | null>(
+    null
+  );
   const userContext = useContext(UserContext);
-  if (!userContext) {
-    throw new Error("UserContext must be used within a UserContextProvider");
-  }
   const [categories, setCategories] = useState<Category[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [isError, setIsError] = useState<boolean>(false);
-  const [myModalIsOpen, setMyModalIsOpen] = useState(false);
-  const [myModalTitle, setMyModalTitle] = useState("");
-  const [myModalContent, setMyModalContent] = useState("");
-  const user = useContext(UserContext);
 
-  useEffect(() => {
-    if (!userContext.token || !userContext.user) {
+  const fetchCategories = useCallback(async () => {
+    if (!userContext || !userContext.token || !userContext.user) {
       console.error("User or token is not defined");
       setIsError(true);
       setIsLoading(false);
       return;
     }
 
-    console.log("Token:", userContext.token);
-
-    fetch("/api/categories", {
-      headers: {
-        Authorization: `Bearer ${userContext.token}`,
-      },
-    })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        }
-        return response.json();
-      })
-      .then((data) => {
-        console.log(data);
-        setCategories(data);
-        setIsLoading(false);
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-        setIsError(true);
-        setIsLoading(false);
+    try {
+      const response = await fetch("/api/categories", {
+        headers: {
+          Authorization: `Bearer ${userContext.token}`,
+        },
       });
-  }, [userContext.token, userContext.user]);
 
-  const router = useRouter();
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+
+      const data = await response.json();
+      setCategories(data);
+      setIsLoading(false);
+    } catch (error) {
+      console.error("Error:", error);
+      setIsError(true);
+      setIsLoading(false);
+    }
+  }, [userContext]);
+
+  useEffect(() => {
+    if (userContext && userContext.token && userContext.user) {
+      fetchCategories();
+    }
+  }, [fetchCategories, userContext]);
+
+  const handleCategoryCreation = (categoryName: string, colorId: number) => {
+    // Trouvez le nom de la couleur correspondant à l'ID de couleur
+    const colorName = Object.keys(colorClasses)[colorId - 1];
+
+    setCategories((prevCategories) => [
+      ...prevCategories,
+      { id: Date.now(), name: categoryName, colorName: colorName },
+    ]);
+    onClose();
+  };
 
   if (isLoading) {
     return (
@@ -82,8 +100,11 @@ const OrganizeCategories = () => {
   const rows = categories.map((category) => ({
     mainLabel: category.name,
     color: category.colorName,
+    onClick: () => {
+      setSelectedCategoryId(category.id);
+      onCategoryChange(category.id);
+    },
   }));
-  console.log("rows:", rows);
 
   return (
     <div
@@ -107,15 +128,21 @@ const OrganizeCategories = () => {
             rows={rows}
             title="Catégories"
             isLargeRow={false}
-            setModalIsOpen={setMyModalIsOpen}
-            setModalTitle={setMyModalTitle}
-            setModalContent={setMyModalContent}
-            modalContent={myModalContent}
-            belowListLink="Ajouter une catégorie"
-            onBelowListLinkClick={() => router.push("/organize/addCategory")}
+            // setModalIsOpen={setMyModalIsOpen}
+            // setModalTitle={setMyModalTitle}
+            // setModalContent={setMyModalContent}
+            // modalContent={myModalContent}
+            // belowListLink="Ajouter une catégorie"
+            // onBelowListLinkClick={() => router.push("/organize/addCategory")}
           />
+          <BelowListLink onClick={onOpen}>Ajouter une catégorie</BelowListLink>
         </div>
       </div>
+      <AddCategoryModal
+        isOpen={isOpen}
+        onClose={onClose}
+        onValidate={handleCategoryCreation}
+      />
     </div>
   );
 };
