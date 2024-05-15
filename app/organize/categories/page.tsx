@@ -1,72 +1,88 @@
 "use client";
 
-import {
-  faChevronLeft,
-  faChevronRight,
-  faTag,
-} from "@fortawesome/free-solid-svg-icons";
+// Importations de bibliothèques et de composants
+import { faChevronLeft } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState, useCallback } from "react";
 import List from "../../components/List";
 import { UserContext } from "@/app/context/UserContext";
-import { Card, CircularProgress } from "@nextui-org/react";
+import { CircularProgress } from "@nextui-org/react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import BelowListLink from "../../components/list/BelowListLink";
+import { useDisclosure } from "@nextui-org/react";
+import { colorClasses } from "../../components/utils/colorUtils";
+import AddCategoryModal from "../../components/category/AddCategoryModal";
 
+// Définition des interfaces
 interface Category {
   id: number;
   name: string;
   colorName: string;
 }
 
-const OrganizeCategories = () => {
+interface OrganizeCategoriesProps {}
+
+// Définition du composant
+const OrganizeCategories: React.FC<OrganizeCategoriesProps> = ({}) => {
+  // Déclaration des états
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const [selectedCategoryId, setSelectedCategoryId] = useState<number | null>(
+    null
+  );
   const userContext = useContext(UserContext);
-  if (!userContext) {
-    throw new Error("UserContext must be used within a UserContextProvider");
-  }
   const [categories, setCategories] = useState<Category[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [isError, setIsError] = useState<boolean>(false);
-  const [myModalIsOpen, setMyModalIsOpen] = useState(false);
-  const [myModalTitle, setMyModalTitle] = useState("");
-  const [myModalContent, setMyModalContent] = useState("");
-  const user = useContext(UserContext);
 
-  useEffect(() => {
-    if (!userContext.token || !userContext.user) {
+  // Fonction pour récupérer les catégories
+  const fetchCategories = useCallback(async () => {
+    if (!userContext || !userContext.token || !userContext.user) {
       console.error("User or token is not defined");
       setIsError(true);
       setIsLoading(false);
       return;
     }
 
-    console.log("Token:", userContext.token);
-
-    fetch("/api/categories", {
-      headers: {
-        Authorization: `Bearer ${userContext.token}`,
-      },
-    })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        }
-        return response.json();
-      })
-      .then((data) => {
-        console.log(data);
-        setCategories(data);
-        setIsLoading(false);
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-        setIsError(true);
-        setIsLoading(false);
+    try {
+      const response = await fetch("/api/categories", {
+        headers: {
+          Authorization: `Bearer ${userContext.token}`,
+        },
       });
-  }, [userContext.token, userContext.user]);
 
-  const router = useRouter();
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
 
+      const data = await response.json();
+      setCategories(data);
+      setIsLoading(false);
+    } catch (error) {
+      console.error("Error:", error);
+      setIsError(true);
+      setIsLoading(false);
+    }
+  }, [userContext]);
+
+  // Utilisation de l'effet pour récupérer les catégories au chargement du composant
+  useEffect(() => {
+    if (userContext && userContext.token && userContext.user) {
+      fetchCategories();
+    }
+  }, [fetchCategories, userContext]);
+
+  // Fonction pour gérer la création d'une catégorie
+  const handleCategoryCreation = (categoryName: string, colorId: number) => {
+    const colorName = Object.keys(colorClasses)[colorId - 1];
+
+    setCategories((prevCategories) => [
+      ...prevCategories,
+      { id: Date.now(), name: categoryName, colorName: colorName },
+    ]);
+    onClose();
+  };
+
+  // Affichage d'un spinner de chargement si les données sont en cours de chargement
   if (isLoading) {
     return (
       <div className="min-h-screen flex flex-row justify-center items-center w-full">
@@ -75,16 +91,18 @@ const OrganizeCategories = () => {
     );
   }
 
+  // Affichage d'un message d'erreur si une erreur s'est produite lors de la récupération des données
   if (isError) {
     return <div>Error</div>;
   }
 
+  // Préparation des données pour le composant List
   const rows = categories.map((category) => ({
     mainLabel: category.name,
     color: category.colorName,
   }));
-  console.log("rows:", rows);
 
+  // Affichage du composant
   return (
     <div
       id="organizeMainContainer"
@@ -103,21 +121,18 @@ const OrganizeCategories = () => {
           </Link>
         </div>
         <div id="organizeList" className="">
-          <List
-            rows={rows}
-            title="Catégories"
-            isLargeRow={false}
-            setModalIsOpen={setMyModalIsOpen}
-            setModalTitle={setMyModalTitle}
-            setModalContent={setMyModalContent}
-            modalContent={myModalContent}
-            belowListLink="Ajouter une catégorie"
-            onBelowListLinkClick={() => router.push("/organize/addCategory")}
-          />
+          <List rows={rows} title="Catégories" isLargeRow={false} />
+          <BelowListLink onClick={onOpen}>Ajouter une catégorie</BelowListLink>
         </div>
       </div>
+      <AddCategoryModal
+        isOpen={isOpen}
+        onClose={onClose}
+        onValidate={handleCategoryCreation}
+      />
     </div>
   );
 };
 
+// Exportation du composant
 export default OrganizeCategories;

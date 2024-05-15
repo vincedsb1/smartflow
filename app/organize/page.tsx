@@ -27,7 +27,7 @@ const Organize = () => {
   const [myModalIsOpen, setMyModalIsOpen] = useState(false);
   const [myModalTitle, setMyModalTitle] = useState("");
   const [myModalContent, setMyModalContent] = useState("");
-  
+
   return (
     <div
       id="organizeMainContainer"
@@ -37,20 +37,14 @@ const Organize = () => {
         id="organizeContainer"
         className="flex flex-col justify-center w-full"
       >
-        <div id="themeSwitcherBackIcon" className="w-full flex flex-col mt-16">
-          <FontAwesomeIcon
-            icon={faChevronLeft}
-            className="text-neutral-800 dark:text-neutral-200 text-xs w-4 h-4 m-5"
-          />
-        </div>
         <div
           id="organizeHeaderContainer"
           className="flex flex-col justify-center items-center w-full mb-20"
         >
-          <div id="organizeTitle" className="flex flex-col mt-11 w-16/20 ">
+          <div id="organizeTitle" className="flex flex-col mt-11 w-18/20 ">
             <CardAppTitle title="Organiser" />
           </div>
-          <div id="organizeHint" className="flex flex-col items-center w-16/20">
+          <div id="organizeHint" className="flex flex-col items-center w-18/20">
             <CardAppText text="Que voulez-vous organiser ?" icon={faTag} />
           </div>
         </div>
