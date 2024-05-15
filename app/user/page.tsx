@@ -29,7 +29,9 @@ const UserProfile: React.FC = () => {
   const handleLogout = () => {
     setUser(null);
     setToken(null);
+    router.push("/");
   };
+
   const formattedBirthday = birthday
     ? new Date(birthday).toLocaleDateString("fr-FR")
     : null;
