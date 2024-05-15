@@ -1,35 +1,30 @@
 "use client";
 
-import {
-  faChevronLeft,
-  faChevronRight,
-  faTag,
-} from "@fortawesome/free-solid-svg-icons";
+// Importations de bibliothèques et de composants
+import { faChevronLeft } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useContext, useEffect, useState, useCallback } from "react";
 import List from "../../components/List";
 import { UserContext } from "@/app/context/UserContext";
 import { CircularProgress } from "@nextui-org/react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import BelowListLink from "../../components/list/BelowListLink";
 import { useDisclosure } from "@nextui-org/react";
 import { colorClasses } from "../../components/utils/colorUtils";
 import AddCategoryModal from "../../components/category/AddCategoryModal";
 
+// Définition des interfaces
 interface Category {
   id: number;
   name: string;
   colorName: string;
 }
 
-interface OrganizeCategoriesProps {
-  onCategoryChange: (id: number) => void;
-}
+interface OrganizeCategoriesProps {}
 
-const OrganizeCategories: React.FC<OrganizeCategoriesProps> = ({
-  onCategoryChange,
-}) => {
+// Définition du composant
+const OrganizeCategories: React.FC<OrganizeCategoriesProps> = ({}) => {
+  // Déclaration des états
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [selectedCategoryId, setSelectedCategoryId] = useState<number | null>(
     null
@@ -39,6 +34,7 @@ const OrganizeCategories: React.FC<OrganizeCategoriesProps> = ({
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [isError, setIsError] = useState<boolean>(false);
 
+  // Fonction pour récupérer les catégories
   const fetchCategories = useCallback(async () => {
     if (!userContext || !userContext.token || !userContext.user) {
       console.error("User or token is not defined");
@@ -68,14 +64,15 @@ const OrganizeCategories: React.FC<OrganizeCategoriesProps> = ({
     }
   }, [userContext]);
 
+  // Utilisation de l'effet pour récupérer les catégories au chargement du composant
   useEffect(() => {
     if (userContext && userContext.token && userContext.user) {
       fetchCategories();
     }
   }, [fetchCategories, userContext]);
 
+  // Fonction pour gérer la création d'une catégorie
   const handleCategoryCreation = (categoryName: string, colorId: number) => {
-    // Trouvez le nom de la couleur correspondant à l'ID de couleur
     const colorName = Object.keys(colorClasses)[colorId - 1];
 
     setCategories((prevCategories) => [
@@ -85,6 +82,7 @@ const OrganizeCategories: React.FC<OrganizeCategoriesProps> = ({
     onClose();
   };
 
+  // Affichage d'un spinner de chargement si les données sont en cours de chargement
   if (isLoading) {
     return (
       <div className="min-h-screen flex flex-row justify-center items-center w-full">
@@ -93,19 +91,18 @@ const OrganizeCategories: React.FC<OrganizeCategoriesProps> = ({
     );
   }
 
+  // Affichage d'un message d'erreur si une erreur s'est produite lors de la récupération des données
   if (isError) {
     return <div>Error</div>;
   }
 
+  // Préparation des données pour le composant List
   const rows = categories.map((category) => ({
     mainLabel: category.name,
     color: category.colorName,
-    onClick: () => {
-      setSelectedCategoryId(category.id);
-      onCategoryChange(category.id);
-    },
   }));
 
+  // Affichage du composant
   return (
     <div
       id="organizeMainContainer"
@@ -124,17 +121,7 @@ const OrganizeCategories: React.FC<OrganizeCategoriesProps> = ({
           </Link>
         </div>
         <div id="organizeList" className="">
-          <List
-            rows={rows}
-            title="Catégories"
-            isLargeRow={false}
-            // setModalIsOpen={setMyModalIsOpen}
-            // setModalTitle={setMyModalTitle}
-            // setModalContent={setMyModalContent}
-            // modalContent={myModalContent}
-            // belowListLink="Ajouter une catégorie"
-            // onBelowListLinkClick={() => router.push("/organize/addCategory")}
-          />
+          <List rows={rows} title="Catégories" isLargeRow={false} />
           <BelowListLink onClick={onOpen}>Ajouter une catégorie</BelowListLink>
         </div>
       </div>
@@ -147,4 +134,5 @@ const OrganizeCategories: React.FC<OrganizeCategoriesProps> = ({
   );
 };
 
+// Exportation du composant
 export default OrganizeCategories;
