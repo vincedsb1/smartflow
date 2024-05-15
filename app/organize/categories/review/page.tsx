@@ -5,6 +5,7 @@ import { Button } from "@nextui-org/react";
 import { Color } from "@prisma/client";
 import { useEffect, useState } from 'react';
 import { useContext } from 'react';
+import { useRouter } from 'next/navigation';
 
 
 
@@ -18,6 +19,7 @@ const EditCategorie = () => {
     const [selectedColor, setSelectedColor] = useState<string | null>(null);
     const [colorId, setColorId] = useState<number | null>(null);
     const [colorName, setColorName] = useState<string | null>(null);
+    const router = useRouter();
 
     interface Color {
         id: number;
@@ -83,8 +85,6 @@ const EditCategorie = () => {
                         setTitle(category.name);
                         setColorId(category.colorId);
                         setColorName(category.color.name);
-
-                        // Mettre à jour l'état des couleurs pour marquer la couleur correspondante comme sélectionnée
                         setColors(
                             colors.map((color) =>
                                 color.id === category.colorId
@@ -128,17 +128,23 @@ const EditCategorie = () => {
             return data;
         }
     }
+
     // Fonction pour gérer le clic sur le bouton Enregistrer
     const handleSaveClick = async () => {
-        console.log(categoryName, selectedColor);
-        if (!categoryName || !selectedColor) {
-            alert("Veuillez remplir tous les champs");
+        console.log(title, selectedColor);
+        if (!title) {
+            alert("Veuillez remplir le champ du nom de la catégorie");
+            return;
+        }
+        if (!selectedColor) {
+            alert("Veuillez sélectionner une couleur");
             return;
         }
 
         try {
-            const updatedCategory = await updateCategory(categoryId, categoryName, selectedColor);
+            const updatedCategory = await updateCategory(categoryId, title, selectedColor);
             console.log("Updated category: ", updatedCategory);
+            router.push('/organize/categories');
         } catch (error) {
             console.error("Error updating category: ", error);
         }

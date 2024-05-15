@@ -46,10 +46,18 @@ export default function handle(
         });
       }
     } else if (req.method === "PUT") {
-      const { categoryId, name, colorId } = req.body;
+      let { categoryId, name, colorId } = req.body;
 
       if (!categoryId || !name || !colorId) {
         return res.status(400).json({ message: "Missing parameters" });
+      }
+
+      // Convert colorId to a number if it's a string
+      if (typeof colorId === "string") {
+        colorId = parseInt(colorId);
+        if (isNaN(colorId)) {
+          return res.status(400).json({ message: "Invalid colorId" });
+        }
       }
 
       try {
