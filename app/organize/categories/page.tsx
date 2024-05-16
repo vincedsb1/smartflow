@@ -8,6 +8,8 @@ import List from "../../components/List";
 import { UserContext } from "@/app/context/UserContext";
 import { CircularProgress } from "@nextui-org/react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { link } from "fs";
 import BelowListLink from "../../components/list/BelowListLink";
 import { useDisclosure } from "@nextui-org/react";
 import { colorClasses } from "../../components/utils/colorUtils";
@@ -98,6 +100,7 @@ const OrganizeCategories: React.FC<OrganizeCategoriesProps> = ({}) => {
 
   // Préparation des données pour le composant List
   const rows = categories.map((category) => ({
+    link: "/organize/categories/review?id=" + category.id + "&nbcategories=" + categories.length,
     mainLabel: category.name,
     color: category.colorName,
   }));
