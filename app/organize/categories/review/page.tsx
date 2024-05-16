@@ -179,7 +179,7 @@ const EditCategorie = () => {
     return (
         <div
             id="modifyCategoryContainer"
-            className="flex flex-col justify-between min-h-screen w-full"
+            className="flex flex-col justify-between min-h-screen w-full items-center"
         >
             <div
                 id="backButton"
@@ -192,15 +192,20 @@ const EditCategorie = () => {
                     />
                 </Link>
             </div>
-            <div id="inputChangeNameCategorie" className="">
-                <h1 className="text-neutral-600 font-semibold">Libellé</h1>
+            <div id="inputChangeNameCategorie" className="flex flex-col items-start">
+                <div className="flex flex-col items-start">
+                    <h1 className="text-neutral-600 font-semibold">Libellé</h1>
+                </div>
                 <input
                     className="bg-neutral-50 rounded-2xl p-2 w-80 h-12 flex justify-center items-center"
                     type="text" value={title} onChange={(e) => setTitle(e.target.value)} />
             </div>
-            <div>
-                <h1 className="text-neutral-600 font-semibold">Couleurs</h1>
-                <div className="flex flex-wrap justify-center bg-neutral-200 dark:bg-neutral-800 rounded-2xl">
+            <div className="lex flex-col items-start">
+                <div className="flex flex-col items-start ml-8">
+                    <h1 className="text-neutral-600 font-semibold">Couleurs</h1>
+
+                </div>
+                <div className=" ml-8 mr-8 flex flex-wrap justify-center bg-neutral-200 dark:bg-neutral-800 rounded-2xl border border-black p-4">
                     {colors.map((color) => (
                         <div
                             key={color.id}
@@ -214,7 +219,7 @@ const EditCategorie = () => {
                     ))}
                 </div>
             </div>
-            <div id="button" className="flex justify-center items-center w-full mb-32 ">
+            <div id="button" className="flex justify-center items-center w-full mb-32 mt-32 ">
                 <Button
                     type="submit"
                     color="primary"
@@ -229,3 +234,5 @@ const EditCategorie = () => {
 };
 
 export default EditCategorie;
+
+
