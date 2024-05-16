@@ -181,29 +181,23 @@ const EditCategorie = () => {
             id="modifyCategoryContainer"
             className="flex flex-col justify-between min-h-screen w-full items-center"
         >
-            <div
-                id="backButton"
-                className="flex flex-col justify-center w-16/20 mt-10"
-            >
-                <Link href="/organize">
-                    <FontAwesomeIcon
-                        icon={faChevronLeft}
-                        className="text-neutral-800 dark:text-neutral-200 text-xs w-4 h-4 m-5"
-                    />
-                </Link>
-            </div>
+        <div id="themeSwitcherBackIcon" className="w-full flex flex-col mt-16">
+          <Link href="/organize">
+            <FontAwesomeIcon
+              icon={faChevronLeft}
+              className="text-neutral-800 dark:text-neutral-200 text-xs w-4 h-4 m-5"
+            />
+          </Link>
+        </div>
             <div id="inputChangeNameCategorie" className="flex flex-col items-start">
                 <div className="flex flex-col items-start">
-                    <h1 className="text-neutral-600 font-semibold">Libellé</h1>
                 </div>
                 <Input
-                    className="flex flex-wrap md:flex-nowrap gap-4 w-80"
-                    type="text" value={title} onChange={(e) => setTitle(e.target.value)} />
+                    className="flex flex-wrap md:flex-nowrap gap-4 w-80 "
+                    type="text" placeholder={title} onChange={(e) => setTitle(e.target.value)} />
             </div>
             <div className="lex flex-col items-start">
                 <div className="flex flex-col items-start ml-8">
-                    <h1 className="text-neutral-600 font-semibold">Couleurs</h1>
-
                 </div>
                 <div className="flex flex-wrap justify-center bg-neutral-50 dark:bg-neutral-800 rounded-2xl ml-8 mr-8">
                     {colors.map((color) => (
