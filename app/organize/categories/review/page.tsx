@@ -1,7 +1,7 @@
 "use client";
 import { colorClasses } from "@/app/components/utils/colorUtils";
 import { UserContext } from "@/app/context/UserContext";
-import { Button, Link } from "@nextui-org/react";
+import { Button, Input, Link } from "@nextui-org/react";
 import { useEffect, useState } from 'react';
 import { useContext } from 'react';
 import { useRouter } from 'next/navigation';
@@ -196,8 +196,8 @@ const EditCategorie = () => {
                 <div className="flex flex-col items-start">
                     <h1 className="text-neutral-600 font-semibold">Libellé</h1>
                 </div>
-                <input
-                    className="bg-neutral-50 rounded-2xl p-2 w-80 h-12 flex justify-center items-center"
+                <Input
+                    className="flex flex-wrap md:flex-nowrap gap-4 w-80"
                     type="text" value={title} onChange={(e) => setTitle(e.target.value)} />
             </div>
             <div className="lex flex-col items-start">
@@ -205,13 +205,13 @@ const EditCategorie = () => {
                     <h1 className="text-neutral-600 font-semibold">Couleurs</h1>
 
                 </div>
-                <div className=" ml-8 mr-8 flex flex-wrap justify-center bg-neutral-200 dark:bg-neutral-800 rounded-2xl border border-black p-4">
+                <div className="flex flex-wrap justify-center bg-neutral-50 dark:bg-neutral-800 rounded-2xl ml-8 mr-8">
                     {colors.map((color) => (
                         <div
                             key={color.id}
                             className={`w-8 h-8 rounded-full hover:scale-105 hover:ring-2 ring-neutral-900 dark:ring-neutral-100 active:scale-110 transition-all bg-${color.name
                                 } m-3 cursor-pointer ${color.selected
-                                    ? "ring-2 ring-neutral-900 dark:ring-neutral-100 scale-110"
+                                    ? "ring-2 ring-neutral-900 dark:ring-neutral-100"
                                     : ""
                                 }`}
                             onClick={() => handleColorClick(color.id)}
