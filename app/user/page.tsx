@@ -26,10 +26,13 @@ const UserProfile: React.FC = () => {
   //   }
   // }, [user, token, router]);
 
+  // const handleLogout = () => {
+  //   router.push("/");
+  // };
   const handleLogout = () => {
     setUser(null);
     setToken(null);
-    router.push("/");
+    // router.push("/");
   };
 
   const formattedBirthday = birthday
@@ -82,6 +85,7 @@ const UserProfile: React.FC = () => {
       secondaryLabel: undefined,
       icon: faPersonWalkingArrowRight,
       onClick: handleLogout,
+      link: "/",
     },
     {
       mainLabel: "Supprimer mon compte",
