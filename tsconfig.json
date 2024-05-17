@@ -21,6 +21,14 @@
       "@/*": ["./*"]
     }
   },
-  "include": ["**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "types/**/*.d.ts"],
+  "include": [
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts",
+    "types/**/*.d.ts",
+    "app/organize/categories/page.tsx",
+    "app/organize/categories/page.tsx",
+    "app/organize/categories/pageBackup.tsx"
+  ],
   "exclude": ["node_modules"]
 }

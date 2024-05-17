@@ -36,112 +36,40 @@ const OrganizeCategories: React.FC<OrganizeCategoriesProps> = ({}) => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [isError, setIsError] = useState<boolean>(false);
 
-  const [isTokenLoaded, setIsTokenLoaded] = useState<boolean>(false);
-
-  if (!userContext) {
-    throw new Error("UserContext must be used within a UserContextProvider");
-  }
-
-  useEffect(() => {
-    // Vérifiez si le token est disponible
-    if (userContext.token) {
-      setIsTokenLoaded(true);
+  // Fonction pour récupérer les catégories
+  const fetchCategories = useCallback(async () => {
+    if (!userContext || !userContext.token || !userContext.user) {
+      console.error("User or token is not defined");
+      setIsError(true);
+      setIsLoading(false);
+      return;
     }
-  }, [userContext.token]);
 
-  useEffect(() => {
-    // Ne faire la requête fetch que si le token est chargé
-    if (isTokenLoaded) {
-      fetch("/api/categories", {
+    try {
+      const response = await fetch("/api/categories", {
         headers: {
           Authorization: `Bearer ${userContext.token}`,
         },
-      })
-        .then((response) => {
-          if (!response.ok) {
-            throw new Error("Network response was not ok");
-          }
-          return response.json();
-        })
-        .then((data) => {
-          setCategories(data);
-          setIsLoading(false);
-        })
-        .catch((error) => {
-          console.error("Error:", error);
-          setIsError(true);
-          setIsLoading(false);
-        });
+      });
+
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+
+      const data = await response.json();
+      setCategories(data);
+      setIsLoading(false);
+    } catch (error) {
+      console.error("Error:", error);
+      setIsError(true);
+      setIsLoading(false);
     }
-  }, [isTokenLoaded, userContext.token]);
+  }, [userContext]);
 
-  if (isLoading) {
-    return (
-      <div className="min-h-screen flex flex-row justify-center items-center w-full">
-        <CircularProgress aria-label="Loading..." />
-      </div>
-    );
-  }
-
-  if (isError) {
-    return <div>Error</div>;
-  }
-
-  // const [lastToken, setLastToken] = useState<string | null>(null);
-
-  // // Fonction pour récupérer les catégories
-  // const fetchCategories = useCallback(async () => {
-  //   if (!userContext || !userContext.token || !userContext.user) {
-  //     console.error("User or token is not defined");
-  //     setIsError(true);
-  //     setIsLoading(false);
-  //     return;
-  //   }
-
-  //   try {
-  //     const response = await fetch("/api/categories", {
-  //       headers: {
-  //         Authorization: `Bearer ${userContext.token}`,
-  //       },
-  //     });
-
-  //     if (!response.ok) {
-  //       throw new Error("Network response was not ok");
-  //     }
-
-  // const data = await response.json();
-  // setCategories(data);
-  // setIsLoading(false);
-  //   } catch (error) {
-  //     console.error("Error:", error);
-  //     setIsError(true);
-  //     setIsLoading(false);
-  //     setLastToken(userContext.token);
-  //   }
-  // }, [userContext.token, userContext.user]); // Removed userContext from dependencies
-
-  // // Utilisation de l'effet pour récupérer les catégories au chargement du composant
-  // useEffect(() => {
-  //   if (userContext && userContext.token && userContext.user) {
-  //     fetchCategories();
-  //   }
-  // }, [fetchCategories, userContext.token, userContext.user]);
-
-  // useEffect(() => {
-  //   console.log("userContext changed", userContext);
-  // }, [userContext]);
-
-  // useEffect(() => {
-  //   console.log("isLoading changed", isLoading);
-  // }, [isLoading]);
-
-  // useEffect(() => {
-  //   console.log("isError changed", isError);
-  // }, [isError]);
-
-  // useEffect(() => {
-  //   console.log("lastToken changed", lastToken);
-  // }, [lastToken]);
+  // Utilisation de l'effet pour récupérer les catégories au chargement du composant
+  useEffect(() => {
+    fetchCategories();
+  }, [fetchCategories]);
 
   // Fonction pour gérer la création d'une catégorie
   const handleCategoryCreation = (categoryName: string, colorId: number) => {
