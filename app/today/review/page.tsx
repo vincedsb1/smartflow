@@ -111,7 +111,7 @@ const Review: React.FC = () => {
   };
 
   const handleIncorrectReview = () => {
-    fetch(`http://localhost:3000/api/cards/${id}`, {
+    fetch(`${process.env.BASE_URL}/api/cards/${id}`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
@@ -128,7 +128,7 @@ const Review: React.FC = () => {
   };
 
   const handlePositiveReview = () => {
-    fetch(`http://localhost:3000/api/cards/${id}`, {
+    fetch(`${process.env.BASE_URL}/api/cards/${id}`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
