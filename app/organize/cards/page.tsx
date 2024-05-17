@@ -57,8 +57,13 @@ const OrganizeCards = () => {
           return response.json();
         })
         .then((data) => {
-          setCards(data);
-          setCardsToReview(data);
+          if (Array.isArray(data)) {
+            setCards(data);
+            setCardsToReview(data);
+          } else {
+            setCards([]);
+            setCardsToReview([]);
+          }
           setIsLoading(false);
         })
         .catch((error) => {
