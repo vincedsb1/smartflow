@@ -65,8 +65,8 @@ interface UserCardProps {
 const UserContextProvider: React.FC<UserContextProviderProps> = ({
   children,
 }) => {
-  const isServer = typeof window === 'undefined';
-  const currentPath = isServer ? '' : window.location.pathname;
+  const isServer = typeof window === "undefined";
+  const currentPath = isServer ? "" : window.location.pathname;
 
   // Check if the current path is one of the excluded routes
   const isExcludedRoute = ["/"].includes(currentPath);
@@ -93,8 +93,7 @@ const UserContextProvider: React.FC<UserContextProviderProps> = ({
   const [selectedCard, setSelectedCard] = useState<UserCardProps | null>(null);
   const [cards, setCards] = useState<any[]>([]);
   const [NbCardsToReview, setNbCardsToReview] = useState<number>(0);
-  useEffect(() => {
-  }, [NbCardsToReview]);
+  useEffect(() => {}, [NbCardsToReview]);
 
   const [cardsToReview, setCardsToReview] = useState<any[]>([]);
   useEffect(() => {}, [cardsToReview]);
@@ -168,6 +167,14 @@ const UserContextProvider: React.FC<UserContextProviderProps> = ({
     setNbCardsToReview,
     setShouldRunContext,
   };
+
+  useEffect(() => {
+    console.log("shouldRunContext changed", shouldRunContext);
+  }, [shouldRunContext]);
+
+  useEffect(() => {
+    console.log("token changed", token);
+  }, [token]);
 
   return (
     <UserContext.Provider value={contextValue}>{children}</UserContext.Provider>
