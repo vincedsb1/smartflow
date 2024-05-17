@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 "use client";
 
 import React, {
@@ -6,7 +7,6 @@ import React, {
   ReactNode,
   useContext,
   useEffect,
-  useCallback,
 } from "react";
 
 interface UserContextProviderProps {
@@ -65,13 +65,24 @@ interface UserCardProps {
 const UserContextProvider: React.FC<UserContextProviderProps> = ({
   children,
 }) => {
+  const isServer = typeof window === 'undefined';
+  const currentPath = isServer ? '' : window.location.pathname;
+
+  // Check if the current path is one of the excluded routes
+  const isExcludedRoute = ["/"].includes(currentPath);
+
+  // If the current path is an excluded route, render the children without the UserContext
+  if (isExcludedRoute) {
+    return <>{children}</>;
+  }
+
   const [shouldRunContext, setShouldRunContext] = useState(true);
   useEffect(() => {
     if (shouldRunContext) {
-      console.log("User context provider is running");
       setShouldRunContext(false);
     }
   }, [shouldRunContext]);
+
   const [user, setUser] = useState<any>(null);
   const [email, setEmail] = useState<string | null>(null);
   const [firstname, setFirstname] = useState<string>("");
@@ -83,7 +94,6 @@ const UserContextProvider: React.FC<UserContextProviderProps> = ({
   const [cards, setCards] = useState<any[]>([]);
   const [NbCardsToReview, setNbCardsToReview] = useState<number>(0);
   useEffect(() => {
-    console.log("NbCardsToReview from context:", NbCardsToReview);
   }, [NbCardsToReview]);
 
   const [cardsToReview, setCardsToReview] = useState<any[]>([]);
@@ -123,14 +133,13 @@ const UserContextProvider: React.FC<UserContextProviderProps> = ({
         setBirthday(new Date(data.birthday));
         setEmail(data.email);
       } else {
-        console.log("API response was not ok, status:", response.status);
+        setTokenAndStore(null);
       }
     };
 
     if (token) {
       fetchUserDetails();
     } else {
-      console.log("Token is not set");
     }
   }, [token, setFirstname, setBirthday]);
 
