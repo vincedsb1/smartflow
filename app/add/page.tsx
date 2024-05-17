@@ -42,7 +42,7 @@ const CardCreation = () => {
   const router = useRouter();
 
   const handleContinueClick = () => {
-    const titleRegex = /^[a-zA-Z0-9]+$/;
+    const titleRegex = /^[\w\s\p{P}\p{S}]*$/u;
     if (!titleRegex.test(cardTitle)) {
       alert(
         "Le titre de la carte ne doit contenir que des lettres et des chiffres"
@@ -146,8 +146,8 @@ const CardCreation = () => {
           {step === 2 && selectedCategoryId === null
             ? "Continuer sans catégorie"
             : step < 4
-            ? "Continuer"
-            : "Voir la fiche"}
+              ? "Continuer"
+              : "Voir la fiche"}
         </Button>
       </div>
     </div>
