@@ -1,6 +1,7 @@
 "use client";
-import React, { useContext, useState } from "react";
-import Link from "next/link";
+import React, { ChangeEvent, useContext, useState } from "react";
+import { Link as NextUILink } from "@nextui-org/react";
+import Link from 'next/link';
 import { useRouter } from "next/navigation";
 
 import CardAppTitle from "../components/CardAppTitle";
@@ -8,6 +9,7 @@ import CardAppText from "../components/CardAppText";
 import CardAppPasswordInput from "../components/CardAppPasswordInput";
 import MainButton from "../components/MainButton";
 import { UserContext } from "../context/UserContext";
+import { Checkbox } from "@nextui-org/react";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronLeft } from "@fortawesome/free-solid-svg-icons";
@@ -15,6 +17,7 @@ import { faUser } from "@fortawesome/free-solid-svg-icons";
 
 const ConnexionPage = () => {
   const userContext = useContext(UserContext);
+  const [cgu, setCgu] = useState(false);
 
   if (!userContext) {
     throw new Error("UserContext must be used within a UserContextProvider");
@@ -53,20 +56,22 @@ const ConnexionPage = () => {
         onBoarding: false,
       }),
     });
-  
+
     if (response.ok) {
       const data = await response.json();
-  
+
       // Ajoutez cette ligne pour stocker le token dans le contexte utilisateur
       userContext.setToken(data.token);
-  
+
+
+
       const deleteResponse = await fetch(
         `/api/emailverification/delete-emailverification?email=${email}`,
         {
           method: "DELETE",
         }
       );
-  
+
       if (deleteResponse.ok) {
         console.log(
           "Utilisateur enregistré et vérification par e-mail supprimée avec succès"
@@ -90,7 +95,7 @@ const ConnexionPage = () => {
             if (data.status === "ok") {
               console.log("Token reçu de l'API (Page connexion) :", data.token);
               userContext.setToken(data.token);
-              console.log("Token défini dans userContext"); 
+              console.log("Token défini dans userContext");
               router.push("/onboarding");
               console.log("Redirigé vers /onboarding");
               setUser({ email, firstname, birthday, setUser });
@@ -102,6 +107,13 @@ const ConnexionPage = () => {
       }
     }
   }
+
+  const [hasAcceptedTerms, setHasAcceptedTerms] = useState(false);
+
+  function handleChangeCgu(event: ChangeEvent<HTMLInputElement>): void {
+    setHasAcceptedTerms(event.target.checked);
+  }
+
 
   return (
     <div className="flex flex-col justify-center items-center h-screen">
@@ -120,13 +132,30 @@ const ConnexionPage = () => {
         <CardAppPasswordInput onChange={handlePasswordChange} />
       </div>
 
-      <div className="mt-64">
-        {" "}
+      <div className="mt-64 flex flex-col items-center">
+        <div className="flex items-center w-16/20">
+          <Checkbox
+            size="md"
+            onChange={handleChangeCgu}
+            className="font-text"
+            isSelected={hasAcceptedTerms} // Utilisez hasAcceptedTerms ici
+          >
+            J&apos;accepte les conditions générales d&apos;utilisation
+          </Checkbox>
+        </div>
+        <div
+          id="mailAuthCGUContainer"
+          className="flex flex-row w-16/20 justify-start mb-4 ml-14 mt-1"
+        >
+          <NextUILink href="/cgu">
+            Consulter les CGU
+          </NextUILink>
+        </div>
         <MainButton
           label="Continuer"
-          type={password ? "normal" : "disabled"}
+          type={(password && hasAcceptedTerms) ? "normal" : "disabled"}
           buttonType="submit"
-          disabled={!password}
+          disabled={!(password && hasAcceptedTerms)}
           onClick={handleSubmit}
         />
       </div>
