@@ -8,7 +8,6 @@ import { UserContext } from "../context/UserContext";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronLeft } from "@fortawesome/free-solid-svg-icons";
 import { Button } from "@nextui-org/react";
-import { Checkbox } from "@nextui-org/react";
 import { Input } from "@nextui-org/react";
 import { Link } from "@nextui-org/react";
 
@@ -20,9 +19,8 @@ const MailAuth = () => {
   }
 
   const { email, setEmail } = userContext;
-  const [cgu, setCgu] = useState(false);
   useEffect(() => {
-  }, [cgu]);
+  }, []);
   const router = useRouter();
 
   // État pour suivre si l'email est valide
@@ -41,10 +39,6 @@ const MailAuth = () => {
     }
   };
 
-  const handleChangeCgu = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setCgu(e.target.checked);
-  };
-
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
@@ -53,10 +47,6 @@ const MailAuth = () => {
       const emailExists = res.ok && data.message === "Email already exists";
       if (!emailExists) {
         router.push("/register");
-        return;
-      }
-      if (!cgu) {
-        alert("Vous devez accepter les CGU");
         return;
       }
       router.push("/connexion");
@@ -133,24 +123,6 @@ const MailAuth = () => {
                 radius="lg"
                 className="w-full mb-20 font-text"
               />
-            </div>
-            <div className="flex items-center w-16/20">
-              <Checkbox
-                size="md"
-                onChange={handleChangeCgu}
-                className="font-text"
-                isSelected={cgu}
-              >
-                J&apos;accepte les conditions générales d&apos;utilisation
-              </Checkbox>
-            </div>
-            <div
-              id="mailAuthCGUContainer"
-              className="flex flex-row w-16/20 justify-start mb-4 ml-14 mt-1"
-            >
-              <Link href="/cgu" size="sm">
-                Consulter les CGU
-              </Link>
             </div>
             <Button
               type="submit"
