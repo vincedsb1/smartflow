@@ -47,7 +47,7 @@ export default async function handler(
           },
         });
 
-        const verificationLink = `http://localhost:3000/register-firstname?token=${token}`;
+        const verificationLink = `${process.env.BASE_URL}/register-firstname?token=${token}`;
 
         const emailContent = ReactDOMServer.renderToString(
           React.createElement(VerificationMail, {

@@ -75,7 +75,7 @@ export default async function handle(
       const emailContent = ReactDOMServer.renderToString(
         React.createElement(EmailChangeMail, {
           email: newEmail,
-          link: `http://localhost:3000/verify-email?token=${token}&email=${newEmail}`,
+          link: `${process.env.BASE_URL}/verify-email?token=${token}&email=${newEmail}`,
         })
       );
 
