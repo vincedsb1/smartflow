@@ -13,7 +13,6 @@ import { Input } from "@nextui-org/react";
 import { Link } from "@nextui-org/react";
 
 const MailAuth = () => {
-  console.log("user: alice@prisma.io pass: passwordA123@#");
   const userContext = useContext(UserContext);
 
   if (!userContext) {
@@ -23,7 +22,6 @@ const MailAuth = () => {
   const { email, setEmail } = userContext;
   const [cgu, setCgu] = useState(false);
   useEffect(() => {
-    console.log("cgu state updated:", cgu);
   }, [cgu]);
   const router = useRouter();
 
