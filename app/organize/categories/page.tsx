@@ -8,8 +8,6 @@ import List from "../../components/List";
 import { UserContext } from "@/app/context/UserContext";
 import { CircularProgress } from "@nextui-org/react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { link } from "fs";
 import BelowListLink from "../../components/list/BelowListLink";
 import { useDisclosure } from "@nextui-org/react";
 import { colorClasses } from "../../components/utils/colorUtils";
@@ -87,63 +85,6 @@ const OrganizeCategories: React.FC<OrganizeCategoriesProps> = ({}) => {
     return <div>Error</div>;
   }
 
-  // const [lastToken, setLastToken] = useState<string | null>(null);
-
-  // // Fonction pour récupérer les catégories
-  // const fetchCategories = useCallback(async () => {
-  //   if (!userContext || !userContext.token || !userContext.user) {
-  //     console.error("User or token is not defined");
-  //     setIsError(true);
-  //     setIsLoading(false);
-  //     return;
-  //   }
-
-  //   try {
-  //     const response = await fetch("/api/categories", {
-  //       headers: {
-  //         Authorization: `Bearer ${userContext.token}`,
-  //       },
-  //     });
-
-  //     if (!response.ok) {
-  //       throw new Error("Network response was not ok");
-  //     }
-
-  // const data = await response.json();
-  // setCategories(data);
-  // setIsLoading(false);
-  //   } catch (error) {
-  //     console.error("Error:", error);
-  //     setIsError(true);
-  //     setIsLoading(false);
-  //     setLastToken(userContext.token);
-  //   }
-  // }, [userContext.token, userContext.user]); // Removed userContext from dependencies
-
-  // // Utilisation de l'effet pour récupérer les catégories au chargement du composant
-  // useEffect(() => {
-  //   if (userContext && userContext.token && userContext.user) {
-  //     fetchCategories();
-  //   }
-  // }, [fetchCategories, userContext.token, userContext.user]);
-
-  // useEffect(() => {
-  //   console.log("userContext changed", userContext);
-  // }, [userContext]);
-
-  // useEffect(() => {
-  //   console.log("isLoading changed", isLoading);
-  // }, [isLoading]);
-
-  // useEffect(() => {
-  //   console.log("isError changed", isError);
-  // }, [isError]);
-
-  // useEffect(() => {
-  //   console.log("lastToken changed", lastToken);
-  // }, [lastToken]);
-
-  // Fonction pour gérer la création d'une catégorie
   const handleCategoryCreation = (categoryName: string, colorId: number) => {
     const colorName = Object.keys(colorClasses)[colorId - 1];
 
