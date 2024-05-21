@@ -40,18 +40,10 @@ const Today = () => {
   const [isError, setIsError] = useState<boolean>(false);
   const [code, setCode] = useState<number>(0);
 
-  const [isTokenLoaded, setIsTokenLoaded] = useState<boolean>(false);
-
-  useEffect(() => {
-    // Vérifiez si le token est disponible
-    if (userContext.token) {
-      setIsTokenLoaded(true);
-    }
-  }, [userContext.token]);
-
   useEffect(() => {
     // Ne faire la requête fetch que si le token est chargé
-    if (isTokenLoaded) {
+    if (userContext.token) {
+      console.log("Fetching data from Today");
       fetch("/api/cards/cardByUser?toReview=true", {
         headers: {
           Authorization: `Bearer ${userContext.token}`,
@@ -64,8 +56,6 @@ const Today = () => {
           return response.json();
         })
         .then((data) => {
-          setCards(data.cards);
-          setCardsToReview(data.cards);
           if (data.cards) {
             setCards(data.cards);
             setCardsToReview(data.cards);
@@ -84,7 +74,7 @@ const Today = () => {
           setIsLoading(false);
         });
     }
-  }, [isTokenLoaded, setCardsToReview, userContext.token]);
+  }, [userContext.token]); // Ajoutez userContext.token comme dépendance
 
   if (isLoading) {
     return (
