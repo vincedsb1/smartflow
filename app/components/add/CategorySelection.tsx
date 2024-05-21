@@ -34,40 +34,56 @@ const CategorySelection: React.FC<CategorySelectionProps> = ({
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [isError, setIsError] = useState<boolean>(false);
 
-  const fetchCategories = useCallback(async () => {
-    if (!userContext || !userContext.token || !userContext.user) {
-      console.error("User or token is not defined");
-      setIsError(true);
-      setIsLoading(false);
-      return;
-    }
+  const [isTokenLoaded, setIsTokenLoaded] = useState<boolean>(false);
 
-    try {
-      const response = await fetch("/api/categories", {
+  if (!userContext) {
+    throw new Error("UserContext must be used within a UserContextProvider");
+  }
+
+  useEffect(() => {
+    // Vérifiez si le token est disponible
+    if (userContext.token) {
+      setIsTokenLoaded(true);
+    }
+  }, [userContext.token]);
+
+  useEffect(() => {
+    // Ne faire la requête fetch que si le token est chargé
+    if (isTokenLoaded) {
+      fetch("/api/categories", {
         headers: {
           Authorization: `Bearer ${userContext.token}`,
         },
-      });
-
-      if (!response.ok) {
-        throw new Error("Network response was not ok");
-      }
-
-      const data = await response.json();
-      setCategories(data);
-      setIsLoading(false);
-    } catch (error) {
-      console.error("Error:", error);
-      setIsError(true);
-      setIsLoading(false);
+      })
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error("Network response was not ok");
+          }
+          return response.json();
+        })
+        .then((data) => {
+          setCategories(data);
+          setIsLoading(false);
+        })
+        .catch((error) => {
+          console.error("Error:", error);
+          setIsError(true);
+          setIsLoading(false);
+        });
     }
-  }, [userContext]);
+  }, [isTokenLoaded, userContext.token]);
 
-  useEffect(() => {
-    if (userContext && userContext.token && userContext.user) {
-      fetchCategories();
-    }
-  }, [fetchCategories, userContext]);
+  if (isLoading) {
+    return (
+      <div className="min-h-screen flex flex-row justify-center items-center w-full">
+        <CircularProgress aria-label="Loading..." />
+      </div>
+    );
+  }
+
+  if (isError) {
+    return <div>Error</div>;
+  }
 
   const handleCategoryCreation = (categoryName: string, colorId: number) => {
     // Trouvez le nom de la couleur correspondant à l'ID de couleur
@@ -123,7 +139,6 @@ const CategorySelection: React.FC<CategorySelectionProps> = ({
               title="Catégories"
               isLargeRow={false}
               selectable={true}
-              modalContent=""
             />
             <BelowListLink onClick={onOpen}>
               Ajouter une catégorie
