@@ -92,7 +92,7 @@ const CustomModal: React.FC<CustomModalProps> = ({
         if (userId) {
           await deleteUser(userId, token);
           console.log('User deleted successfully');
-          router.push('/welcome');
+          router.push('/');
         } else {
           throw new Error('User ID is null');
         }
