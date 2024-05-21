@@ -141,7 +141,7 @@ const List: React.FC<ListProps> = ({
                 <div
                   id="ListRowStartIconContainer"
                   className={`flex flex-row justify-center items-center ${
-                    row.color ? "w-3/20" : "w-1/20 mr-1"
+                    row.color ? "w-3/20 min-w-10" : "w-1/20 mr-1"
                   }`}
                 >
                   {row.color && (
