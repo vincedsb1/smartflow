@@ -62,3 +62,5 @@ function CardAppText({ text, icon, iconColor = "normal" }: CardAppText) {
 }
 
 export default CardAppText;
+
+// dfqsdlfnqsdl
