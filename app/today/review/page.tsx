@@ -3,7 +3,11 @@
 import React, { useEffect, useState, useContext } from "react";
 import { UserContext } from "../../context/UserContext";
 import { useRouter } from "next/navigation";
-import { faChevronLeft, faRandom, faForward } from "@fortawesome/free-solid-svg-icons";
+import {
+  faChevronLeft,
+  faRandom,
+  faForward,
+} from "@fortawesome/free-solid-svg-icons";
 import {
   faCircleXmark,
   faCircleCheck,
@@ -27,7 +31,6 @@ const Review: React.FC = () => {
   const [nbcard, setNbcard] = useState<string | null>(null);
   const [level, setLevel] = useState(1);
   const [cardCount, setCardCount] = useState(1);
-
 
   const calculatePercentage = (level: number): number => {
     return Math.round((level * 100) / 7);
@@ -71,7 +74,7 @@ const Review: React.FC = () => {
           );
         });
     }
-  }, [id, userContext.token,]);
+  }, [id, userContext.token]);
 
   const [cardTitle, setCardTitle] = useState("");
 
@@ -110,11 +113,11 @@ const Review: React.FC = () => {
 
   // Fonction pour gérer les réponses incorrectes
   const handleIncorrectReview = () => {
-    console.log('handleIncorrectReview called');
-    console.log('BASE_URL', process.env.BASE_URL);
-    console.log('Card ID', id);
-    console.log('Token', userContext.token);
-  
+    console.log("handleIncorrectReview called");
+    console.log("BASE_URL", process.env.BASE_URL);
+    console.log("Card ID", id);
+    console.log("Token", userContext.token);
+
     fetch(`http://localhost:3000/api/cards/${id}`, {
       method: "PATCH",
       headers: {
@@ -124,11 +127,11 @@ const Review: React.FC = () => {
       body: JSON.stringify({ isReviewPositive: false }),
     })
       .then((response) => {
-        console.log('Response', response);
+        console.log("Response", response);
         return response.json();
       })
       .then((data) => {
-        console.log('Data', data);
+        console.log("Data", data);
         handleNextCard();
         userContext.setNbCardsToReview(userContext.NbCardsToReview - 1);
       })
@@ -175,20 +178,23 @@ const Review: React.FC = () => {
 
   const [forceRender, setForceRender] = useState(0);
 
-
   const handleShuffle = () => {
-    const shuffledCardIds = shuffle(userContext.cardsToReview.map(card => card.id));
-    const shuffledCards = shuffledCardIds.map((id: number) => userContext.cardsToReview.find(card => card.id === id));
+    const shuffledCardIds = shuffle(
+      userContext.cardsToReview.map((card) => card.id)
+    );
+    const shuffledCards = shuffledCardIds.map((id: number) =>
+      userContext.cardsToReview.find((card) => card.id === id)
+    );
     userContext.setCardsToReview(shuffledCards);
     setId(shuffledCards[0]?.id.toString());
 
     setCardCount(1);
 
-    setForceRender(prev => prev + 1);
+    setForceRender((prev) => prev + 1);
   };
 
   useEffect(() => {
-    console.log('cardsToReview', userContext.cardsToReview);
+    console.log("cardsToReview", userContext.cardsToReview);
   }, [userContext.cardsToReview]);
 
   return (
@@ -347,23 +353,35 @@ const Review: React.FC = () => {
             </div>
           </>
         ) : (
-          <div className="flex flex-row justify-around gap-2">
-            <Button color="default" size="lg" onClick={handleShuffle}
+          <div
+            id="randomButtonContainer"
+            className="flex flex-row justify-around gap-2"
+          >
+            <Button
+              color="default"
+              size="lg"
+              onClick={handleShuffle}
+              className="font-bold font-text isIconOnly w-12 "
             >
               <FontAwesomeIcon icon={faRandom} />
             </Button>
             <Button
               type="submit"
-              color="success"
+              color="primary"
               variant="solid"
               size="lg"
-              className="w-560 font-bold font-text"
+              className="font-bold font-text dark:text-white"
               onClick={handleShowAnswer}
             >
-              Voir la réponse
+              Réponse
             </Button>
-            <Button color="default" size="lg"
-              onClick={handleNextCard}>
+            <Button
+              id="nextContainer"
+              color="default"
+              size="lg"
+              onClick={handleNextCard}
+              className="font-bold font-text isIconOnly w-12 "
+            >
               <FontAwesomeIcon icon={faForward} />
             </Button>
           </div>
@@ -371,6 +389,6 @@ const Review: React.FC = () => {
       </div>
     </div>
   );
-}
+};
 
 export default Review;

@@ -17,9 +17,13 @@ interface Row {
 
 interface CardsToReviewListProps {
   rows: Row[];
+  firstCardId: number | null;
 }
 
-const CardsToReviewList: React.FC<CardsToReviewListProps> = ({ rows }) => {
+const CardsToReviewList: React.FC<CardsToReviewListProps> = ({
+  rows,
+  firstCardId,
+}) => {
   const [myModalContent, setMyModalContent] = useState("");
   const router = useRouter();
   return (
@@ -61,9 +65,11 @@ const CardsToReviewList: React.FC<CardsToReviewListProps> = ({ rows }) => {
           variant="solid"
           size="lg"
           radius="lg"
-          className="w-80 font-bold font-text"
+          className="w-80 font-bold font-text "
           onClick={() => {
-            router.push(`/today/review/`);
+            router.push(
+              `/today/review?id=${firstCardId}&nbcard=${rows.length}`
+            );
           }}
         >
           Réciter

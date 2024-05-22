@@ -17,12 +17,16 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { UserContext } from "../context/UserContext";
 import { UserCardProps } from "../context/UserContext";
-import { Button } from "@nextui-org/react";
 import CardsToReviewList from "../components/today/CardsToReviewList";
 import AllCardsReviewed from "../components/today/AllCardsReviewed";
 import NoCardsToReview from "../components/today/NoCardsToReview";
 import NoCard from "../components/today/NoCard";
 import { IconDefinition } from "@fortawesome/fontawesome-svg-core";
+
+interface CardData {
+  cards: UserCardProps[];
+  code: number;
+}
 
 const Today = () => {
   const { useRouter } = require("next/navigation");
@@ -36,6 +40,7 @@ const Today = () => {
   const { setCardsToReview } = userContext;
   const levelIcons = [fa1, fa2, fa3, fa4, fa5, fa6, fa7];
   const [cards, setCards] = useState<UserCardProps[]>([]);
+  const [firstCardId, setFirstCardId] = useState<number | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [isError, setIsError] = useState<boolean>(false);
   const [code, setCode] = useState<number>(0);
@@ -53,11 +58,13 @@ const Today = () => {
           if (!response.ok) {
             throw new Error("Network response was not ok");
           }
-          return response.json();
+          return response.json() as Promise<CardData>;
         })
         .then((data) => {
           if (data.cards) {
+            console.log("data.cards", data.cards);
             setCards(data.cards);
+            setFirstCardId(data.cards[0].id);
             setCardsToReview(data.cards);
             userContext.setNbCardsToReview(data.cards.length);
           } else {
@@ -111,7 +118,7 @@ const Today = () => {
     case 3:
       return <AllCardsReviewed />;
     case 4:
-      return <CardsToReviewList rows={rows} />;
+      return <CardsToReviewList rows={rows} firstCardId={firstCardId} />;
     default:
       return <div>Unknown code</div>;
   }
