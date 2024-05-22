@@ -3,7 +3,7 @@
 import React, { useEffect, useState, useContext } from "react";
 import { UserContext } from "../../context/UserContext";
 import { useRouter } from "next/navigation";
-import { faChevronLeft } from "@fortawesome/free-solid-svg-icons";
+import { faChevronLeft, faRandom, faForward } from "@fortawesome/free-solid-svg-icons";
 import {
   faCircleXmark,
   faCircleCheck,
@@ -27,6 +27,7 @@ const Review: React.FC = () => {
   const [nbcard, setNbcard] = useState<string | null>(null);
   const [level, setLevel] = useState(1);
   const [cardCount, setCardCount] = useState(1);
+
 
   const calculatePercentage = (level: number): number => {
     return Math.round((level * 100) / 7);
@@ -70,7 +71,7 @@ const Review: React.FC = () => {
           );
         });
     }
-  }, [id, userContext.token]);
+  }, [id, userContext.token,]);
 
   const [cardTitle, setCardTitle] = useState("");
 
@@ -81,8 +82,8 @@ const Review: React.FC = () => {
     setCardTitle("Réponse");
   };
 
+  // Fonction pour passer à la carte suivante
   const handleNextCard = () => {
-    // Remove the current card from cardsToReview
     const updatedCardsToReview = userContext.cardsToReview.filter((card) => {
       if (id === null) {
         return true;
@@ -92,7 +93,6 @@ const Review: React.FC = () => {
     });
     userContext.setCardsToReview(updatedCardsToReview);
 
-    // If there are still cards to review, go to the next one
     if (updatedCardsToReview.length > 0) {
       const nextCard = updatedCardsToReview[0];
       setId(nextCard.id.toString());
@@ -101,17 +101,21 @@ const Review: React.FC = () => {
       setCategoryName(nextCard.categoryName);
       setLevel(nextCard.level);
     } else {
-      // If there are no more cards to review, redirect the user
-      router.push("/today");
+      router.push("/today/");
     }
 
-    // Reset the display of the answer
     setShowAnswer(false);
     setCardCount(cardCount + 1);
   };
 
+  // Fonction pour gérer les réponses incorrectes
   const handleIncorrectReview = () => {
-    fetch(`${process.env.BASE_URL}/api/cards/${id}`, {
+    console.log('handleIncorrectReview called');
+    console.log('BASE_URL', process.env.BASE_URL);
+    console.log('Card ID', id);
+    console.log('Token', userContext.token);
+  
+    fetch(`http://localhost:3000/api/cards/${id}`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
@@ -119,16 +123,23 @@ const Review: React.FC = () => {
       },
       body: JSON.stringify({ isReviewPositive: false }),
     })
-      .then((response) => response.json())
+      .then((response) => {
+        console.log('Response', response);
+        return response.json();
+      })
       .then((data) => {
+        console.log('Data', data);
         handleNextCard();
         userContext.setNbCardsToReview(userContext.NbCardsToReview - 1);
       })
-      .catch((error) => console.error("Error:", error));
+      .catch((error) => {
+        console.error("Error:", error);
+      });
   };
 
+  // Fonction pour gérer les révisions positives
   const handlePositiveReview = () => {
-    fetch(`${process.env.BASE_URL}/api/cards/${id}`, {
+    fetch(`http://localhost:3000/api/cards/${id}`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
@@ -143,6 +154,42 @@ const Review: React.FC = () => {
       })
       .catch((error) => console.error("Error:", error));
   };
+
+  // fonction pour mélanger les cartes
+  function shuffle(array: any) {
+    let currentIndex = array.length,
+      randomIndex;
+
+    while (currentIndex !== 0) {
+      randomIndex = Math.floor(Math.random() * currentIndex);
+      currentIndex--;
+
+      [array[currentIndex], array[randomIndex]] = [
+        array[randomIndex],
+        array[currentIndex],
+      ];
+    }
+
+    return array;
+  }
+
+  const [forceRender, setForceRender] = useState(0);
+
+
+  const handleShuffle = () => {
+    const shuffledCardIds = shuffle(userContext.cardsToReview.map(card => card.id));
+    const shuffledCards = shuffledCardIds.map((id: number) => userContext.cardsToReview.find(card => card.id === id));
+    userContext.setCardsToReview(shuffledCards);
+    setId(shuffledCards[0]?.id.toString());
+
+    setCardCount(1);
+
+    setForceRender(prev => prev + 1);
+  };
+
+  useEffect(() => {
+    console.log('cardsToReview', userContext.cardsToReview);
+  }, [userContext.cardsToReview]);
 
   return (
     <div
@@ -281,6 +328,7 @@ const Review: React.FC = () => {
                   className="text-3xl dark:text-neutral-100 text-neutral-50"
                 />
               </Button>
+
               <Button
                 type="submit"
                 color="primary"
@@ -299,20 +347,30 @@ const Review: React.FC = () => {
             </div>
           </>
         ) : (
-          <Button
-            type="submit"
-            color="primary"
-            variant="solid"
-            size="lg"
-            className="w-80 font-bold font-text"
-            onClick={handleShowAnswer}
-          >
-            Voir la réponse
-          </Button>
+          <div className="flex flex-row justify-around gap-2">
+            <Button color="default" size="lg" onClick={handleShuffle}
+            >
+              <FontAwesomeIcon icon={faRandom} />
+            </Button>
+            <Button
+              type="submit"
+              color="success"
+              variant="solid"
+              size="lg"
+              className="w-560 font-bold font-text"
+              onClick={handleShowAnswer}
+            >
+              Voir la réponse
+            </Button>
+            <Button color="default" size="lg"
+              onClick={handleNextCard}>
+              <FontAwesomeIcon icon={faForward} />
+            </Button>
+          </div>
         )}
       </div>
     </div>
   );
-};
+}
 
 export default Review;
