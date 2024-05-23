@@ -1,12 +1,14 @@
 "use client";
+import Header from "./components/landingPage/header";
+import Hero from "./components/landingPage/hero";
 
 const LandingPage = () => {
   return (
-    <div
-      id="landingPageMainContainer"
-      className="flex flex-col justify-around items-center w-full h-screen h-min-screen"
-    >
-      LandingPage
+    <div>
+      <div className="sticky top-0">
+        <Header />
+        <Hero />
+      </div>
     </div>
   );
 };
