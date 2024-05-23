@@ -7,18 +7,27 @@ import PrinciplesFeaturesSection from "./components/landingPage/PrinciplesFeatur
 import MidPageGraphic from "./components/landingPage/MidPageGraphic";
 import PerksCards from "./components/landingPage/PerksCards";
 import Reviews from "./components/landingPage/Reviews";
+import HowItWorks from "./components/landingPage/HowItWorks";
+import OptimisationMemory from "./components/landingPage/OptimisationMemory";
+import ButtonConnexion from "./components/landingPage/ButtonConnexion";
+
 
 const LandingPage = () => {
   return (
     <div className="bg-white dark:bg-neutral-900">
-      <div className="sticky top-0">
+      <div className="sticky top-0 z-10">
         <Header />
-        <Hero />
       </div>
+      <Hero />
       <PrinciplesFeaturesSection />
       <MidPageGraphic />
       <PerksCards />
       <Reviews />
+      <HowItWorks />
+      <OptimisationMemory />
+      <div className="flex items-center justify-center">
+        <ButtonConnexion label="S'inscrire Gratuitement" />
+      </div>
     </div>
   );
 };
