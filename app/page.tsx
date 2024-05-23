@@ -6,6 +6,7 @@ import Hero from "./components/landingPage/LandingHero";
 import PrinciplesFeaturesSection from "./components/landingPage/PrinciplesFeaturesSection";
 import MidPageGraphic from "./components/landingPage/MidPageGraphic";
 import PerksCards from "./components/landingPage/PerksCards";
+import Reviews from "./components/landingPage/Reviews";
 
 const LandingPage = () => {
   return (
@@ -17,6 +18,7 @@ const LandingPage = () => {
       <PrinciplesFeaturesSection />
       <MidPageGraphic />
       <PerksCards />
+      <Reviews />
     </div>
   );
 };
