@@ -7,6 +7,9 @@ import PrinciplesFeaturesSection from "./components/landingPage/PrinciplesFeatur
 import MidPageGraphic from "./components/landingPage/MidPageGraphic";
 import PerksCards from "./components/landingPage/PerksCards";
 import HowItWorks from "./components/landingPage/HowItWorks";
+import OptimisationMemory from "./components/landingPage/OptimisationMemory";
+import ButtonConnexion from "./components/landingPage/ButtonConnexion";
+
 
 const LandingPage = () => {
   return (
@@ -19,6 +22,10 @@ const LandingPage = () => {
       <MidPageGraphic />
       <PerksCards />
       <HowItWorks />
+      <OptimisationMemory />
+      <div className="flex items-center justify-center">
+        <ButtonConnexion label="S'inscrire Gratuitement" />
+      </div>
     </div>
   );
 };

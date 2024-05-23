@@ -2,20 +2,22 @@
 import { Button } from "@nextui-org/react";
 import { useRouter } from 'next/navigation';
 
-const ButtonConnexion = () => {
+interface ButtonConnexionProps {
+    label: string;
+}
+
+const ButtonConnexion: React.FC<ButtonConnexionProps> = ({ label }) => {
     const router = useRouter();
 
     const handleNavigation = () => {
-
         router.push("/login");
     }
 
     return (
         <div>
-            <Button onClick={handleNavigation} id="buttonConnexion" color='primary' className='h-10 mr-4'>Connexion</Button>
+            <Button onClick={handleNavigation} id="buttonConnexion" color='primary' className='h-10 mr-4'>{label}</Button>
         </div>
     );
-
 }
 
 export default ButtonConnexion;
