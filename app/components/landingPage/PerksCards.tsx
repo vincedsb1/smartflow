@@ -30,7 +30,7 @@ const perks = [
 
 const PerksCards: React.FC = () => {
   return (
-    <div className="flex justify-center items-center p-4">
+    <div className="flex justify-center items-center p-4 mb-28">
       <div className="flex justify-center w-full max-w-7xl">
         <div className="flex flex-col items-center m-10" id="odd-cards-column">
           {perks
