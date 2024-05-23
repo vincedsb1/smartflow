@@ -6,6 +6,7 @@ import Hero from "./components/landingPage/LandingHero";
 import PrinciplesFeaturesSection from "./components/landingPage/PrinciplesFeaturesSection";
 import MidPageGraphic from "./components/landingPage/MidPageGraphic";
 import PerksCards from "./components/landingPage/PerksCards";
+import Reviews from "./components/landingPage/Reviews";
 import HowItWorks from "./components/landingPage/HowItWorks";
 import OptimisationMemory from "./components/landingPage/OptimisationMemory";
 import ButtonConnexion from "./components/landingPage/ButtonConnexion";
@@ -21,6 +22,7 @@ const LandingPage = () => {
       <PrinciplesFeaturesSection />
       <MidPageGraphic />
       <PerksCards />
+      <Reviews />
       <HowItWorks />
       <OptimisationMemory />
       <div className="flex items-center justify-center">
