@@ -14,10 +14,10 @@ import ButtonConnexion from "./components/landingPage/ButtonConnexion";
 const LandingPage = () => {
   return (
     <div className="bg-white dark:bg-neutral-900">
-      <div className="sticky top-0">
+      <div className="sticky top-0 z-10">
         <Header />
-        <Hero />
       </div>
+      <Hero />
       <PrinciplesFeaturesSection />
       <MidPageGraphic />
       <PerksCards />
