@@ -2,6 +2,9 @@
 import Header from "./components/landingPage/header";
 import Hero from "./components/landingPage/hero";
 
+import PrinciplesFeaturesSection from "./components/landingPage/PrinciplesFeaturesSection";
+import MidPageGraphic from "./components/landingPage/MidPageGraphic";
+
 const LandingPage = () => {
   return (
     <div>
@@ -9,6 +12,8 @@ const LandingPage = () => {
         <Header />
         <Hero />
       </div>
+      <PrinciplesFeaturesSection />
+      <MidPageGraphic />
     </div>
   );
 };
