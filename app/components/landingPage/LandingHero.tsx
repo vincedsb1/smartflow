@@ -17,7 +17,7 @@ const Hero = () => {
       className="w-full relative flex items-center align-middle h-full p-10"
     >
       <video
-        className="w-full h-full opacity-30 absolute top-0 left-0 object-cover"
+        className="w-full h-full opacity-30 absolute top-0 left-0 object-cover "
         autoPlay
         loop
         muted
