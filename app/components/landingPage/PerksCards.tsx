@@ -31,16 +31,50 @@ const perks = [
 const PerksCards: React.FC = () => {
   return (
     <div className="flex justify-center items-center p-4">
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-        {perks.map((perk, index) => (
-          <div
-            key={index}
-            className="border border-gray-200 rounded-lg p-6 shadow-md"
-          >
-            <h3 className="text-lg font-semibold mb-2">{perk.title}</h3>
-            <p className="text-base">{perk.description}</p>
-          </div>
-        ))}
+      <div className="flex justify-center w-full max-w-7xl">
+        <div className="flex flex-col items-center m-10" id="odd-cards-column">
+          {perks
+            .filter((_, index) => index % 2 === 0)
+            .map((perk, index) => (
+              <div
+                key={index}
+                className="border-2 border-cyan-300 rounded-3xl p-7 shadow-lg shadow-cyan-100 bg-white w-72 m-10"
+                id={`card-${index}`}
+              >
+                <h3 className="text-lg font-semibold mb-5">{perk.title}</h3>
+                <p className="text-base">{perk.description}</p>
+              </div>
+            ))}
+        </div>
+        <div
+          className="flex flex-col justify-between items-center"
+          id="separator-column"
+        >
+          {[...Array(15)].map((_, i) => (
+            <div
+              key={i}
+              className="w-2 h-10 bg-cyan-300 rounded-full my-2"
+              id={`separator-${i}`}
+            ></div>
+          ))}
+        </div>
+        <div
+          className="flex flex-col items-center m-10 mt-40"
+          id="even-cards-column"
+        >
+          {perks
+            .filter((_, index) => index % 2 !== 0)
+            .map((perk, index) => (
+              <div
+                key={index}
+                className="border-2 border-cyan-300 rounded-3xl p-7 shadow-lg shadow-cyan-100 bg-white w-72 m-10"
+                id={`card-${index}`}
+              >
+                <h3 className="text-lg font-semibold mb-5">{perk.title}</h3>
+                <p className="text-base">{perk.description}</p>
+              </div>
+            ))}
+        </div>
       </div>
     </div>
   );
