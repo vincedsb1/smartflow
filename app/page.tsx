@@ -25,8 +25,8 @@ const LandingPage = () => {
       <Reviews />
       <HowItWorks />
       <OptimisationMemory />
-      <div className="flex items-center justify-center">
-        <ButtonConnexion label="S'inscrire Gratuitement" />
+      <div className="flex items-center justify-center pb-28 mt-16">
+        <ButtonConnexion  label="S'inscrire Gratuitement" />
       </div>
     </div>
   );
