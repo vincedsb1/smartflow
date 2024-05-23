@@ -38,11 +38,15 @@ const PerksCards: React.FC = () => {
             .map((perk, index) => (
               <div
                 key={index}
-                className="border-2 border-cyan-300 rounded-3xl p-7 shadow-lg shadow-cyan-100 bg-white w-72 m-10"
+                className="border-2 border-cyan-300 dark:border-neutral-700 rounded-3xl p-7 shadow-lg shadow-cyan-100 dark:shadow-neutral-950 bg-white dark:bg-neutral-800 w-72 m-10"
                 id={`card-${index}`}
               >
-                <h3 className="text-lg font-semibold mb-5">{perk.title}</h3>
-                <p className="text-base">{perk.description}</p>
+                <h3 className="text-lg font-semibold mb-5 text-neutral-700 dark:text-neutral-200 font-title">
+                  {perk.title}
+                </h3>
+                <p className="text-base font-title text-neutral-600 dark:text-neutral-300">
+                  {perk.description}
+                </p>
               </div>
             ))}
         </div>
@@ -67,11 +71,15 @@ const PerksCards: React.FC = () => {
             .map((perk, index) => (
               <div
                 key={index}
-                className="border-2 border-cyan-300 rounded-3xl p-7 shadow-lg shadow-cyan-100 bg-white w-72 m-10"
+                className="border-2 border-cyan-300 dark:border-neutral-600 rounded-3xl p-7 shadow-lg shadow-cyan-100 dark:shadow-neutral-950 bg-white dark:bg-neutral-800 w-72 m-10"
                 id={`card-${index}`}
               >
-                <h3 className="text-lg font-semibold mb-5">{perk.title}</h3>
-                <p className="text-base">{perk.description}</p>
+                <h3 className="text-lg font-semibold mb-5 text-neutral-700 dark:text-neutral-200 font-title">
+                  {perk.title}
+                </h3>
+                <p className="text-base font-title text-neutral-600 dark:text-neutral-300">
+                  {perk.description}
+                </p>
               </div>
             ))}
         </div>
