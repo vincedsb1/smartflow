@@ -1,6 +1,7 @@
 "use client";
-import Header from "./components/landingPage/Header";
-import Hero from "./components/landingPage/Hero";
+import React from "react";
+import Header from "./components/landingPage/LandingHeader";
+import Hero from "./components/landingPage/LandingHero";
 
 import PrinciplesFeaturesSection from "./components/landingPage/PrinciplesFeaturesSection";
 import MidPageGraphic from "./components/landingPage/MidPageGraphic";
