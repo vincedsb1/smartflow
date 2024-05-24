@@ -6,25 +6,40 @@ import { useTheme } from "next-themes";
 
 const Header = () => {
   const { theme } = useTheme();
-  const [mounted, setMounted] = useState(false);
+  const [windowWidth, setWindowWidth] = useState<number>(0);
 
   useEffect(() => {
-    setMounted(true);
+    const handleResize = () => {
+      setWindowWidth(window.innerWidth);
+    };
+
+    // Ajout de l'écouteur d'événement
+    window.addEventListener("resize", handleResize);
+    // Appel initial pour définir la largeur initiale
+    handleResize();
+
+    // Nettoyage de l'écouteur d'événement
+    return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  if (!mounted) return null;
+  // Détermination de la source de l'image en fonction de la largeur de la fenêtre et du thème
+  const logoSrc =
+    windowWidth < 390
+      ? "/logoOnly.svg"
+      : theme === "dark"
+      ? "/logo-dark.svg"
+      : "/logo-light.svg";
 
   return (
     <div
       id="headerContainer"
-      className="flex dark:bg-neutral-800 dark:bg-opacity-60  items-center justify-between h-16 bg-white bg-opacity-60 backdrop-filter backdrop-blur-lg"
+      className="flex dark:bg-neutral-800 dark:bg-opacity-60 items-center justify-between h-16 bg-white bg-opacity-60 backdrop-filter backdrop-blur-lg"
     >
-      <div className="flex h-16 w-20 relative">
+      <div className="flex h-10 w-32 relative 2xs:ml-4 flex-row justify-start ">
         <Image
           id="logoHeader"
-          src={theme === "dark" ? "/logo-dark.svg" : "/logo-light.svg"}
+          src={logoSrc}
           alt="Logo"
-          className="absolute"
           layout="fill"
           objectFit="contain"
         />
