@@ -3,6 +3,7 @@ import { Button } from "@nextui-org/react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faRocket } from "@fortawesome/free-solid-svg-icons";
 import { useRouter } from "next/navigation";
+import Title from "./Title";
 
 const Hero = () => {
   const router = useRouter();
@@ -28,9 +29,7 @@ const Hero = () => {
         id="containerTitleTextButtun"
         className="w-1/2 flex flex-col justify-start relative gap-4 p-10 h-full align-middle"
       >
-        <h1 className="text-cyan-950 dark:text-cyan-100 text-5xl font-bold font-title mb-4 max-w-1/2">
-          Passez moins de temps à apprendre mieux !
-        </h1>
+        <Title title="Passez moins de temps à apprendre mieux !" />
         <p className="text-cyan-950 dark:text-cyan-100 text-2xl font-title mb-4 max-w-1/2">
           SmartFlow vous fait apprendre à petites doses. La méthode la plus
           efficace, tout simplement.
