@@ -11,7 +11,7 @@ const Title: React.FC<TitleProps> = ({ title }) => {
         className="flex flex-col justify-center font-title font-bold font-primary stroke-primary"
         id="titleLabel"
       >
-        <p className="stroke-text xs:text-xl 2xs:text-2xl text-lg text-primary">
+        <p className="text-lg 2xs:text-xl 3xs:text-2xl md:text-3xl lg:text-4xl xl:text-5xl 2xl:text-6xl text-primary">
           {title}
         </p>
       </div>
