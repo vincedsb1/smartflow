@@ -15,7 +15,7 @@ const Hero = () => {
   return (
     <div
       id="containerHero"
-      className="w-full relative flex items-center align-middle h-full p-10"
+      className="w-full relative flex items-center align-middle h-full py-16 lg:py-20 xl:py-24"
     >
       <video
         className="w-full h-full opacity-30 absolute top-0 left-0 object-cover "
@@ -26,21 +26,28 @@ const Hero = () => {
         <source src="/clipstudent.mp4" type="video/mp4" />
       </video>
       <div
-        id="containerTitleTextButtun"
-        className="w-1/2 flex flex-col justify-start relative gap-4 p-10 h-full align-middle"
+        id="containerTitleTextButton"
+        className="sm:w-1/2 flex flex-col justify-center sm:justify-start text-center sm:text-left relative h-full align-middle mx-4"
       >
-        <Title title="Passez moins de temps à apprendre mieux !" />
-        <p className="text-cyan-950 dark:text-cyan-100 text-2xl font-title mb-4 max-w-1/2">
-          SmartFlow vous fait apprendre à petites doses. La méthode la plus
-          efficace, tout simplement.
-        </p>
-        <Button
-          className="bg-cyan-950 text-white w-60"
-          onClick={handleNavigation}
-        >
-          <FontAwesomeIcon icon={faRocket} />
-          Let&apos;s go
-        </Button>
+        <div id="containerHeroTitle" className="mb-6 md:mb-8">
+          <Title title="Passez moins de temps à apprendre mieux !" size="big" />
+        </div>
+        <div id="containerHeroSubTitle" className="mb-6 md:mb-8 ">
+          <p className="text-cyan-950 dark:text-cyan-100 text-lg 2xs:text-xl 3xs:text-2xl md:text-3xl font-title ">
+            SmartFlow vous fait apprendre à petites doses. La méthode la plus
+            efficace, tout simplement.
+          </p>
+        </div>
+        <div id="containerHeroButton" className="w-full">
+          <Button
+            className="bg-cyan-950 dark:bg-cyan-100 text-white w-60 dark:text-cyan-950"
+            onClick={handleNavigation}
+            size="lg"
+          >
+            <FontAwesomeIcon icon={faRocket} />
+            Let&apos;s go
+          </Button>
+        </div>
       </div>
     </div>
   );
