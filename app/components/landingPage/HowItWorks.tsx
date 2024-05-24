@@ -10,16 +10,16 @@ const HowItWorks = () => {
                 <Title title="Comment ça marche ?" />
             </div>
             <div className="mb-8 ml-8">
-                <h2 className="text-xl text-cyan-950 font-bold"> 1. Fiches recto-verso ✍️</h2>
-                <p className="text-md text-cyan-700">Créez des fiches avec des questions d&apos;un côté et des réponses de l&apos;autre pour chaque sujet à mémoriser.</p>
+                <h2 className="text-xl text-cyan-950 font-bold dark:text-neutral-400"> 1. Fiches recto-verso ✍️</h2>
+                <p className="text-md text-cyan-700 dark:text-neutral-400">Créez des fiches avec des questions d&apos;un côté et des réponses de l&apos;autre pour chaque sujet à mémoriser.</p>
             </div>
             <div className="mb-8 ml-8">
-                <h2 className="text-xl text-cyan-950 font-bold"> 2. Niveaux de révision 📚</h2>
-                <p className="text-md text-cyan-700">Apprenez en six étapes avec des révisions de plus en plus espacées.</p>
+                <h2 className="text-xl text-cyan-950 font-bold dark:text-neutral-400"> 2. Niveaux de révision 📚</h2>
+                <p className="text-md text-cyan-700 dark:text-neutral-400">Apprenez en six étapes avec des révisions de plus en plus espacées.</p>
             </div>
             <div className="mb-8 ml-8">
-                <h2 className="text-xl text-cyan-950 font-bold"> 3. Rappels intelligents ⏰</h2>
-                <p className="text-md text-cyan-700">Recevez des rappels au bon moment pour renforcer vos connaissances.</p>
+                <h2 className="text-xl text-cyan-950 font-bold dark:text-neutral-400"> 3. Rappels intelligents ⏰</h2>
+                <p className="text-md text-cyan-700 dark:text-neutral-400">Recevez des rappels au bon moment pour renforcer vos connaissances.</p>
             </div>
         </div>
     </div>
