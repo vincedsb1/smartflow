@@ -30,7 +30,7 @@ const LandingPage = () => {
         <div data-aos="zoom-out">
           <Hero />
         </div>
-        <div data-aos="fade-up">
+        <div data-aos="fade-up" className="w-full flex justify-center">
           <PrinciplesFeaturesSection />
         </div>
         <div data-aos="fade-up">

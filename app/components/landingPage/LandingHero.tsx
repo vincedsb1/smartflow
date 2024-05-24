@@ -27,13 +27,13 @@ const Hero = () => {
       </video>
       <div
         id="containerTitleTextButton"
-        className="sm:w-1/2 max-w-[925px] flex flex-col justify-center sm:justify-start text-center sm:text-left relative h-full align-middle mx-4"
+        className="sm:w-1/2 max-w-[925px] flex flex-col justify-center sm:justify-start text-center sm:text-left relative h-full align-middle mx-4 sm:mx-10 lg:mx-20"
       >
         <div id="containerHeroTitle" className="mb-6 md:mb-8">
           <Title title="Passez moins de temps à apprendre mieux !" size="big" />
         </div>
         <div id="containerHeroSubTitle" className="mb-6 md:mb-8 ">
-          <p className="text-cyan-950 dark:text-cyan-100 text-lg 2xs:text-xl 3xs:text-2xl md:text-3xl font-title ">
+          <p className="text-cyan-950 dark:text-neutral-300 text-lg 2xs:text-xl 3xs:text-2xl md:text-3xl font-title ">
             SmartFlow vous fait apprendre à petites doses. La méthode la plus
             efficace, tout simplement.
           </p>
