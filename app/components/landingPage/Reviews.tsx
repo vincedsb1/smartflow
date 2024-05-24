@@ -10,7 +10,7 @@ const Reviews = () => {
     >
       <div
         id="titleContainer"
-        className="flex flex-row w-full mb-16 justify-center"
+        className="flex flex-row w-full mb-20 justify-center"
       >
         <Title title="Ce que nos client·es pensent de nous" />
       </div>

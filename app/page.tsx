@@ -13,9 +13,9 @@ import ButtonConnexion from "./components/landingPage/ButtonConnexion";
 import AOS from "aos";
 import "aos/dist/aos.css";
 import { useEffect } from "react";
+import Title from "./components/landingPage/Title";
 
 const LandingPage = () => {
-
   useEffect(() => {
     AOS.init({
       duration: 300,
@@ -23,7 +23,7 @@ const LandingPage = () => {
   }, []);
 
   return (
-    <div className="bg-white dark:bg-neutral-900">
+    <div className="bg-white dark:bg-neutral-900 flex flex-col justify-center">
       <div className="sticky top-0 z-10">
         <Header />
       </div>
@@ -37,6 +37,11 @@ const LandingPage = () => {
         <div data-aos="fade-up">
           <MidPageGraphic />
         </div>
+        <div data-aos="fade-up" className="mb-28 w-full flex justify-center ">
+          <div className="w-1/2 flex flex-col justify-center items-center text-center ">
+            <Title title="Chaque journée est une leçon, chaque expérience, un enseignement." />
+          </div>
+        </div>
         <div data-aos="fade-up">
           <PerksCards />
         </div>
@@ -49,7 +54,10 @@ const LandingPage = () => {
         <div data-aos="fade-up">
           <OptimisationMemory />
         </div>
-        <div className="flex items-center justify-center pb-28 mt-16" data-aos="fade-up">
+        <div
+          className="flex items-center justify-center pb-28 mt-16"
+          data-aos="fade-up"
+        >
           <ButtonConnexion label="S'inscrire Gratuitement" />
         </div>
       </div>
