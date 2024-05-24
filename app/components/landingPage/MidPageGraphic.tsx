@@ -8,7 +8,7 @@ const MidPageGraphic = () => {
   return (
     <div
       id="MidPageGraphic"
-      className="flex flex-col md:flex-row justify-around items-center py-8"
+      className="flex flex-col md:flex-row justify-around items-center mb-28"
     >
       <Image
         src={
