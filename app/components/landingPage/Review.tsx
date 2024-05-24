@@ -44,7 +44,7 @@ const Review: React.FC<ReviewProps> = ({
         <div id="reviewContentContainer" className="flex flex-col w-2/3">
           <div id="reviewCustomerNameCity" className="flex pb-2 font-title">
             <p>
-              <span className="text-neutral-950 dark:text-neutral-100 font-bold">
+              <span className="text-neutral-950 dark:text-neutral-300 font-bold">
                 {name}
               </span>{" "}
               |{" "}
