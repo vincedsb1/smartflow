@@ -30,8 +30,8 @@ const perks = [
 
 const PerksCards: React.FC = () => {
   return (
-    <div className="flex justify-center items-center p-4 mb-28">
-      <div className="flex justify-center w-full max-w-7xl">
+    <div className="flex flex-col md:flex-row justify-center items-center p-4 mb-28">
+      <div className="flex flex-col md:flex-row justify-center w-full max-w-7xl">
         <div className="flex flex-col items-center m-10" id="odd-cards-column">
           {perks
             .filter((_, index) => index % 2 === 0)
@@ -51,7 +51,7 @@ const PerksCards: React.FC = () => {
             ))}
         </div>
         <div
-          className="flex flex-col justify-between items-center"
+          className="hidden md:flex flex-col justify-between items-center"
           id="separator-column"
         >
           {[...Array(15)].map((_, i) => (
