@@ -1,11 +1,13 @@
 import React from "react";
+import Title from "./Title";
 
 const HowItWorks = () => {
 
     return (
-        <div>
-            <div className="flex justify-center mb-8">
-                <h1 className="text-4xl text-hint-dark font-bold text-cyan-950">Comment ça marche ?</h1>
+        <div className="w-full flex justify-center">
+        <div className="mb-28">
+            <div className="flex justify-center mb-8 ">
+                <Title title="Comment ça marche ?" />
             </div>
             <div className="mb-8 ml-8">
                 <h2 className="text-xl text-cyan-950 font-bold"> 1. Fiches recto-verso ✍️</h2>
@@ -20,6 +22,7 @@ const HowItWorks = () => {
                 <p className="text-md text-cyan-700">Recevez des rappels au bon moment pour renforcer vos connaissances.</p>
             </div>
         </div>
+    </div>
     )
 }
 
