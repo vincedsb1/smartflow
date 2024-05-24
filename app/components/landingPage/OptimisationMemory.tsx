@@ -9,7 +9,7 @@ const OptimisationMemory = () => {
                 <Title title="Optimisez votre mémoire et vos résultats" />
             </div>
             <div className="">
-                <p className="w-13/20 mx-auto text-md text-cyan-700 text-center">Découvrez comment SmartFlow peut transformer votre manière d&apos;apprendre. Essayez-le maintenant et améliorez votre mémorisation et vos résultats !</p>
+                <p className="w-13/20 mx-auto text-md text-cyan-700 text-center dark:text-neutral-400">Découvrez comment SmartFlow peut transformer votre manière d&apos;apprendre. Essayez-le maintenant et améliorez votre mémorisation et vos résultats !</p>
             </div>
         </div>
     )
