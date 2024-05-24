@@ -1,4 +1,7 @@
 import React from "react";
+import AOS from "aos";
+import "aos/dist/aos.css";
+import { useEffect } from "react";
 
 const perks = [
   {
@@ -29,59 +32,71 @@ const perks = [
 ];
 
 const PerksCards: React.FC = () => {
+
+  useEffect(() => {
+    AOS.init({
+      duration: 300,
+    });
+  }, []);
+
   return (
-    <div className="flex flex-col md:flex-row justify-center items-center p-4 mb-28">
-      <div className="flex flex-col md:flex-row justify-center w-full max-w-7xl">
-        <div className="flex flex-col items-center m-10" id="odd-cards-column">
-          {perks
-            .filter((_, index) => index % 2 === 0)
-            .map((perk, index) => (
+    <div>
+      <div className="flex flex-col md:flex-row justify-center items-center p-4 mb-28">
+        <div className="flex flex-col md:flex-row justify-center w-full max-w-7xl">
+          <div className="flex flex-col items-center m-10" id="odd-cards-column">
+            {perks
+              .filter((_, index) => index % 2 === 0)
+              .map((perk, index) => (
+                <div
+                  key={index}
+                  className="border-2 border-cyan-300 dark:border-neutral-700 rounded-3xl p-7 shadow-lg shadow-cyan-100 dark:shadow-neutral-950 bg-white dark:bg-neutral-800 w-72 m-10"
+                  id={`card-${index}`}
+                  data-aos="fade-up"
+                >
+                  <h3 className="text-lg font-semibold mb-5 text-neutral-700 dark:text-neutral-200 font-title">
+                    {perk.title}
+                  </h3>
+                  <p className="text-base font-title text-neutral-600 dark:text-neutral-300">
+                    {perk.description}
+                  </p>
+                </div>
+              ))}
+          </div>
+          <div
+            className="hidden md:flex flex-col justify-between items-center"
+            id="separator-column"
+          >
+            {[...Array(15)].map((_, i) => (
               <div
-                key={index}
-                className="border-2 border-cyan-300 dark:border-neutral-700 rounded-3xl p-7 shadow-lg shadow-cyan-100 dark:shadow-neutral-950 bg-white dark:bg-neutral-800 w-72 m-10"
-                id={`card-${index}`}
-              >
-                <h3 className="text-lg font-semibold mb-5 text-neutral-700 dark:text-neutral-200 font-title">
-                  {perk.title}
-                </h3>
-                <p className="text-base font-title text-neutral-600 dark:text-neutral-300">
-                  {perk.description}
-                </p>
-              </div>
+                key={i}
+                className="w-2 h-10 bg-cyan-300 rounded-full my-2"
+                id={`separator-${i}`}
+                data-aos="fade-up"
+              ></div>
             ))}
-        </div>
-        <div
-          className="hidden md:flex flex-col justify-between items-center"
-          id="separator-column"
-        >
-          {[...Array(15)].map((_, i) => (
-            <div
-              key={i}
-              className="w-2 h-10 bg-cyan-300 rounded-full my-2"
-              id={`separator-${i}`}
-            ></div>
-          ))}
-        </div>
-        <div
-          className="flex flex-col items-center m-10 mt-40"
-          id="even-cards-column"
-        >
-          {perks
-            .filter((_, index) => index % 2 !== 0)
-            .map((perk, index) => (
-              <div
-                key={index}
-                className="border-2 border-cyan-300 dark:border-neutral-600 rounded-3xl p-7 shadow-lg shadow-cyan-100 dark:shadow-neutral-950 bg-white dark:bg-neutral-800 w-72 m-10"
-                id={`card-${index}`}
-              >
-                <h3 className="text-lg font-semibold mb-5 text-neutral-700 dark:text-neutral-200 font-title">
-                  {perk.title}
-                </h3>
-                <p className="text-base font-title text-neutral-600 dark:text-neutral-300">
-                  {perk.description}
-                </p>
-              </div>
-            ))}
+          </div>
+          <div
+            className="flex flex-col items-center m-10 mt-40"
+            id="even-cards-column"
+          >
+            {perks
+              .filter((_, index) => index % 2 !== 0)
+              .map((perk, index) => (
+                <div
+                  key={index}
+                  className="border-2 border-cyan-300 dark:border-neutral-600 rounded-3xl p-7 shadow-lg shadow-cyan-100 dark:shadow-neutral-950 bg-white dark:bg-neutral-800 w-72 m-10"
+                  id={`card-${index}`}
+                  data-aos="fade-up"
+                >
+                  <h3 className="text-lg font-semibold mb-5 text-neutral-700 dark:text-neutral-200 font-title">
+                    {perk.title}
+                  </h3>
+                  <p className="text-base font-title text-neutral-600 dark:text-neutral-300">
+                    {perk.description}
+                  </p>
+                </div>
+              ))}
+          </div>
         </div>
       </div>
     </div>
