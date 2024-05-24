@@ -50,7 +50,8 @@ const LandingPage = () => {
           <OptimisationMemory />
         </div>
         <div className="flex items-center justify-center pb-28 mt-16" data-aos="fade-up">
-          <ButtonConnexion label="S'inscrire Gratuitement" />
+          <ButtonConnexion label="S'inscrire"
+          />
         </div>
       </div>
     </div>
