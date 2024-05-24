@@ -17,7 +17,7 @@ const PrinciplesFeaturesSection: React.FC = () => {
           size="3x"
           className="text-primary-400 dark:text-primary-600 mb-4"
         />
-        <h3 className="font-title font-bold text-lg dark:text-light-primary text-dark-primary">
+        <h3 className="font-title font-bold text-lg dark:text-neutral-300 text-dark-primary">
           Apprentissage actif
         </h3>
         <p className="font-text dark:text-neutral-400 text-neutral-800">
@@ -34,7 +34,7 @@ const PrinciplesFeaturesSection: React.FC = () => {
           size="3x"
           className="text-primary-400 dark:text-primary-600 mb-4"
         />
-        <h3 className="font-title font-bold text-lg dark:text-light-primary text-dark-primary">
+        <h3 className="font-title font-bold text-lg dark:text-neutral-300 text-dark-primary">
           Répétitions espacées
         </h3>
         <p className="font-text dark:text-neutral-400 text-neutral-800">
@@ -51,7 +51,7 @@ const PrinciplesFeaturesSection: React.FC = () => {
           size="3x"
           className="text-primary-400 dark:text-primary-600 mb-4"
         />
-        <h3 className="font-title font-bold text-lg dark:text-light-primary text-dark-primary">
+        <h3 className="font-title font-bold text-lg dark:text-neutral-300 text-dark-primary">
           Zone de difficulté idéale
         </h3>
         <p className="font-text dark:text-neutral-400 text-neutral-800">

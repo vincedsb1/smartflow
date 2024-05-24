@@ -25,7 +25,7 @@ const PerksCards: React.FC = () => {
             className="border-2 border-cyan-300 dark:border-neutral-700 rounded-3xl p-7 shadow-lg shadow-cyan-100 dark:shadow-neutral-950 bg-white dark:bg-neutral-800 w-72 my-6 md:m-10"
             id="card-0"
           >
-            <h3 className="text-lg font-semibold mb-5 text-neutral-700 dark:text-neutral-200 font-title">
+            <h3 className="text-lg font-semibold mb-5 text-neutral-700 dark:text-neutral-300 font-title">
               Gagnez un temps fou
             </h3>
             <p className="text-base font-title text-neutral-600 dark:text-neutral-300">
@@ -38,7 +38,7 @@ const PerksCards: React.FC = () => {
             className="border-2 border-cyan-300 dark:border-neutral-700 rounded-3xl p-7 shadow-lg shadow-cyan-100 dark:shadow-neutral-950 bg-white dark:bg-neutral-800 w-72 my-6 md:m-10"
             id="card-2"
           >
-            <h3 className="text-lg font-semibold mb-5 text-neutral-700 dark:text-neutral-200 font-title">
+            <h3 className="text-lg font-semibold mb-5 text-neutral-700 dark:text-neutral-300 font-title">
               Personnalisation sur mesure
             </h3>
             <p className="text-base font-title text-neutral-600 dark:text-neutral-300">
@@ -51,7 +51,7 @@ const PerksCards: React.FC = () => {
             className="border-2 border-cyan-300 dark:border-neutral-700 rounded-3xl p-7 shadow-lg shadow-cyan-100 dark:shadow-neutral-950 bg-white dark:bg-neutral-800 w-72 my-6 md:m-10"
             id="card-4"
           >
-            <h3 className="text-lg font-semibold mb-5 text-neutral-700 dark:text-neutral-200 font-title">
+            <h3 className="text-lg font-semibold mb-5 text-neutral-700 dark:text-neutral-300 font-title">
               Tracez votre chemin vers le succès
             </h3>
             <p className="text-base font-title text-neutral-600 dark:text-neutral-300">
@@ -82,7 +82,7 @@ const PerksCards: React.FC = () => {
             className="border-2 border-cyan-300 dark:border-neutral-600 rounded-3xl p-7 shadow-lg shadow-cyan-100 dark:shadow-neutral-950 bg-white dark:bg-neutral-800 w-72 my-6 md:m-10"
             id="card-1"
           >
-            <h3 className="text-lg font-semibold mb-5 text-neutral-700 dark:text-neutral-200 font-title">
+            <h3 className="text-lg font-semibold mb-5 text-neutral-700 dark:text-neutral-300 font-title">
               Exploitez votre plein potentiel
             </h3>
             <p className="text-base font-title text-neutral-600 dark:text-neutral-300">
@@ -95,7 +95,7 @@ const PerksCards: React.FC = () => {
             className="border-2 border-cyan-300 dark:border-neutral-600 rounded-3xl p-7 shadow-lg shadow-cyan-100 dark:shadow-neutral-950 bg-white dark:bg-neutral-800 w-72 my-6 md:m-10"
             id="card-3"
           >
-            <h3 className="text-lg font-semibold mb-5 text-neutral-700 dark:text-neutral-200 font-title">
+            <h3 className="text-lg font-semibold mb-5 text-neutral-700 dark:text-neutral-300 font-title">
               Une mémorisation durable
             </h3>
             <p className="text-base font-title text-neutral-600 dark:text-neutral-300">

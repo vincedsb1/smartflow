@@ -6,7 +6,6 @@ import "aos/dist/aos.css";
 import { useEffect } from "react";
 
 const Reviews = () => {
-
   useEffect(() => {
     AOS.init({
       duration: 300,
@@ -20,15 +19,15 @@ const Reviews = () => {
     >
       <div
         id="titleContainer"
-        className="flex flex-row w-full mb-20 justify-center"
+        className="flex flex-row w-full mb-20 justify-center text-center px-10"
       >
         <Title title="Ce que nos client·es pensent de nous" />
       </div>
       <div
         id="reviewsContainer"
-        className="w-full flex flex-wrap justify-between max-w-4xl"
+        className="w-full flex flex-wrap justify-center items-center max-w-4xl"
       >
-        <div data-aos="fade-right">
+        <div data-aos="fade-up" className="w-full sm:w-auto">
           <Review
             name="Christine"
             jobTitle="Étudiante"
@@ -37,17 +36,16 @@ const Reviews = () => {
             grade={5}
           />
         </div>
-        <div data-aos="fade-left">
+        <div data-aos="fade-up" className="w-full sm:w-auto">
           <Review
             name="Vincent"
             jobTitle="Développeur"
             consumerPhoto="/images/consummer002.png"
-            review="
-          J'utilise SmartFlow depuis quelques mois et je vois déjà une énorme différence. Mon temps d'apprentissage est optimisé et je retiens mieux."
+            review="J'utilise SmartFlow depuis quelques mois et je vois déjà une énorme différence. Mon temps d'apprentissage est optimisé et je retiens mieux."
             grade={5}
           />
         </div>
-        <div data-aos="fade-right">
+        <div data-aos="fade-up" className="w-full sm:w-auto">
           <Review
             name="Thibaud"
             jobTitle="Développeur"
@@ -56,7 +54,7 @@ const Reviews = () => {
             grade={5}
           />
         </div>
-        <div data-aos="fade-left">
+        <div data-aos="fade-up" className="w-full sm:w-auto">
           <Review
             name="Julie"
             jobTitle="Assistante Maternelle"
@@ -65,7 +63,6 @@ const Reviews = () => {
             grade={5}
           />
         </div>
-
       </div>
     </div>
   );
