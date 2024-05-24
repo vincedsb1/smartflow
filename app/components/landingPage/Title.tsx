@@ -10,7 +10,7 @@ const Title: React.FC<TitleProps> = ({ title, size = "medium" }) => {
   const textSizeClass =
     size === "big"
       ? "text-2xl 2xs:text-3xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl "
-      : "text-lg 2xs:text-xl 3xs:text-2xl md:text-3xl lg:text-4xl xl:text-5xl";
+      : "text-xl 2xs:text-2xl 3xs:text-3xl md:text-4xl lg:text-5xl xl:text-5xl";
 
   return (
     <div className="flex flex-col items-center">
