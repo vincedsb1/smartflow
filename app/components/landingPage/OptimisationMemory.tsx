@@ -4,7 +4,7 @@ import Title from "./Title";
 const OptimisationMemory = () => {
   return (
     <div>
-      <div className="flex justify-center mb-16">
+      <div className="flex justify-center mb-16 px-8">
         <Title title="Optimisez votre mémoire et vos résultats" />
       </div>
       <div className="">
