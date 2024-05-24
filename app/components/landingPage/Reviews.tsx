@@ -6,7 +6,7 @@ const Reviews = () => {
   return (
     <div
       id="reviewsMainContainer"
-      className="w-full flex flex-col items-center mb-28"
+      className="w-full flex flex-col items-center mb-14 md:mb-28"
     >
       <div
         id="titleContainer"

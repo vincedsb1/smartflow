@@ -15,7 +15,7 @@ const Hero = () => {
   return (
     <div
       id="containerHero"
-      className="w-full relative flex items-center align-middle h-full py-16 lg:py-20 xl:py-24 mb-28"
+      className="w-full relative flex items-center align-middle h-full py-16 lg:py-20 xl:py-24 mb-14 md:mb-28"
     >
       <video
         className="w-full h-full opacity-30 absolute top-0 left-0 object-cover "

@@ -4,7 +4,7 @@ import Title from "./Title";
 const HowItWorks = () => {
   return (
     <div className="w-full flex justify-center">
-      <div className="mb-28">
+      <div className="mb-14 md:mb-28">
         <div className="flex justify-center mb-20 ">
           <Title title="Comment ça marche ?" />
         </div>
