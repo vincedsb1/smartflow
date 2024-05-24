@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useEffect } from "react";
 import Header from "./components/landingPage/LandingHeader";
 import Hero from "./components/landingPage/LandingHero";
 
@@ -9,11 +9,10 @@ import PerksCards from "./components/landingPage/PerksCards";
 import Reviews from "./components/landingPage/Reviews";
 import HowItWorks from "./components/landingPage/HowItWorks";
 import OptimisationMemory from "./components/landingPage/OptimisationMemory";
-import ButtonConnexion from "./components/landingPage/ButtonConnexion";
 import AOS from "aos";
 import "aos/dist/aos.css";
-import { useEffect } from "react";
 import Title from "./components/landingPage/Title";
+import ButtonBottomLanding from "./components/landingPage/ButtonBottomLanding";
 
 const LandingPage = () => {
   useEffect(() => {
@@ -37,8 +36,11 @@ const LandingPage = () => {
         <div data-aos="fade-up">
           <MidPageGraphic />
         </div>
-        <div data-aos="fade-up" className="mb-28 w-full flex justify-center ">
-          <div className="w-1/2 flex flex-col justify-center items-center text-center ">
+        <div
+          data-aos="fade-up"
+          className=" w-full flex justify-center mb-14 md:mb-28"
+        >
+          <div className="2xs:w-1/2 w-2/3 flex flex-col justify-center items-center text-center ">
             <Title title="Chaque journée est une leçon, chaque expérience, un enseignement." />
           </div>
         </div>
@@ -58,7 +60,7 @@ const LandingPage = () => {
           className="flex items-center justify-center pb-28 mt-16"
           data-aos="fade-up"
         >
-          <ButtonConnexion label="S'inscrire gratuitement" />
+          <ButtonBottomLanding label="S'inscrire gratuitement" />
         </div>
       </div>
     </div>

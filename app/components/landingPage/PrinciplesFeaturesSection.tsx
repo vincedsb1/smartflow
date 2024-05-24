@@ -6,7 +6,7 @@ const PrinciplesFeaturesSection: React.FC = () => {
   return (
     <div
       id="PrinciplesFeaturesSection"
-      className="flex flex-col md:flex-row justify-around items-center mb-28"
+      className="flex flex-col md:flex-row justify-around items-center mb-14 md:mb-28"
     >
       <div
         id="active-learning"
