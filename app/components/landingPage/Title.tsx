@@ -18,7 +18,7 @@ const Title: React.FC<TitleProps> = ({ title, size = "medium" }) => {
         className={`flex flex-col justify-center font-title font-bold font-primary stroke-primary`}
         id="titleLabel"
       >
-        <p className={`${textSizeClass} text-cyan-900 dark:text-cyan-400`}>
+        <p className={`${textSizeClass} text-cyan-900 dark:text-cyan-500`}>
           {title}
         </p>
       </div>

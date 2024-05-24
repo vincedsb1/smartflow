@@ -1,14 +1,25 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Title from "./Title";
+import AOS from "aos";
+import "aos/dist/aos.css";
 
 const HowItWorks = () => {
+  useEffect(() => {
+    AOS.init({
+      duration: 300,
+    });
+
+    return () => {
+      AOS.refresh();
+    };
+  }, []);
   return (
     <div className="w-full flex justify-center">
       <div className="mb-14 md:mb-28">
-        <div className="flex justify-center mb-20 ">
+        <div className="flex justify-center mb-20" data-aos="fade-up">
           <Title title="Comment ça marche ?" />
         </div>
-        <div className="mb-8 ml-8">
+        <div className="mb-8 ml-8" data-aos="fade-up">
           <h2 className="text-xl text-cyan-950 font-bold dark:text-neutral-400">
             {" "}
             1. Fiches recto-verso ✍️
@@ -18,7 +29,7 @@ const HowItWorks = () => {
             de l&apos;autre pour chaque sujet à mémoriser.
           </p>
         </div>
-        <div className="mb-8 ml-8">
+        <div className="mb-8 ml-8" data-aos="fade-up">
           <h2 className="text-xl text-cyan-950 font-bold dark:text-neutral-400">
             {" "}
             2. Niveaux de révision 📚
@@ -27,7 +38,7 @@ const HowItWorks = () => {
             Apprenez en six étapes avec des révisions de plus en plus espacées.
           </p>
         </div>
-        <div className="mb-8 ml-8">
+        <div className="mb-8 ml-8" data-aos="fade-up">
           <h2 className="text-xl text-cyan-950 font-bold dark:text-neutral-400">
             {" "}
             3. Rappels intelligents ⏰

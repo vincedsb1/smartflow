@@ -9,7 +9,7 @@ const PerksCards: React.FC = () => {
     });
 
     return () => {
-      AOS.refresh(); // Rafraîchit AOS pour s'assurer que tous les éléments sont pris en compte
+      AOS.refresh();
     };
   }, []);
 
@@ -68,7 +68,7 @@ const PerksCards: React.FC = () => {
           {[...Array(15)].map((_, i) => (
             <div
               key={i}
-              className="w-2 h-10 bg-cyan-300 rounded-full my-2"
+              className="w-2 h-10 bg-cyan-300 dark:bg-cyan-700 rounded-full my-2"
               id={`separator-${i}`}
             ></div>
           ))}
