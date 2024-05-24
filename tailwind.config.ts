@@ -94,6 +94,11 @@ const config: Config = {
         "300": "300ms",
         "150": "150ms",
       },
+      screens: {
+        xs: "320px",
+        "2xs": "390px",
+        "3xs": "480px",
+      },
     },
   },
   plugins: [nextui()],
