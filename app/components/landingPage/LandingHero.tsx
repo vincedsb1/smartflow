@@ -15,7 +15,7 @@ const Hero = () => {
   return (
     <div
       id="containerHero"
-      className="w-full relative flex items-center align-middle h-full py-16 lg:py-20 xl:py-24"
+      className="w-full relative flex items-center align-middle h-full py-16 lg:py-20 xl:py-24 mb-28"
     >
       <video
         className="w-full h-full opacity-30 absolute top-0 left-0 object-cover "
@@ -27,7 +27,7 @@ const Hero = () => {
       </video>
       <div
         id="containerTitleTextButton"
-        className="sm:w-1/2 flex flex-col justify-center sm:justify-start text-center sm:text-left relative h-full align-middle mx-4"
+        className="sm:w-1/2 max-w-[925px] flex flex-col justify-center sm:justify-start text-center sm:text-left relative h-full align-middle mx-4"
       >
         <div id="containerHeroTitle" className="mb-6 md:mb-8">
           <Title title="Passez moins de temps à apprendre mieux !" size="big" />
