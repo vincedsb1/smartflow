@@ -70,20 +70,15 @@ const InscriptionPage = () => {
 
   // Fonction pour continuer
   const handleContinue = () => {
-    const nameRegex = /^[a-zA-Z]+$/;
-    if (firstName && nameRegex.test(firstName)) {
-      setFirstname(firstName);
+    const nameRegex = /^[a-zA-Z\s]+$/;
+    const trimmedFirstName = firstName ? firstName.trim() : '';
+    if (trimmedFirstName && nameRegex.test(trimmedFirstName)) {
+      setFirstname(trimmedFirstName);
     } else {
-      alert("Le prénom ne doit contenir que des lettres");
+      alert("Le prénom ne doit contenir que des lettres et des espaces");
       return;
     }
-
-    if (user.email && isEmailVerified) {
-      router.push("/register-birthay");
-    } else {
-      router.push("/mailauth");
-    }
-  };
+  }
 
   return (
     <div
