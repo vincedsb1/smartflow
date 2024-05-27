@@ -34,7 +34,7 @@ const CardAppPasswordInput: React.FC<CardAppPasswordInputProps> = ({
       message: "Contient 1 chiffre minimum",
     },
     {
-      validate: (password: string) => /[@$!%*?&]/.test(password),
+      validate: (password: string) => /[!@#$%^&*(),.?":{}|<>]/.test(password),
       message: "Contient 1 caractère spécial minimum",
     },
   ];

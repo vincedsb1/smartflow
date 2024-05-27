@@ -6,8 +6,9 @@ import { useState, useContext } from "react";
 import { faChevronLeft } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import CardAppTitle from "../../components/CardAppTitle";
-import ServerFirstNameEditPage from "./ServerFirstNameEditPage";
 import { useRouter } from "next/navigation";
+
+import jwt from "jsonwebtoken";
 
 const ClientFirstNameEditPage = () => {
   const userContext = useContext(UserContext);
@@ -21,18 +22,37 @@ const ClientFirstNameEditPage = () => {
 
   const handleFirstnameChange = async () => {
     try {
-      const nameRegex = /^[a-zA-Z]+$/;
-      if (!nameRegex.test(firstname)) {
-        setDisplayMessage("Le prénom ne doit contenir que des lettres");
+      const nameRegex = /^[a-zA-Z\s]+$/;
+      const trimmedFirstname = firstname ? firstname.trim() : '';
+      if (!nameRegex.test(trimmedFirstname)) {
+        setDisplayMessage("Le prénom ne doit contenir que des lettres et des espaces");
         return;
       }
       if (userContext) {
-        const updatedFirstname = await ServerFirstNameEditPage(
-          firstname,
-          userContext.token ?? ""
-        );
-        userContext.setFirstname(updatedFirstname);
-        router.push("/user");
+        const decodedToken = jwt.decode(userContext.token ?? "");
+        const userId = decodedToken?.userId;
+
+        if (!userId) {
+          throw new Error("User ID not found in token");
+        }
+
+        const response = await fetch(`/api/users/firstname/${userId}`, {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${userContext.token}`,
+          },
+          body: JSON.stringify({ firstname: trimmedFirstname }),
+        });
+
+        if (response.ok) {
+          const data = await response.json();
+          userContext.setFirstname(data.firstname);
+          router.push("/user");
+        } else {
+          const errorData = await response.json();
+          throw new Error(errorData.error);
+        }
       }
     } catch (error) {
       setDisplayMessage((error as Error).message);
