@@ -11,9 +11,14 @@ import { faChevronLeft } from "@fortawesome/free-solid-svg-icons";
 import { faUnlock } from "@fortawesome/free-solid-svg-icons";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import { Input } from "@nextui-org/react";
+import Image from "next/image";
+import { useTheme } from "next-themes";
+
 
 const ConnexionPage = () => {
   const [isVisible, setIsVisible] = React.useState(false);
+  const { theme } = useTheme();
+  const logo = theme === "dark" ? "/logo-dark.svg" : "/logo-light.svg";
 
   const toggleVisibility = () => setIsVisible(!isVisible);
 
@@ -104,42 +109,107 @@ const ConnexionPage = () => {
 
   return (
     <div
-      id="connexionMainContainer"
-      className="flex flex-col justify-between min-h-screen w-full "
+      id="mailAuthMainContainer"
+      className="flex flex-col items-center justify-center 3xs:justify-start w-full h-screen min-h-screen"
     >
+      {/* Mobile */}
       <div
-        id="connexionTopContainer"
-        className="flex flex-col justify-center w-full"
+        id="mailAuthLogoContainer"
+        className="hidden 3xs:flex flex-row justify-start items-center h-16 w-full relative p-4"
       >
-        <div id="themeSwitcherBackIcon" className="w-full flex flex-col mt-16">
-          <button
-            type="button"
-            onClick={() => router.back()}
-            className="text-neutral-800 dark:text-neutral-200 text-xs w-4 h-4 m-5"
-          >
-            <FontAwesomeIcon icon={faChevronLeft} />
-          </button>
-        </div>
-        <div
-          id="connexionHeaderContainer"
-          className="flex flex-col justify-center items-center w-full"
-        >
-          <div id="connexionTitle" className="flex flex-col mt-10 w-16/20 ">
-            <CardAppTitle title="Se connecter" />
-          </div>
-          <div
-            id="connexionHint"
-            className="flex flex-col items-center w-16/20"
-          >
-            <CardAppText text="Saissisez votre mot de passe" icon={faUnlock} />
-          </div>
-        </div>
+        <Image
+          src={logo}
+          alt="logo"
+          width={151}
+          height={38}
+          priority={true}
+        />
       </div>
       <div
-        id="connexionBottomContainer"
-        className="flex flex-col justify-center items-center mb-14 "
+        id="mailAuthTitleHintContainer"
+        className="flex flex-col items-center justify-center w-full 3xs:hidden"
       >
-        <div className="flex flex-col justify-between items-center w-16/20">
+        <div className="flex flex-row justify-center items-center h-16 w-full relative p-4 mb-44">
+          <Image
+            src={logo}
+            alt="logo"
+            width={200}
+            height={40}
+            priority={true}
+          />
+        </div>
+        <div className="flex flex-col items-center justify-center">
+            <div className="w-16/20 m-8">
+              <CardAppTitle title="Se connecter" />
+            </div>
+            <div className="w-16/20 m-8">
+              <CardAppText text="Saissisez votre mot de passe" icon={faUnlock} />
+            </div>
+            <div id="connexionInputContainer" className="w-16/20 m-8">
+              <Input
+                size="md"
+                className="font-text"
+                radius="lg"
+                type={isVisible ? "text" : "password"}
+                label="Mot de passe"
+                value={password}
+                onChange={handlePasswordChange}
+                endContent={
+                  <button
+                    className="focus:outline-none"
+                    type="button"
+                    onClick={toggleVisibility}
+                  >
+                    {isVisible ? (
+                      <FontAwesomeIcon
+                        icon={faEyeSlash}
+                        className="ml-28 mb-1 text-xl text-default-400 pointer-events-none"
+                      />
+                    ) : (
+                      <FontAwesomeIcon
+                        icon={faEye}
+                        className="ml-28 mb-1 text-xl text-default-400 pointer-events-none"
+                      />
+                    )}
+                  </button>
+                }
+              />
+            </div>
+            <div className="flex justify-center">
+              <Button
+                type="submit"
+                color="primary"
+                variant="solid"
+                size="lg"
+                className="w-80 font-bold font-text"
+                onClick={handlePasswordCheck}
+                isDisabled={password === ""}
+              >
+                Suivant
+              </Button>
+            </div>
+        </div>
+      </div>
+      {/* Desktop */}
+      <div
+        id="mailAuthTitleHintContainerDesktop"
+        className="hidden 3xs:flex flex-col items-center w-2/3 lg:w-1/2 h-1/2 bg-white shadow-lg rounded-2xl  3xs:flex-row 3xs:items-start 3xs:justify-between border-neutral-200 border-3  mx-auto my-auto"
+      >
+        <div className="hidden 3xs:flex w-1/2 h-full relative">
+          <Image
+            src="/images/entryVisual.svg"
+            alt="Entry Visual"
+            width={400}
+            height={600}
+            className="object-cover w-full h-full rounded-2xl"
+          />
+          <div className="absolute top-1/4 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+            <h2 className="text-4xl font-bold font-quicksand">Bienvenue</h2>
+          </div>
+        </div>
+        <div className="flex flex-col items-center 3xs:items-center 3xs:w-1/2 h-full justify-center p-8 ">
+          <CardAppTitle title="Se connecter" />
+          <CardAppText text="Saissisez votre mot de passe" icon={faUnlock} />
           <div id="connexionInputContainer" className="w-full mb-1">
             <Input
               size="md"
@@ -168,31 +238,19 @@ const ConnexionPage = () => {
                   )}
                 </button>
               }
-              fullWidth={true}
             />
           </div>
-          <div id="connexionMessageContainer" className="mb-32 h-9 w-full ml-5">
-            {displayMessage && (
-              <p className="text-red-500 text-xs font-text">{displayMessage}</p>
-            )}
-          </div>
+          <Button
+            color="default"
+            variant="solid"
+            size="lg"
+            className="w-full mt-4 max-w-full pr-14 pl-14"
+            onClick={handlePasswordCheck}
+            isDisabled={password === ""}
+          >
+            Suivant
+          </Button>
         </div>
-        <div className="flex items-center w-16/20"></div>
-        <div
-          id="connexionCGUContainer"
-          className="flex flex-row w-16/20 justify-start"
-        ></div>
-        <Button
-          type="submit"
-          color="primary"
-          variant="solid"
-          size="lg"
-          className="w-80 font-bold font-text"
-          onClick={handlePasswordCheck}
-          isDisabled={password === ""}
-        >
-          Suivant
-        </Button>
       </div>
     </div>
   );

@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Input } from "@nextui-org/react";
 
 interface InputNameProps {
   label: string;
@@ -12,7 +13,7 @@ const InputName: React.FC<InputNameProps> = ({ label, inputType, onChange }) => 
       <div id="title" className="mt-6">
         <p className="text-neutral-600 font-semibold">{label}</p>
       </div>
-      <input
+      <Input
         type={inputType}
         onChange={onChange} 
         className="bg-white rounded-2xl p-2 w-80 h-12 mb-1 pr-10 relative z-10  font-quicksand text-base font-quicksand tracking-wide"
