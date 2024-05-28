@@ -10,9 +10,14 @@ import { faChevronLeft } from "@fortawesome/free-solid-svg-icons";
 import { Button } from "@nextui-org/react";
 import { Input } from "@nextui-org/react";
 import { Link } from "@nextui-org/react";
+import Image from "next/image";
+import { useTheme } from "next-themes";
 
 const MailAuth = () => {
   const userContext = useContext(UserContext);
+  const { theme } = useTheme();
+  const logo = theme === "dark" ? "/logo-dark.svg" : "/logo-light.svg";
+
 
   if (!userContext) {
     throw new Error("UserContext must be used within a UserContextProvider");
@@ -69,44 +74,46 @@ const MailAuth = () => {
   return (
     <div
       id="mailAuthMainContainer"
-      className="flex flex-col justify-between min-h-screen w-full"
+      className="flex flex-col items-center justify-center 3xs:justify-start w-full h-screen min-h-screen"
     >
+      {/* Logo pour les écrans de bureau */}
       <div
-        id="mailAuthTopContainer"
-        className="flex flex-col justify-center w-full"
+        id="mailAuthLogoContainer"
+        className="hidden 3xs:flex flex-row justify-start items-center h-16 w-full relative p-4"
       >
-        <div id="mailAuthBackIcon" className="w-full flex flex-col mt-16">
-          <button
-            type="button"
-            onClick={() => router.back()}
-            className="text-neutral-800 dark:text-neutral-200 text-xs w-4 h-4 m-5"
-          >
-            <FontAwesomeIcon icon={faChevronLeft} />
-          </button>
+        <Image
+          src={logo}
+          alt="logo"
+          width={151}
+          height={38}
+          priority={true}
+        />
+      </div>
+      {/* Version mobile */}
+      <div
+        id="mailAuthTitleHintContainer"
+        className="flex flex-col items-center justify-center w-full 3xs:hidden"
+      >
+        <div className="flex flex-row justify-center items-center h-16 w-full relative p-4 mb-44">
+          <Image
+            src={logo}
+            alt="logo"
+            width={200}
+            height={40}
+            priority={true}
+          />
         </div>
-        <div
-          id="mailAuthHeaderContainer"
-          className="flex flex-col justify-center items-center w-full"
-        >
-          <div id="mailAuthTitle" className="flex flex-col mt-11 w-16/20 ">
+        <div>
+        <div className="w-16/20 m-8">
             <CardAppTitle title="Se connecter / S'inscrire" />
           </div>
-          <div id="mailAuthHint" className="flex flex-col items-center w-16/20">
+          <div className="w-16/20 m-8">
             <CardAppText
               text="Commencez par saisir votre email"
               icon={faEnvelope}
             />
           </div>
-        </div>
-      </div>
-      <div
-        id="mailAuthBottomContainer"
-        className="flex flex-col justify-center  mb-14"
-      >
-        <div
-          id="mailAuthFormContainer"
-          className="flex flex-col justify-between "
-        >
+
           <form
             onSubmit={handleSubmit}
             className="flex flex-col justify-between items-center"
@@ -129,7 +136,61 @@ const MailAuth = () => {
               color="primary"
               variant="solid"
               size="lg"
-              className="w-80 font-bold font-text"
+              className="w- font-bold font-text"
+              onClick={handleClick}
+              disabled={!isEmailValid}
+            >
+              Suivant
+            </Button>
+          </form>
+        </div>
+      </div>
+      {/* Version desktop */}
+      <div
+        id="mailAuthTitleHintContainerDesktop"
+        className="hidden 3xs:flex flex-col items-center w-2/3 lg:w-1/2 h-1/2 bg-white shadow-lg rounded-2xl  3xs:flex-row 3xs:items-start 3xs:justify-between border-neutral-200 border-3  mx-auto my-auto"
+      >
+        <div className="hidden 3xs:flex w-1/2 h-full relative">
+          <Image
+            src="/images/entryVisual.svg"
+            alt="Entry Visual"
+            width={400}
+            height={600}
+            className="object-cover w-full h-full rounded-2xl"
+          />
+          <div className="absolute top-1/4 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+            <h2 className="text-4xl font-bold font-quicksand">Bienvenue</h2>
+          </div>
+        </div>
+        <div className="flex flex-col items-center 3xs:items-center 3xs:w-1/2 h-full justify-center p-8 ">
+          <CardAppTitle title="Se connecter / S'inscrire" />
+          <CardAppText
+            text="Commencez par saisir votre email"
+            icon={faEnvelope}
+          />
+          <form
+            onSubmit={handleSubmit}
+            className="flex flex-col justify-between items-center"
+          >
+            <div id="mailAuthInputContainer" className="w-16/20">
+              <Input
+                value={email || ""}
+                defaultValue="alice@prisma.io"
+                onChange={handleChangeEmail}
+                isRequired
+                size="md"
+                type="email"
+                label="Email"
+                radius="lg"
+                className="w-full mb-20 font-text"
+              />
+            </div>
+            <Button
+              type="submit"
+              color="default"
+              variant="solid"
+              size="lg"
+              className="w-full mt-4 max-w-full pr-14 pl-14 font-bold font-text"
               onClick={handleClick}
               disabled={!isEmailValid}
             >
@@ -140,6 +201,6 @@ const MailAuth = () => {
       </div>
     </div>
   );
-};
+}
 
 export default MailAuth;

@@ -12,7 +12,8 @@ import { useRouter } from "next/navigation";
 import { useUser } from "../context/UserContext";
 import { Button } from "@nextui-org/react";
 import { Input } from "@nextui-org/react";
-
+import Image from "next/image";
+import { useTheme } from "next-themes";
 
 // Page d'inscription pour le prénom
 const InscriptionPage = () => {
@@ -21,6 +22,8 @@ const InscriptionPage = () => {
   const [firstName, setFirstName] = useState<string | null>(null);
   const { user, setUser, setEmail, setFirstname } = useUser();
   const [isEmailVerified, setIsEmailVerified] = useState(false);
+  const { theme } = useTheme();
+  const logo = theme === "dark" ? "/logo-dark.svg" : "/logo-light.svg";
 
 
   // Fonction pour gérer le changement de prénom
@@ -70,76 +73,121 @@ const InscriptionPage = () => {
 
   // Fonction pour continuer
   const handleContinue = () => {
-    const nameRegex = /^[a-zA-Z\s]+$/;
-    const trimmedFirstName = firstName ? firstName.trim() : '';
-    if (trimmedFirstName && nameRegex.test(trimmedFirstName)) {
-      setFirstname(trimmedFirstName);
-    } else {
-      alert("Le prénom ne doit contenir que des lettres et des espaces");
+    const nameRegex = /^[a-zA-Z ]+$/;
+    if (!firstName || !nameRegex.test(firstName)) {
+      alert("Veuillez entrer un prénom valide.");
       return;
     }
-  }
+    setFirstname(firstName);
+    router.push("/register-birthday");
+  };
 
   return (
     <div
-      id="registerMainContainer"
-      className="flex flex-col justify-between items-center h-screen"
+      id="registerFirstnameMainContainer"
+      className="flex flex-col items-center justify-center 3xs:justify-start w-full h-screen min-h-screen"
     >
+      {/* Logo pour les écrans de bureau */}
       <div
-        id="registerTopContainer"
-        className="flex flex-col justify-center w-full"
+        id="registerFirstnameLogoContainer"
+        className="hidden 3xs:flex flex-row justify-start items-center h-16 w-full relative p-4"
       >
-        <div
-          id="registerBackIconContainer"
-          className="w-full flex flex-col mt-16"
-        >
-          <Link href="/register">
-            <FontAwesomeIcon
-              icon={faChevronLeft}
-              className="text-neutral-800 dark:text-neutral-200 text-xs w-4 h-4 m-5"
-            />
-          </Link>
-        </div>
-        <div
-          id="registerTitleHintContainer"
-          className="flex flex-col justify-center items-center w-full"
-        >
-          <div id="registerTitle" className="flex flex-col mt-11 w-16/20 ">
-            <CardAppTitle title="Votre profil" />
-          </div>
-          <div id="registerHint" className="flex flex-col items-center w-16/20">
-            <CardAppText text="Quel est votre prénom ?" icon={faUser} />
-          </div>
-        </div>
+        <Image
+          src={logo}
+          alt="logo"
+          width={151}
+          height={38}
+          priority={true}
+        />
       </div>
+      {/* Version mobile */}
       <div
-        id="registerBottomContainer"
-        className="flex flex-col justify-center items-center mb-14 w-full"
+        id="registerFirstnameTitleHintContainer"
+        className="flex flex-col items-center justify-center w-full 3xs:hidden"
       >
-        <div
-          id="registerFirstnameInputContainer"
-          className="w-16/20 flex flex-col justify-center items-center mb-28 "
-        >
-          <Input
-            onChange={handleFirstNameChange}
-            isRequired
-            size="md"
-            type="text"
-            label="Prénom"
-            radius="lg"
-            className="w-full mb-20"
+        <div className="flex flex-row justify-center items-center h-16 w-full relative p-4 mb-44">
+          <Image
+            src={logo}
+            alt="logo"
+            width={200}
+            height={40}
+            priority={true}
           />
         </div>
-        <div
-          id="registerButtonTextContainer"
-          className="flex flex-col w-full justify-center items-center mb-1 mt-1 "
-        >
+        <div>
+          <div className="w-16/20 m-8">
+            <CardAppTitle title="Votre profil" />
+          </div>
+          <div className="w-16/20 m-8">
+            <CardAppText
+              text="Quel est votre prénom ?"
+              icon={faUser}
+            />
+          </div>
+
+          <div id="registerFirstnameInputContainer" className="w-16/20">
+            <Input
+              onChange={handleFirstNameChange}
+              isRequired
+              size="md"
+              type="text"
+              label="Prénom"
+              radius="lg"
+              className="w-full mb-20"
+            />
+          </div>
           <Button
             type="submit"
             color="primary"
             variant="solid"
             size="lg"
-            className="w-80 font-bold font-text"
+            className="w-16/20 font-bold"
+            onClick={handleContinue}
+          >
+            Suivant
+          </Button>
+        </div>
+      </div>
+      {/* Version desktop */}
+      <div
+        id="registerFirstnameTitleHintContainerDesktop"
+        className="hidden 3xs:flex flex-col items-center w-2/3 lg:w-1/2 h-1/2 bg-white shadow-lg rounded-2xl  3xs:flex-row 3xs:items-start 3xs:justify-between border-neutral-200 border-3  mx-auto my-auto"
+      >
+        <div className="hidden 3xs:flex w-1/2 h-full relative">
+          <Image
+            src="/images/entryVisual.svg"
+            alt="Entry Visual"
+            width={400}
+            height={600}
+            className="object-cover w-full h-full rounded-2xl"
+          />
+          <div className="absolute top-1/4 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+            <h2 className="text-4xl font-bold font-quicksand">Bienvenue</h2>
+          </div>
+        </div>
+        <div className="flex flex-col items-center 3xs:items-center 3xs:w-1/2 h-full justify-center p-8 ">
+          <CardAppTitle title="Votre profil" />
+          <CardAppText
+            text="Quel est votre prénom ?"
+            icon={faUser}
+          />
+          <div id="registerFirstnameInputContainer" className="w-16/20">
+            <Input
+              onChange={handleFirstNameChange}
+              isRequired
+              size="md"
+              type="text"
+              label="Prénom"
+              radius="lg"
+              className="w-full mb-20"
+            />
+          </div>
+          <Button
+            type="submit"
+            color="default"
+            variant="solid"
+            size="lg"
+            className="w-full mt-4 max-w-full pr-14 pl-14 font-bold"
             onClick={handleContinue}
           >
             Suivant
