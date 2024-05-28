@@ -1,38 +1,36 @@
 "use client";
 import React, { ChangeEvent, useContext, useState } from "react";
 import { Link as NextUILink } from "@nextui-org/react";
-import Link from 'next/link';
 import { useRouter } from "next/navigation";
-
 import CardAppTitle from "../components/CardAppTitle";
 import CardAppText from "../components/CardAppText";
 import CardAppPasswordInput from "../components/CardAppPasswordInput";
 import MainButton from "../components/MainButton";
 import { UserContext } from "../context/UserContext";
 import { Checkbox } from "@nextui-org/react";
-
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faChevronLeft } from "@fortawesome/free-solid-svg-icons";
+import Image from "next/image";
+import { useTheme } from "next-themes";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
 
 const ConnexionPage = () => {
   const userContext = useContext(UserContext);
-  const [cgu, setCgu] = useState(false);
+  const { theme } = useTheme();
+  const logo = theme === "dark" ? "/logo-dark.svg" : "/logo-light.svg";
 
   if (!userContext) {
     throw new Error("UserContext must be used within a UserContextProvider");
   }
 
   const { email, firstname, birthday, setUser } = userContext;
-
-  console.log("Email:", email);
-  console.log("Prénom:", firstname);
-  console.log("Date de naissance:", birthday);
-
   const [password, setPassword] = useState("");
+  const [hasAcceptedTerms, setHasAcceptedTerms] = useState(false);
 
   const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPassword(e.target.value);
+  };
+
+  const handleChangeCgu = (event: ChangeEvent<HTMLInputElement>) => {
+    setHasAcceptedTerms(event.target.checked);
   };
 
   const router = useRouter();
@@ -42,6 +40,7 @@ const ConnexionPage = () => {
       alert("Veuillez entrer un mot de passe");
       return;
     }
+
     const response = await fetch("/api/users", {
       method: "POST",
       headers: {
@@ -59,11 +58,7 @@ const ConnexionPage = () => {
 
     if (response.ok) {
       const data = await response.json();
-
-      // Ajoutez cette ligne pour stocker le token dans le contexte utilisateur
       userContext.setToken(data.token);
-
-
 
       const deleteResponse = await fetch(
         `/api/emailverification/delete-emailverification?email=${email}`,
@@ -102,62 +97,135 @@ const ConnexionPage = () => {
               console.log("Utilisateur défini");
             }
           }
-        }
-          , 1000);
+        }, 1000);
       }
     }
-  }
-
-  const [hasAcceptedTerms, setHasAcceptedTerms] = useState(false);
-
-  function handleChangeCgu(event: ChangeEvent<HTMLInputElement>): void {
-    setHasAcceptedTerms(event.target.checked);
-  }
-
+  };
 
   return (
-    <div className="flex flex-col justify-center items-center h-screen">
-      <div>
-        <Link href={"/register-birthday"}>
-          <button type="button" className="absolute top-0 left-0 mt-12 ml-6">
-            <FontAwesomeIcon icon={faChevronLeft} className="h-6" />
-          </button>
-        </Link>
-      </div>
-      <div className="flex flex-col">
-        <CardAppTitle title="Votre profil" />
-        <CardAppText text="Choissisez un mot de passe" icon={faUser} />
-      </div>
-      <div className="mt-6">
-        <CardAppPasswordInput onChange={handlePasswordChange} />
-      </div>
-
-      <div className="mt-64 flex flex-col items-center">
-        <div className="flex items-center w-16/20">
-          <Checkbox
-            size="md"
-            onChange={handleChangeCgu}
-            className="font-text"
-            isSelected={hasAcceptedTerms} // Utilisez hasAcceptedTerms ici
-          >
-            J&apos;accepte les conditions générales d&apos;utilisation
-          </Checkbox>
-        </div>
-        <div
-          id="mailAuthCGUContainer"
-          className="flex flex-row w-16/20 justify-start mb-4 ml-14 mt-1"
-        >
-          <NextUILink href="/cgu">
-            Consulter les CGU
-          </NextUILink>
-        </div>
-        <MainButton
-          label="Continuer"
-          type={(password && hasAcceptedTerms) ? "normal" : "disabled"}
-          buttonType="submit"
-          disabled={!(password && hasAcceptedTerms)}
-          onClick={handleSubmit}
+    <div
+      id="registerPasswordMainContainer"
+      className="flex flex-col items-center justify-center 3xs:justify-start w-full h-screen min-h-screen"
+    >
+      {/* Logo pour les écrans de bureau */}
+      <div
+        id="registerPasswordLogoContainer"
+        className="hidden 3xs:flex flex-row justify-start items-center h-16 w-full relative p-4"
+      >
+        <Image
+          src={logo}
+          alt="logo"
+          width={151}
+          height={38}
+          priority={true}
         />
+      </div>
+      {/* Version mobile */}
+      <div
+        id="registerPasswordTitleHintContainer"
+        className="flex flex-col items-center justify-center w-full 3xs:hidden"
+      >
+        <div className="flex flex-row justify-center items-center h-16 w-full relative p-4 mb-44">
+          <Image
+            src={logo}
+            alt="logo"
+            width={200}
+            height={40}
+            priority={true}
+          />
+        </div>
+        <div className="flex flex-col items-center justify-center w-full">
+          <div className="w-16/20 m-8">
+            <CardAppTitle title="Votre profil" />
+          </div>
+          <div className="w-16/20 m-8">
+            <CardAppText
+              text="Choissisez un mot de passe"
+              icon={faUser}
+            />
+          </div>
+          <div id="registerPasswordInputContainer" className="w-16/20">
+            <CardAppPasswordInput onChange={handlePasswordChange} />
+          </div>
+          <div className="w-16/20 flex items-center mt-4">
+            <Checkbox
+              size="md"
+              onChange={handleChangeCgu}
+              className="font-text"
+              isSelected={hasAcceptedTerms}
+            >
+              J&apos;accepte les conditions générales d&apos;utilisation
+            </Checkbox>
+          </div>
+          <div className="w-16/20 flex flex-row justify-start mb-4 ml-4 mt-1">
+            <NextUILink href="/cgu">
+              Consulter les CGU
+            </NextUILink>
+          </div>
+          <MainButton
+            label="Continuer"
+            type={(password && hasAcceptedTerms) ? "normal" : "disabled"}
+            buttonType="submit"
+            disabled={!(password && hasAcceptedTerms)}
+            onClick={handleSubmit}
+          />
+        </div>
+      </div>
+      {/* Version desktop */}
+      <div
+        id="registerPasswordTitleHintContainerDesktop"
+        className="hidden 3xs:flex w-2/3 lg:w-1/2 h-3/4 bg-white shadow-lg rounded-2xl border-neutral-200 border-3 mx-auto my-auto"
+      >
+        <div className="hidden 3xs:flex w-1/2 h-full relative">
+          <Image
+            src="/images/entryVisual.svg"
+            alt="Entry Visual"
+            width={400}
+            height={600}
+            className="object-cover w-full h-full rounded-2xl"
+          />
+          <div className="absolute top-1/4 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+            <h2 className="text-4xl font-bold font-quicksand">Bienvenue</h2>
+          </div>
+        </div>
+        <div className="flex flex-col items-center justify-center w-1/2 h-full p-8 overflow-auto">
+          <div className="w-full max-w-md">
+            <CardAppTitle title="Votre profil" />
+          </div>
+          <div className="w-full max-w-md mt-4">
+            <CardAppText
+              text="Choissisez un mot de passe"
+              icon={faUser}
+            />
+          </div>
+          <div id="registerPasswordInputContainer" className="w-full max-w-md mt-4">
+            <CardAppPasswordInput onChange={handlePasswordChange} />
+          </div>
+          <div className="w-full max-w-md flex items-center mt-4">
+            <Checkbox
+              size="md"
+              onChange={handleChangeCgu}
+              className="font-text"
+              isSelected={hasAcceptedTerms}
+            >
+              J&apos;accepte les conditions générales d&apos;utilisation
+            </Checkbox>
+          </div>
+          <div className="w-full max-w-md flex flex-row justify-start mt-4">
+            <NextUILink href="/cgu">
+              Consulter les CGU
+            </NextUILink>
+          </div>
+          <div className="w-full max-w-md mt-4">
+            <MainButton
+              label="Continuer"
+              type={(password && hasAcceptedTerms) ? "normal" : "disabled"}
+              buttonType="submit"
+              disabled={!(password && hasAcceptedTerms)}
+              onClick={handleSubmit}
+            />
+          </div>
+        </div>
       </div>
     </div>
   );
