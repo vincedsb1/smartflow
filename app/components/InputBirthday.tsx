@@ -1,6 +1,5 @@
 import React, { useState } from "react";
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
+import { Input } from "@nextui-org/react";
 
 interface InputBirthdayProps {
   label: string;
@@ -11,7 +10,8 @@ interface InputBirthdayProps {
 const InputBirthday: React.FC<InputBirthdayProps> = (props) => {
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
 
-  const handleDateChange = (date: Date | null) => {
+  const handleDateChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const date = new Date(event.target.value);
     setSelectedDate(date);
     props.onChange(date);
   };
@@ -22,8 +22,9 @@ const InputBirthday: React.FC<InputBirthdayProps> = (props) => {
         <p className="text-neutral-600 font-semibold">{props.label}</p>
       </div>
       <div id="input" className="relative">
-        <DatePicker
-          selected={selectedDate}
+        <Input
+          type="date"
+          value={selectedDate ? selectedDate.toISOString().substring(0, 10) : ""}
           onChange={handleDateChange}
           className="bg-white rounded-2xl p-2 w-80 h-12 mb-1 pr-10 relative z-10  font-quicksand text-base font-quicksand tracking-wide"
         />

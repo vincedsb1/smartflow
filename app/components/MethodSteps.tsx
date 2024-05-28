@@ -1,4 +1,3 @@
-
 "use client";
 import React, { useContext, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -10,7 +9,8 @@ import CardAppImage from "./CardAppImage";
 import { useRouter } from "next/navigation";
 import { Button } from "@nextui-org/react";
 import { Link } from "@nextui-org/react";
-import { useUser } from '../context/UserContext';
+import { useUser } from "../context/UserContext";
+import Image from "next/image";
 
 const steps = [
   {
@@ -46,28 +46,28 @@ function MethodSteps() {
   const router = useRouter();
 
   const finishOnboarding = async () => {
-    console.log('Finishing onboarding for user:', user);
+    console.log("Finishing onboarding for user:", user);
     if (!user?.email) {
-      console.log('User email is undefined');
+      console.log("User email is undefined");
       return;
     }
 
-    const response = await fetch('/api/users/onboarding', {
-      method: 'POST',
+    const response = await fetch("/api/users/onboarding", {
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
       body: JSON.stringify({ userEmail: user?.email }),
     });
 
     if (!response.ok) {
-      console.log('API response was not ok, status:', response.status);
+      console.log("API response was not ok, status:", response.status);
       return;
     }
 
     const data = await response.json();
-    console.log('Response from updateOnboardingStatus:', data);
-  
+    console.log("Response from updateOnboardingStatus:", data);
+
     setOnBoarding(true);
     console.log(setOnBoarding);
   };
@@ -76,7 +76,7 @@ function MethodSteps() {
     if (currentStep < steps.length - 1) {
       setCurrentStep(currentStep + 1);
     } else if (currentStep === steps.length - 1) {
-      console.log('Last step reached, finishing onboarding');
+      console.log("Last step reached, finishing onboarding");
       finishOnboarding();
       router.push("/today");
     }
@@ -101,66 +101,78 @@ function MethodSteps() {
   };
 
   return (
-    <div
-      id="methodStepsMainContainer"
-      className="flex flex-col justify-between min-h-screen w-full "
-    >
+    <div className="flex flex-col items-center justify-center w-full h-screen min-h-screen">
+      {/* Version mobile */}
       <div
-        id="methodStepsTopContainer"
-        className="flex flex-col justify-center w-full"
+        id="methodStepsMobile"
+        className="flex flex-col items-center justify-center w-full lg:hidden"
       >
-        <div id="themeSwitcherBackIcon" className="w-full flex flex-col mt-16">
+        <div className="w-full flex justify-between items-center mt-16 p-4">
           <Link href="/welcome">
             <FontAwesomeIcon
               icon={faChevronLeft}
               onClick={prevStep}
-              className="text-neutral-800 dark:text-neutral-200 text-xs w-4 h-4 m-5"
+              className="text-neutral-800 dark:text-neutral-200 text-xs w-4 h-4"
             />
           </Link>
         </div>
-        <div
-          id="methodStepsHeaderContainer"
-          className="flex flex-col justify-center items-center w-full"
-        >
-          <div id="methodStepsTitle" className="flex flex-col mt-11 w-16/20 ">
-            <CardAppTitle title={step.title} />
-          </div>
-          <div
-            id="methodStepsHint"
-            className="flex flex-col items-center w-16/20 mb-20"
-          >
-            <CardAppText text={step.text} />
-          </div>
-          <div id="methodStepsImageContainer" className="w-16/20">
-            <CardAppImage src={step.image} alt={step.title} />
-          </div>
+        <div className="w-16/20 m-8">
+          <CardAppTitle title={step.title} />
         </div>
-      </div>
-      <div
-        id="methodStepsBottomContainer"
-        className="flex flex-col items-center justify-center mb-14 "
-      >
-        <div
-          id="methodStepsStepsContainer"
-          className="w-16/20 flex flex-row justify-center"
-        >
+        <div className="w-16/20 m-8 flex items-center justify-center">
+          <CardAppText text={step.text} />
+        </div>
+        <div className="w-16/20 m-8">
+          <CardAppImage src={step.image} alt={step.title} />
+        </div>
+        <div className="w-16/20 m-8 flex flex-col items-center">
           <Stepper currentStep={currentStep} numberOfSteps={steps.length} />
         </div>
-        <div className="flex items-center w-16/20"></div>
-        <div
-          id="methodStepsCGUContainer"
-          className="flex flex-row w-16/20 justify-start mb-4 ml-14 mt-1"
-        ></div>
-        <Button
-          onClick={nextStep}
-          type="submit"
-          color="primary"
-          variant="solid"
-          size="lg"
-          className="w-80 font-bold font-text"
-        >
-          {buttonText()}
-        </Button>
+        <div className="w-16/20 m-8">
+          <Button
+            onClick={nextStep}
+            type="submit"
+            color="primary"
+            variant="solid"
+            size="lg"
+            className="w-full font-bold"
+          >
+            {buttonText()}
+          </Button>
+        </div>
+      </div>
+      {/* Version desktop */}
+      <div
+        id="methodStepsDesktop"
+        className="hidden lg:flex flex-col lg:flex-row items-center justify-center w-2/3 lg:w-1/2 h-2/3 bg-white shadow-lg rounded-2xl border-neutral-200 border-3 mx-auto my-auto"
+      >
+        <div className="w-1/2 h-full relative">
+          <Image
+            src="/images/entryVisual.svg"
+            alt="Entry Visual"
+            width={400}
+            height={600}
+            className="object-cover w-full h-full rounded-2xl"
+          />
+        </div>
+        <div className="flex flex-col items-center 3xs:items-center 3xs:w-1/2 h-full justify-center p-8  ">
+          <CardAppTitle title={step.title} size="big" />
+          <CardAppText text={step.text} />
+          <div className="p-4">
+            <CardAppImage src={step.image} alt={step.title} />
+          </div>
+          <Stepper currentStep={currentStep} numberOfSteps={steps.length} />
+          <Button
+            onClick={nextStep}
+            type="submit"
+            color="default"
+            variant="solid"
+            size="lg"
+            className="w-full mt-4 max-w-full pr-14 pl-14"
+          >
+            {buttonText()}
+          </Button>
+        </div>
       </div>
     </div>
   );
