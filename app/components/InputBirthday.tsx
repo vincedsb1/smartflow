@@ -17,8 +17,8 @@ const InputBirthday: React.FC<InputBirthdayProps> = (props) => {
   };
 
   return (
-    <div id="-main-conatiner" className="w-18/20 flex flex-col">
-      <div id="title" className="mt-6">
+    <div id="-main-conatiner">
+      <div id="title">
         <p className="text-neutral-600 font-semibold">{props.label}</p>
       </div>
       <div id="input" className="relative">
@@ -26,7 +26,7 @@ const InputBirthday: React.FC<InputBirthdayProps> = (props) => {
           type="date"
           value={selectedDate ? selectedDate.toISOString().substring(0, 10) : ""}
           onChange={handleDateChange}
-          className="bg-white rounded-2xl p-2 w-80 h-12 mb-1 pr-10 relative z-10  font-quicksand text-base font-quicksand tracking-wide"
+          className="w-80 mb-20 font-text"
         />
       </div>
     </div>
