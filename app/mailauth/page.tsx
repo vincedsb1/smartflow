@@ -71,15 +71,20 @@ const MailAuth = () => {
     }
   };
 
+  const handleBack = () => {
+    router.back();
+  };
+
+
   return (
     <div
       id="mailAuthMainContainer"
       className="flex flex-col items-center justify-center 3xs:justify-start w-full h-screen min-h-screen"
     >
-      {/* Logo pour les écrans de bureau */}
+      {/* Desktop */}
       <div
-        id="mailAuthLogoContainer"
-        className="hidden 3xs:flex flex-row justify-start items-center h-16 w-full relative p-4"
+        id="registerPasswordLogoContainer"
+        className="sm:flex hidden flex-row justify-start items-center h-16 w-full relative p-4"
       >
         <Image
           src={logo}
@@ -89,7 +94,13 @@ const MailAuth = () => {
           priority={true}
         />
       </div>
-      {/* Version mobile */}
+      {/* Mobile */}
+      <div
+        id="mailAuthLogoContainer"
+        className="sm:hidden flex flex-row justify-start items-center h-16 w-full relative p-4"
+      >
+        <FontAwesomeIcon icon={faChevronLeft} onClick={handleBack} />
+      </div>
       <div
         id="mailAuthTitleHintContainer"
         className="flex flex-col items-center justify-center w-full 3xs:hidden"
@@ -103,11 +114,11 @@ const MailAuth = () => {
             priority={true}
           />
         </div>
-        <div>
-        <div className="w-16/20 m-8">
-            <CardAppTitle title="Se connecter / S'inscrire" />
-          </div>
+        <div className="flex flex-col items-center justify-center">
           <div className="w-16/20 m-8">
+            <CardAppTitle title="Se connecter / S'inscrire"  size="big"/>
+          </div>
+          <div className=" w-80 m-8">
             <CardAppText
               text="Commencez par saisir votre email"
               icon={faEnvelope}
@@ -116,9 +127,9 @@ const MailAuth = () => {
 
           <form
             onSubmit={handleSubmit}
-            className="flex flex-col justify-between items-center"
+            className="flex flex-col justify-between items-center mt-44"
           >
-            <div id="mailAuthInputContainer" className="w-16/20">
+            <div id="mailAuthInputContainer">
               <Input
                 value={email || ""}
                 defaultValue="alice@prisma.io"
@@ -128,7 +139,7 @@ const MailAuth = () => {
                 type="email"
                 label="Email"
                 radius="lg"
-                className="w-full mb-20 font-text"
+                className="w-80 mb-20 font-text"
               />
             </div>
             <Button
@@ -136,7 +147,7 @@ const MailAuth = () => {
               color="primary"
               variant="solid"
               size="lg"
-              className="w- font-bold font-text"
+              className="w-80 font-bold font-text"
               onClick={handleClick}
               disabled={!isEmailValid}
             >
@@ -147,8 +158,8 @@ const MailAuth = () => {
       </div>
       {/* Version desktop */}
       <div
-        id="mailAuthTitleHintContainerDesktop"
-        className="hidden 3xs:flex flex-col items-center w-2/3 lg:w-1/2 h-1/2 bg-white shadow-lg rounded-2xl  3xs:flex-row 3xs:items-start 3xs:justify-between border-neutral-200 border-3  mx-auto my-auto"
+        id="welcomeTitleHintContainerDesktop"
+        className="hidden 3xs:flex flex-col items-center w-2/3 lg:w-1/2 h-1/2 bg-white shadow-lg rounded-2xl  3xs:flex-row 3xs:items-start 3xs:justify-between border-neutral-200   mx-auto my-auto"
       >
         <div className="hidden 3xs:flex w-1/2 h-full relative">
           <Image
@@ -156,10 +167,10 @@ const MailAuth = () => {
             alt="Entry Visual"
             width={400}
             height={600}
-            className="object-cover w-full h-full rounded-2xl"
+            className="object-cover w-full h-full rounded-tl-2xl rounded-bl-2xl"
           />
           <div className="absolute top-1/4 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-            <h2 className="text-4xl font-bold font-quicksand">Bienvenue</h2>
+            <h2 className="text-4xl font-bold font-quicksand text-cyan-900">Bienvenue</h2>
           </div>
         </div>
         <div className="flex flex-col items-center 3xs:items-center 3xs:w-1/2 h-full justify-center p-8 ">
@@ -172,7 +183,7 @@ const MailAuth = () => {
             onSubmit={handleSubmit}
             className="flex flex-col justify-between items-center"
           >
-            <div id="mailAuthInputContainer" className="w-16/20">
+            <div id="mailAuthInputContainer">
               <Input
                 value={email || ""}
                 defaultValue="alice@prisma.io"
@@ -182,7 +193,7 @@ const MailAuth = () => {
                 type="email"
                 label="Email"
                 radius="lg"
-                className="w-full mb-20 font-text"
+                className="w-full mb-4 font-text"
               />
             </div>
             <Button

@@ -143,35 +143,46 @@ function MethodSteps() {
       </div>
       {/* Version desktop */}
       <div
-        id="methodStepsDesktop"
-        className="hidden lg:flex flex-col lg:flex-row items-center justify-center w-2/3 lg:w-1/2 h-2/3 bg-white shadow-lg rounded-2xl border-neutral-200 border-3 mx-auto my-auto"
+        id="welcomeTitleHintContainerDesktop"
+        className="hidden lg:flex w-2/3 lg:w-1/2 h-3/4 bg-white shadow-lg rounded-2xl border-neutral-200 mx-auto my-auto"
       >
-        <div className="w-1/2 h-full relative">
+        <div className="hidden lg:flex w-1/2 h-full relative">
           <Image
             src="/images/entryVisual.svg"
             alt="Entry Visual"
             width={400}
             height={600}
-            className="object-cover w-full h-full rounded-2xl"
+            className="object-cover w-full h-full rounded-tl-2xl rounded-bl-2xl"
           />
+          <div className="absolute top-1/4 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+            <h2 className="text-4xl font-bold font-quicksand">Bienvenue</h2>
+          </div>
         </div>
-        <div className="flex flex-col items-center 3xs:items-center 3xs:w-1/2 h-full justify-center p-8  ">
-          <CardAppTitle title={step.title} size="big" />
-          <CardAppText text={step.text} />
-          <div className="p-4">
+        <div className="flex flex-col items-center lg:items-start lg:w-1/2 h-full justify-center p-8 overflow-y-auto max-h-full">
+          <div className="w-full">
+            <CardAppTitle title={step.title} size="big" />
+          </div>
+          <div className="w-full mt-4">
+            <CardAppText text={step.text} />
+          </div>
+          <div className="w-full mt-4">
             <CardAppImage src={step.image} alt={step.title} />
           </div>
-          <Stepper currentStep={currentStep} numberOfSteps={steps.length} />
-          <Button
-            onClick={nextStep}
-            type="submit"
-            color="default"
-            variant="solid"
-            size="lg"
-            className="w-full mt-4 max-w-full pr-14 pl-14"
-          >
-            {buttonText()}
-          </Button>
+          <div className="w-full mt-4">
+            <Stepper currentStep={currentStep} numberOfSteps={steps.length} />
+          </div>
+          <div className="w-full mt-4">
+            <Button
+              onClick={nextStep}
+              type="submit"
+              color="default"
+              variant="solid"
+              size="lg"
+              className="w-full font-bold pr-14 pl-14"
+            >
+              {buttonText()}
+            </Button>
+          </div>
         </div>
       </div>
     </div>

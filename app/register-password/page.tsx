@@ -11,6 +11,9 @@ import { Checkbox } from "@nextui-org/react";
 import Image from "next/image";
 import { useTheme } from "next-themes";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faChevronLeft } from "@fortawesome/free-solid-svg-icons";
+
 
 const ConnexionPage = () => {
   const userContext = useContext(UserContext);
@@ -101,16 +104,19 @@ const ConnexionPage = () => {
       }
     }
   };
+  const handleBack = () => {
+    router.back();
+  };
 
   return (
     <div
-      id="registerPasswordMainContainer"
+      id="mailAuthMainContainer"
       className="flex flex-col items-center justify-center 3xs:justify-start w-full h-screen min-h-screen"
     >
-      {/* Logo pour les écrans de bureau */}
+      {/* Desktop */}
       <div
         id="registerPasswordLogoContainer"
-        className="hidden 3xs:flex flex-row justify-start items-center h-16 w-full relative p-4"
+        className="sm:flex hidden flex-row justify-start items-center h-16 w-full relative p-4"
       >
         <Image
           src={logo}
@@ -120,9 +126,15 @@ const ConnexionPage = () => {
           priority={true}
         />
       </div>
-      {/* Version mobile */}
+      {/* Mobile */}
       <div
-        id="registerPasswordTitleHintContainer"
+        id="mailAuthLogoContainer"
+        className="sm:hidden flex flex-row justify-start items-center h-16 w-full relative p-4"
+      >
+        <FontAwesomeIcon icon={faChevronLeft} onClick={handleBack} />
+      </div>
+      <div
+        id="mailAuthTitleHintContainer"
         className="flex flex-col items-center justify-center w-full 3xs:hidden"
       >
         <div className="flex flex-row justify-center items-center h-16 w-full relative p-4 mb-44">
@@ -136,7 +148,7 @@ const ConnexionPage = () => {
         </div>
         <div className="flex flex-col items-center justify-center w-full">
           <div className="w-16/20 m-8">
-            <CardAppTitle title="Votre profil" />
+            <CardAppTitle title="Votre profil" size="big" />
           </div>
           <div className="w-16/20 m-8">
             <CardAppText
@@ -173,8 +185,8 @@ const ConnexionPage = () => {
       </div>
       {/* Version desktop */}
       <div
-        id="registerPasswordTitleHintContainerDesktop"
-        className="hidden 3xs:flex w-2/3 lg:w-1/2 h-3/4 bg-white shadow-lg rounded-2xl border-neutral-200 border-3 mx-auto my-auto"
+        id="welcomeTitleHintContainerDesktop"
+        className="hidden 3xs:flex flex-col items-center w-2/3 lg:w-1/2 h-2/3 bg-white shadow-lg rounded-2xl  3xs:flex-row 3xs:items-start 3xs:justify-between border-neutral-200   mx-auto my-auto"
       >
         <div className="hidden 3xs:flex w-1/2 h-full relative">
           <Image
@@ -182,10 +194,10 @@ const ConnexionPage = () => {
             alt="Entry Visual"
             width={400}
             height={600}
-            className="object-cover w-full h-full rounded-2xl"
+            className="object-cover w-full h-full rounded-tl-2xl rounded-bl-2xl"
           />
           <div className="absolute top-1/4 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-            <h2 className="text-4xl font-bold font-quicksand">Bienvenue</h2>
+            <h2 className="text-4xl font-bold font-quicksand text-cyan-900">Bienvenue</h2>
           </div>
         </div>
         <div className="flex flex-col items-center justify-center w-1/2 h-full p-8 overflow-auto">
