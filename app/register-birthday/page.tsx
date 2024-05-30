@@ -61,49 +61,34 @@ const InscriptionPage = () => {
   return (
     <div
       id="mailAuthMainContainer"
-      className="flex flex-col items-center justify-center 3xs:justify-start w-full h-screen min-h-screen"
+      className="flex flex-col items-center justify-center w-full h-screen min-h-screen"
     >
-      {/* Desktop */}
       <div
-        id="registerPasswordLogoContainer"
-        className="sm:flex hidden flex-row justify-start items-center h-16 w-full relative p-4"
+        id="chevronContainer"
+        className="sm:hidden absolute top-12 left-0 flex flex-row justify-start items-center h-16 w-full p-4"
       >
-        <Image
-          src={logo}
-          alt="logo"
-          width={151}
-          height={38}
-          priority={true}
+        <FontAwesomeIcon
+          icon={faChevronLeft}
+          className="text-neutral-800 dark:text-neutral-200 text-xs w-4 h-4 m-5"
+          onClick={handleBack}
         />
       </div>
-      {/* Mobile */}
       <div
-        id="mailAuthLogoContainer"
-        className="sm:hidden flex flex-row justify-start items-center h-16 w-full relative p-4"
+        id="logoContainer"
+        className="hidden sm:flex flex-row justify-start items-center h-16 w-full relative p-4"
       >
-        <FontAwesomeIcon icon={faChevronLeft} onClick={handleBack} />
+        <Image src={logo} alt="logo" width={151} height={38} priority={true} />
       </div>
-      <div
-        id="mailAuthTitleHintContainer"
-        className="flex flex-col items-center justify-center w-full 3xs:hidden"
-      >
-        <div className="flex flex-row justify-center items-center h-16 w-full relative p-4 mb-44">
-          <Image
-            src={logo}
-            alt="logo"
-            width={200}
-            height={40}
-            priority={true}
-          />
-        </div>
-        <div className="flex flex-col items-center justify-center">
-          <div className="w-16/20 m-8">
+      {/* Mobile */}
+      <div id="mobileVersion" className="flex flex-col items-center justify-center w-full sm:hidden h-screen">
+        <div className="flex flex-col items-center justify-center h-full">
+          <div className="flex flex-col items-center justify-center w-full p-4">
             <CardAppTitle title="Votre profil" size="big" />
           </div>
           <div className=" w-80 m-8">
             <CardAppText text="Quelle est votre date de naissance ?" icon={faBirthdayCake} />
           </div>
-          <div id="registerBirthdayInputContainer" className="flex flex-col justify-between items-center mt-44">
+          <div id="registerBirthdayInputContainer" className="w-80 mb-60 mt-16 font-text">
             <InputBirthday
               label="Date de naissance"
               inputType="date"
@@ -122,10 +107,7 @@ const InscriptionPage = () => {
         </div>
       </div>
       {/* Version desktop */}
-      <div
-        id="welcomeTitleHintContainerDesktop"
-        className="hidden 3xs:flex flex-col items-center w-2/3 lg:w-1/2 h-1/2 bg-white shadow-lg rounded-2xl  3xs:flex-row 3xs:items-start 3xs:justify-between border-neutral-200   mx-auto my-auto"
-      >
+      <div id="desktopVersion" className="hidden sm:flex w-2/3 lg:w-1/2 h-3/4 bg-white shadow-lg rounded-2xl flex-row items-start justify-between border-neutral-200 mx-auto my-auto">
         <div className="hidden 3xs:flex w-1/2 h-full relative">
           <Image
             src="/images/entryVisual.svg"
@@ -141,7 +123,7 @@ const InscriptionPage = () => {
         <div className="flex flex-col items-center 3xs:items-center 3xs:w-1/2 h-full justify-center p-8 ">
           <CardAppTitle title="Votre profil" />
           <CardAppText text="Quelle est votre date de naissance ?" icon={faBirthdayCake} />
-          <div id="registerBirthdayInputContainer" className="w-16/20">
+          <div id="registerBirthdayInputContainer" className="w-full">
             <InputBirthday
               label="Date de naissance"
               inputType="date"
@@ -153,11 +135,19 @@ const InscriptionPage = () => {
               }}
             />
           </div>
-          <Button type="submit" color="default" variant="solid" size="lg" className="w-full mt-4 max-w-full pr-14 pl-14 font-bold" onClick={handleContinue}>
+          <Button
+            type="submit"
+            color="default"
+            variant="solid"
+            size="lg"
+            className="w-full mt-4 max-w-full pr-14 pl-14 font-bold"
+            onClick={handleContinue}
+          >
             Suivant
           </Button>
         </div>
       </div>
+
     </div>
   );
 };

@@ -11,6 +11,7 @@ import { Button } from "@nextui-org/react";
 import { Link } from "@nextui-org/react";
 import { useUser } from "../context/UserContext";
 import Image from "next/image";
+import { useTheme } from "next-themes";
 
 const steps = [
   {
@@ -44,6 +45,9 @@ function MethodSteps() {
   const [currentStep, setCurrentStep] = useState(0);
   const { user, setOnBoarding } = useUser();
   const router = useRouter();
+  const { theme } = useTheme();
+  const logo = theme === "dark" ? "/logo-dark.svg" : "/logo-light.svg";
+
 
   const finishOnboarding = async () => {
     console.log("Finishing onboarding for user:", user);
@@ -100,23 +104,34 @@ function MethodSteps() {
     }
   };
 
+  const handleBack = () => {
+    router.back();
+  };
+
   return (
-    <div className="flex flex-col items-center justify-center w-full h-screen min-h-screen">
-      {/* Version mobile */}
+    <div
+      id="mailAuthMainContainer"
+      className="flex flex-col items-center justify-center w-full h-screen min-h-screen"
+    >
       <div
-        id="methodStepsMobile"
-        className="flex flex-col items-center justify-center w-full lg:hidden"
+        id="chevronContainer"
+        className="sm:hidden absolute top-12 left-0 flex flex-row justify-start items-center h-16 w-full p-4"
       >
-        <div className="w-full flex justify-between items-center mt-16 p-4">
-          <Link href="/welcome">
-            <FontAwesomeIcon
-              icon={faChevronLeft}
-              onClick={prevStep}
-              className="text-neutral-800 dark:text-neutral-200 text-xs w-4 h-4"
-            />
-          </Link>
-        </div>
-        <div className="w-16/20 m-8">
+        <FontAwesomeIcon
+          icon={faChevronLeft}
+          className="text-neutral-800 dark:text-neutral-200 text-xs w-4 h-4 m-5"
+          onClick={handleBack}
+        />
+      </div>
+      <div
+        id="logoContainer"
+        className="hidden sm:flex flex-row justify-start items-center h-16 w-full relative p-4"
+      >
+        <Image src={logo} alt="logo" width={151} height={38} priority={true} />
+      </div>
+      {/* Mobile */}
+      <div id="mobileVersion" className="flex flex-col items-center justify-center w-full sm:hidden">
+        <div className="w-4/5 m-8">
           <CardAppTitle title={step.title} />
         </div>
         <div className="w-16/20 m-8 flex items-center justify-center">
@@ -126,7 +141,9 @@ function MethodSteps() {
           <CardAppImage src={step.image} alt={step.title} />
         </div>
         <div className="w-16/20 m-8 flex flex-col items-center">
-          <Stepper currentStep={currentStep} numberOfSteps={steps.length} />
+          <div className="flex items-center justify-center">
+            <Stepper currentStep={currentStep} numberOfSteps={steps.length} />
+          </div>
         </div>
         <div className="w-16/20 m-8">
           <Button
@@ -142,11 +159,8 @@ function MethodSteps() {
         </div>
       </div>
       {/* Version desktop */}
-      <div
-        id="welcomeTitleHintContainerDesktop"
-        className="hidden lg:flex w-2/3 lg:w-1/2 h-3/4 bg-white shadow-lg rounded-2xl border-neutral-200 mx-auto my-auto"
-      >
-        <div className="hidden lg:flex w-1/2 h-full relative">
+      <div id="desktopVersion" className="hidden sm:flex w-2/3 lg:w-1/2 h-3/4 bg-white shadow-lg rounded-2xl flex-row items-start justify-between border-neutral-200 mx-auto my-auto">
+        <div className="hidden 3xs:flex w-1/2 h-full relative">
           <Image
             src="/images/entryVisual.svg"
             alt="Entry Visual"
@@ -155,23 +169,25 @@ function MethodSteps() {
             className="object-cover w-full h-full rounded-tl-2xl rounded-bl-2xl"
           />
           <div className="absolute top-1/4 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-            <h2 className="text-4xl font-bold font-quicksand">Bienvenue</h2>
+            <h2 className="text-4xl font-bold font-quicksand text-cyan-900">Bienvenue</h2>
           </div>
         </div>
-        <div className="flex flex-col items-center lg:items-start lg:w-1/2 h-full justify-center p-8 overflow-y-auto max-h-full">
-          <div className="w-full">
+        <div className="flex flex-col items-center justify-center w-1/2 h-full p-8 overflow-auto">
+          <div className="w-full max-w-md">
             <CardAppTitle title={step.title} size="big" />
           </div>
-          <div className="w-full mt-4">
+          <div className="w-full mt-4 max-w-md">
             <CardAppText text={step.text} />
           </div>
-          <div className="w-full mt-4">
+          <div className="w-full mt-4 max-w-md">
             <CardAppImage src={step.image} alt={step.title} />
           </div>
-          <div className="w-full mt-4">
-            <Stepper currentStep={currentStep} numberOfSteps={steps.length} />
+          <div className="w-full mt-4 max-w-md">
+            <div className="flex items-center justify-center mt-8 mb-8">
+              <Stepper currentStep={currentStep} numberOfSteps={steps.length} />
+            </div>
           </div>
-          <div className="w-full mt-4">
+          <div className="w-full mt-4 max-w-md">
             <Button
               onClick={nextStep}
               type="submit"
@@ -185,6 +201,7 @@ function MethodSteps() {
           </div>
         </div>
       </div>
+
     </div>
   );
 }
