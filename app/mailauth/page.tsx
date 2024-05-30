@@ -140,8 +140,7 @@ const MailAuth = () => {
           </div>
         </div>
         <div className="flex flex-col items-center w-1/2 h-full justify-center p-8">
-          {/* Utilisez une classe CSS conditionnelle pour ajuster la largeur de la div en fonction de la taille de l'écran */}
-          <div className={window.innerWidth > 640 ? "w-full" : "w-2/3"}>
+          <div className="w-full">
             <CardAppTitle title="Se connecter / S'inscrire" size="big" />
           </div>
           <CardAppText text="Commencez par saisir votre email" icon={faEnvelope} />
