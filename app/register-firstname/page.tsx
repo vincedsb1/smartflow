@@ -2,18 +2,16 @@
 import React, { useState, useEffect, useContext } from "react";
 import CardAppText from "../components/CardAppText";
 import CardAppTitle from "../components/CardAppTitle";
-import MainButton from "../components/MainButton";
-import Link from "next/link";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronLeft } from "@fortawesome/free-solid-svg-icons";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
-import InputName from "../components/InputName";
 import { useRouter } from "next/navigation";
 import { useUser } from "../context/UserContext";
 import { Button } from "@nextui-org/react";
 import { Input } from "@nextui-org/react";
 import Image from "next/image";
 import { useTheme } from "next-themes";
+
 
 // Page d'inscription pour le prénom
 const InscriptionPage = () => {
@@ -82,39 +80,36 @@ const InscriptionPage = () => {
     router.push("/register-birthday");
   };
 
+  const handleBack = () => {
+    router.back();
+  };
+
+
   return (
     <div
       id="mailAuthMainContainer"
-      className="flex flex-col items-center justify-center 3xs:justify-start w-full h-screen min-h-screen"
+      className="flex flex-col items-center justify-center w-full h-screen min-h-screen"
     >
-      {/* Mobile */}
       <div
-        id="mailAuthLogoContainer"
-        className="hidden 3xs:flex flex-row justify-start items-center h-16 w-full relative p-4"
+        id="chevronContainer"
+        className="sm:hidden absolute top-12 left-0 flex flex-row justify-start items-center h-16 w-full p-4"
       >
-        <Image
-          src={logo}
-          alt="logo"
-          width={151}
-          height={38}
-          priority={true}
+        <FontAwesomeIcon
+          icon={faChevronLeft}
+          className="text-neutral-800 dark:text-neutral-200 text-xs w-4 h-4 m-5"
+          onClick={handleBack}
         />
       </div>
       <div
-        id="registerFirstnameTitleHintContainer"
-        className="flex flex-col items-center justify-center w-full 3xs:hidden"
+        id="logoContainer"
+        className="hidden sm:flex flex-row justify-start items-center h-16 w-full relative p-4"
       >
-        <div className="flex flex-row justify-center items-center h-16 w-full relative p-4 mb-44">
-          <Image
-            src={logo}
-            alt="logo"
-            width={200}
-            height={40}
-            priority={true}
-          />
-        </div>
-        <div className="flex flex-col items-center justify-center">
-          <div className="w-16/20 m-8">
+        <Image src={logo} alt="logo" width={151} height={38} priority={true} />
+      </div>
+      {/* Mobile */}
+      <div id="mobileVersion" className="flex flex-col items-center justify-center w-full sm:hidden h-screen">
+        <div className="flex flex-col items-center justify-center h-full">
+          <div className="flex flex-col items-center justify-center w-full p-4">
             <CardAppTitle title="Votre profil" />
           </div>
           <div className=" w-80 m-8">
@@ -151,11 +146,8 @@ const InscriptionPage = () => {
         </div>
       </div>
       {/* Version desktop */}
-      <div
-        id="welcomeTitleHintContainerDesktop"
-        className="hidden 3xs:flex flex-col items-center w-2/3 lg:w-1/2 h-1/2 bg-white shadow-lg rounded-2xl  3xs:flex-row 3xs:items-start 3xs:justify-between border-neutral-200   mx-auto my-auto"
-      >
-        <div className="hidden 3xs:flex w-1/2 h-full relative">
+      <div id="desktopVersion" className="hidden sm:flex w-2/3 lg:w-1/2 h-3/4 bg-white shadow-lg rounded-2xl flex-row items-start justify-between border-neutral-200 mx-auto my-auto">
+        <div className="flex w-1/2 h-full relative">
           <Image
             src="/images/entryVisual.svg"
             alt="Entry Visual"
