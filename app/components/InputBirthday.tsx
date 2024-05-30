@@ -26,11 +26,13 @@ const InputBirthday: React.FC<InputBirthdayProps> = (props) => {
           type="date"
           value={selectedDate ? selectedDate.toISOString().substring(0, 10) : ""}
           onChange={handleDateChange}
-          className="w-80 mb-20 font-text"
+          className="w-full mb-20 font-text" // Classe w-full
+          style={{ maxWidth: "100%" }} // Ajout de maxWidth
         />
       </div>
     </div>
   );
 };
+
 
 export default InputBirthday;

@@ -34,7 +34,7 @@ function CardAppText({ text, icon, iconColor = "normal" }: CardAppTextProps) {
       {icon && (
         <div
           id="hintIconMainContainer"
-          className="flex justify-center items-center w-1/6" // Adjusted width to 1/6
+          className="flex justify-center items-center w-1/6"
         >
           <div
             id="hintIconContainer"
@@ -47,11 +47,11 @@ function CardAppText({ text, icon, iconColor = "normal" }: CardAppTextProps) {
       <div
         id="cardExplanationsText"
         className={`flex flex-row justify-start items-center ${
-          icon ? "w-5/6" : "w-full" // Adjusted width based on icon presence
+          icon ? "w-5/6" : "w-full"
         }`}
       >
         <p
-          className="text-neutral-800 dark:text-neutral-400 font-text font-bold text-xl leading-6"
+          className="text-neutral-800 dark:text-neutral-400 font-text font-bold text-xl leading-6 p-2"
           id="tex-card"
         >
           {text}

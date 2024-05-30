@@ -5,7 +5,6 @@ import { useRouter } from "next/navigation";
 import CardAppTitle from "../components/CardAppTitle";
 import CardAppText from "../components/CardAppText";
 import CardAppPasswordInput from "../components/CardAppPasswordInput";
-import MainButton from "../components/MainButton";
 import { UserContext } from "../context/UserContext";
 import { Checkbox } from "@nextui-org/react";
 import Image from "next/image";
@@ -13,7 +12,7 @@ import { useTheme } from "next-themes";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronLeft } from "@fortawesome/free-solid-svg-icons";
-
+import { Button } from "@nextui-org/react";
 
 const ConnexionPage = () => {
   const userContext = useContext(UserContext);
@@ -111,83 +110,68 @@ const ConnexionPage = () => {
   return (
     <div
       id="mailAuthMainContainer"
-      className="flex flex-col items-center justify-center 3xs:justify-start w-full h-screen min-h-screen"
+      className="flex flex-col items-center justify-center w-full h-screen min-h-screen"
     >
-      {/* Desktop */}
       <div
-        id="registerPasswordLogoContainer"
-        className="sm:flex hidden flex-row justify-start items-center h-16 w-full relative p-4"
+        id="chevronContainer"
+        className="sm:hidden absolute top-12 left-0 flex flex-row justify-start items-center h-16 w-full p-4"
       >
-        <Image
-          src={logo}
-          alt="logo"
-          width={151}
-          height={38}
-          priority={true}
+        <FontAwesomeIcon
+          icon={faChevronLeft}
+          className="text-neutral-800 dark:text-neutral-200 text-xs w-4 h-4 m-5"
+          onClick={handleBack}
         />
       </div>
-      {/* Mobile */}
       <div
-        id="mailAuthLogoContainer"
-        className="sm:hidden flex flex-row justify-start items-center h-16 w-full relative p-4"
+        id="logoContainer"
+        className="hidden sm:flex flex-row justify-start items-center h-16 w-full relative p-4"
       >
-        <FontAwesomeIcon icon={faChevronLeft} onClick={handleBack} />
+        <Image src={logo} alt="logo" width={151} height={38} priority={true} />
       </div>
-      <div
-        id="mailAuthTitleHintContainer"
-        className="flex flex-col items-center justify-center w-full 3xs:hidden"
-      >
-        <div className="flex flex-row justify-center items-center h-16 w-full relative p-4 mb-44">
-          <Image
-            src={logo}
-            alt="logo"
-            width={200}
-            height={40}
-            priority={true}
+      {/* Mobile */}
+      <div id="mobileVersion" className="flex flex-col items-center justify-center w-full sm:hidden">
+        <div className="w-4/5 m-8">
+          <CardAppTitle title="Votre profil" size="big" />
+        </div>
+        <div className="w-4/5 m-8">
+          <CardAppText
+            text="Choisissez un mot de passe"
+            icon={faUser}
           />
         </div>
-        <div className="flex flex-col items-center justify-center w-full">
-          <div className="w-16/20 m-8">
-            <CardAppTitle title="Votre profil" size="big" />
-          </div>
-          <div className="w-16/20 m-8">
-            <CardAppText
-              text="Choissisez un mot de passe"
-              icon={faUser}
-            />
-          </div>
-          <div id="registerPasswordInputContainer" className="w-16/20">
-            <CardAppPasswordInput onChange={handlePasswordChange} />
-          </div>
-          <div className="w-16/20 flex items-center mt-4">
-            <Checkbox
-              size="md"
-              onChange={handleChangeCgu}
-              className="font-text"
-              isSelected={hasAcceptedTerms}
-            >
-              J&apos;accepte les conditions générales d&apos;utilisation
-            </Checkbox>
-          </div>
-          <div className="w-16/20 flex flex-row justify-start mb-4 ml-4 mt-1">
-            <NextUILink href="/cgu">
-              Consulter les CGU
-            </NextUILink>
-          </div>
-          <MainButton
-            label="Continuer"
-            type={(password && hasAcceptedTerms) ? "normal" : "disabled"}
-            buttonType="submit"
+        <div id="registerPasswordInputContainer" className="w-full">
+          <CardAppPasswordInput onChange={handlePasswordChange} />
+        </div>
+        <div className="w-4/5 flex items-center mt-14">
+          <Checkbox
+            size="md"
+            onChange={handleChangeCgu}
+            className="font-text"
+            isSelected={hasAcceptedTerms}
+          >
+            J&apos;accepte les conditions générales d&apos;utilisation
+          </Checkbox>
+        </div>
+        <div className="w-4/5 flex flex-row justify-start mb-4 ml-4 mt-1">
+          <NextUILink href="/cgu">
+            Consulter les CGU
+          </NextUILink>
+        </div>
+        <div className="w-4/5 mt-4">
+          <Button
+            color={(password && hasAcceptedTerms) ? "primary" : "default"}
+            size="lg"
             disabled={!(password && hasAcceptedTerms)}
             onClick={handleSubmit}
-          />
+            className="w-full mt-4 font-bold"
+          >
+            Continuer
+          </Button>
         </div>
       </div>
+
       {/* Version desktop */}
-      <div
-        id="welcomeTitleHintContainerDesktop"
-        className="hidden 3xs:flex flex-col items-center w-2/3 lg:w-1/2 h-2/3 bg-white shadow-lg rounded-2xl  3xs:flex-row 3xs:items-start 3xs:justify-between border-neutral-200   mx-auto my-auto"
-      >
+      <div id="desktopVersion" className="hidden sm:flex w-2/3 lg:w-1/2 h-3/4 bg-white shadow-lg rounded-2xl flex-row items-start justify-between border-neutral-200 mx-auto my-auto">
         <div className="hidden 3xs:flex w-1/2 h-full relative">
           <Image
             src="/images/entryVisual.svg"
@@ -213,7 +197,7 @@ const ConnexionPage = () => {
           <div id="registerPasswordInputContainer" className="w-full max-w-md mt-4">
             <CardAppPasswordInput onChange={handlePasswordChange} />
           </div>
-          <div className="w-full max-w-md flex items-center mt-4">
+          <div className="w-full max-w-md flex items-center mt-12">
             <Checkbox
               size="md"
               onChange={handleChangeCgu}
@@ -223,19 +207,21 @@ const ConnexionPage = () => {
               J&apos;accepte les conditions générales d&apos;utilisation
             </Checkbox>
           </div>
-          <div className="w-full max-w-md flex flex-row justify-start mt-4">
+          <div className="w-full max-w-md flex flex-row justify-start">
             <NextUILink href="/cgu">
               Consulter les CGU
             </NextUILink>
           </div>
-          <div className="w-full max-w-md mt-4">
-            <MainButton
-              label="Continuer"
-              type={(password && hasAcceptedTerms) ? "normal" : "disabled"}
-              buttonType="submit"
+          <div className="w-full max-w-md mt-2">
+            <Button
+              color={(password && hasAcceptedTerms) ? "primary" : "default"}
+              size="lg"
               disabled={!(password && hasAcceptedTerms)}
               onClick={handleSubmit}
-            />
+              className="w-full mt-4 max-w-full pr-14 pl-14 font-bold"
+            >
+              Continuer
+            </Button>
           </div>
         </div>
       </div>
