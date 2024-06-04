@@ -90,7 +90,7 @@ const MailAuth = () => {
         <Image src={logo} alt="logo" width={151} height={38} priority={true} />
       </div>
       {/* Mobile Version */}
-      <div id="mobileVersion" className="flex flex-col items-center justify-center w-full sm:hidden h-screen">
+      <div id="mobileVersion" className="flex flex-col items-center justify-center w-full sm:hidden h-screen mt-36">
         <div className="flex flex-col items-center justify-center h-full">
           <div className="flex flex-col items-center justify-center w-full p-4">
             <CardAppTitle title="Se connecter / S'inscrire" size="big" />
@@ -108,7 +108,7 @@ const MailAuth = () => {
                 radius="lg"
                 className="w-80 mb-60 mt-16 font-text"
               />
-              <div className="mt-24">
+              <div className="mt-18">
                 <Button
                   type="submit"
                   color="primary"

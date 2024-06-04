@@ -118,7 +118,7 @@ const InscriptionPage = () => {
             />
           </div>
           <div
-            className="flex flex-col justify-between items-center mt-44"
+            className="flex flex-col justify-between items-center mt-44 xs:mt-0"
           >
             <div id="registerFirstnameInputContainer">
               <Input
@@ -128,7 +128,7 @@ const InscriptionPage = () => {
                 type="text"
                 label="Prénom"
                 radius="lg"
-                className="w-80 mb-20 font-text"
+                className="w-80 mb-20 font-text xs:w-50"
               />
             </div>
             <Button
@@ -164,7 +164,7 @@ const InscriptionPage = () => {
             text="Quel est votre prénom ?"
             icon={faUser}
           />
-          <div id="registerFirstnameInputContainer" className="w-16/20">
+          <div id="registerFirstnameInputContainer" className="w-70">
             <Input
               onChange={handleFirstNameChange}
               isRequired
@@ -172,7 +172,7 @@ const InscriptionPage = () => {
               type="text"
               label="Prénom"
               radius="lg"
-              className="w-full mb-20"
+              className="mb-20"
             />
           </div>
           <Button
@@ -180,7 +180,7 @@ const InscriptionPage = () => {
             color="default"
             variant="solid"
             size="lg"
-            className="w-full mt-4 max-w-full pr-14 pl-14 font-bold"
+            className="w-full mt-4  font-bold"
             onClick={handleContinue}
           >
             Suivant

@@ -114,11 +114,11 @@ const ConnexionPage = () => {
     >
       <div
         id="chevronContainer"
-        className="sm:hidden absolute top-12 left-0 flex flex-row justify-start items-center h-16 w-full p-4"
+        className="sm:hidden fixed top-12 xs:top-4 xs:left-0 left-0 flex flex-row justify-start items-center h-16 w-full p-4 "
       >
         <FontAwesomeIcon
           icon={faChevronLeft}
-          className="text-neutral-800 dark:text-neutral-200 text-xs w-4 h-4 m-5"
+          className="text-neutral-800 dark:text-neutral-200 text-xs w-4 h-4"
           onClick={handleBack}
         />
       </div>
@@ -129,11 +129,11 @@ const ConnexionPage = () => {
         <Image src={logo} alt="logo" width={151} height={38} priority={true} />
       </div>
       {/* Mobile */}
-      <div id="mobileVersion" className="flex flex-col items-center justify-center w-full sm:hidden">
-        <div className="w-4/5 m-8">
+      <div id="mobileVersion" className="flex flex-col items-center justify-center w-full sm:hidden overflow-y-auto 3xs:h-auto xs:h-auto sm:h-auto  ">
+        <div className="w-4/5 m-8 3xs:m-4 xs:mt-20">
           <CardAppTitle title="Votre profil" size="big" />
         </div>
-        <div className="w-4/5 m-8">
+        <div className="w-4/5 m-8 3xs:mt-1">
           <CardAppText
             text="Choisissez un mot de passe"
             icon={faUser}
@@ -152,18 +152,18 @@ const ConnexionPage = () => {
             J&apos;accepte les conditions générales d&apos;utilisation
           </Checkbox>
         </div>
-        <div className="w-4/5 flex flex-row justify-start mb-4 ml-4 mt-1">
+        <div className="w-4/5 flex flex-row justify-start mb-4 ml-4 mt-1 3xs:mt-0">
           <NextUILink href="/cgu">
             Consulter les CGU
           </NextUILink>
         </div>
-        <div className="w-4/5 mt-4">
+        <div className="w-4/5 mt-4 3xs:mt-0 xs:mb-4">
           <Button
             color={(password && hasAcceptedTerms) ? "primary" : "default"}
             size="lg"
             disabled={!(password && hasAcceptedTerms)}
             onClick={handleSubmit}
-            className="w-full mt-4 font-bold"
+            className="w-full mt-4 3xs:mt-0 font-bold"
           >
             Continuer
           </Button>
@@ -171,8 +171,8 @@ const ConnexionPage = () => {
       </div>
 
       {/* Version desktop */}
-      <div id="desktopVersion" className="hidden sm:flex w-2/3 lg:w-1/2 h-3/4 dark:bg-neutral-800 shadow-lg rounded-2xl flex-row items-start justify-between border-neutral-200 mx-auto my-auto">
-        <div className="hidden 3xs:flex w-1/2 h-full relative">
+      <div id="desktopVersion" className="hidden sm:flex w-2/3 lg:w-1/2 h-3/4 dark:bg-neutral-800 shadow-lg rounded-2xl flex-row items-start justify-between bg-white border-neutral-200 mx-auto my-auto overflow-y-auto 3xs:h-auto xs:h-auto sm:h-auto md:mb-4 sm:mb-4">
+        <div className="hidden 3xs:flex w-1/2 h-full relative ">
           <Image
             src="/images/entryVisual.svg"
             alt="Entry Visual"
@@ -180,15 +180,15 @@ const ConnexionPage = () => {
             height={600}
             className="object-cover w-full h-full rounded-tl-2xl rounded-bl-2xl"
           />
-          <div className="absolute top-1/4 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+          <div className="absolute top-1/4 left-1/2 transform -translate-x-1/2 -translate-y-1/2 ">
             <h2 className="text-4xl font-bold font-quicksand text-cyan-900">Bienvenue</h2>
           </div>
         </div>
-        <div className="flex flex-col items-center justify-center w-1/2 h-full p-8 overflow-auto">
-          <div className="w-full max-w-md">
+        <div className="flex flex-col items-center justify-center w-1/2 h-full p-8 overflow-auto ">
+          <div className="w-full max-w-md ">
             <CardAppTitle title="Votre profil" />
           </div>
-          <div className="w-full max-w-md mt-4">
+          <div className="w-full max-w-md mt-4 ">
             <CardAppText
               text="Choissisez un mot de passe"
               icon={faUser}
