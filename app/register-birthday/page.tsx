@@ -80,7 +80,7 @@ const InscriptionPage = () => {
         <Image src={logo} alt="logo" width={151} height={38} priority={true} />
       </div>
       {/* Mobile */}
-      <div id="mobileVersion" className="flex flex-col items-center justify-center w-full sm:hidden h-screen">
+      <div id="mobileVersion" className="flex flex-col items-center justify-center w-full sm:hidden h-screen ">
         <div className="flex flex-col items-center justify-center h-full">
           <div className="flex flex-col items-center justify-center w-full p-4">
             <CardAppTitle title="Votre profil" size="big" />
@@ -88,7 +88,7 @@ const InscriptionPage = () => {
           <div className=" w-80 m-8">
             <CardAppText text="Quelle est votre date de naissance ?" icon={faBirthdayCake} />
           </div>
-          <div id="registerBirthdayInputContainer" className="w-80 mb-60 mt-16 font-text">
+          <div id="registerBirthdayInputContainer" className="w-80 mb-60 xs:mb-0 xs:mt-0 mt-16 font-text">
             <InputBirthday
               label="Date de naissance"
               inputType="date"
