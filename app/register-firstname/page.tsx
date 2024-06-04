@@ -11,6 +11,7 @@ import { Button } from "@nextui-org/react";
 import { Input } from "@nextui-org/react";
 import Image from "next/image";
 import { useTheme } from "next-themes";
+import Link from "next/link";
 
 
 // Page d'inscription pour le prénom
@@ -80,9 +81,6 @@ const InscriptionPage = () => {
     router.push("/register-birthday");
   };
 
-  const handleBack = () => {
-    router.back();
-  };
 
 
   return (
@@ -94,11 +92,12 @@ const InscriptionPage = () => {
         id="chevronContainer"
         className="sm:hidden absolute top-12 left-0 flex flex-row justify-start items-center h-16 w-full p-4"
       >
-        <FontAwesomeIcon
-          icon={faChevronLeft}
-          className="text-neutral-800 dark:text-neutral-200 text-xs w-4 h-4 m-5"
-          onClick={handleBack}
-        />
+    <Link href="/">
+      <FontAwesomeIcon
+        icon={faChevronLeft}
+        className="text-neutral-800 dark:text-neutral-200 text-xs w-4 h-4 m-5 cursor-pointer"
+      />
+    </Link>
       </div>
       <div
         id="logoContainer"
@@ -159,7 +158,7 @@ const InscriptionPage = () => {
             <h2 className="text-4xl font-bold font-quicksand text-cyan-900">Bienvenue</h2>
           </div>
         </div>
-        <div className="flex flex-col items-center 3xs:items-center 3xs:w-1/2 h-full justify-center p-8 ">
+        <div className="flex flex-col items-center dark:bg-neutral-800 3xs:items-center 3xs:w-1/2 h-full justify-center p-8 ">
           <CardAppTitle title="Votre profil" />
           <CardAppText
             text="Quel est votre prénom ?"

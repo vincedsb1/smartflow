@@ -139,8 +139,8 @@ const MailAuth = () => {
             <h2 className="text-4xl font-bold font-quicksand text-cyan-900">Bienvenue</h2>
           </div>
         </div>
-        <div className="flex flex-col items-center w-1/2 h-full justify-center p-8">
-          <div className="w-full">
+        <div className="flex flex-col items-center dark:bg-neutral-800 w-1/2 h-full justify-center p-8">
+          <div className="w-full ">
             <CardAppTitle title="Se connecter / S'inscrire" size="big" />
           </div>
           <CardAppText text="Commencez par saisir votre email" icon={faEnvelope} />

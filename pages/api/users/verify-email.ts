@@ -21,8 +21,6 @@ export default async function handle(
         },
       });
 
-      console.log("EmailVerification:", emailVerification);
-
       if (!emailVerification || emailVerification.email !== email) {
         return res.status(400).json({ error: "Invalid token or email" });
       }
@@ -52,13 +50,9 @@ export default async function handle(
         data: { email: emailVerification.email },
       });
 
-      console.log("Updated User:", updatedUser);
-
       const deletedEmailVerification = await prisma.emailVerification.delete({
         where: { token: token as string },
       });
-
-      console.log("Deleted EmailVerification:", deletedEmailVerification);
 
       return res.status(200).json({ message: "Email updated successfully" });
     } catch (error) {

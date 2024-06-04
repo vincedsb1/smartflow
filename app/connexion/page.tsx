@@ -212,7 +212,7 @@ const ConnexionPage = () => {
             <h2 className="text-4xl font-bold font-quicksand">Bienvenue</h2>
           </div>
         </div>
-        <div className="flex flex-col items-center 3xs:items-center 3xs:w-1/2 h-full justify-center p-8 ">
+        <div className="flex flex-col items-center dark:bg-neutral-800 3xs:items-center 3xs:w-1/2 h-full justify-center p-8">
           <CardAppTitle title="Se connecter" />
           <CardAppText text="Saissisez votre mot de passe" icon={faUnlock} />
           <div id="connexionInputContainer" className="w-full mb-1">

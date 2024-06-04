@@ -88,3 +88,10 @@ model Rule {
   ruleName    String     @db.VarChar(50)
   description String     @db.Text
 }
+
+model WaitingListEmail {
+  id     Int      @id @default(autoincrement())
+  email  String   @unique
+  verify Boolean  @default(false)
+  token  String?
+}
