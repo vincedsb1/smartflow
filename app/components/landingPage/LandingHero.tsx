@@ -43,6 +43,7 @@ const Hero = () => {
             className="bg-cyan-950 dark:bg-cyan-100 text-white w-60 dark:text-cyan-950"
             onClick={handleNavigation}
             size="lg"
+            isDisabled={true}
           >
             <FontAwesomeIcon icon={faRocket} />
             Let&apos;s go

@@ -29,7 +29,7 @@ function CardAppText({ text, icon, iconColor = "normal" }: CardAppTextProps) {
   return (
     <div
       id="cardExplanations"
-      className="bg-white shadow-lg dark:bg-neutral-800 rounded-2xl w-full flex flex-row p-2 m-4"
+      className="bg-white xs:shadow-lg sm:shadow-none  dark:bg-neutral-800 rounded-2xl w-full flex flex-row p-2 m-4"
     >
       {icon && (
         <div
