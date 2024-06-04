@@ -71,7 +71,7 @@ const LoginMethod = () => {
                   className="text-neutral-800 dark:text-neutral-200 text-md"
                 />
               }
-              className="w-80 mx-auto"
+              className="w-80 mx-auto xs:w-60"
             >
               Par email
             </Button>
@@ -95,9 +95,9 @@ const LoginMethod = () => {
             <h2 className="text-4xl font-bold font-text text-cyan-900">Bienvenue</h2>
           </div>
         </div>
-        <div className="flex flex-col items-center dark:bg-neutral-800 w-1/2 h-full justify-center p-8">
+        <div className="flex flex-col items-center dark:bg-neutral-800 w-1/2 h-full justify-center">
           <CardAppTitle title="Connectez-vous" size="big" />
-          <div className="w-2/3">
+          <div className="">
             <Link href="/mailauth">
               <Button
                 color="default"
@@ -109,7 +109,7 @@ const LoginMethod = () => {
                     className="text-neutral-800 dark:text-neutral-200 text-md"
                   />
                 }
-                className="w-full mt-4 max-w-full pr-14 pl-14 mx-auto"
+                className="md:w-52 mt-2"
               >
                 Par email
               </Button>

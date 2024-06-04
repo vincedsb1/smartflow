@@ -79,7 +79,7 @@ const Header: FC = () => {
       </div>
       <div className="flex items-center">
         <div className="mr-2">
-          <Button color="primary" onClick={onOpen} className="px-8" radius="lg">Liste d&apos;attente</Button>
+          <Button color="primary" onClick={onOpen} className="px-8" radius="lg">Rejoignez la liste d&apos;attente</Button>
         </div>
         <ButtonConnexion label="Connexion" />
         <ButtonTheme />
