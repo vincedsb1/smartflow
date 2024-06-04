@@ -171,7 +171,7 @@ const ConnexionPage = () => {
       </div>
 
       {/* Version desktop */}
-      <div id="desktopVersion" className="hidden sm:flex w-2/3 lg:w-1/2 h-3/4 bg-white shadow-lg rounded-2xl flex-row items-start justify-between border-neutral-200 mx-auto my-auto">
+      <div id="desktopVersion" className="hidden sm:flex w-2/3 lg:w-1/2 h-3/4 dark:bg-neutral-800 shadow-lg rounded-2xl flex-row items-start justify-between border-neutral-200 mx-auto my-auto">
         <div className="hidden 3xs:flex w-1/2 h-full relative">
           <Image
             src="/images/entryVisual.svg"

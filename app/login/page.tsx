@@ -82,8 +82,7 @@ const LoginMethod = () => {
       {/* Desktop Version */}
       <div
         id="desktopVersion"
-        className="hidden sm:flex w-2/3 lg:w-1/2 h-1/2 bg-white shadow-lg rounded-2xl flex-row items-start justify-between border-neutral-200 mx-auto my-auto"
-      >
+        className="hidden sm:flex w-2/3 lg:w-1/2 h-1/2 bg-white  shadow-lg rounded-2xl flex-row items-start justify-between border-neutral-200 mx-auto my-auto">
         <div className="flex w-1/2 h-full relative">
           <Image
             src="/images/entryVisual.svg"
@@ -92,11 +91,11 @@ const LoginMethod = () => {
             height={600}
             className="object-cover w-full h-full rounded-tl-2xl rounded-bl-2xl"
           />
-          <div className="absolute top-1/4 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-            <h2 className="text-4xl font-bold font-quicksand text-cyan-900">Bienvenue</h2>
+          <div className="absolute  top-1/4 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+            <h2 className="text-4xl font-bold font-text text-cyan-900">Bienvenue</h2>
           </div>
         </div>
-        <div className="flex flex-col items-center w-1/2 h-full justify-center p-8">
+        <div className="flex flex-col items-center dark:bg-neutral-800 w-1/2 h-full justify-center p-8">
           <CardAppTitle title="Connectez-vous" size="big" />
           <div className="w-2/3">
             <Link href="/mailauth">

@@ -172,7 +172,7 @@ function MethodSteps() {
             <h2 className="text-4xl font-bold font-quicksand text-cyan-900">Bienvenue</h2>
           </div>
         </div>
-        <div className="flex flex-col items-center justify-center w-1/2 h-full p-8 overflow-auto">
+        <div className="flex flex-col items-center justify-center dark:bg-neutral-800 w-1/2 h-full p-8 overflow-auto">
           <div className="w-full max-w-md">
             <CardAppTitle title={step.title} size="big" />
           </div>

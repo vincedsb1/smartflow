@@ -120,7 +120,7 @@ const InscriptionPage = () => {
             <h2 className="text-4xl font-bold font-quicksand text-cyan-900">Bienvenue</h2>
           </div>
         </div>
-        <div className="flex flex-col items-center 3xs:items-center 3xs:w-1/2 h-full justify-center p-8 ">
+        <div className="flex flex-col items-center dark:bg-neutral-800 3xs:items-center 3xs:w-1/2 h-full justify-center p-8 ">
           <CardAppTitle title="Votre profil" />
           <CardAppText text="Quelle est votre date de naissance ?" icon={faBirthdayCake} />
           <div id="registerBirthdayInputContainer" className="w-full">
