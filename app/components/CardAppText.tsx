@@ -1,13 +1,13 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
 
-interface CardAppText {
+interface CardAppTextProps {
   text: string;
   icon?: IconProp;
   iconColor?: "normal" | "confirmation" | "warning" | "error";
 }
 
-function CardAppText({ text, icon, iconColor = "normal" }: CardAppText) {
+function CardAppText({ text, icon, iconColor = "normal" }: CardAppTextProps) {
   let iconColorClass: string;
   switch (iconColor) {
     case "confirmation":
@@ -29,29 +29,29 @@ function CardAppText({ text, icon, iconColor = "normal" }: CardAppText) {
   return (
     <div
       id="cardExplanations"
-      className={`bg-white dark:bg-neutral-800 rounded-2xl w-full flex flex-row py-6`}
+      className="bg-white xs:shadow-lg  sm:shadow-none  dark:bg-neutral-800 rounded-2xl w-full flex flex-row p-2"
     >
       {icon && (
         <div
           id="hintIconMainContainer"
-          className="w-4/20 flex flex-row justify-center align-middle items-center "
+          className="flex justify-center items-center w-1/6 "
         >
           <div
             id="hintIconContainer"
-            className="w-12 h-12 flex items-center justify-center "
+            className="w-12 h-12 flex items-center justify-center"
           >
-            <FontAwesomeIcon icon={icon} className={`${iconColorClass}`} />
+            <FontAwesomeIcon icon={icon} className={iconColorClass} />
           </div>
         </div>
       )}
       <div
         id="cardExplanationsText"
-        className="w-16/20 flex flex-row justify-start align-middle items-center"
+        className={`flex flex-row justify-start items-center ${
+          icon ? "w-5/6" : "w-full"
+        }`}
       >
         <p
-          className={`text-neutral-800 dark:text-neutral-400 font-text font-bold text-xl leading-6 line-clamp-3 ${
-            icon ? "mr-8" : "mx-8"
-          }`}
+          className="text-neutral-800 dark:text-neutral-400 font-text font-bold text-xl leading-6 p-2"
           id="tex-card"
         >
           {text}
@@ -62,5 +62,3 @@ function CardAppText({ text, icon, iconColor = "normal" }: CardAppText) {
 }
 
 export default CardAppText;
-
-// dfqsdlfnqsdl

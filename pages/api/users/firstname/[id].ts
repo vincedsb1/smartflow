@@ -29,7 +29,6 @@ export default function handle(
           if (req.user.userId !== Number(id)) {
             return res.status(403).json({ error: "Unauthorized" });
           }
-          console.log('Received firstname:', firstname);
           const user = await prisma.user.update({
             where: { id: Number(id) },
             data: { firstname },
