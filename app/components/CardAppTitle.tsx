@@ -9,7 +9,7 @@ function CardAppTitle({ title, size = "small" }: CardAppTitle) {
   return (
     <div id="title" className="">
       <h1
-        className={`text-neutral-800 dark:text-neutral-200 font-title font-bold mb-2 ${textSize} overflow-hidden text-overflow-ellipsis whitespace-nowrap`}
+        className={`text-neutral-800 dark:text-neutral-200 font-title font-bold mb-2 ${textSize} overflow-hidden text-overflow-ellipsis `}
       >
         {title}
       </h1>

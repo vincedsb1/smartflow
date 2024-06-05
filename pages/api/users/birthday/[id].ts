@@ -25,7 +25,6 @@ export default function handle(
             return res.status(400).json({ error: "User ID is required" });
           }
 
-          // Vérifiez que l'utilisateur qui fait la requête est le même que celui qui est mis à jour
           if (req.user.userId !== Number(id)) {
             return res.status(403).json({ error: "Unauthorized" });
           }
