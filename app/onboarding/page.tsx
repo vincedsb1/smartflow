@@ -4,7 +4,7 @@ import { UserContext } from "../context/UserContext";
 
 const add = () => {
   return (
-    <div className="flex flex-col justify-between min-h-screen w-full">
+    <div className="flex flex-col justify-between h-screen w-full">
       <MethodSteps />
     </div>
   );

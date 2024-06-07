@@ -1,6 +1,9 @@
 import React, { useState, ChangeEvent } from "react";
+import { Input } from "@nextui-org/react";
+import { EyeFilledIcon } from  '../components/eye/EyeFilledIcon';
+import { EyeSlashFilledIcon }  from "../components/eye/EyeSlashFilledIcon"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEye, faEyeSlash, faCheck } from "@fortawesome/free-solid-svg-icons";
+import { faCheck } from "@fortawesome/free-solid-svg-icons";
 
 interface CardAppPasswordInputProps {
   onChange?: (e: ChangeEvent<HTMLInputElement>) => void;
@@ -54,43 +57,41 @@ const CardAppPasswordInput: React.FC<CardAppPasswordInputProps> = ({
       <div id="title">
         <p className="text-neutral-600 font-semibold mb-2">Mot de passe</p>
       </div>
-      <div id="input" className="relative">
-        <input
+      <div id="input" className="relative w-full max-w-md">
+        <Input
           className="bg-white rounded-2xl p-2 w-full h-12 mb-1 pr-10 relative z-10 text-6xl font-quicksand tracking-widest"
           type={passwordVisible ? "text" : "password"}
+          value={password}
           onChange={handlePasswordChange}
-          name="password"
+          endContent={
+            <button className="focus:outline-none" type="button" onClick={togglePasswordVisibility}>
+              {passwordVisible ? (
+                <EyeSlashFilledIcon className="text-2xl text-default-400 pointer-events-none" />
+              ) : (
+                <EyeFilledIcon className="text-2xl text-default-400 pointer-events-none" />
+              )}
+            </button>
+          }
           style={{
             fontSize: "20px",
             fontFamily: "Quicksand",
             letterSpacing: "0.1em",
           }}
         />
-        <div
-          className="absolute right-0 pr-3 flex items-center text-gray-500 cursor-pointer"
-          onClick={togglePasswordVisibility}
-          style={{ marginTop: "-2rem", zIndex: 10 }}
-        >
-          {passwordVisible ? (
-            <FontAwesomeIcon icon={faEyeSlash} />
-          ) : (
-            <FontAwesomeIcon icon={faEye} />
-          )}
-        </div>
         {!hasStartedTyping && showForgotPassword && (
-          <div className="flex justify-end text-cyan-500 font-semibold">
+          <div className="flex justify-end text-cyan-500 font-semibold mt-2">
             <p className="cursor-pointer">Mot de passe oublié ?</p>
           </div>
         )}
       </div>
-      <div className="mt-2">
+      <div className="mt-2 w-full max-w-md">
         {passwordCriteria.map((criteria, index) => (
           <div key={index} className="flex items-center">
-            <div className="pr-2">
+            <div className="pr-2 w-6 h-6">
               {criteria.validate(password) ? (
-                <FontAwesomeIcon icon={faCheck} className="text-green-500" />
+                <FontAwesomeIcon icon={faCheck} className="text-green-500 w-full h-full" />
               ) : (
-                <div style={{ width: '1em', height: '1.5em' }}></div>
+                <div className="w-full h-full"></div>
               )}
             </div>
             <p className={`text-sm ${criteria.validate(password) ? "text-green-500" : ""}`}>
@@ -99,8 +100,8 @@ const CardAppPasswordInput: React.FC<CardAppPasswordInputProps> = ({
           </div>
         ))}
       </div>
-      <div className="">
-        {hasStartedTyping && (
+      <div className="w-full max-w-md">
+        {hasStartedTyping && errorMessage && (
           <p className="text-red-500 text-sm font-inter mx-2">{errorMessage}</p>
         )}
       </div>
