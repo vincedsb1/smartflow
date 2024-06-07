@@ -92,12 +92,12 @@ const InscriptionPage = () => {
         id="chevronContainer"
         className="sm:hidden absolute top-12 left-0 flex flex-row justify-start items-center h-16 w-full p-4"
       >
-    <Link href="/">
-      <FontAwesomeIcon
-        icon={faChevronLeft}
-        className="text-neutral-800 dark:text-neutral-200 text-xs w-4 h-4 m-5 cursor-pointer"
-      />
-    </Link>
+        <Link href="/">
+          <FontAwesomeIcon
+            icon={faChevronLeft}
+            className="text-neutral-800 dark:text-neutral-200 text-xs w-4 h-4 m-5 cursor-pointer"
+          />
+        </Link>
       </div>
       <div
         id="logoContainer"
@@ -108,7 +108,7 @@ const InscriptionPage = () => {
       {/* Mobile */}
       <div id="mobileVersion" className="flex flex-col items-center justify-center w-full sm:hidden h-screen">
         <div className="flex flex-col items-center justify-center h-full">
-          <div className="flex flex-col items-center justify-center w-full p-4">
+          <div className="w-4/5 m-8 3xs:m-4 xs:mt-20">
             <CardAppTitle title="Votre profil" />
           </div>
           <div className=" w-80 m-8">
@@ -136,7 +136,7 @@ const InscriptionPage = () => {
               color="primary"
               variant="solid"
               size="lg"
-              className="w-80 font-bold font-text"
+              className="w-full mt-4 3xs:mt-0 sm:h-full 2xs:mt-56 font-bold"
               onClick={handleContinue}
             >
               Suivant
@@ -145,7 +145,7 @@ const InscriptionPage = () => {
         </div>
       </div>
       {/* Version desktop */}
-      <div id="desktopVersion" className="hidden sm:flex w-2/3 lg:w-1/2 h-3/4 bg-white shadow-lg rounded-2xl flex-row items-start justify-between border-neutral-200 mx-auto my-auto">
+      <div id="desktopVersion" className="hidden sm:flex w-16/20 lg:w-16/20 h-3/4 bg-white shadow-lg rounded-2xl flex-row items-start justify-between border-neutral-200 mx-auto my-auto">
         <div className="flex w-1/2 h-full relative">
           <Image
             src="/images/entryVisual.svg"
@@ -158,7 +158,7 @@ const InscriptionPage = () => {
             <h2 className="text-4xl font-bold font-quicksand text-cyan-900">Bienvenue</h2>
           </div>
         </div>
-        <div className="flex flex-col items-center dark:bg-neutral-800 3xs:items-center 3xs:w-1/2 h-full justify-center p-8 ">
+        <div className="flex flex-col items-center dark:bg-neutral-800 3xs:items-center 3xs:w-1/2 h-full justify-center p-8 dark:rounded-tr-2xl dark:rounded-br-2xl">
           <CardAppTitle title="Votre profil" />
           <CardAppText
             text="Quel est votre prénom ?"

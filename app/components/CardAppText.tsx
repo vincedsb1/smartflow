@@ -44,19 +44,17 @@ function CardAppText({ text, icon, iconColor = "normal" }: CardAppTextProps) {
           </div>
         </div>
       )}
-      <div
-        id="cardExplanationsText"
-        className={`flex flex-row justify-start items-center ${
-          icon ? "w-5/6" : "w-full"
-        }`}
-      >
-        <p
-          className="text-neutral-800 dark:text-neutral-400 font-text font-bold text-xl leading-6 p-2"
-          id="tex-card"
-        >
-          {text}
-        </p>
-      </div>
+<div
+  id="cardExplanationsText"
+  className={`flex flex-row justify-start items-center ml-4 ${icon ? "w-5/6" : "w-full"}`}
+>
+  <p
+    className="text-neutral-800 dark:text-neutral-400 font-text font-bold text-xl leading-6 p-2"
+    id="tex-card"
+  >
+    {text}
+  </p>
+</div>
     </div>
   );
 }
