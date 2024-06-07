@@ -92,12 +92,12 @@ const MailAuth = () => {
       {/* Mobile Version */}
       <div id="mobileVersion" className="flex flex-col items-center justify-center w-full sm:hidden h-screen mt-36">
         <div className="flex flex-col items-center justify-center h-full">
-          <div className="flex flex-col items-center justify-center w-full p-4">
+          <div className="flex flex-col items-start justify-center w-full p-4">
             <CardAppTitle title="Se connecter / S'inscrire" size="big" />
             <div className="w-80 mb-10">
               <CardAppText text="Commencez par saisir votre email" icon={faEnvelope} />
             </div>
-            <form onSubmit={handleSubmit} className="flex flex-col items-center w-full mt-4">
+            <form onSubmit={handleSubmit} className="flex flex-col items-center w-full mt-4 3xs:mt-0">
               <Input
                 value={email || ""}
                 onChange={handleChangeEmail}
@@ -106,7 +106,7 @@ const MailAuth = () => {
                 type="email"
                 label="Email"
                 radius="lg"
-                className="w-80 mb-60 mt-16 font-text"
+                className="w-80 mb-60 mt-16 3xs:mt-0 font-text"
               />
               <div className="mt-18">
                 <Button
@@ -114,7 +114,7 @@ const MailAuth = () => {
                   color="primary"
                   variant="solid"
                   size="lg"
-                  className="w-80 font-bold font-text"
+                  className="w-80 font-bold font-text "
                   onClick={handleClick}
                   disabled={!isEmailValid}
                 >
@@ -126,7 +126,7 @@ const MailAuth = () => {
         </div>
       </div>
       {/* Desktop Version */}
-      <div id="desktopVersion" className="hidden sm:flex w-2/3 lg:w-1/2 h-3/4 bg-white shadow-lg rounded-2xl flex-row items-start justify-between border-neutral-200 mx-auto my-auto">
+      <div id="desktopVersion" className="hidden sm:flex w-16/20 lg:w-16/20 h-3/4 bg-white shadow-lg rounded-2xl flex-row items-start justify-between border-neutral-200 mx-auto my-auto">
         <div className="flex w-1/2 h-full relative">
           <Image
             src="/images/entryVisual.svg"
@@ -139,12 +139,12 @@ const MailAuth = () => {
             <h2 className="text-4xl font-bold font-quicksand text-cyan-900">Bienvenue</h2>
           </div>
         </div>
-        <div className="flex flex-col items-center dark:bg-neutral-800 w-1/2 h-full justify-center p-8">
-          <div className="w-full ">
+        <div className="flex flex-col items-center dark:bg-neutral-800 w-1/2 h-full justify-between p-8 dark:rounded-tr-2xl dark:rounded-br-2xl">
+          <div className="flex flex-col items-start w-full mt-12">
             <CardAppTitle title="Se connecter / S'inscrire" size="big" />
+            <CardAppText text="Commencez par saisir votre email" icon={faEnvelope} />
           </div>
-          <CardAppText text="Commencez par saisir votre email" icon={faEnvelope} />
-          <form onSubmit={handleSubmit} className="flex flex-col justify-between items-center w-full">
+          <form onSubmit={handleSubmit} className="flex flex-col justify-between items-center w-full mb-4">
             <Input
               value={email || ""}
               onChange={handleChangeEmail}
