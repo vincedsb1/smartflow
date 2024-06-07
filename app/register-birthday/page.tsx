@@ -107,7 +107,7 @@ const InscriptionPage = () => {
         </div>
       </div>
       {/* Version desktop */}
-      <div id="desktopVersion" className="hidden sm:flex w-2/3 lg:w-1/2 h-3/4 bg-white shadow-lg rounded-2xl flex-row items-start justify-between border-neutral-200 mx-auto my-auto">
+      <div id="desktopVersion" className="hidden sm:flex w-16/20 lg:w-16/20 h-3/4 bg-white shadow-lg rounded-2xl flex-row items-start justify-between border-neutral-200 mx-auto my-auto">
         <div className="hidden 3xs:flex w-1/2 h-full relative">
           <Image
             src="/images/entryVisual.svg"
@@ -117,10 +117,10 @@ const InscriptionPage = () => {
             className="object-cover w-full h-full rounded-tl-2xl rounded-bl-2xl"
           />
           <div className="absolute top-1/4 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-            <h2 className="text-4xl font-bold font-quicksand text-cyan-900">Bienvenue</h2>
+          <h2 className="text-4xl font-bold font-quicksand text-cyan-900">Bienvenue</h2>
           </div>
         </div>
-        <div className="flex flex-col items-center dark:bg-neutral-800 3xs:items-center 3xs:w-1/2 h-full justify-center p-8 ">
+        <div className="flex flex-col items-center dark:bg-neutral-800 3xs:items-center 3xs:w-1/2 h-full justify-center p-8 dark:rounded-tr-2xl dark:rounded-br-2xl">
           <CardAppTitle title="Votre profil" />
           <CardAppText text="Quelle est votre date de naissance ?" icon={faBirthdayCake} />
           <div id="registerBirthdayInputContainer" className="w-full">

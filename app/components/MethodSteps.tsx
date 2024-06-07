@@ -131,7 +131,7 @@ function MethodSteps() {
       {/* Mobile */}
       <div id="mobileVersion" className="flex flex-col items-center justify-center w-full md:hidden">
         <div className="w-full max-w-xs m-4 xs:m-0 2xs:mt-4 sm:mt-1">
-          <CardAppTitle title={step.title} />
+          <CardAppTitle title={step.title} size="big" />
         </div>
         <div className="w-full max-w-xs m-4 flex items-center justify-center xs:m-0 2xs:mt-4 sm:mt-1">
           <CardAppText text={step.text} />
