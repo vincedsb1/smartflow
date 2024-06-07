@@ -171,7 +171,7 @@ const ConnexionPage = () => {
       </div>
 
       {/* Version desktop */}
-      <div id="desktopVersion" className="hidden sm:flex w-2/3 lg:w-1/2 h-3/4 dark:bg-neutral-800 shadow-lg rounded-2xl flex-row items-start justify-between bg-white border-neutral-200 mx-auto my-auto overflow-y-auto 3xs:h-auto xs:h-auto sm:h-auto md:mb-4 sm:mb-4">
+      <div id="desktopVersion" className="hidden sm:flex w-16/20 lg:w-16/20 h-3/4 bg-white shadow-lg rounded-2xl flex-row items-start justify-between border-neutral-200 mx-auto my-auto">
         <div className="hidden 3xs:flex w-1/2 h-full relative ">
           <Image
             src="/images/entryVisual.svg"
@@ -184,11 +184,11 @@ const ConnexionPage = () => {
             <h2 className="text-4xl font-bold font-quicksand text-cyan-900">Bienvenue</h2>
           </div>
         </div>
-        <div className="flex flex-col items-center justify-center w-1/2 h-full p-8 overflow-auto ">
+        <div className="flex flex-col items-center dark:bg-neutral-800 justify-center w-1/2 h-full p-8 overflow-auto dark:rounded-tr-2xl dark:rounded-br-2xl">
           <div className="w-full max-w-md ">
             <CardAppTitle title="Votre profil" />
           </div>
-          <div className="w-full max-w-md mt-4 ">
+          <div className="w-full max-w-md mt-4 lg:mt-2">
             <CardAppText
               text="Choissisez un mot de passe"
               icon={faUser}
