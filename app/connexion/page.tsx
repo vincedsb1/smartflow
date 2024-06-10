@@ -7,16 +7,13 @@ import CardAppText from "../components/CardAppText";
 import { UserContext } from "../context/UserContext";
 import { Button } from "@nextui-org/react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faChevronLeft } from "@fortawesome/free-solid-svg-icons";
-import { faUnlock } from "@fortawesome/free-solid-svg-icons";
-import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
+import { faChevronLeft, faUnlock, faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import { Input } from "@nextui-org/react";
 import Image from "next/image";
 import { useTheme } from "next-themes";
 
-
 const ConnexionPage = () => {
-  const [isVisible, setIsVisible] = React.useState(false);
+  const [isVisible, setIsVisible] = useState(false);
   const { theme } = useTheme();
   const logo = theme === "dark" ? "/logo-dark.svg" : "/logo-light.svg";
 
@@ -28,8 +25,7 @@ const ConnexionPage = () => {
     throw new Error("UserContext must be used within a UserContextProvider");
   }
 
-  const { email, firstname, birthday, setUser, onBoarding, setOnBoarding } =
-    userContext;
+  const { email, firstname, birthday, setUser, onBoarding, setOnBoarding } = userContext;
   const [password, setPassword] = useState("");
   const [displayMessage, setDisplayMessage] = useState("");
   const message = "Le mot de passe est incorrect, veuillez réessayer.";
@@ -64,7 +60,7 @@ const ConnexionPage = () => {
         if (data.status === "ok") {
           console.log("Token received from API (Page connexion):", data.token);
           userContext.setToken(data.token);
-          console.log("Token set in userContext"); // Log after setting the token in userContext
+          console.log("Token set in userContext");
 
           const userResponse = await fetch("/api/users/details", {
             headers: {
@@ -74,22 +70,17 @@ const ConnexionPage = () => {
 
           if (userResponse.ok) {
             const userData = await userResponse.json();
-            console.log("User data received from API:", userData); // Log the user data
+            console.log("User data received from API:", userData);
             userContext.setUser({
               firstname: userData.firstname,
               email: userData.email,
               birthday: userData.birthday,
-            }); // Set user data in the context
+            });
             console.log("User set in userContext:", userData);
             console.log("User id:", userData.id);
           }
-          // Log the value of data.onBoarding
           console.log("Value of data.onBoarding:", data.onBoarding);
-
-          // Set onBoarding state
           setOnBoarding(data.onBoarding);
-
-          // Redirect user based on onBoarding state
           if (data.onBoarding) {
             router.push("/today");
             console.log("Redirected to /today");
@@ -107,15 +98,19 @@ const ConnexionPage = () => {
     }
   };
 
+  const handleBack = () => {
+    router.back();
+  };
+
   return (
     <div
       id="mailAuthMainContainer"
-      className="flex flex-col items-center justify-center 3xs:justify-start w-full h-screen min-h-screen"
+      className="flex flex-col items-center justify-center w-full h-screen min-h-screen"
     >
-      {/* Mobile */}
+      {/* Desktop */}
       <div
-        id="mailAuthLogoContainer"
-        className="hidden 3xs:flex flex-row justify-start items-center h-16 w-full relative p-4"
+        id="logoContainer"
+        className="sm:flex hidden flex-row justify-start items-center h-16 w-full relative p-4"
       >
         <Image
           src={logo}
@@ -125,41 +120,33 @@ const ConnexionPage = () => {
           priority={true}
         />
       </div>
+      {/* Mobile */}
       <div
-        id="mailAuthTitleHintContainer"
-        className="flex flex-col items-center justify-center w-full 3xs:hidden"
+        id="chevronContainer"
+        className="sm:hidden flex flex-row justify-start items-center h-16 w-full relative p-4"
       >
-        <div className="flex flex-row justify-center items-center h-16 w-full relative p-4 mb-44">
-          <Image
-            src={logo}
-            alt="logo"
-            width={200}
-            height={40}
-            priority={true}
-          />
-        </div>
-        <div className="flex flex-col items-center justify-center">
-            <div className="w-16/20 m-8">
-              <CardAppTitle title="Se connecter" />
+        <FontAwesomeIcon icon={faChevronLeft} onClick={handleBack} />
+      </div>
+      {/* Mobile Version */}
+      <div id="mobileVersion" className="flex flex-col items-center justify-center w-full sm:hidden h-screen mt-36 3xs:m-0">
+        <div className="flex flex-col items-center justify-center h-full ">
+          <div className="flex flex-col items-start justify-center w-full p-4 ">
+            <CardAppTitle title="Se connecter" size="big" />
+            <div className="w-80 mb-10">
+              <CardAppText text="Saisissez votre mot de passe" icon={faUnlock} />
             </div>
-            <div className="w-16/20 m-8">
-              <CardAppText text="Saissisez votre mot de passe" icon={faUnlock} />
-            </div>
-            <div id="connexionInputContainer" className="w-16/20 m-8">
+            <form onSubmit={handlePasswordCheck} className="flex flex-col items-center w-full mt-4">
               <Input
-                size="md"
-                className="font-text"
-                radius="lg"
-                type={isVisible ? "text" : "password"}
-                label="Mot de passe"
                 value={password}
                 onChange={handlePasswordChange}
+                isRequired
+                size="md"
+                type={isVisible ? "text" : "password"}
+                label="Mot de passe"
+                radius="lg"
+                className="w-80 mb-60 mt-16 font-text"
                 endContent={
-                  <button
-                    className="focus:outline-none"
-                    type="button"
-                    onClick={toggleVisibility}
-                  >
+                  <button className="focus:outline-none" type="button" onClick={toggleVisibility}>
                     {isVisible ? (
                       <FontAwesomeIcon
                         icon={faEyeSlash}
@@ -174,57 +161,54 @@ const ConnexionPage = () => {
                   </button>
                 }
               />
-            </div>
-            <div className="flex justify-center">
-              <Button
-                type="submit"
-                color="primary"
-                variant="solid"
-                size="lg"
-                className="w-80 font-bold font-text"
-                onClick={handlePasswordCheck}
-                isDisabled={password === ""}
-              >
-                Suivant
-              </Button>
-            </div>
+              <div className="mt-18 3xs:mb-16">
+                <Button
+                  type="submit"
+                  color="primary"
+                  variant="solid"
+                  size="lg"
+                  className="w-80 font-bold font-text"
+                  onClick={handlePasswordCheck}
+                  disabled={password === ""}
+                >
+                  Suivant
+                </Button>
+              </div>
+            </form>
+          </div>
         </div>
       </div>
-      {/* Desktop */}
-      <div
-        id="mailAuthTitleHintContainerDesktop"
-        className="hidden 3xs:flex flex-col items-center w-2/3 lg:w-1/2 h-1/2 bg-white shadow-lg rounded-2xl  3xs:flex-row 3xs:items-start 3xs:justify-between border-neutral-200 border-3  mx-auto my-auto"
-      >
-        <div className="hidden 3xs:flex w-1/2 h-full relative">
+      {/* Desktop Version */}
+      <div id="desktopVersion" className="hidden sm:flex w-16/20 lg:w- h-3/4 bg-white shadow-lg rounded-2xl flex-row items-start justify-between border-neutral-200 mx-auto my-auto">
+        <div className="flex w-1/2 h-full relative">
           <Image
             src="/images/entryVisual.svg"
             alt="Entry Visual"
             width={400}
             height={600}
-            className="object-cover w-full h-full rounded-2xl"
+            className="object-cover w-full h-full rounded-tl-2xl rounded-bl-2xl"
           />
           <div className="absolute top-1/4 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-            <h2 className="text-4xl font-bold font-quicksand">Bienvenue</h2>
+            <h2 className="text-4xl font-bold font-quicksand text-cyan-900">Bienvenue</h2>
           </div>
         </div>
-        <div className="flex flex-col items-center 3xs:items-center 3xs:w-1/2 h-full justify-center p-8 ">
-          <CardAppTitle title="Se connecter" />
-          <CardAppText text="Saissisez votre mot de passe" icon={faUnlock} />
-          <div id="connexionInputContainer" className="w-full mb-1">
+        <div className="flex flex-col items-center dark:bg-neutral-800 w-1/2 h-full justify-between p-8 dark:rounded-tr-2xl dark:rounded-br-2xl">
+          <div className="flex flex-col items-center w-full mt-12">
+            <CardAppTitle title="Se connecter" size="big" />
+            <CardAppText text="Saisissez votre mot de passe" icon={faUnlock} />
+          </div>
+          <form onSubmit={handlePasswordCheck} className="flex flex-col justify-between items-center w-full mb-4">
             <Input
-              size="md"
-              className="font-text"
-              radius="lg"
-              type={isVisible ? "text" : "password"}
-              label="Mot de passe"
               value={password}
               onChange={handlePasswordChange}
+              isRequired
+              size="md"
+              type={isVisible ? "text" : "password"}
+              label="Mot de passe"
+              radius="lg"
+              className="w-full mb-4 font-text"
               endContent={
-                <button
-                  className="focus:outline-none"
-                  type="button"
-                  onClick={toggleVisibility}
-                >
+                <button className="focus:outline-none" type="button" onClick={toggleVisibility}>
                   {isVisible ? (
                     <FontAwesomeIcon
                       icon={faEyeSlash}
@@ -239,17 +223,18 @@ const ConnexionPage = () => {
                 </button>
               }
             />
-          </div>
-          <Button
-            color="default"
-            variant="solid"
-            size="lg"
-            className="w-full mt-4 max-w-full pr-14 pl-14"
-            onClick={handlePasswordCheck}
-            isDisabled={password === ""}
-          >
-            Suivant
-          </Button>
+            <Button
+              type="submit"
+              color="default"
+              variant="solid"
+              size="lg"
+              className="w-full max-w-full pr-14 pl-14 font-bold font-text"
+              onClick={handlePasswordCheck}
+              disabled={password === ""}
+            >
+              Suivant
+            </Button>
+          </form>
         </div>
       </div>
     </div>

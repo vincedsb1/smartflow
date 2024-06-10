@@ -13,7 +13,6 @@ const VerifyEmail = () => {
 
         const verifyEmail = async () => {
             try {
-                // Vérifiez le token et l'email
                 const response = await fetch(`/api/users/verify-email?token=${token}&email=${email}`);
                 const data = await response.json();
                 if (data.error) {

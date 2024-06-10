@@ -3,10 +3,10 @@ import { Resend } from "resend";
 import type { NextApiRequest, NextApiResponse } from "next";
 import { v4 as uuidv4 } from "uuid";
 import * as ReactDOMServer from "react-dom/server";
-import dynamic from 'next/dynamic';
+import dynamic from "next/dynamic";
 import React from "react";
 
-import VerificationMail from '../../../emails/verificationMail';
+import VerificationMail from "../../../emails/verificationMail";
 
 // vérification de l'email par rapport au token
 
@@ -58,7 +58,7 @@ export default async function handler(
 
         await resend.emails.send({
           from: "onboarding@resend.dev",
-          to: "thibaut.mosteau@lilo.org",
+          to: "vincedsb@gmail.com",
           subject: "Hello World",
           html: emailContent,
         });

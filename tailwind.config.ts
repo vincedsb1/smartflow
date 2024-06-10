@@ -99,6 +99,9 @@ const config: Config = {
         "2xs": "390px",
         "3xs": "480px",
       },
+      transitionProperty: {
+        "font-weight": "font-weight",
+      },
     },
   },
   plugins: [nextui()],

@@ -11,6 +11,7 @@ import { Button } from "@nextui-org/react";
 import { Link } from "@nextui-org/react";
 import { useUser } from "../context/UserContext";
 import Image from "next/image";
+import { useTheme } from "next-themes";
 
 const steps = [
   {
@@ -44,6 +45,8 @@ function MethodSteps() {
   const [currentStep, setCurrentStep] = useState(0);
   const { user, setOnBoarding } = useUser();
   const router = useRouter();
+  const { theme } = useTheme();
+  const logo = theme === "dark" ? "/logo-dark.svg" : "/logo-light.svg";
 
   const finishOnboarding = async () => {
     console.log("Finishing onboarding for user:", user);
@@ -100,75 +103,84 @@ function MethodSteps() {
     }
   };
 
+  const handleBack = () => {
+    router.back();
+  };
+
   return (
-    <div className="flex flex-col items-center justify-center w-full h-screen min-h-screen">
-      {/* Version mobile */}
+    <div
+      id="mailAuthMainContainer"
+      className="flex flex-col items-center justify-center w-full h-screen min-h-screen p-4 xs:h-full sm:m-0 sm:p-0"
+    >
       <div
-        id="methodStepsMobile"
-        className="flex flex-col items-center justify-center w-full lg:hidden"
+        id="chevronContainer"
+        className="md:hidden absolute top-12 left-0 flex flex-row justify-start items-center h-16 w-full p-4"
       >
-        <div className="w-full flex justify-between items-center mt-16 p-4">
-          <Link href="/welcome">
-            <FontAwesomeIcon
-              icon={faChevronLeft}
-              onClick={prevStep}
-              className="text-neutral-800 dark:text-neutral-200 text-xs w-4 h-4"
-            />
-          </Link>
+        <FontAwesomeIcon
+          icon={faChevronLeft}
+          className="text-neutral-800 dark:text-neutral-200 text-xs w-4 h-4 m-5"
+          onClick={handleBack}
+        />
+      </div>
+      <div
+        id="logoContainer"
+        className="hidden md:flex flex-row justify-start items-center h-16 w-full relative p-4"
+      >
+        <Image src={logo} alt="logo" width={151} height={38} priority={true} />
+      </div>
+      {/* Mobile */}
+      <div id="mobileVersion" className="flex flex-col items-center justify-center w-full md:hidden">
+        <div className="w-full max-w-xs m-4 xs:m-0 2xs:mt-4 sm:mt-1">
+          <CardAppTitle title={step.title} size="big" />
         </div>
-        <div className="w-16/20 m-8">
-          <CardAppTitle title={step.title} />
-        </div>
-        <div className="w-16/20 m-8 flex items-center justify-center">
+        <div className="w-full max-w-xs m-4 flex items-center justify-center xs:m-0 2xs:mt-4 sm:mt-1">
           <CardAppText text={step.text} />
         </div>
-        <div className="w-16/20 m-8">
+        <div className="w-full max-w-xs m-4 2xs:mt-4 sm:mt-1">
           <CardAppImage src={step.image} alt={step.title} />
         </div>
-        <div className="w-16/20 m-8 flex flex-col items-center">
-          <Stepper currentStep={currentStep} numberOfSteps={steps.length} />
+        <div className="w-full max-w-xs m-4 flex flex-col items-center xs:m-2 2xs:mt-4 sm:mt-1">
+          <div className="flex items-center justify-center">
+            <Stepper currentStep={currentStep} numberOfSteps={steps.length} />
+          </div>
         </div>
-        <div className="w-16/20 m-8">
+        <div className="w-full max-w-xs m-4 xs:m-0 2xs:mt-4 sm:mt-1">
           <Button
             onClick={nextStep}
             type="submit"
             color="primary"
             variant="solid"
             size="lg"
-            className="w-full font-bold"
+            className="w-full font-bold 2xs:mt-4"
           >
             {buttonText()}
           </Button>
         </div>
       </div>
       {/* Version desktop */}
-      <div
-        id="methodStepsDesktop"
-        className="hidden lg:flex flex-col lg:flex-row items-center justify-center w-2/3 lg:w-1/2 h-2/3 bg-white shadow-lg rounded-2xl border-neutral-200 border-3 mx-auto my-auto"
-      >
-        <div className="w-1/2 h-full relative">
-          <Image
-            src="/images/entryVisual.svg"
-            alt="Entry Visual"
-            width={400}
-            height={600}
-            className="object-cover w-full h-full rounded-2xl"
-          />
-        </div>
-        <div className="flex flex-col items-center 3xs:items-center 3xs:w-1/2 h-full justify-center p-8  ">
+      <div id="desktopVersion" className="hidden md:flex flex-col items-center justify-center w-3/4 lg:w-2/3 h-3/4 bg-white shadow-lg rounded-2xl border-neutral-200 mx-auto my-auto p-4 overflow-auto">
+        <div className="w-full max-w-md mb-2 md:mb-0 flex justify-center">
           <CardAppTitle title={step.title} size="big" />
+        </div>
+        <div className="w-full mt-2 md:mt-0 max-w-md">
           <CardAppText text={step.text} />
-          <div className="p-4">
-            <CardAppImage src={step.image} alt={step.title} />
+        </div>
+        <div className="w-full mt-2 md:mt-0 max-w-md">
+          <CardAppImage src={step.image} alt={step.title} />
+        </div>
+        <div className="w-full mt-2 max-w-md md:mt-0">
+          <div className="flex items-center justify-center mt-4 mb-4">
+            <Stepper currentStep={currentStep} numberOfSteps={steps.length} />
           </div>
-          <Stepper currentStep={currentStep} numberOfSteps={steps.length} />
+        </div>
+        <div className="w-full mt-2 max-w-md">
           <Button
             onClick={nextStep}
             type="submit"
             color="default"
             variant="solid"
             size="lg"
-            className="w-full mt-4 max-w-full pr-14 pl-14"
+            className="w-full font-bold pr-14 pl-14"
           >
             {buttonText()}
           </Button>
