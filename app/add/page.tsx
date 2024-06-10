@@ -9,37 +9,57 @@ import { faChevronLeft } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useRouter } from "next/navigation";
 import { UserContext } from "../context/UserContext";
+import DesktopMenu from "../components/DesktopMenu";
 
-const CardCreation = () => {
+// Définir des constantes pour les étapes
+const STEP_TITLE = 1;
+const STEP_CATEGORY = 2;
+const STEP_CONTENT = 3;
+const STEP_CONFIRMATION = 4;
+
+const CardCreation: React.FC = () => {
   const userContext = useContext(UserContext);
-  const [step, setStep] = useState(1);
+  const router = useRouter();
+  const [step, setStep] = useState(STEP_TITLE);
   const [cardId, setCardId] = useState<number | null>(null);
-
-  const handleCategoryChange = (id: number) => {
-    setSelectedCategoryId(id);
-  };
-
   const [cardTitle, setCardTitle] = useState("");
   const [selectedCategoryId, setSelectedCategoryId] = useState<number | null>(
     null
   );
-
   const [content, setContent] = useState("");
+
   useEffect(() => {
-    if (step === 3) {
-      // Change this line
+    if (step === STEP_CONTENT) {
       console.log("Titre de la carte : ", cardTitle);
       console.log("ID de la catégorie sélectionnée : ", selectedCategoryId);
     }
-  }, [step, content, cardTitle, selectedCategoryId]);
+  }, [step, cardTitle, selectedCategoryId]);
 
   useEffect(() => {
-    if (step === 4) {
+    if (step === STEP_CONFIRMATION) {
       console.log("Contenu de la carte : ", content);
     }
-  }, [step, content, cardTitle, selectedCategoryId]);
+  }, [step, content]);
 
-  const router = useRouter();
+  const handleBackClick = () => {
+    if (step > STEP_TITLE) {
+      switch (step) {
+        case STEP_CATEGORY:
+          setCardTitle("");
+          break;
+        case STEP_CONTENT:
+          setSelectedCategoryId(null);
+          setContent("");
+          break;
+        case STEP_CONFIRMATION:
+          setContent("");
+          break;
+        default:
+          break;
+      }
+      setStep((prevStep) => prevStep - 1);
+    }
+  };
 
   const handleContinueClick = () => {
     const titleRegex = /^[\w\s\p{P}\p{S}]*$/u;
@@ -49,7 +69,7 @@ const CardCreation = () => {
       );
       return;
     }
-    if (step === 3) {
+    if (step === STEP_CONTENT) {
       const token = localStorage.getItem("token");
       fetch("/api/cards/create", {
         method: "POST",
@@ -72,7 +92,7 @@ const CardCreation = () => {
           console.error("Error:", error);
         });
     }
-    if (step < 4) {
+    if (step < STEP_CONFIRMATION) {
       setStep(step + 1);
     } else {
       const nbCard = (userContext?.NbCardsToReview ?? 0) + 1;
@@ -81,74 +101,70 @@ const CardCreation = () => {
   };
 
   return (
-    <div
-      id="addMainContainer"
-      className="flex flex-col justify-between min-h-screen w-full"
-    >
-      <div
-        id="addTopContainer"
-        className="flex flex-col justify-center w-full "
-      >
-        <div id="birthdayBackIcon" className="w-full flex flex-col mt-16">
-          <button
-            type="button"
-            onClick={() => {
-              if (step > 1) {
-                switch (step) {
-                  case 2:
-                    setCardTitle("");
-                    break;
-                  case 3:
-                    setSelectedCategoryId(null);
-                    setContent("");
-                    break;
-                  case 4:
-                    setContent("");
-                    break;
-                  default:
-                    break;
-                }
-
-                setStep((prevStep) => prevStep - 1);
-              }
-            }}
-            className="text-neutral-800 dark:text-neutral-200 text-xs w-4 h-4 m-5"
+    <div className="flex flex-row justify-center items-center">
+      <div className="w-full sm:max-w-[1170px]  bg-neutral-200 sm:shadow-2xl sm:shadow-neutral-200 flex flex-row ">
+        <div className="hidden sm:block">
+          <DesktopMenu />
+        </div>
+        <div className="flex flex-row justify-center  w-full">
+          <div
+            id="addMainContainer"
+            className="flex flex-col justify-between min-h-screen w-full"
           >
-            {step > 1 && <FontAwesomeIcon icon={faChevronLeft} />}
-          </button>
+            <div
+              id="addTopContainer"
+              className="flex flex-col justify-center w-full"
+            >
+              <div id="birthdayBackIcon" className="w-full flex flex-col mt-16">
+                <button
+                  type="button"
+                  onClick={handleBackClick}
+                  className="text-neutral-800 dark:text-neutral-200 text-xs w-4 h-4 m-5"
+                >
+                  {step > STEP_TITLE && (
+                    <FontAwesomeIcon icon={faChevronLeft} />
+                  )}
+                </button>
+              </div>
+              <div id="addContentContainer">
+                {step === STEP_TITLE && (
+                  <TitleCreation onTitleChange={setCardTitle} />
+                )}
+                {step === STEP_CATEGORY && (
+                  <CategorySelection onCategoryChange={setSelectedCategoryId} />
+                )}
+                {step === STEP_CONTENT && (
+                  <ContentInput onContentChange={setContent} />
+                )}
+                {step === STEP_CONFIRMATION && <ConfirmationScreen />}
+              </div>
+            </div>
+            <div
+              id="addBottomContainer"
+              className="flex justify-center items-center w-full mb-32"
+            >
+              <Button
+                type="submit"
+                color="primary"
+                isDisabled={
+                  cardTitle === "" ||
+                  (step === STEP_CONTENT &&
+                    (content === "" || cardTitle === ""))
+                }
+                variant="solid"
+                size="lg"
+                className="w-18/20 font-bold font-text"
+                onClick={handleContinueClick}
+              >
+                {step === STEP_CATEGORY && selectedCategoryId === null
+                  ? "Continuer sans catégorie"
+                  : step < STEP_CONFIRMATION
+                  ? "Continuer"
+                  : "Voir la fiche"}
+              </Button>
+            </div>
+          </div>
         </div>
-        <div id="addContentContainer">
-          {step === 1 && <TitleCreation onTitleChange={setCardTitle} />}
-          {step === 2 && (
-            <CategorySelection onCategoryChange={handleCategoryChange} />
-          )}
-          {step === 3 && <ContentInput onContentChange={setContent} />}
-          {step === 4 && <ConfirmationScreen />}
-        </div>
-      </div>
-
-      <div
-        id="addBottomContainer"
-        className="flex justify-center items-center w-full mb-32 "
-      >
-        <Button
-          type="submit"
-          color="primary"
-          isDisabled={
-            cardTitle === "" ||
-            (step === 3 && (content === "" || cardTitle === ""))
-          }
-          variant="solid"
-          size="lg"
-          className="w-18/20 font-bold font-text"
-          onClick={handleContinueClick}
-        >
-          {step === 2 && selectedCategoryId === null
-            ? "Continuer sans catégorie"
-            : step < 4
-              ? "Continuer"
-              : "Voir la fiche"}
-        </Button>
       </div>
     </div>
   );
