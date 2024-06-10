@@ -185,16 +185,16 @@ const ConnexionPage = () => {
           </div>
         </div>
         <div className="flex flex-col items-center dark:bg-neutral-800 justify-center w-1/2 h-full p-8 overflow-auto dark:rounded-tr-2xl dark:rounded-br-2xl">
-          <div className="w-full max-w-md ">
+          <div className="w-full max-w-md  ">
             <CardAppTitle title="Votre profil" />
           </div>
-          <div className="w-full max-w-md mt-4 lg:mt-2">
+          <div className="w-full max-w-md mt-4 lg:mt-4">
             <CardAppText
               text="Choissisez un mot de passe"
               icon={faUser}
             />
           </div>
-          <div id="registerPasswordInputContainer" className="w-full max-w-md mt-4">
+          <div id="registerPasswordInputContainer" className="w-full max-w-md mt-4 ">
             <CardAppPasswordInput onChange={handlePasswordChange} />
           </div>
           <div className="w-full max-w-md flex items-center mt-12">

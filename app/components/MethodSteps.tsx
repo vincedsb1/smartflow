@@ -158,22 +158,22 @@ function MethodSteps() {
         </div>
       </div>
       {/* Version desktop */}
-      <div id="desktopVersion" className="hidden md:flex flex-col items-center justify-center w-3/4 lg:w-2/3 h-3/4 bg-white shadow-lg rounded-2xl border-neutral-200 mx-auto my-auto p-4 overflow-auto">
+      <div id="desktopVersion" className="hidden md:flex flex-col items-center mb-20 justify-center w-3/4 lg:w-2/3 xl:w-1/2 h-4/5 bg-white shadow-lg rounded-2xl border-neutral-200 mx-auto my-auto p-4 overflow-auto">
         <div className="w-full max-w-md mb-2 md:mb-0 flex justify-center">
           <CardAppTitle title={step.title} size="big" />
         </div>
-        <div className="w-full mt-2 md:mt-0 max-w-md">
+        <div className="w-full lg:mt-4 mt-2 md:mt-0 max-w-md">
           <CardAppText text={step.text} />
         </div>
-        <div className="w-full mt-2 md:mt-0 max-w-md">
+        <div className="w-full lg:mt-4 mt-2 md:mt-0 max-w-md">
           <CardAppImage src={step.image} alt={step.title} />
         </div>
-        <div className="w-full mt-2 max-w-md md:mt-0">
+        <div className="w-full lg:mt-4 mt-2 max-w-md md:mt-0">
           <div className="flex items-center justify-center mt-4 mb-4">
             <Stepper currentStep={currentStep} numberOfSteps={steps.length} />
           </div>
         </div>
-        <div className="w-full mt-2 max-w-md">
+        <div className="w-full lg:mt-4 mt-2 max-w-md">
           <Button
             onClick={nextStep}
             type="submit"
