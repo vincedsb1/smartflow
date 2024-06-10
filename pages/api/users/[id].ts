@@ -40,7 +40,7 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse) 
 
     await resend.emails.send({
       from: "onboarding@resend.dev",
-      to: "thibaut.mosteau@lilo.org", // remplacer mail thibaut par existingUser.email
+      to: "vincedsb@gmail.com", // remplacer mail thibaut par existingUser.email
       subject: "Vérification du mail",
       html: emailContent,
     });

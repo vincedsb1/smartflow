@@ -22,6 +22,7 @@ import AllCardsReviewed from "../components/today/AllCardsReviewed";
 import NoCardsToReview from "../components/today/NoCardsToReview";
 import NoCard from "../components/today/NoCard";
 import { IconDefinition } from "@fortawesome/fontawesome-svg-core";
+import DesktopMenu from "../components/DesktopMenu";
 
 interface CardData {
   cards: UserCardProps[];
@@ -112,13 +113,28 @@ const Today = () => {
 
   switch (code) {
     case 1:
-      return <NoCard />;
+      return (
+        <div className="sm:w-[640px] mx-auto">
+          <NoCard />
+        </div>
+      );
     case 2:
       return <NoCardsToReview />;
     case 3:
       return <AllCardsReviewed />;
     case 4:
-      return <CardsToReviewList rows={rows} firstCardId={firstCardId} />;
+      return (
+        <div className="flex flex-row justify-center items-center">
+          <div className="w-full sm:max-w-[1170px]  bg-neutral-200 sm:shadow-2xl sm:shadow-neutral-200 flex flex-row ">
+            <div className="hidden sm:block">
+              <DesktopMenu />
+            </div>
+            <div className="flex flex-row justify-center  w-full">
+              <CardsToReviewList rows={rows} firstCardId={firstCardId} />
+            </div>
+          </div>
+        </div>
+      );
     default:
       return <div>Unknown code</div>;
   }
