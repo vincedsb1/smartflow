@@ -1,6 +1,7 @@
 "use client";
 import React, { ReactNode } from "react";
 import TabBar from "./components/TabBar";
+import DesktopMenu from "./components/DesktopMenu";
 import { useSelectedLayoutSegment } from "next/navigation";
 import "./globals.css";
 import Providers from "./Providers";
@@ -16,7 +17,7 @@ interface RootLayoutProps {
 export default function RootLayout({ children }: RootLayoutProps) {
   const segment = useSelectedLayoutSegment() ?? "";
 
-  const showTabBar = [
+  const showMenu = [
     "today",
     "review",
     "add",
@@ -31,10 +32,17 @@ export default function RootLayout({ children }: RootLayoutProps) {
       <body className="">
         <Providers>
           <UserContextProvider>
-            <main className="bg-neutral-200 dark:bg-neutral-900">
+            <main className="bg-neutral-200 sm:bg-white dark:bg-neutral-900">
               {children}
             </main>
-            {showTabBar && <TabBar />}
+            {showMenu && (
+              <>
+                <div className="sm:hidden">
+                  <TabBar />
+                </div>
+                <div className="hidden sm:block">{/* <DesktopMenu /> */}</div>
+              </>
+            )}
           </UserContextProvider>
         </Providers>
       </body>

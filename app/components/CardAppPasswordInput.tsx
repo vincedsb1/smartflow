@@ -50,13 +50,13 @@ const CardAppPasswordInput: React.FC<CardAppPasswordInputProps> = ({
   };
 
   return (
-    <div id="-main-conatiner" className="w-18/20 flex flex-col items-center">
+    <div id="-main-conatiner" className="w-full flex flex-col items-center">
       <div id="title">
-        <p className="text-neutral-600 font-semibold">Mot de passe</p>
+        <p className="text-neutral-600 font-semibold mb-2">Mot de passe</p>
       </div>
       <div id="input" className="relative">
         <input
-          className="bg-white rounded-2xl p-2 w-80 h-12 mb-1 pr-10 relative z-10 text-6xl font-quicksand tracking-widest"
+          className="bg-white rounded-2xl p-2 w-full h-12 mb-1 pr-10 relative z-10 text-6xl font-quicksand tracking-widest"
           type={passwordVisible ? "text" : "password"}
           onChange={handlePasswordChange}
           name="password"
@@ -86,10 +86,14 @@ const CardAppPasswordInput: React.FC<CardAppPasswordInputProps> = ({
       <div className="mt-2">
         {passwordCriteria.map((criteria, index) => (
           <div key={index} className="flex items-center">
-            {criteria.validate(password) && (
-              <FontAwesomeIcon icon={faCheck} className="text-green-500" />
-            )}
-            <p className={criteria.validate(password) ? "text-green-500" : ""}>
+            <div className="pr-2">
+              {criteria.validate(password) ? (
+                <FontAwesomeIcon icon={faCheck} className="text-green-500" />
+              ) : (
+                <div style={{ width: '1em', height: '1.5em' }}></div>
+              )}
+            </div>
+            <p className={`text-sm ${criteria.validate(password) ? "text-green-500" : ""}`}>
               {criteria.message}
             </p>
           </div>
