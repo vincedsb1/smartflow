@@ -1,9 +1,7 @@
 import React, { useState, ChangeEvent } from "react";
 import { Input } from "@nextui-org/react";
-import { EyeFilledIcon } from  '../components/eye/EyeFilledIcon';
-import { EyeSlashFilledIcon }  from "../components/eye/EyeSlashFilledIcon"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCheck } from "@fortawesome/free-solid-svg-icons";
+import { faCheck, faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 
 interface CardAppPasswordInputProps {
   onChange?: (e: ChangeEvent<HTMLInputElement>) => void;
@@ -64,11 +62,11 @@ const CardAppPasswordInput: React.FC<CardAppPasswordInputProps> = ({
           value={password}
           onChange={handlePasswordChange}
           endContent={
-            <button className="focus:outline-none" type="button" onClick={togglePasswordVisibility}>
+            <button className="focus:outline-none absolute right-3 top-1/2 transform -translate-y-1/2" type="button" onClick={togglePasswordVisibility}>
               {passwordVisible ? (
-                <EyeSlashFilledIcon className="text-2xl text-default-400 pointer-events-none" />
+                <FontAwesomeIcon icon={faEyeSlash} className="text-2xl text-default-400 pointer-events-none mb-3" />
               ) : (
-                <EyeFilledIcon className="text-2xl text-default-400 pointer-events-none" />
+                <FontAwesomeIcon icon={faEye} className="text-2xl text-default-400 pointer-events-none mb-3" />
               )}
             </button>
           }
