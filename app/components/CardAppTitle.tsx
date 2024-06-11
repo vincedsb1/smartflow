@@ -4,7 +4,8 @@ interface CardAppTitle {
 }
 
 function CardAppTitle({ title, size = "small" }: CardAppTitle) {
-  const textSize = size === "small" ? "text-lg sm:text-md" : "text-3xl sm:text-2xl xs:text-xl";
+  const textSize =
+    size === "small" ? "text-lg sm:text-md" : "text-xl sm:text-2xl md:text-3xl";
 
   return (
     <div id="title" className="">

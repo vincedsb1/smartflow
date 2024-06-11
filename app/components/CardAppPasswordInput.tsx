@@ -57,16 +57,26 @@ const CardAppPasswordInput: React.FC<CardAppPasswordInputProps> = ({
       </div>
       <div id="input" className="relative w-full max-w-md">
         <Input
-          className="bg-white rounded-2xl p-2 w-full h-12 mb-1 pr-10 relative z-10 text-6xl font-quicksand tracking-widest"
+          className="rounded-2xl p-2 w-full h-12 mb-1 pr-10 relative z-10 text-6xl font-quicksand tracking-widest"
           type={passwordVisible ? "text" : "password"}
           value={password}
           onChange={handlePasswordChange}
           endContent={
-            <button className="focus:outline-none absolute right-3 top-1/2 transform -translate-y-1/2" type="button" onClick={togglePasswordVisibility}>
+            <button
+              className="focus:outline-none"
+              type="button"
+              onClick={togglePasswordVisibility}
+            >
               {passwordVisible ? (
-                <FontAwesomeIcon icon={faEyeSlash} className="text-2xl text-default-400 pointer-events-none mb-3" />
+                <FontAwesomeIcon
+                  icon={faEyeSlash}
+                  className="text-2xl text-default-400 pointer-events-none mb-3"
+                />
               ) : (
-                <FontAwesomeIcon icon={faEye} className="text-2xl text-default-400 pointer-events-none mb-3" />
+                <FontAwesomeIcon
+                  icon={faEye}
+                  className="text-2xl text-default-400 pointer-events-none mb-3"
+                />
               )}
             </button>
           }
@@ -87,12 +97,19 @@ const CardAppPasswordInput: React.FC<CardAppPasswordInputProps> = ({
           <div key={index} className="flex items-center">
             <div className="pr-2 w-6 h-6">
               {criteria.validate(password) ? (
-                <FontAwesomeIcon icon={faCheck} className="text-green-500 w-full h-full" />
+                <FontAwesomeIcon
+                  icon={faCheck}
+                  className="text-green-500 w-full h-full"
+                />
               ) : (
                 <div className="w-full h-full"></div>
               )}
             </div>
-            <p className={`text-sm ${criteria.validate(password) ? "text-green-500" : ""}`}>
+            <p
+              className={`text-sm ${
+                criteria.validate(password) ? "text-green-500" : ""
+              }`}
+            >
               {criteria.message}
             </p>
           </div>
