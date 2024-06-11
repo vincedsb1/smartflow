@@ -5,9 +5,15 @@ interface CardAppTextProps {
   text: string;
   icon?: IconProp;
   iconColor?: "normal" | "confirmation" | "warning" | "error";
+  shadow?: boolean;
 }
 
-function CardAppText({ text, icon, iconColor = "normal" }: CardAppTextProps) {
+const CardAppText: React.FC<CardAppTextProps> = ({
+  text,
+  icon,
+  iconColor = "normal",
+  shadow = false,
+}) => {
   let iconColorClass: string;
   switch (iconColor) {
     case "confirmation":
@@ -26,15 +32,16 @@ function CardAppText({ text, icon, iconColor = "normal" }: CardAppTextProps) {
       iconColorClass = "text-primary dark:text-neutral-400 text-2xl";
   }
 
+  const containerClassName = shadow
+    ? "bg-white shadow-lg dark:bg-neutral-800 rounded-2xl w-full flex flex-row p-2"
+    : "bg-white dark:bg-neutral-800 rounded-2xl w-full flex flex-row p-2";
+
   return (
-    <div
-      id="cardExplanations"
-      className="bg-white xs:shadow-lg  sm:shadow-none  dark:bg-neutral-800 rounded-2xl w-full flex flex-row p-2"
-    >
+    <div id="cardExplanations" className={containerClassName}>
       {icon && (
         <div
           id="hintIconMainContainer"
-          className="flex justify-center items-center w-1/6 "
+          className="flex justify-center items-center w-4/20 min-h-16"
         >
           <div
             id="hintIconContainer"
@@ -44,19 +51,21 @@ function CardAppText({ text, icon, iconColor = "normal" }: CardAppTextProps) {
           </div>
         </div>
       )}
-<div
-  id="cardExplanationsText"
-  className={`flex flex-row justify-start items-center ml-4 ${icon ? "w-5/6" : "w-full"}`}
->
-  <p
-    className="text-neutral-800 dark:text-neutral-400 font-text font-bold text-xl leading-6 p-2"
-    id="tex-card"
-  >
-    {text}
-  </p>
-</div>
+      <div
+        id="cardExplanationsText"
+        className={`flex flex-row justify-start items-center ml-0 ${
+          icon ? "w-16/20" : "w-full"
+        }`}
+      >
+        <p
+          className="text-neutral-800 dark:text-neutral-400 font-text font-bold text-xl leading-6 p-2"
+          id="tex-card"
+        >
+          {text}
+        </p>
+      </div>
     </div>
   );
-}
+};
 
 export default CardAppText;

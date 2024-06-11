@@ -3,7 +3,15 @@ import Image from "next/image";
 import ButtonConnexion from "./ButtonConnexion";
 import ButtonTheme from "./ButtonTheme";
 import { useTheme } from "next-themes";
-import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDisclosure } from "@nextui-org/react";
+import {
+  Modal,
+  ModalContent,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+  Button,
+  useDisclosure,
+} from "@nextui-org/react";
 import { Input } from "@nextui-org/input";
 
 const Header: FC = () => {
@@ -28,8 +36,8 @@ const Header: FC = () => {
     windowWidth < 390
       ? "/logoOnly.svg"
       : theme === "dark"
-        ? "/logo-dark.svg"
-        : "/logo-light.svg";
+      ? "/logo-dark.svg"
+      : "/logo-light.svg";
 
   const handleEmailChange = (event: ChangeEvent<HTMLInputElement>) => {
     setEmail(event.target.value);
@@ -67,7 +75,10 @@ const Header: FC = () => {
   };
 
   return (
-    <div id="headerContainer" className="flex dark:bg-neutral-800 dark:bg-opacity-60 items-center justify-between h-16 bg-white bg-opacity-60 backdrop-filter backdrop-blur-lg">
+    <div
+      id="headerContainer"
+      className="flex dark:bg-neutral-800 dark:bg-opacity-60 items-center justify-between h-16 bg-white bg-opacity-60 backdrop-filter backdrop-blur-lg"
+    >
       <div className="flex h-10 w-32 relative 2xs:ml-4 flex-row justify-start ">
         <Image
           id="logoHeader"
@@ -79,7 +90,9 @@ const Header: FC = () => {
       </div>
       <div className="flex items-center">
         <div className="mr-2">
-          <Button color="primary" onClick={onOpen} className="px-8" radius="lg">Rejoignez la liste d&apos;attente</Button>
+          <Button color="primary" onClick={onOpen} className="px-8" radius="lg">
+            Rejoignez la liste d&apos;attente
+          </Button>
         </div>
         <ButtonConnexion label="Connexion" />
         <ButtonTheme />
@@ -87,11 +100,21 @@ const Header: FC = () => {
 
       <Modal isOpen={isOpen} onClose={handleClose}>
         <ModalContent>
-          <ModalHeader className="flex flex-col gap-1">Être averti de la sortie</ModalHeader>
+          <ModalHeader className="flex flex-col gap-1">
+            Être averti de la sortie
+          </ModalHeader>
           <ModalBody>
-            {!isEmailSaved && <p>Saisissez votre email et soyez informé.e dès que Smartflow est disponible</p>}
+            {!isEmailSaved && (
+              <p>
+                Saisissez votre email et soyez informé.e dès que Smartflow est
+                disponible
+              </p>
+            )}
             {isEmailSaved ? (
-              <p>Merci, vous allez recevoir un mail pour valider votre adresse en attendant la sortie !</p>
+              <p>
+                Merci, vous allez recevoir un mail pour valider votre adresse en
+                attendant la sortie !
+              </p>
             ) : (
               <Input
                 type="email"
@@ -104,11 +127,17 @@ const Header: FC = () => {
           </ModalBody>
           <ModalFooter>
             {isEmailSaved ? (
-              <Button color="primary" radius="lg" onClick={handleClose}>Fermer</Button>
+              <Button color="primary" radius="lg" onClick={handleClose}>
+                Fermer
+              </Button>
             ) : (
               <>
-                <Button radius="lg" onClick={handleClose}>Annuler</Button>
-                <Button radius="lg" color="primary" onClick={handleEmailSubmit}>Confirmer</Button>
+                <Button radius="lg" onClick={handleClose}>
+                  Annuler
+                </Button>
+                <Button radius="lg" color="primary" onClick={handleEmailSubmit}>
+                  Confirmer
+                </Button>
               </>
             )}
           </ModalFooter>
@@ -116,6 +145,6 @@ const Header: FC = () => {
       </Modal>
     </div>
   );
-}
+};
 
 export default Header;

@@ -13,7 +13,6 @@ import Image from "next/image";
 import { useTheme } from "next-themes";
 import Link from "next/link";
 
-
 // Page d'inscription pour le prénom
 const InscriptionPage = () => {
   const router = useRouter();
@@ -23,7 +22,6 @@ const InscriptionPage = () => {
   const [isEmailVerified, setIsEmailVerified] = useState(false);
   const { theme } = useTheme();
   const logo = theme === "dark" ? "/logo-dark.svg" : "/logo-light.svg";
-
 
   // Fonction pour gérer le changement de prénom
   const handleFirstNameChange = (
@@ -81,8 +79,6 @@ const InscriptionPage = () => {
     router.push("/register-birthday");
   };
 
-
-
   return (
     <div
       id="mailAuthMainContainer"
@@ -101,25 +97,22 @@ const InscriptionPage = () => {
       </div>
       <div
         id="logoContainer"
-        className="hidden sm:flex flex-row justify-start items-center h-16 w-full relative p-4"
+        className="hidden sm:absolute sm:block sm:top-0 sm:left-0 justify-start items-center h-16 w-full relative p-4"
       >
         <Image src={logo} alt="logo" width={151} height={38} priority={true} />
       </div>
-      {/* Mobile */}
-      <div id="mobileVersion" className="flex flex-col items-center justify-center w-full sm:hidden h-screen">
+      <div
+        id="mobileVersion"
+        className="flex flex-col items-center justify-center w-full sm:hidden h-screen"
+      >
         <div className="flex flex-col items-center justify-center h-full">
           <div className="w-4/5 m-8 3xs:m-4 xs:mt-20">
             <CardAppTitle title="Votre profil" />
           </div>
           <div className=" w-80 m-8">
-            <CardAppText
-              text="Quel est votre prénom ?"
-              icon={faUser}
-            />
+            <CardAppText text="Quel est votre prénom ?" icon={faUser} shadow />
           </div>
-          <div
-            className="flex flex-col justify-between items-center mt-44 xs:mt-0"
-          >
+          <div className="flex flex-col justify-between items-center mt-44 xs:mt-0">
             <div id="registerFirstnameInputContainer">
               <Input
                 onChange={handleFirstNameChange}
@@ -144,27 +137,31 @@ const InscriptionPage = () => {
           </div>
         </div>
       </div>
-      {/* Version desktop */}
-      <div id="desktopVersion" className="hidden sm:flex w-16/20 lg:w-16/20 h-3/4 bg-white shadow-lg rounded-2xl flex-row items-start justify-between border-neutral-200 mx-auto my-auto">
+      <div
+        id="desktopVersion"
+        className="hidden sm:flex bg-white shadow-lg rounded-2xl flex-row items-start justify-between border-neutral-200 border-3 mx-auto my-auto max-w-[800px] ma-h-[600px] overflow-hidden"
+      >
         <div className="flex w-1/2 h-full relative">
           <Image
             src="/images/entryVisual.svg"
             alt="Entry Visual"
             width={400}
             height={600}
-            className="object-cover w-full h-full rounded-tl-2xl rounded-bl-2xl"
+            className="object-cover w-full h-full"
           />
           <div className="absolute top-1/4 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-            <h2 className="text-4xl font-bold font-quicksand text-cyan-900">Bienvenue</h2>
+            <h2 className="text-4xl font-bold font-quicksand text-cyan-900">
+              Bienvenue
+            </h2>
           </div>
         </div>
-        <div className="flex flex-col items-center dark:bg-neutral-800 w-1/2 h-full justify-between p-8 dark:rounded-tr-2xl dark:rounded-br-2xl">
+        <div className="flex flex-col items-start dark:bg-neutral-800 w-1/2 h-full justify-between p-8 dark:rounded-tr-2xl dark:rounded-br-2xl">
           <CardAppTitle title="Votre profil" size="big" />
-          <CardAppText
-            text="Quel est votre prénom ?"
-            icon={faUser}
-          />
-          <div id="registerFirstnameInputContainer" className="flex flex-col  items-center w-full mb-4">
+          <CardAppText text="Quel est votre prénom ?" icon={faUser} shadow />
+          <div
+            id="registerFirstnameInputContainer"
+            className="flex flex-col items-center w-full mb-4"
+          >
             <Input
               onChange={handleFirstNameChange}
               isRequired
@@ -172,7 +169,7 @@ const InscriptionPage = () => {
               type="text"
               label="Prénom"
               radius="lg"
-              className="w-2/3 font-text mt-60"
+              className="w-full font-text mt-60"
             />
           </div>
           <Button
@@ -180,7 +177,7 @@ const InscriptionPage = () => {
             color="default"
             variant="solid"
             size="lg"
-            className="w-2/3 font-bold"
+            className="w-full font-bold"
             onClick={handleContinue}
           >
             Suivant
