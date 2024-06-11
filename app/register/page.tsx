@@ -35,12 +35,15 @@ const Register = () => {
         </div>
         <div
           id="registerTitleHintContainer"
-          className="flex flex-col justify-center items-center w-full"
+          className="flex flex-col justify-center items-center w-full "
         >
-          <div id="registerHint" className="flex flex-col items-center w-80">
-            <CardAppTitle title="S'inscrire" />
+          <div id="registerHint" className="flex flex-col items-center w-80 ">
+            {/* <CardAppTitle title="S'inscrire" size="big" /> */}
 
-            <CardAppText text="Cliquer sur le lien reçu par email" />
+            <CardAppText
+              text="Merci ! Vérifiez votre boîte mail pour finaliser votre inscription."
+              shadow
+            />
           </div>
         </div>
       </div>
@@ -61,7 +64,7 @@ const Register = () => {
           {" "}
           <div
             id="registerTextContainer"
-            className="flex flex-col justify-center items-center w-16/20 mb-2"
+            className="flex flex-col justify-center items-center w-16/20 sm:w-full mb-2 "
           >
             <p className="font-text text-sm leading-4 text-neutral-600 dark:text-neutral-400">
               Une fois cliqué sur le lien du mail, vous pourrez continuer
