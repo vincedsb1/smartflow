@@ -16,6 +16,12 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import CardAppTitle from "@/app/components/CardAppTitle";
 import { Button } from "@nextui-org/button";
 import { Progress } from "@nextui-org/react";
+import DesktopMenu from "../../components/DesktopMenu";
+import ReviewQuestionButtons from "@/app/components/review/ReviewQuestionButtons";
+import ReviewAnswerButtons from "@/app/components/review/ReviewAnswerButtons";
+import ReviewHeaderMobile from "@/app/components/review/ReviewHeaderMobile";
+import ReviewHeaderDesktop from "@/app/components/review/ReviewHeaderDesktop";
+import ReviewContent from "@/app/components/review/ReviewContent";
 
 const Review: React.FC = () => {
   const userContext = useContext(UserContext);
@@ -24,6 +30,7 @@ const Review: React.FC = () => {
   if (!userContext) {
     throw new Error("UserContext must be used within a UserContextProvider");
   }
+
   const [id, setId] = useState<string | null>(null);
   const [title, setTitle] = useState("");
   const [answer, setAnswer] = useState<string | null>(null);
@@ -31,69 +38,42 @@ const Review: React.FC = () => {
   const [nbcard, setNbcard] = useState<string | null>(null);
   const [level, setLevel] = useState(1);
   const [cardCount, setCardCount] = useState(1);
+  const [showAnswer, setShowAnswer] = useState(false);
+  const [forceRender, setForceRender] = useState(0);
 
-  const calculatePercentage = (level: number): number => {
-    return Math.round((level * 100) / 7);
-  };
+  const calculatePercentage = (level: number): number =>
+    Math.round((level * 100) / 7);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
       const urlParams = new URLSearchParams(window.location.search);
-      const id = urlParams.get("id");
-      const nbcard = urlParams.get("nbcard");
-      setId(id);
-      setNbcard(nbcard);
+      setId(urlParams.get("id"));
+      setNbcard(urlParams.get("nbcard"));
     }
   }, []);
 
   useEffect(() => {
     if (id) {
-      const token = localStorage.getItem("token");
       fetch(`/api/cards/${id}`, {
-        headers: {
-          Authorization: `Bearer ${userContext.token}`,
-        },
+        headers: { Authorization: `Bearer ${userContext.token}` },
       })
-        .then((response) => {
-          if (!response.ok) {
-            throw new Error("Network response was not ok");
-          }
-          return response.json();
-        })
+        .then((response) => response.json())
         .then((data) => {
-          console.log("Card fetched review: ", data);
           setTitle(data.title);
           setAnswer(data.answer);
           setLevel(data.level);
           setCategoryName(data.categoryName);
         })
-        .catch((error) => {
-          console.error(
-            "There has been a problem with your fetch operation:",
-            error
-          );
-        });
+        .catch((error) => console.error("Fetch error:", error));
     }
   }, [id, userContext.token]);
 
-  const [cardTitle, setCardTitle] = useState("");
+  const handleShowAnswer = () => setShowAnswer(true);
 
-  const [showAnswer, setShowAnswer] = useState(false);
-
-  const handleShowAnswer = () => {
-    setShowAnswer(true);
-    setCardTitle("Réponse");
-  };
-
-  // Fonction pour passer à la carte suivante
   const handleNextCard = () => {
-    const updatedCardsToReview = userContext.cardsToReview.filter((card) => {
-      if (id === null) {
-        return true;
-      }
-      const idNumber = parseInt(id);
-      return !isNaN(idNumber) && card.id !== idNumber;
-    });
+    const updatedCardsToReview = userContext.cardsToReview.filter(
+      (card) => card.id !== parseInt(id!)
+    );
     userContext.setCardsToReview(updatedCardsToReview);
 
     if (updatedCardsToReview.length > 0) {
@@ -111,281 +91,111 @@ const Review: React.FC = () => {
     setCardCount(cardCount + 1);
   };
 
-  // Fonction pour gérer les réponses incorrectes
-  const handleIncorrectReview = () => {
-    console.log("handleIncorrectReview called");
-    console.log("BASE_URL", process.env.BASE_URL);
-    console.log("Card ID", id);
-    console.log("Token", userContext.token);
-
+  const handleReview = (isPositive: boolean) => {
     fetch(`http://localhost:3000/api/cards/${id}`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${userContext.token}`,
       },
-      body: JSON.stringify({ isReviewPositive: false }),
-    })
-      .then((response) => {
-        console.log("Response", response);
-        return response.json();
-      })
-      .then((data) => {
-        console.log("Data", data);
-        handleNextCard();
-        userContext.setNbCardsToReview(userContext.NbCardsToReview - 1);
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-      });
-  };
-
-  // Fonction pour gérer les révisions positives
-  const handlePositiveReview = () => {
-    fetch(`http://localhost:3000/api/cards/${id}`, {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${userContext.token}`,
-      },
-      body: JSON.stringify({ isReviewPositive: true }),
+      body: JSON.stringify({ isReviewPositive: isPositive }),
     })
       .then((response) => response.json())
-      .then((data) => {
+      .then(() => {
         handleNextCard();
         userContext.setNbCardsToReview(userContext.NbCardsToReview - 1);
       })
       .catch((error) => console.error("Error:", error));
   };
 
-  // fonction pour mélanger les cartes
-  function shuffle(array: any) {
+  const shuffle = (array: any[]) => {
     let currentIndex = array.length,
       randomIndex;
-
     while (currentIndex !== 0) {
       randomIndex = Math.floor(Math.random() * currentIndex);
       currentIndex--;
-
       [array[currentIndex], array[randomIndex]] = [
         array[randomIndex],
         array[currentIndex],
       ];
     }
-
     return array;
-  }
-
-  const [forceRender, setForceRender] = useState(0);
+  };
 
   const handleShuffle = () => {
-    const shuffledCardIds = shuffle(
-      userContext.cardsToReview.map((card) => card.id)
-    );
-    const shuffledCards = shuffledCardIds.map((id: number) =>
-      userContext.cardsToReview.find((card) => card.id === id)
-    );
+    const shuffledCards = shuffle(userContext.cardsToReview);
     userContext.setCardsToReview(shuffledCards);
     setId(shuffledCards[0]?.id.toString());
-
     setCardCount(1);
-
     setForceRender((prev) => prev + 1);
   };
 
-  useEffect(() => {
-    console.log("cardsToReview", userContext.cardsToReview);
-  }, [userContext.cardsToReview]);
-
   return (
     <div
-      id="reviewPageMainContainer"
-      className="flex flex-col justify-between min-h-screen w-full "
+      id="reviewMainContainer"
+      className="flex flex-row justify-center items-center"
     >
       <div
-        id="reviewPageTopContainer"
-        className="flex flex-col justify-center items-center w-full"
+        id="ReviewSubMainContainer"
+        className="w-full sm:max-w-[1170px] bg-neutral-200 sm:shadow-2xl sm:shadow-neutral-200 flex flex-row pb-24 sm:pb-0"
       >
-        <div
-          id="reviewTopContainer"
-          className="w-full flex flex-row justify-between mt-16 mb-4"
-        >
-          <div id="reviewBackTitle" className="flex flex-row">
-            <button
-              type="button"
-              onClick={() => router.back()}
-              className="text-neutral-800 dark:text-neutral-200 text-xs w-4 h-4 m-5 "
-            >
-              <FontAwesomeIcon icon={faChevronLeft} />
-            </button>
-            <div
-              id="reviewPageTitle"
-              className="flex flex-row justify-between items-center mt-2 w-14/20"
-            >
-              <CardAppTitle title="Réciter" size="big" />
-            </div>
-          </div>
-          <div
-            id="reviewCounterContainer"
-            className="flex flex-row font-title items-center mr-8 font-bold  text-neutral-600 dark:text-neutral-400"
-          >
-            {cardCount}/{nbcard}
-          </div>
+        <div id="todayMenuContainer" className="hidden sm:block">
+          <DesktopMenu />
         </div>
         <div
-          id="reviewPageHeaderContainer"
-          className="flex flex-col justify-center items-center w-80"
+          id="reviewPageMainContainer"
+          className="flex flex-col justify-between min-h-screen w-full sm:pl-48 md:pl-72"
         >
+          <ReviewHeaderMobile
+            className="block sm:hidden mb-4 2xs:mb-8 3xs:mb-10 sm:mb-16"
+            router={router}
+            cardCount={cardCount}
+            nbcard={nbcard}
+            title={title}
+            categoryName={categoryName}
+            level={level}
+            calculatePercentage={calculatePercentage}
+          />
+          <ReviewHeaderDesktop
+            className="hidden sm:flex mb-4 2xs:mb-8 3xs:mb-10 sm:mb-16"
+            router={router}
+            cardCount={cardCount}
+            nbcard={nbcard}
+            title={title}
+            categoryName={categoryName}
+            level={level}
+            calculatePercentage={calculatePercentage}
+          />
           <div
-            id="reviewHeaderTopContainer"
-            className="flex flex-row justify-between w-full mb-4"
+            id="reviewMiddleContainer"
+            className="flex flex-col justify-center items-center w-full mb-4 2xs:mb-8 3xs:mb-10 sm:mb-16"
           >
-            <div
-              id="reviewTitleCategoryColorContainer"
-              className="flex flex-row "
-            >
-              <div id="reviewColor" className="bg-red-500 w-[6px] h-full"></div>
-              <div
-                id="reviewTitleCategoryContainer"
-                className="flex flex-col w-full ml-2"
-              >
-                <div
-                  id="reviewTitleContainer"
-                  className="flex flex-row w-full font-title font-bold text-neutral-600 dark:text-neutral-400"
-                >
-                  {title}
-                </div>
-                <div
-                  id="reviewCategoryContainer"
-                  className="flex flex-row w-full font-title text-neutral-500 truncate"
-                >
-                  {categoryName}
-                </div>
-              </div>
-            </div>
+            <ReviewContent
+              cardCount={cardCount}
+              nbcard={nbcard}
+              title={title}
+              categoryName={categoryName}
+              level={level}
+              calculatePercentage={calculatePercentage}
+              showAnswer={showAnswer}
+              answer={answer}
+            />
           </div>
           <div
-            id="reviewHeaderBottomContainer"
-            className="flex flex-col w-full"
+            id="reviewPageBottomContainer"
+            className="flex flex-col justify-center items-center w-full px-10 xs:px-10  "
           >
-            <div id="reviewProgressContainer" className="flex flex-row w-full">
-              <Progress
-                aria-label="Loading..."
-                label={`${calculatePercentage(level)} %`}
-                size="md"
-                value={calculatePercentage(level)}
-                valueLabel={`Niveau ${level}`}
-                showValueLabel={true}
-                className="max-w-md text-neutral-500 text-sm font-title  "
+            {showAnswer ? (
+              <ReviewAnswerButtons handleReview={handleReview} />
+            ) : (
+              <ReviewQuestionButtons
+                handleShuffle={handleShuffle}
+                handleShowAnswer={handleShowAnswer}
+                handleNextCard={handleNextCard}
               />
-            </div>
+            )}
           </div>
         </div>
-      </div>
-      <div
-        id="reviewMiddleContainer"
-        className="flex flex-col justify-center items-center w-full"
-      >
-        <div
-          id="reviewCard"
-          className="flex flex-col bg-white border-neutral-300 border-1 dark:border-neutral-700 dark:bg-neutral-800 rounded-2xl shadow-sf justify-around items-center  w-16/20 h-80 p-6 font-text"
-        >
-          {showAnswer ? (
-            answer
-          ) : (
-            <>
-              <div
-                id="instructions"
-                className="font-text text-neutral-500 dark:text-neutral-400"
-              >
-                Récitez la fiche
-              </div>
-              <div className="flex space-x-2 justify-center items-center bg-white dark:bg-neutral-800">
-                <div className="h-2 w-2 rounded-full animate-bounce  bg-cyan-600 [animation-delay:-0.3s]"></div>
-                <div className="h-2 w-2 rounded-full animate-bounce bg-cyan-600 [animation-delay:-0.15s]"></div>
-                <div className="h-2 w-2 rounded-full animate-bounce bg-cyan-600 [animation-delay:-0s]"></div>
-              </div>
-            </>
-          )}
-        </div>
-      </div>
-      <div
-        id="reviewPageBottomContainer"
-        className="flex flex-col justify-center items-center w-full mb-28"
-      >
-        {showAnswer ? (
-          <>
-            <div
-              id="buttonContainer"
-              className="flex flex-row justify-around w-16/20"
-            >
-              <Button
-                type="submit"
-                color="primary"
-                variant="solid"
-                size="lg"
-                className="w-12 font-bold font-text bg-red-500 dark:bg-red-600 hover:scale-105 transition-all"
-                onClick={handleIncorrectReview}
-                radius="full"
-                isIconOnly
-              >
-                <FontAwesomeIcon
-                  icon={faCircleXmark}
-                  className="text-3xl dark:text-neutral-100 text-neutral-50"
-                />
-              </Button>
-
-              <Button
-                type="submit"
-                color="primary"
-                variant="solid"
-                size="lg"
-                className="w-12 font-bold font-text bg-emerald-500 dark:bg-emerald-600 hover:scale-105 transition-all"
-                onClick={handlePositiveReview}
-                radius="full"
-                isIconOnly
-              >
-                <FontAwesomeIcon
-                  icon={faCircleCheck}
-                  className="text-3xl dark:text-neutral-100 text-neutral-50"
-                />
-              </Button>
-            </div>
-          </>
-        ) : (
-          <div
-            id="randomButtonContainer"
-            className="flex flex-row justify-around gap-2"
-          >
-            <Button
-              color="default"
-              size="lg"
-              onClick={handleShuffle}
-              className="font-bold font-text isIconOnly w-12 "
-            >
-              <FontAwesomeIcon icon={faRandom} />
-            </Button>
-            <Button
-              type="submit"
-              color="primary"
-              variant="solid"
-              size="lg"
-              className="font-bold font-text dark:text-white"
-              onClick={handleShowAnswer}
-            >
-              Réponse
-            </Button>
-            <Button
-              id="nextContainer"
-              color="default"
-              size="lg"
-              onClick={handleNextCard}
-              className="font-bold font-text isIconOnly w-12 "
-            >
-              <FontAwesomeIcon icon={faForward} />
-            </Button>
-          </div>
-        )}
       </div>
     </div>
   );
