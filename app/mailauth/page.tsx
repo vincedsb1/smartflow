@@ -9,8 +9,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Button, Input, Link } from "@nextui-org/react";
 import Image from "next/image";
 import { useTheme } from "next-themes";
-import MailAuthDesktop from "../components/mailauth/MailAuthDesktop";
-import MailAuthMobile from "../components/mailauth/MailAuthMobile";
 
 const MailAuth = () => {
   const userContext = useContext(UserContext);
