@@ -10,9 +10,11 @@ import {
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import Image from "next/image";
+import { useUser } from "../context/UserContext";
 
 const DesktopMenu: React.FC = () => {
   const pathname = usePathname();
+  const { firstname } = useUser();
 
   const iconStyle = (icon: string) =>
     `h-7 w-7 ${
@@ -24,7 +26,7 @@ const DesktopMenu: React.FC = () => {
   return (
     <div
       id="desktopMenuMainContainer"
-      className="flex flex-col items-start bg-white shadow-lg h-full justify-between w-72 pl-10 pb-10"
+      className="fixed top-0 flex flex-col items-start bg-white shadow-lg h-full max-h-screen justify-between w-48 md:w-72 pl-5 md:pl-10 pb-10 "
     >
       <div id="logoContainer" className="flex flex-col items-start">
         <div
@@ -87,7 +89,7 @@ const DesktopMenu: React.FC = () => {
         <div id="userActions" className="mt-auto">
           <div id="userDetails" className="flex flex-col space-y-5">
             <span className="font-text text-lg text-neutral-700 dark:text-neutral-300">
-              Bonjour Alice
+              Bonjour {firstname}
             </span>
             <Link href="/user" className="flex items-center space-x-2 group">
               <FontAwesomeIcon

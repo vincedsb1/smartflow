@@ -124,12 +124,21 @@ const Today = () => {
       return <AllCardsReviewed />;
     case 4:
       return (
-        <div className="flex flex-row justify-center items-center">
-          <div className="w-full sm:max-w-[1170px]  bg-neutral-200 sm:shadow-2xl sm:shadow-neutral-200 flex flex-row ">
-            <div className="hidden sm:block">
+        <div
+          id="todayMainContainer"
+          className="flex flex-row justify-center items-center"
+        >
+          <div
+            id="todaySubMainContainer"
+            className="w-full sm:max-w-[1170px]  bg-neutral-200 sm:shadow-2xl sm:shadow-neutral-200 flex flex-row "
+          >
+            <div id="todayMenuContainer" className="hidden sm:block">
               <DesktopMenu />
             </div>
-            <div className="flex flex-row justify-center  w-full">
+            <div
+              id="todayContentContainer"
+              className="flex flex-row justify-center  w-full sm:ml-48 md:ml-72"
+            >
               <CardsToReviewList rows={rows} firstCardId={firstCardId} />
             </div>
           </div>
