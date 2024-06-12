@@ -1,9 +1,12 @@
+"use client";
+
 import React from "react";
 import { Button } from "@nextui-org/react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faRocket } from "@fortawesome/free-solid-svg-icons";
 import { useRouter } from "next/navigation";
 import Title from "./Title";
+import { FlipWords } from "../landingPage/flip-words";
 
 const Hero = () => {
   const router = useRouter();
@@ -12,10 +15,12 @@ const Hero = () => {
     router.push("/login");
   };
 
+  const words = ["mieux", "efficacement", "plus rapidement", "durablement"];
+
   return (
     <div
       id="containerHero"
-      className="w-full relative flex items-center align-middle h-full py-16 lg:py-20 xl:py-24 mb-14 md:mb-28"
+      className="w-full relative flex flex-row items-center align-middle h-full py-16 lg:py-20 xl:py-24  "
     >
       <video
         className="w-full h-full opacity-30 absolute top-0 left-0 object-cover "
@@ -27,10 +32,19 @@ const Hero = () => {
       </video>
       <div
         id="containerTitleTextButton"
-        className="sm:w-1/2 max-w-[925px] flex flex-col justify-center sm:justify-start text-center sm:text-left relative h-full align-middle mx-4 sm:mx-10 lg:mx-20"
+        className="sm:w-1/2 max-w-[925px] flex flex-col justify-center sm:justify-center text-center sm:text-left relative h-full align-middle mx-4 sm:mx-10 lg:mx-20"
       >
         <div id="containerHeroTitle" className="mb-6 md:mb-8">
-          <Title title="Passez moins de temps à apprendre mieux !" size="big" />
+          <div
+            className={`flex flex-col justify-center font-title font-bold font-primary stroke-primary`}
+            id="titleLabel"
+          >
+            <p className="text-3xl 2xs:text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl text-cyan-900 dark:text-cyan-500 break-words">
+              Le hack ultime pour apprendre
+              <br />
+              <FlipWords words={words} /> !
+            </p>
+          </div>
         </div>
         <div id="containerHeroSubTitle" className="mb-6 md:mb-8 ">
           <p className="text-cyan-950 dark:text-neutral-300 text-lg 2xs:text-xl 3xs:text-2xl md:text-3xl font-title ">
