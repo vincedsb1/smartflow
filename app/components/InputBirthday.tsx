@@ -17,8 +17,8 @@ const InputBirthday: React.FC<InputBirthdayProps> = (props) => {
   };
 
   return (
-    <div id="-main-conatiner">
-      <div id="title">
+    <div id="-main-conatiner" className="w-full">
+      <div id="title" >
         <p className="text-neutral-600 font-semibold">{props.label}</p>
       </div>
       <div id="input" className="relative">
@@ -26,8 +26,7 @@ const InputBirthday: React.FC<InputBirthdayProps> = (props) => {
           type="date"
           value={selectedDate ? selectedDate.toISOString().substring(0, 10) : ""}
           onChange={handleDateChange}
-          className="w-full mb-20 font-text" // Classe w-full
-          style={{ maxWidth: "100%" }} // Ajout de maxWidth
+          className=" mb-4 font-text w-full"
         />
       </div>
     </div>
