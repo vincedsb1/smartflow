@@ -23,11 +23,14 @@ const LandingPage = () => {
 
   return (
     <div className="bg-white dark:bg-neutral-900 flex flex-col justify-center">
-      <div className="sticky top-0 z-10">
+      <div className="sticky top-0 z-10 ">
         <Header />
       </div>
-      <div data-aos="fade-up">
-        <div data-aos="zoom-out">
+      <div data-aos="fade-up" className="">
+        <div
+          data-aos="zoom-out"
+          className=" h-[66vh] flex flex-row justify-center items-center mb-14 md:mb-28"
+        >
           <Hero />
         </div>
         <div data-aos="fade-up" className="w-full flex justify-center">
