@@ -1,9 +1,14 @@
+"use client";
+
 import React, { useEffect, useRef, useState } from "react";
 import AOS from "aos";
 import "aos/dist/aos.css";
 
 const PerksCards = () => {
+  const [isClient, setIsClient] = useState(false);
+
   useEffect(() => {
+    setIsClient(true);
     AOS.init({ duration: 300 });
     return () => AOS.refresh();
   }, []);
@@ -102,19 +107,21 @@ const PerksCards = () => {
                 <p className="font-title text-neutral-600 dark:text-neutral-300 text-sm 2xs:text-md 3xs:text-base">
                   {card.description}
                 </p>
-                <div
-                  style={{
-                    border: `3px solid ${
-                      document.documentElement.classList.contains("dark")
-                        ? "RGB(156, 163, 175)"
-                        : "RGB(21, 94, 117)"
-                    }`,
-                    opacity: opacities[index],
-                    WebkitMaskImage: `radial-gradient(100% 200px at ${positions[index].x}px ${positions[index].y}px, black 45%, transparent)`,
-                  }}
-                  aria-hidden="true"
-                  className="w-full h-full pointer-events-none absolute left-0 top-0 z-10 cursor-default rounded-2xl bg-[transparent] p-3.5 opacity-0 transition-opacity duration-500 placeholder:select-none"
-                ></div>
+                {isClient && (
+                  <div
+                    style={{
+                      border: `3px solid ${
+                        document.documentElement.classList.contains("dark")
+                          ? "RGB(156, 163, 175)"
+                          : "RGB(21, 94, 117)"
+                      }`,
+                      opacity: opacities[index],
+                      WebkitMaskImage: `radial-gradient(100% 200px at ${positions[index].x}px ${positions[index].y}px, black 45%, transparent)`,
+                    }}
+                    aria-hidden="true"
+                    className="w-full h-full pointer-events-none absolute left-0 top-0 z-10 cursor-default rounded-2xl bg-[transparent] p-3.5 opacity-0 transition-opacity duration-500 placeholder:select-none"
+                  ></div>
+                )}
               </div>
             </div>
           ))}
@@ -154,21 +161,23 @@ const PerksCards = () => {
                 <p className="font-title text-neutral-600 dark:text-neutral-300 text-sm 2xs:text-md 3xs:text-base">
                   {card.description}
                 </p>
-                <div
-                  style={{
-                    border: `3px solid ${
-                      document.documentElement.classList.contains("dark")
-                        ? "RGB(156, 163, 175)"
-                        : "RGB(21, 94, 117)"
-                    }`,
-                    opacity: opacities[index + 3],
-                    WebkitMaskImage: `radial-gradient(100% 200px at ${
-                      positions[index + 3].x
-                    }px ${positions[index + 3].y}px, black 45%, transparent)`,
-                  }}
-                  aria-hidden="true"
-                  className="w-full h-full pointer-events-none absolute left-0 top-0 z-10 cursor-default rounded-2xl bg-[transparent] p-3.5 opacity-0 transition-opacity duration-500 placeholder:select-none"
-                ></div>
+                {isClient && (
+                  <div
+                    style={{
+                      border: `3px solid ${
+                        document.documentElement.classList.contains("dark")
+                          ? "RGB(156, 163, 175)"
+                          : "RGB(21, 94, 117)"
+                      }`,
+                      opacity: opacities[index + 3],
+                      WebkitMaskImage: `radial-gradient(100% 200px at ${
+                        positions[index + 3].x
+                      }px ${positions[index + 3].y}px, black 45%, transparent)`,
+                    }}
+                    aria-hidden="true"
+                    className="w-full h-full pointer-events-none absolute left-0 top-0 z-10 cursor-default rounded-2xl bg-[transparent] p-3.5 opacity-0 transition-opacity duration-500 placeholder:select-none"
+                  ></div>
+                )}
               </div>
             </div>
           ))}

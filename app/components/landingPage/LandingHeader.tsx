@@ -1,3 +1,4 @@
+"use client";
 import React, { FC, useEffect, useState, ChangeEvent } from "react";
 import Image from "next/image";
 import ButtonConnexion from "./ButtonConnexion";
