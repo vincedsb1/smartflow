@@ -24,13 +24,13 @@ const Review: React.FC<ReviewProps> = ({
     <div>
       <div
         id="reviewContainer"
-        className="flex flex-row w-[390px] justify-center items-center mb-8"
+        className="flex flex-row 2xs:w-[390px] justify-between items-center mb-8 "
       >
         <div
           id="reviewPhotoContainer"
-          className="flex justify-center items-center w-1/3 h-full"
+          className="flex flex-row justify-center items-center w-3/20 3xs:w-1/3 h-full flex-grow "
         >
-          <div className="w-16 h-16 flex justify-center items-center">
+          <div className="w-16 h-16 flex justify-center items-center ">
             <Image
               src={consumerPhoto}
               alt={name}
@@ -41,7 +41,7 @@ const Review: React.FC<ReviewProps> = ({
             />
           </div>
         </div>
-        <div id="reviewContentContainer" className="flex flex-col w-2/3">
+        <div id="reviewContentContainer" className="flex flex-col w-2/3 ">
           <div id="reviewCustomerNameCity" className="flex pb-2 font-title">
             <p>
               <span className="text-neutral-950 dark:text-neutral-300 font-bold">

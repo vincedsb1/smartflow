@@ -22,44 +22,57 @@ const LandingPage = () => {
   }, []);
 
   return (
-    <div className="bg-white dark:bg-neutral-900 flex flex-col justify-center">
-      <div className="sticky top-0 z-10 ">
+    <div
+      id="landingPageContainer"
+      className="bg-white dark:bg-neutral-900 flex flex-col justify-center"
+    >
+      <div id="headerStickyContainer" className="sticky top-0 z-10">
         <Header />
       </div>
-      <div data-aos="fade-up" className="">
+      <div id="mainContentContainer" data-aos="fade-up" className="">
         <div
+          id="heroContainer"
           data-aos="zoom-out"
-          className=" h-[66vh] flex flex-row justify-center items-center mb-14 md:mb-28"
+          className="h-[66vh] flex flex-row justify-center items-center mb-14 md:mb-28"
         >
           <Hero />
         </div>
-        <div data-aos="fade-up" className="w-full flex justify-center">
+        <div
+          id="principlesFeaturesContainer"
+          data-aos="fade-up"
+          className="w-full flex justify-center"
+        >
           <PrinciplesFeaturesSection />
         </div>
-        <div data-aos="fade-up">
+        <div id="midPageGraphicContainer" data-aos="fade-up">
           <MidPageGraphic />
         </div>
         <div
+          id="titleContainer"
           data-aos="fade-up"
-          className=" w-full flex justify-center mb-14 md:mb-28"
+          className="w-full flex justify-center mb-14 md:mb-28"
         >
-          <div className="2xs:w-1/2 w-2/3 flex flex-col justify-center items-center text-center ">
+          <div
+            id="titleTextContainer"
+            className="2xs:w-1/2 w-2/3 flex flex-col justify-center items-center text-center"
+          >
             <Title title="Chaque journée est une leçon, chaque expérience, un enseignement." />
           </div>
         </div>
-        <div data-aos="fade-up">
+        <div id="perksCardsContainer" data-aos="fade-up">
           <PerksCards />
         </div>
-        <div data-aos="fade-up">
+        <div id="reviewsContainer" data-aos="fade-up">
           <Reviews />
         </div>
-        <div data-aos="fade-up">
+        <div id="howItWorksContainer" data-aos="fade-up">
           <HowItWorks />
         </div>
-        <div data-aos="fade-up">
+        <div id="optimisationMemoryContainer" data-aos="fade-up">
           <OptimisationMemory />
         </div>
         <div
+          id="buttonBottomLandingContainer"
           className="flex items-center justify-center pb-28 mt-16"
           data-aos="fade-up"
         >

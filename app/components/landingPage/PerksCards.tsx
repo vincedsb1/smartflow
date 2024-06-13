@@ -14,15 +14,18 @@ const PerksCards: React.FC = () => {
   }, []);
 
   return (
-    <div className="flex flex-col md:flex-row justify-center items-center md:p-4 mb-14 md:mb-28">
-      <div className="flex flex-col md:flex-row justify-center w-full max-w-7xl">
-        <div
-          className="flex flex-col items-center md:m-10"
-          id="odd-cards-column"
-        >
+    <div
+      id="perksCardsContainer"
+      className="flex flex-col md:flex-row justify-center items-center px-4 mb-14 md:mb-28"
+    >
+      <div
+        id="cardsWrapper"
+        className="flex flex-col md:flex-row justify-center w-full max-w-7xl"
+      >
+        <div id="oddCardsColumn" className="flex flex-col items-center md:m-10">
           <div
             data-aos="fade-up"
-            className="border-2 border-cyan-300 dark:border-neutral-700 rounded-3xl p-7 shadow-lg shadow-cyan-100 dark:shadow-neutral-950 bg-white dark:bg-neutral-800 w-72 my-6 md:m-10"
+            className="border-2 border-cyan-300 dark:border-neutral-700 rounded-3xl p-7 shadow-lg shadow-cyan-100 dark:shadow-neutral-950 bg-white dark:bg-neutral-800 max-w-72 my-6 md:m-10"
             id="card-0"
           >
             <h3 className="text-lg font-semibold mb-5 text-neutral-700 dark:text-neutral-300 font-title">
@@ -35,7 +38,7 @@ const PerksCards: React.FC = () => {
           </div>
           <div
             data-aos="fade-up"
-            className="border-2 border-cyan-300 dark:border-neutral-700 rounded-3xl p-7 shadow-lg shadow-cyan-100 dark:shadow-neutral-950 bg-white dark:bg-neutral-800 w-72 my-6 md:m-10"
+            className="border-2 border-cyan-300 dark:border-neutral-700 rounded-3xl p-7 shadow-lg shadow-cyan-100 dark:shadow-neutral-950 bg-white dark:bg-neutral-800 max-w-72 my-6 md:m-10"
             id="card-2"
           >
             <h3 className="text-lg font-semibold mb-5 text-neutral-700 dark:text-neutral-300 font-title">
@@ -48,7 +51,7 @@ const PerksCards: React.FC = () => {
           </div>
           <div
             data-aos="fade-up"
-            className="border-2 border-cyan-300 dark:border-neutral-700 rounded-3xl p-7 shadow-lg shadow-cyan-100 dark:shadow-neutral-950 bg-white dark:bg-neutral-800 w-72 my-6 md:m-10"
+            className="border-2 border-cyan-300 dark:border-neutral-700 rounded-3xl p-7 shadow-lg shadow-cyan-100 dark:shadow-neutral-950 bg-white dark:bg-neutral-800 max-w-72 my-6 md:m-10"
             id="card-4"
           >
             <h3 className="text-lg font-semibold mb-5 text-neutral-700 dark:text-neutral-300 font-title">
@@ -62,8 +65,8 @@ const PerksCards: React.FC = () => {
           </div>
         </div>
         <div
+          id="separatorColumn"
           className="hidden md:flex flex-col justify-between items-center"
-          id="separator-column"
         >
           {[...Array(15)].map((_, i) => (
             <div
@@ -74,12 +77,12 @@ const PerksCards: React.FC = () => {
           ))}
         </div>
         <div
-          className="flex flex-col items-center m-10 mt-0 md:mt-40"
-          id="even-cards-column"
+          id="evenCardsColumn"
+          className="flex flex-col items-center md:m-10 mt-0 md:mt-40"
         >
           <div
             data-aos="fade-up"
-            className="border-2 border-cyan-300 dark:border-neutral-600 rounded-3xl p-7 shadow-lg shadow-cyan-100 dark:shadow-neutral-950 bg-white dark:bg-neutral-800 w-72 my-6 md:m-10"
+            className="border-2 border-cyan-300 dark:border-neutral-600 rounded-3xl p-7 shadow-lg shadow-cyan-100 dark:shadow-neutral-950 bg-white dark:bg-neutral-800 max-w-72 my-6 md:m-10"
             id="card-1"
           >
             <h3 className="text-lg font-semibold mb-5 text-neutral-700 dark:text-neutral-300 font-title">
@@ -92,7 +95,7 @@ const PerksCards: React.FC = () => {
           </div>
           <div
             data-aos="fade-up"
-            className="border-2 border-cyan-300 dark:border-neutral-600 rounded-3xl p-7 shadow-lg shadow-cyan-100 dark:shadow-neutral-950 bg-white dark:bg-neutral-800 w-72 my-6 md:m-10"
+            className="border-2 border-cyan-300 dark:border-neutral-600 rounded-3xl p-7 shadow-lg shadow-cyan-100 dark:shadow-neutral-950 bg-white dark:bg-neutral-800 max-w-72 my-6 md:m-10"
             id="card-3"
           >
             <h3 className="text-lg font-semibold mb-5 text-neutral-700 dark:text-neutral-300 font-title">
