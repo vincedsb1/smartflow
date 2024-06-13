@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Button } from "@nextui-org/react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faRocket } from "@fortawesome/free-solid-svg-icons";
@@ -10,12 +10,17 @@ import { FlipWords } from "../landingPage/flip-words";
 
 const Hero = () => {
   const router = useRouter();
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
 
   const handleNavigation = () => {
     router.push("/login");
   };
 
-  const words = ["mieux", "efficacement", "plus rapidement", "durablement"];
+  const words = ["mieux", "efficacement", " rapidement", "durablement"];
 
   return (
     <div
@@ -41,9 +46,11 @@ const Hero = () => {
           >
             <p className="text-3xl 2xs:text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl text-cyan-900 dark:text-cyan-500 break-words">
               Le hack ultime pour apprendre
-              <br />
-              <FlipWords words={words} /> !
             </p>
+            <span className="text-3xl 2xs:text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl text-cyan-900 dark:text-cyan-500 break-words">
+              {isClient && <FlipWords words={words} />}
+              {"\u00A0"}!
+            </span>
           </div>
         </div>
         <div id="containerHeroSubTitle" className="mb-6 md:mb-8 ">
