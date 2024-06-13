@@ -24,7 +24,7 @@ const LandingPage = () => {
   return (
     <div
       id="landingPageContainer"
-      className="bg-white dark:bg-neutral-900 flex flex-col justify-center"
+      className="bg-white dark:bg-neutral-900 flex flex-col justify-center pb-20"
     >
       <div id="headerStickyContainer" className="sticky top-0 z-10">
         <Header />

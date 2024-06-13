@@ -47,9 +47,9 @@ const Hero = () => {
             <p className="text-3xl 2xs:text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl text-cyan-900 dark:text-cyan-500 break-words">
               Le hack ultime pour apprendre
             </p>
-            <span className="text-3xl 2xs:text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl text-cyan-900 dark:text-cyan-500 break-words">
+            <span className="text-3xl 2xs:text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl text-cyan-900 dark:text-cyan-500 break-words whitespace-nowrap">
               {isClient && <FlipWords words={words} />}
-              {"\u00A0"}!
+              <span>&nbsp;!</span>
             </span>
           </div>
         </div>
@@ -59,9 +59,21 @@ const Hero = () => {
             efficace, tout simplement.
           </p>
         </div>
-        <div id="containerHeroButton" className="w-full">
+        <div
+          id="containerHeroButton"
+          className="w-full flex flex-row justify-center sm:justify-start"
+        >
           <Button
-            className="bg-cyan-950 dark:bg-cyan-100 text-white w-60 dark:text-cyan-950"
+            className="bg-cyan-950 dark:bg-cyan-100 text-white w-40 xs:w-60 dark:text-cyan-950 2xs:hidden"
+            onClick={handleNavigation}
+            size="sm"
+            isDisabled={false}
+          >
+            <FontAwesomeIcon icon={faRocket} />
+            Let&apos;s go
+          </Button>
+          <Button
+            className="bg-cyan-950 dark:bg-cyan-100 text-white w-40 xs:w-60 dark:text-cyan-950 hidden 2xs:block"
             onClick={handleNavigation}
             size="lg"
             isDisabled={false}
