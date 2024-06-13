@@ -79,7 +79,10 @@ const Header: FC = () => {
       id="headerContainer"
       className="flex dark:bg-neutral-800 dark:bg-opacity-60 items-center justify-between h-16 bg-white bg-opacity-60 backdrop-filter backdrop-blur-lg"
     >
-      <div className="flex h-10 w-32 relative 2xs:ml-4 flex-row justify-start ">
+      <div
+        id="logoContainer"
+        className="flex h-10 w-32 relative ml-2 2xs:ml-4 flex-row justify-start"
+      >
         <Image
           id="logoHeader"
           src={logoSrc}
@@ -88,13 +91,30 @@ const Header: FC = () => {
           objectFit="contain"
         ></Image>
       </div>
-      <div className="flex items-center">
-        <div className="mr-2">
-          <Button color="primary" onClick={onOpen} className="px-8" radius="lg">
+      <div id="buttonContainer" className="flex items-center">
+        <div id="waitlistButtonContainer" className="mx-2">
+          <Button
+            color="primary"
+            onClick={onOpen}
+            className="2xs:hidden px-8"
+            radius="lg"
+          >
+            Liste d&apos;attente
+          </Button>
+        </div>
+        <div id="joinWaitlistButtonContainer" className="mx-2">
+          <Button
+            color="primary"
+            onClick={onOpen}
+            className="hidden 2xs:block px-8"
+            radius="lg"
+          >
             Rejoignez la liste d&apos;attente
           </Button>
         </div>
-        <ButtonConnexion label="Connexion" />
+        <div id="connexionButtonContainer" className="hidden 3xs:block">
+          <ButtonConnexion label="Connexion" />
+        </div>
         <ButtonTheme />
       </div>
 

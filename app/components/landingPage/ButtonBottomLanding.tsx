@@ -19,7 +19,7 @@ const ButtonConnexion: React.FC<ButtonConnexionProps> = ({ label }) => {
         onClick={handleNavigation}
         id="buttonConnexion"
         color="primary"
-        className="w-56 mr-4"
+        className="w-56"
         size="lg"
       >
         {label}

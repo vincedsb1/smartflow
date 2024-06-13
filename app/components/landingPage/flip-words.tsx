@@ -14,6 +14,11 @@ export const FlipWords = ({
 }) => {
   const [currentWord, setCurrentWord] = useState(words[0]);
   const [isAnimating, setIsAnimating] = useState<boolean>(false);
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
 
   const startAnimation = useCallback(() => {
     const word = words[(words.indexOf(currentWord) + 1) % words.length];
@@ -29,6 +34,10 @@ export const FlipWords = ({
       return () => clearTimeout(timer);
     }
   }, [isAnimating, duration, startAnimation]);
+
+  if (!isClient) {
+    return <div className={cn("inline-block", className)}>{currentWord}</div>;
+  }
 
   return (
     <AnimatePresence
