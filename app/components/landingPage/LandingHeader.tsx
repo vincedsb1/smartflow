@@ -1,3 +1,4 @@
+"use client";
 import React, { FC, useEffect, useState, ChangeEvent } from "react";
 import Image from "next/image";
 import ButtonConnexion from "./ButtonConnexion";
@@ -96,22 +97,29 @@ const Header: FC = () => {
           <Button
             color="primary"
             onClick={onOpen}
-            className="2xs:hidden px-8"
+            className="2xs:hidden px-4"
+            radius="lg"
+          >
+            Wait List
+          </Button>
+          <Button
+            color="primary"
+            onClick={onOpen}
+            className="hidden 2xs:block 3xs:hidden px-8"
             radius="lg"
           >
             Liste d&apos;attente
           </Button>
-        </div>
-        <div id="joinWaitlistButtonContainer" className="mx-2">
           <Button
             color="primary"
             onClick={onOpen}
-            className="hidden 2xs:block px-8"
+            className="hidden 3xs:block px-8"
             radius="lg"
           >
             Rejoignez la liste d&apos;attente
           </Button>
         </div>
+
         <div id="connexionButtonContainer" className="hidden 3xs:block">
           <ButtonConnexion label="Connexion" />
         </div>

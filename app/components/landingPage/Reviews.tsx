@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 import Review from "./Review";
 import Title from "./Title";
@@ -21,7 +22,7 @@ const Reviews = () => {
         id="titleContainer"
         className="flex flex-row w-full mb-20 justify-center text-center px-10"
       >
-        <Title title="Ce que nos client·es pensent de nous" />
+        <Title title="Ce qu'on pensent de nous" />
       </div>
       <div
         id="reviewsContainer"
