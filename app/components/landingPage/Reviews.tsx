@@ -27,7 +27,10 @@ const Reviews = () => {
         id="reviewsContainer"
         className="w-full flex flex-wrap justify-center items-center max-w-4xl"
       >
-        <div data-aos="fade-up" className="w-full sm:w-auto">
+        <div
+          data-aos="fade-up"
+          className="w-full sm:w-auto flex flex-row justify-center"
+        >
           <Review
             name="Christine"
             jobTitle="Étudiante"
@@ -36,7 +39,10 @@ const Reviews = () => {
             grade={5}
           />
         </div>
-        <div data-aos="fade-up" className="w-full sm:w-auto">
+        <div
+          data-aos="fade-up"
+          className="w-full sm:w-auto flex flex-row justify-center"
+        >
           <Review
             name="Vincent"
             jobTitle="Développeur"
@@ -45,7 +51,10 @@ const Reviews = () => {
             grade={5}
           />
         </div>
-        <div data-aos="fade-up" className="w-full sm:w-auto">
+        <div
+          data-aos="fade-up"
+          className="w-full sm:w-auto flex flex-row justify-center"
+        >
           <Review
             name="Thibaud"
             jobTitle="Développeur"
@@ -54,7 +63,10 @@ const Reviews = () => {
             grade={5}
           />
         </div>
-        <div data-aos="fade-up" className="w-full sm:w-auto">
+        <div
+          data-aos="fade-up"
+          className="w-full sm:w-auto flex flex-row justify-center"
+        >
           <Review
             name="Julie"
             jobTitle="Assistante Maternelle"
