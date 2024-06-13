@@ -30,7 +30,7 @@ const Review: React.FC<ReviewProps> = ({
           id="reviewPhotoContainer"
           className="flex flex-row justify-center items-center w-3/20 3xs:w-1/3 h-full flex-grow "
         >
-          <div className="w-16 h-16 flex justify-center items-center ">
+          <div className="w-10 xs:w-16 h-10 xs:h-16 flex justify-center items-center ">
             <Image
               src={consumerPhoto}
               alt={name}
@@ -55,7 +55,7 @@ const Review: React.FC<ReviewProps> = ({
           </div>
           <div
             id="reviewText"
-            className="flex pb-4 font-title text-neutral-950 dark:text-neutral-300"
+            className="flex pb-4 font-title text-neutral-950 dark:text-neutral-400"
           >
             <p>{review}</p>
           </div>
@@ -64,7 +64,7 @@ const Review: React.FC<ReviewProps> = ({
               <FontAwesomeIcon
                 key={index}
                 icon={faStar}
-                className="text-cyan-400 text-2xl pr-2"
+                className="text-cyan-400 text-sm 2xs:text-lg 3xs:text-2xl pr-2"
               />
             ))}
           </div>
