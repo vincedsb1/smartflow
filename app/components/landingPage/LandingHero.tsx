@@ -20,7 +20,7 @@ const Hero = () => {
     router.push("/login");
   };
 
-  const words = ["mieux", "efficacement", " rapidement", "durablement"];
+  const words = ["mieux", "efficacement", "rapidement", "durablement"];
 
   return (
     <div

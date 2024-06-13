@@ -38,8 +38,8 @@ const PrinciplesFeaturesSection: React.FC = () => {
           Répétitions espacées
         </h3>
         <p className="font-text dark:text-neutral-400 text-neutral-800">
-          Pas de simple relecture passive. Votre cerveau est stimulé par des
-          rappels réguliers pour consolider les connaissances.
+          L&apos;algorithme SmartFlow ajuste intelligemment les intervalles
+          entre chaque révision pour un apprentissage optimal et durable.
         </p>
       </div>
       <div
