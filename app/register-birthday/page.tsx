@@ -2,11 +2,9 @@
 import React, { useEffect, useState } from "react";
 import CardAppText from "../components/CardAppText";
 import CardAppTitle from "../components/CardAppTitle";
-import MainButton from "../components/MainButton";
-import Link from "next/link";
+
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronLeft } from "@fortawesome/free-solid-svg-icons";
-import { faUser } from "@fortawesome/free-solid-svg-icons";
 import { useRouter } from "next/navigation";
 import InputBirthday from "../components/InputBirthday";
 import { useUser } from "../context/UserContext";

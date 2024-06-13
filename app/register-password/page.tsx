@@ -178,7 +178,7 @@ const ConnexionPage = () => {
           >
             <div
               id="desktopTitleContainer"
-              className="flex flex-col items-start w-full mt-2"
+              className="flex flex-col items-start w-full mt-12"
             >
               <CardAppTitle title="Votre profil" size="big" />
               <CardAppText
