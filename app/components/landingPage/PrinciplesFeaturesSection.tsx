@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBrain, faClock, faCheck } from "@fortawesome/free-solid-svg-icons";
@@ -10,51 +11,72 @@ const PrinciplesFeaturesSection: React.FC = () => {
     >
       <div
         id="active-learning"
-        className="flex flex-col items-center text-center p-4 max-w-80"
+        className="flex flex-col items-center text-center p-4 max-w-80 md:min-h-64"
       >
         <FontAwesomeIcon
           icon={faBrain}
           size="3x"
-          className="text-primary-400 dark:text-primary-600 mb-4"
+          className="text-primary-400 dark:text-primary-600 mb-6"
+          data-aos="fade-up"
         />
-        <h3 className="font-title font-bold text-lg dark:text-neutral-300 text-dark-primary">
+        <h3
+          className="font-title font-bold text-lg dark:text-neutral-300 text-dark-primary mb-4"
+          data-aos="fade-up"
+        >
           Apprentissage actif
         </h3>
-        <p className="font-text dark:text-neutral-400 text-neutral-800">
+        <p
+          className="font-text dark:text-neutral-400 text-neutral-800"
+          data-aos="fade-up"
+        >
           Pas de simple relecture passive. Votre cerveau est stimulé par des
           rappels réguliers pour consolider les connaissances.
         </p>
       </div>
       <div
         id="spaced-repetition"
-        className="flex flex-col items-center text-center p-4  max-w-80"
+        className="flex flex-col items-center text-center p-4  max-w-80 md:min-h-64"
       >
         <FontAwesomeIcon
           icon={faClock}
           size="3x"
-          className="text-primary-400 dark:text-primary-600 mb-4"
+          className="text-primary-400 dark:text-primary-600 mb-6"
+          data-aos="fade-up"
         />
-        <h3 className="font-title font-bold text-lg dark:text-neutral-300 text-dark-primary">
+        <h3
+          className="font-title font-bold text-lg dark:text-neutral-300 text-dark-primary mb-4"
+          data-aos="fade-up"
+        >
           Répétitions espacées
         </h3>
-        <p className="font-text dark:text-neutral-400 text-neutral-800">
-          Pas de simple relecture passive. Votre cerveau est stimulé par des
-          rappels réguliers pour consolider les connaissances.
+        <p
+          className="font-text dark:text-neutral-400 text-neutral-800"
+          data-aos="fade-up"
+        >
+          L&apos;algorithme SmartFlow ajuste intelligemment les intervalles
+          entre chaque révision pour un apprentissage optimal et durable.
         </p>
       </div>
       <div
         id="desirable-difficulty"
-        className="flex flex-col items-center text-center p-4  max-w-80"
+        className="flex flex-col items-center text-center p-4  max-w-80 md:min-h-64"
       >
         <FontAwesomeIcon
           icon={faCheck}
           size="3x"
-          className="text-primary-400 dark:text-primary-600 mb-4"
+          className="text-primary-400 dark:text-primary-600 mb-6"
+          data-aos="fade-up"
         />
-        <h3 className="font-title font-bold text-lg dark:text-neutral-300 text-dark-primary">
+        <h3
+          className="font-title font-bold text-lg dark:text-neutral-300 text-dark-primary mb-4"
+          data-aos="fade-up"
+        >
           Zone de difficulté idéale
         </h3>
-        <p className="font-text dark:text-neutral-400 text-neutral-800">
+        <p
+          className="font-text dark:text-neutral-400 text-neutral-800"
+          data-aos="fade-up"
+        >
           Les défis sont calibrés pour rester dans la &quot;zone de difficulté
           désirable&quot;, où votre mémoire est sollicitée au maximum.
         </p>
