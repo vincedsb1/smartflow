@@ -1,3 +1,4 @@
+"use client";
 import React, { useEffect } from "react";
 import Title from "./Title";
 import AOS from "aos";
@@ -20,7 +21,7 @@ const HowItWorks = () => {
           <Title title="Comment ça marche ?" />
         </div>
         <div className="mb-8 ml-8" data-aos="fade-up">
-          <h2 className="text-xl text-cyan-950 font-bold dark:text-neutral-400">
+          <h2 className="text-xl text-cyan-950 font-bold dark:text-neutral-300">
             {" "}
             1. Fiches recto-verso ✍️
           </h2>
@@ -30,7 +31,7 @@ const HowItWorks = () => {
           </p>
         </div>
         <div className="mb-8 ml-8" data-aos="fade-up">
-          <h2 className="text-xl text-cyan-950 font-bold dark:text-neutral-400">
+          <h2 className="text-xl text-cyan-950 font-bold dark:text-neutral-300">
             {" "}
             2. Niveaux de révision 📚
           </h2>
@@ -39,7 +40,7 @@ const HowItWorks = () => {
           </p>
         </div>
         <div className="mb-8 ml-8" data-aos="fade-up">
-          <h2 className="text-xl text-cyan-950 font-bold dark:text-neutral-400">
+          <h2 className="text-xl text-cyan-950 font-bold dark:text-neutral-300">
             {" "}
             3. Rappels intelligents ⏰
           </h2>
