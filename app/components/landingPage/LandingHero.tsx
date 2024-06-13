@@ -70,7 +70,7 @@ const Hero = () => {
             isDisabled={false}
           >
             <FontAwesomeIcon icon={faRocket} />
-            Let&apos;s go
+            &nbsp;Let&apos;s go
           </Button>
           <Button
             className="bg-cyan-950 dark:bg-cyan-100 text-white w-40 xs:w-60 dark:text-cyan-950 hidden 2xs:block"
@@ -79,7 +79,7 @@ const Hero = () => {
             isDisabled={false}
           >
             <FontAwesomeIcon icon={faRocket} />
-            Let&apos;s go
+            &nbsp;Let&apos;s go
           </Button>
         </div>
       </div>

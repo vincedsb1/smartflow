@@ -4,9 +4,13 @@ import { useRouter } from "next/navigation";
 
 interface ButtonConnexionProps {
   label: string;
+  labelSmall: string;
 }
 
-const ButtonConnexion: React.FC<ButtonConnexionProps> = ({ label }) => {
+const ButtonConnexion: React.FC<ButtonConnexionProps> = ({
+  label,
+  labelSmall,
+}) => {
   const router = useRouter();
 
   const handleNavigation = () => {
@@ -19,7 +23,16 @@ const ButtonConnexion: React.FC<ButtonConnexionProps> = ({ label }) => {
         onClick={handleNavigation}
         id="buttonConnexion"
         color="primary"
-        className="w-56"
+        className="xs:hidden"
+        size="lg"
+      >
+        {labelSmall}
+      </Button>
+      <Button
+        onClick={handleNavigation}
+        id="buttonConnexion"
+        color="primary"
+        className="hidden xs:block"
         size="lg"
       >
         {label}
