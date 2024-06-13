@@ -13,6 +13,7 @@ import AOS from "aos";
 import "aos/dist/aos.css";
 import Title from "./components/landingPage/Title";
 import ButtonBottomLanding from "./components/landingPage/ButtonBottomLanding";
+import FooterLanding from "./components/landingPage/FooterLanding";
 
 const LandingPage = () => {
   useEffect(() => {
@@ -24,7 +25,7 @@ const LandingPage = () => {
   return (
     <div
       id="landingPageContainer"
-      className="bg-white dark:bg-neutral-900 flex flex-col justify-center pb-20"
+      className="bg-white dark:bg-neutral-900 flex flex-col justify-center"
     >
       <div id="headerStickyContainer" className="sticky top-0 z-10">
         <Header />
@@ -76,7 +77,13 @@ const LandingPage = () => {
           className="flex items-center justify-center pb-28 mt-16"
           data-aos="fade-up"
         >
-          <ButtonBottomLanding label="S'inscrire gratuitement" />
+          <ButtonBottomLanding
+            label="S'inscrire gratuitement"
+            labelSmall="S'inscrire"
+          />
+        </div>
+        <div id="footerLanding" className="w-full">
+          <FooterLanding />
         </div>
       </div>
     </div>
