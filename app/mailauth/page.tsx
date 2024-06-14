@@ -23,16 +23,14 @@ const MailAuth = () => {
   const { email, setEmail } = userContext;
   const [isEmailValid, setIsEmailValid] = useState(true);
 
-  useEffect(() => {}, []);
-
-  const handleChangeEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChangeEmail = (e: { target: { value: any; }; }) => {
     const email = e.target.value;
     const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
     setIsEmailValid(emailRegex.test(email));
-    if (setEmail) setEmail(email);
+    setEmail(email);
   };
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: { preventDefault: () => void; }) => {
     e.preventDefault();
     try {
       const res = await fetch(`/api/users/checkEmail?email=${email}`);
@@ -55,19 +53,6 @@ const MailAuth = () => {
   const handleBack = () => {
     router.back();
   };
-
-  const FormContainer = ({ children }: { children: React.ReactNode }) => (
-    <form
-      id="formContainer"
-      onSubmit={handleSubmit}
-      className="flex flex-col items-center w-full"
-    >
-      {children}
-    </form>
-  );
-
-  console.log("email : alice@prisma.io");
-  console.log("pass : passwordA123@#");
 
   const [showLogo, setShowLogo] = useState(false);
 
@@ -147,7 +132,11 @@ const MailAuth = () => {
                 shadow
               />
             </div>
-            <FormContainer>
+            <form
+              id="formContainer"
+              onSubmit={handleSubmit}
+              className="flex flex-col items-center w-full"
+            >
               <Input
                 value={email || ""}
                 onChange={handleChangeEmail}
@@ -169,7 +158,7 @@ const MailAuth = () => {
               >
                 Suivant
               </Button>
-            </FormContainer>
+            </form>
           </div>
         </div>
       </div>
@@ -219,7 +208,11 @@ const MailAuth = () => {
           id="mailAuthMobileBottom"
           className="flex flex-col items-center pb-4 xs:pb-24 2xs:pb-24 3xs:pb-24 sm:pb-24"
         >
-          <FormContainer>
+          <form
+            id="formContainer"
+            onSubmit={handleSubmit}
+            className="flex flex-col items-center w-full"
+          >
             <div
               id="mobileInputContainer"
               className="w-full pb-10 xs:pb-12 2xs:pb-16 3xs:pb-20 sm:pb-32"
@@ -249,7 +242,7 @@ const MailAuth = () => {
                 Suivant
               </Button>
             </div>
-          </FormContainer>
+          </form>
         </div>
       </div>
     </div>
