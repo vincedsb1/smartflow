@@ -25,6 +25,7 @@ import ReviewContent from "@/app/components/review/ReviewContent";
 
 const Review: React.FC = () => {
   const userContext = useContext(UserContext);
+  const apiUrl = process.env.NEXT_PUBLIC_API_URL;
   const router = useRouter();
 
   if (!userContext) {
@@ -92,7 +93,7 @@ const Review: React.FC = () => {
   };
 
   const handleReview = (isPositive: boolean) => {
-    fetch(`http://localhost:3000/api/cards/${id}`, {
+    fetch(`${apiUrl}/api/cards/${id}`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
