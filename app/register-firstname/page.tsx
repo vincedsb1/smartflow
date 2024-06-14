@@ -1,23 +1,21 @@
 "use client";
-import React, { useState, useEffect, useContext } from "react";
-import CardAppText from "../components/CardAppText";
-import CardAppTitle from "../components/CardAppTitle";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faChevronLeft } from "@fortawesome/free-solid-svg-icons";
-import { faUser } from "@fortawesome/free-solid-svg-icons";
+import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useUser } from "../context/UserContext";
 import { Button } from "@nextui-org/react";
 import { Input } from "@nextui-org/react";
 import Image from "next/image";
 import { useTheme } from "next-themes";
-import Link from "next/link";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faChevronLeft, faUser } from "@fortawesome/free-solid-svg-icons";
+import CardAppText from "../components/CardAppText";
+import CardAppTitle from "../components/CardAppTitle";
 
 // Page d'inscription pour le prénom
 const InscriptionPage = () => {
   const router = useRouter();
   const [token, setToken] = useState<string | null>(null);
-  const [firstName, setFirstName] = useState<string | null>(null);
+  const [firstName, setFirstName] = useState<string | null>("");
   const { user, setUser, setEmail, setFirstname } = useUser();
   const [isEmailVerified, setIsEmailVerified] = useState(false);
   const { theme } = useTheme();
@@ -28,6 +26,7 @@ const InscriptionPage = () => {
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
     setFirstName(event.target.value);
+    console.log("Prénom entré :", event.target.value);
   };
 
   // Récupérer le token de l'URL
@@ -55,10 +54,13 @@ const InscriptionPage = () => {
           );
           const data = await response.json();
           setEmail(data.email);
+          console.log("Email récupéré et stocké :", data.email);
           setUser({ ...user, email: data.email });
-          setIsEmailVerified(true); // Ajoutez cette ligne
+          setIsEmailVerified(true);
         } catch (error) {
           console.error(error);
+          console.log("Erreur lors de la vérification de l'email :", error);
+
           router.push("/mailauth");
         }
       }
@@ -66,7 +68,7 @@ const InscriptionPage = () => {
 
     verifyEmail();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [token]);
+  }, [token, setEmail]);
 
   // Fonction pour continuer
   const handleContinue = () => {
@@ -79,109 +81,199 @@ const InscriptionPage = () => {
     router.push("/register-birthday");
   };
 
+  // Fonction pour gérer la soumission du formulaire
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault(); // Empêche le rechargement de la page
+    handleContinue();
+  };
+
+
+  const [showLogo, setShowLogo] = useState(false);
+
+  useEffect(() => {
+    const handleResize = () => {
+      const widthCondition = window.innerWidth >= 1280; // xl breakpoint
+      const heightCondition = window.innerHeight >= 896; // custom height condition
+      setShowLogo(widthCondition || heightCondition);
+    };
+
+    handleResize(); // Check on mount
+    window.addEventListener("resize", handleResize); // Check on resize
+
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  const handleBack = () => {
+    router.back();
+  };
+
   return (
     <div
       id="mailAuthMainContainer"
-      className="flex flex-col items-center justify-center w-full h-screen min-h-screen"
+      className="flex flex-col items-center justify-center w-full h-full min-h-screen"
     >
+      {/* Desktop version */}
       <div
-        id="chevronContainer"
-        className="sm:hidden absolute top-12 left-0 flex flex-row justify-start items-center h-16 w-full p-4"
+        id="mailAuthDesktop"
+        className="hidden sm:flex h-full w-full flex-col justify-center items-center"
       >
-        <Link href="/">
-          <FontAwesomeIcon
-            icon={faChevronLeft}
-            className="text-neutral-800 dark:text-neutral-200 text-xs w-4 h-4 m-5 cursor-pointer"
-          />
-        </Link>
-      </div>
-      <div
-        id="logoContainer"
-        className="hidden sm:absolute sm:block sm:top-0 sm:left-0 justify-start items-center h-16 w-full relative p-4"
-      >
-        <Image src={logo} alt="logo" width={151} height={38} priority={true} />
-      </div>
-      <div
-        id="mobileVersion"
-        className="flex flex-col items-center justify-center w-full sm:hidden h-screen"
-      >
-        <div className="flex flex-col items-center justify-center h-full">
-          <div className="w-4/5 m-8 3xs:m-4 xs:mt-20">
-            <CardAppTitle title="Votre profil" />
+        {showLogo && (
+          <div
+            id="logoContainer"
+            className="absolute sm:top-0 sm:left-0 flex-row justify-start items-center h-16 w-full p-4"
+          >
+            <Image
+              src={logo}
+              alt="logo"
+              width={151}
+              height={38}
+              priority={true}
+            />
           </div>
-          <div className=" w-80 m-8">
-            <CardAppText text="Quel est votre prénom ?" icon={faUser} shadow />
+        )}
+        <div
+          id="desktopVersion"
+          className="hidden sm:flex w-16/20 lg:w-16/20 h-[600px] bg-white shadow-lg rounded-2xl flex-row items-start justify-between border-3 border-neutral-200 mx-auto my-auto max-w-[800px] max-h-[600px] overflow-hidden"
+        >
+          <div
+            id="desktopImageContainer"
+            className="flex w-1/2 h-full relative"
+          >
+            <Image
+              src="/images/entryVisual.svg"
+              alt="Entry Visual"
+              width={400}
+              height={600}
+              className="object-cover w-full h-full"
+            />
+            <div
+              id="desktopWelcomeTextContainer"
+              className="absolute top-1/4 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
+            >
+              <h2 className="text-4xl font-bold font-text text-cyan-900">
+                Bienvenue
+              </h2>
+            </div>
           </div>
-          <div className="flex flex-col justify-between items-center mt-44 xs:mt-0">
-            <div id="registerFirstnameInputContainer">
+          <div
+            id="desktopContentContainer"
+            className="flex flex-col items-center dark:bg-neutral-800 w-1/2 h-full justify-between p-8 dark:rounded-tr-2xl dark:rounded-br-2xl"
+          >
+            <div
+              id="desktopTitleContainer"
+              className="flex flex-col items-start w-full mt-12"
+            >
+              <CardAppTitle title="Votre profil" size="big" />
+              <CardAppText
+                text="Quel est votre prénom ?"
+                icon={faUser}
+                shadow
+              />
+            </div>
+            <form
+              id="formContainer"
+              onSubmit={handleSubmit}
+              className="flex flex-col items-center w-full"
+            >
               <Input
                 onChange={handleFirstNameChange}
+                value={firstName || ""}
                 isRequired
                 size="md"
                 type="text"
-                label="Prénom"
                 radius="lg"
-                className="w-80 mb-20 font-text xs:w-50"
+                className="w-full mb-4 font-text"
+                label="Prénom"
               />
-            </div>
-            <Button
-              type="submit"
-              color="primary"
-              variant="solid"
-              size="lg"
-              className="w-full mt-4 3xs:mt-0 sm:h-full 2xs:mt-56 font-bold"
-              onClick={handleContinue}
-            >
-              Suivant
-            </Button>
+              <Button
+                type="submit"
+                color="default"
+                variant="solid"
+                size="lg"
+                className="w-full max-w-full pr-14 pl-14 font-bold font-text"
+              >
+                Suivant
+              </Button>
+            </form>
           </div>
         </div>
       </div>
+      {/* Mobile version */}
       <div
-        id="desktopVersion"
-        className="hidden sm:flex bg-white shadow-lg rounded-2xl flex-row items-start justify-between border-neutral-200 border-3 mx-auto my-auto max-w-[800px] ma-h-[600px] overflow-hidden"
+        id="mailAuthMobile"
+        className="sm:hidden w-full h-full flex flex-col flex-grow justify-between items-center "
       >
-        <div className="flex w-1/2 h-full relative">
-          <Image
-            src="/images/entryVisual.svg"
-            alt="Entry Visual"
-            width={400}
-            height={600}
-            className="object-cover w-full h-full"
-          />
-          <div className="absolute top-1/4 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-            <h2 className="text-4xl font-bold font-quicksand text-cyan-900">
-              Bienvenue
-            </h2>
-          </div>
-        </div>
-        <div className="flex flex-col items-start dark:bg-neutral-800 w-1/2 h-full justify-between p-8 dark:rounded-tr-2xl dark:rounded-br-2xl">
-          <CardAppTitle title="Votre profil" size="big" />
-          <CardAppText text="Quel est votre prénom ?" icon={faUser} shadow />
+        <div
+          id="MailAuthMobileTop"
+          className="flex flex-col items-center justify-center w-full "
+        >
           <div
-            id="registerFirstnameInputContainer"
-            className="flex flex-col items-center w-full mb-4"
+            id="chevronContainer"
+            className="sm:hidden flex flex-row justify-start items-center h-16 w-full mt-4 xs:mt-6 2xs:mt-8 3xs:mt-10 sm:mt-16 ml-0"
           >
-            <Input
-              onChange={handleFirstNameChange}
-              isRequired
-              size="md"
-              type="text"
-              label="Prénom"
-              radius="lg"
-              className="w-full font-text mt-60"
+            <FontAwesomeIcon
+              icon={faChevronLeft}
+              className="text-neutral-800 dark:text-neutral-200 text-xs w-4 h-4 m-5 cursor-pointer"
+              onClick={handleBack}
             />
           </div>
-          <Button
-            type="submit"
-            color="default"
-            variant="solid"
-            size="lg"
-            className="w-full font-bold"
-            onClick={handleContinue}
+
+          <div
+            id="mobileTitleMainContainer"
+            className="flex flex-col items-center justify-center w-full mt-4 xs:mt-6 2xs:mt-8 3xs:mt-10 sm:mt-12"
           >
-            Suivant
-          </Button>
+            <div
+              id="mobileTitleContainer"
+              className="flex flex-col items-start"
+            >
+              <CardAppTitle title="Votre profil" size="big" />
+
+              <div
+                id="mobileTextContainer"
+                className="w-60 xs:w-64 2xs:w-72 3xs:w-80 mb-10"
+              >
+                <CardAppText text="Quel est votre prénom ?" icon={faUser} />
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          id="mailAuthMobileBottom"
+          className="flex flex-col items-center pb-4 xs:pb-24 2xs:pb-24 3xs:pb-24 sm:pb-24"
+        >
+          <form
+            id="formContainer"
+            onSubmit={handleSubmit}
+            className="flex flex-col items-center w-full"
+          >
+            <div
+              id="mobileInputContainer"
+              className="w-full pb-10 xs:pb-12 2xs:pb-16 3xs:pb-20 sm:pb-32"
+            >
+              <Input
+                onChange={handleFirstNameChange}
+                value={firstName || ""}
+                isRequired
+                size="md"
+                type="text"
+                radius="lg"
+                className="w-60 xs:w-64 2xs:w-72 3xs:w-80 font-text"
+                label="Prénom"
+              />
+            </div>
+
+            <div id="mobileButtonContainer" className="">
+              <Button
+                type="submit"
+                color="default"
+                variant="solid"
+                size="lg"
+                className="w-60 xs:w-64 2xs:w-72 3xs:w-80 font-bold font-text"
+              >
+                Suivant
+              </Button>
+            </div>
+          </form>
         </div>
       </div>
     </div>

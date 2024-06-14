@@ -8,7 +8,6 @@ import CardAppTitle from "./CardAppTitle";
 import CardAppImage from "./CardAppImage";
 import { useRouter } from "next/navigation";
 import { Button } from "@nextui-org/react";
-import { Link } from "@nextui-org/react";
 import { useUser } from "../context/UserContext";
 import Image from "next/image";
 import { useTheme } from "next-themes";
@@ -49,9 +48,7 @@ function MethodSteps() {
   const logo = theme === "dark" ? "/logo-dark.svg" : "/logo-light.svg";
 
   const finishOnboarding = async () => {
-    console.log("Finishing onboarding for user:", user);
     if (!user?.email) {
-      console.log("User email is undefined");
       return;
     }
 
@@ -63,23 +60,16 @@ function MethodSteps() {
       body: JSON.stringify({ userEmail: user?.email }),
     });
 
-    if (!response.ok) {
-      console.log("API response was not ok, status:", response.status);
-      return;
+    if (response.ok) {
+      const data = await response.json();
+      setOnBoarding(true);
     }
-
-    const data = await response.json();
-    console.log("Response from updateOnboardingStatus:", data);
-
-    setOnBoarding(true);
-    console.log(setOnBoarding);
   };
 
   const nextStep = () => {
     if (currentStep < steps.length - 1) {
       setCurrentStep(currentStep + 1);
-    } else if (currentStep === steps.length - 1) {
-      console.log("Last step reached, finishing onboarding");
+    } else {
       finishOnboarding();
       router.push("/today");
     }
@@ -110,11 +100,11 @@ function MethodSteps() {
   return (
     <div
       id="mailAuthMainContainer"
-      className="flex flex-col items-center justify-center w-full h-screen min-h-screen p-4 xs:h-full sm:m-0 sm:p-0"
+      className="flex flex-col items-center justify-center w-full h-screen min-h-screen p-2 xs:p-4 sm:p-0"
     >
       <div
         id="chevronContainer"
-        className="md:hidden absolute top-12 left-0 flex flex-row justify-start items-center h-16 w-full p-4"
+        className="md:hidden absolute top-4 left-0 flex flex-row justify-start items-center h-16 w-full p-2"
       >
         <FontAwesomeIcon
           icon={faChevronLeft}
@@ -126,39 +116,39 @@ function MethodSteps() {
         id="logoContainer"
         className="hidden md:flex flex-row justify-start items-center h-16 w-full relative p-4"
       >
-        <Image src={logo} alt="logo" width={151} height={38} priority={true} />
+        <Image src={logo} alt="logo" width={151} height={38} priority />
       </div>
       {/* Mobile */}
-      <div id="mobileVersion" className="flex flex-col items-center justify-center w-full md:hidden">
-        <div className="w-full max-w-xs m-4 xs:m-0 2xs:mt-4 sm:mt-1">
+      <div id="mobileVersion" className="flex flex-col items-center justify-center w-full md:hidden space-y-2 xs:space-y-4">
+        <div className="w-full max-w-xs m-2 xs:m-0">
           <CardAppTitle title={step.title} size="big" />
         </div>
-        <div className="w-full max-w-xs m-4 flex items-center justify-center xs:m-0 2xs:mt-4 sm:mt-1">
+        <div className="w-full max-w-xs m-2 flex items-center justify-center xs:m-0">
           <CardAppText text={step.text} />
         </div>
-        <div className="w-full max-w-xs m-4 2xs:mt-4 sm:mt-1">
+        <div className="w-full max-w-xs m-2 xs:m-0">
           <CardAppImage src={step.image} alt={step.title} />
         </div>
-        <div className="w-full max-w-xs m-4 flex flex-col items-center xs:m-2 2xs:mt-4 sm:mt-1">
+        <div className="w-full max-w-xs m-2 flex flex-col items-center xs:m-2">
           <div className="flex items-center justify-center">
             <Stepper currentStep={currentStep} numberOfSteps={steps.length} />
           </div>
         </div>
-        <div className="w-full max-w-xs m-4 xs:m-0 2xs:mt-4 sm:mt-1">
+        <div className="w-full max-w-xs m-2 xs:m-0">
           <Button
             onClick={nextStep}
             type="submit"
             color="primary"
             variant="solid"
             size="lg"
-            className="w-full font-bold 2xs:mt-4"
+            className="w-full font-bold"
           >
             {buttonText()}
           </Button>
         </div>
       </div>
-      {/* Version desktop */}
-      <div id="desktopVersion" className="hidden md:flex flex-col items-center mb-20 justify-center w-3/4 lg:w-2/3 xl:w-1/2 h-4/5 bg-white shadow-lg rounded-2xl border-neutral-200 mx-auto my-auto p-4 overflow-auto">
+      {/* Desktop */}
+      <div id="desktopVersion" className="hidden md:flex flex-col items-center justify-center w-3/4 lg:w-2/3 xl:w-1/2 h-4/5 border-3 bg-neutral-50 shadow-lg rounded-2xl space-y-4 border-neutral-200 mx-auto my-auto p-4 overflow-auto">
         <div className="w-full max-w-md mb-2 md:mb-0 flex justify-center">
           <CardAppTitle title={step.title} size="big" />
         </div>
