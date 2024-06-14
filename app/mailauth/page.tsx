@@ -82,7 +82,7 @@ const MailAuth = () => {
         {showLogo && (
           <div
             id="logoContainer"
-            className="absolute sm:top-0 sm:left-0 flex-row justify-start items-center h-16 w-full p-4"
+            className="absolute sm:top-0 sm:left-0 flex-row justify-start items-center h-16 w-full p-4 "
           >
             <Image
               src={logo}
@@ -95,7 +95,7 @@ const MailAuth = () => {
         )}
         <div
           id="desktopVersion"
-          className="hidden sm:flex w-16/20 lg:w-16/20 h-[600px] bg-white shadow-lg rounded-2xl flex-row items-start justify-between border-3 border-neutral-200 mx-auto my-auto max-w-[800px] max-h-[600px] overflow-hidden"
+          className="hidden sm:flex w-16/20 lg:w-16/20 h-[600px] bg-white shadow-lg rounded-2xl flex-row items-start justify-between border-3 border-neutral-200 dark:border-neutral-700 mx-auto my-auto max-w-[800px] max-h-[600px] overflow-hidden"
         >
           <div
             id="desktopImageContainer"
@@ -106,7 +106,7 @@ const MailAuth = () => {
               alt="Entry Visual"
               width={400}
               height={600}
-              className="object-cover w-full h-full"
+              className="object-cover w-full h-full brightness-90"
             />
             <div
               id="desktopWelcomeTextContainer"
@@ -119,7 +119,7 @@ const MailAuth = () => {
           </div>
           <div
             id="desktopContentContainer"
-            className="flex flex-col items-center dark:bg-neutral-800 w-1/2 h-full justify-between p-8 dark:rounded-tr-2xl dark:rounded-br-2xl"
+            className="flex flex-col items-center dark:bg-neutral-800 w-1/2 h-full justify-between p-8 "
           >
             <div
               id="desktopTitleContainer"
