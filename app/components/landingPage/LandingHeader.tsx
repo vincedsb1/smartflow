@@ -129,13 +129,13 @@ const Header: FC = () => {
       <Modal isOpen={isOpen} onClose={handleClose}>
         <ModalContent>
           <ModalHeader className="flex flex-col gap-1">
-            Être averti de la sortie
+            Soyez les premiers à découvrir Smartflow !
           </ModalHeader>
           <ModalBody>
             {!isEmailSaved && (
               <p>
-                Saisissez votre email et soyez informé.e dès que Smartflow est
-                disponible
+                Ne manquez pas le lancement ! Inscrivez-vous et recevez un accès
+                prioritaire dès que Smartflow sera disponible.
               </p>
             )}
             {isEmailSaved ? (
