@@ -1,5 +1,5 @@
 "use client";
-import React, { ChangeEvent, useContext, useState } from "react";
+import React, { ChangeEvent, useContext, useState, useEffect } from "react";
 import { Link as NextUILink } from "@nextui-org/react";
 import { useRouter } from "next/navigation";
 import CardAppTitle from "../components/CardAppTitle";
@@ -107,126 +107,202 @@ const ConnexionPage = () => {
     router.back();
   };
 
+  const [showLogo, setShowLogo] = useState(false);
+
+  useEffect(() => {
+    const handleResize = () => {
+      const widthCondition = window.innerWidth >= 1280; // xl breakpoint
+      const heightCondition = window.innerHeight >= 896; // custom height condition
+      setShowLogo(widthCondition || heightCondition);
+    };
+
+    handleResize(); // Check on mount
+    window.addEventListener("resize", handleResize); // Check on resize
+
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+
+
   return (
     <div
       id="mailAuthMainContainer"
-      className="flex flex-col items-center justify-center w-full h-screen min-h-screen"
+      className="flex flex-col items-center justify-center w-full h-full min-h-screen"
     >
+      {/* Desktop version */}
       <div
-        id="chevronContainer"
-        className="sm:hidden fixed top-12 xs:top-4 xs:left-0 left-0 flex flex-row justify-start items-center h-16 w-full p-4 "
+        id="mailAuthDesktop"
+        className="hidden sm:flex h-full w-full flex-col justify-center items-center"
       >
-        <FontAwesomeIcon
-          icon={faChevronLeft}
-          className="text-neutral-800 dark:text-neutral-200 text-xs w-4 h-4"
-          onClick={handleBack}
-        />
-      </div>
-      <div
-        id="logoContainer"
-        className="hidden sm:flex flex-row justify-start items-center h-16 w-full relative p-4"
-      >
-        <Image src={logo} alt="logo" width={151} height={38} priority={true} />
-      </div>
-      {/* Mobile */}
-      <div id="mobileVersion" className="flex flex-col items-center justify-center w-full sm:hidden overflow-y-auto 3xs:h-auto xs:h-auto sm:h-auto  ">
-        <div className="w-4/5 m-8 3xs:m-4 xs:mt-20">
-          <CardAppTitle title="Votre profil" size="big" />
-        </div>
-        <div className="w-4/5 m-8 3xs:mt-1">
-          <CardAppText
-            text="Choisissez un mot de passe"
-            icon={faUser}
-          />
-        </div>
-        <div id="registerPasswordInputContainer" className="w-full">
-          <CardAppPasswordInput onChange={handlePasswordChange} />
-        </div>
-        <div className="w-4/5 flex items-center mt-14">
-          <Checkbox
-            size="md"
-            onChange={handleChangeCgu}
-            className="font-text"
-            isSelected={hasAcceptedTerms}
+        {showLogo && (
+          <div
+            id="logoContainer"
+            className="absolute sm:top-0 sm:left-0 flex-row justify-start items-center h-16 w-full p-4"
           >
-            J&apos;accepte les conditions générales d&apos;utilisation
-          </Checkbox>
-        </div>
-        <div className="w-4/5 flex flex-row justify-start mb-4 ml-4 mt-1 3xs:mt-0">
-          <NextUILink href="/cgu">
-            Consulter les CGU
-          </NextUILink>
-        </div>
-        <div className="w-4/5 mt-4 3xs:mt-0 xs:mb-4">
-          <Button
-            color={(password && hasAcceptedTerms) ? "primary" : "default"}
-            size="lg"
-            disabled={!(password && hasAcceptedTerms)}
-            onClick={handleSubmit}
-            className="w-full mt-4 3xs:mt-0 font-bold"
-          >
-            Continuer
-          </Button>
-        </div>
-      </div>
-
-      {/* Version desktop */}
-      <div id="desktopVersion" className="hidden sm:flex w-16/20 lg:w-16/20 h-3/4 bg-white shadow-lg rounded-2xl flex-row items-start justify-between border-neutral-200 mx-auto my-auto">
-        <div className="hidden 3xs:flex w-1/2 h-full relative ">
-          <Image
-            src="/images/entryVisual.svg"
-            alt="Entry Visual"
-            width={400}
-            height={600}
-            className="object-cover w-full h-full rounded-tl-2xl rounded-bl-2xl"
-          />
-          <div className="absolute top-1/4 left-1/2 transform -translate-x-1/2 -translate-y-1/2 ">
-            <h2 className="text-4xl font-bold font-quicksand text-cyan-900">Bienvenue</h2>
-          </div>
-        </div>
-        <div className="flex flex-col items-center dark:bg-neutral-800 justify-center w-1/2 h-full p-8 overflow-auto dark:rounded-tr-2xl dark:rounded-br-2xl">
-          <div className="w-full max-w-md  ">
-            <CardAppTitle title="Votre profil" />
-          </div>
-          <div className="w-full max-w-md mt-4 lg:mt-4">
-            <CardAppText
-              text="Choissisez un mot de passe"
-              icon={faUser}
+            <Image
+              src={logo}
+              alt="logo"
+              width={151}
+              height={38}
+              priority={true}
             />
           </div>
-          <div id="registerPasswordInputContainer" className="w-full max-w-md mt-4 ">
-            <CardAppPasswordInput onChange={handlePasswordChange} />
-          </div>
-          <div className="w-full max-w-md flex items-center mt-12">
-            <Checkbox
-              size="md"
-              onChange={handleChangeCgu}
-              className="font-text"
-              isSelected={hasAcceptedTerms}
+        )}
+        <div
+          id="desktopVersion"
+          className="hidden sm:flex w-16/20 lg:w-16/20 h-[600px] bg-white shadow-lg rounded-2xl flex-row items-start justify-between border-3 border-neutral-200 mx-auto my-auto max-w-[800px] max-h-[600px] overflow-hidden"
+        >
+          <div
+            id="desktopImageContainer"
+            className="flex w-1/2 h-full relative"
+          >
+            <Image
+              src="/images/entryVisual.svg"
+              alt="Entry Visual"
+              width={400}
+              height={600}
+              className="object-cover w-full h-full"
+            />
+            <div
+              id="desktopWelcomeTextContainer"
+              className="absolute top-1/4 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
             >
-              J&apos;accepte les conditions générales d&apos;utilisation
-            </Checkbox>
+              <h2 className="text-4xl font-bold font-text text-cyan-900">
+                Bienvenue
+              </h2>
+            </div>
           </div>
-          <div className="w-full max-w-md flex flex-row justify-start">
-            <NextUILink href="/cgu">
-              Consulter les CGU
-            </NextUILink>
-          </div>
-          <div className="w-full max-w-md mt-2">
-            <Button
-              color={(password && hasAcceptedTerms) ? "primary" : "default"}
-              size="lg"
-              disabled={!(password && hasAcceptedTerms)}
-              onClick={handleSubmit}
-              className="w-full mt-4 max-w-full pr-14 pl-14 font-bold"
+          <div
+            id="desktopContentContainer"
+            className="flex flex-col items-center dark:bg-neutral-800 w-1/2 h-full justify-between p-8 dark:rounded-tr-2xl dark:rounded-br-2xl"
+          >
+            <div
+              id="desktopTitleContainer"
+              className="flex flex-col items-start w-full mt-12"
             >
-              Continuer
-            </Button>
+              <CardAppTitle title="Votre profil" size="big" />
+              <CardAppText
+                text="Choisissez un mot de passe"
+                icon={faUser}
+                shadow
+              />
+            </div>
+            <form
+              id="formContainer"
+              onSubmit={handleSubmit}
+              className="flex flex-col items-center w-full"
+            >              <CardAppPasswordInput onChange={handlePasswordChange} />
+              <div className="w-4/5 flex items-center mt-14">
+                <Checkbox
+                  size="md"
+                  onChange={handleChangeCgu}
+                  className="font-text"
+                  isSelected={hasAcceptedTerms}
+                >             J&apos;accepte les conditions générales d&apos;utilisation
+                </Checkbox>         </div>
+              <div className="w-4/5 flex flex-row justify-start mb-4 ml-4 mt-1 3xs:mt-0">
+                <NextUILink href="/cgu">
+                  Consulter les CGU
+                </NextUILink>
+              </div>
+              <Button
+                color={(password && hasAcceptedTerms) ? "primary" : "default"}
+                size="lg"
+                disabled={!(password && hasAcceptedTerms)}
+                onClick={handleSubmit}
+                className="w-60 xs:w-64 2xs:w-72 3xs:w-80 font-bold font-text"
+              >
+                Continuer
+              </Button>
+            </form>
           </div>
+        </div>
+      </div>
+      {/* Mobile version */}
+      <div
+        id="mailAuthMobile"
+        className="sm:hidden w-full h-full flex flex-col flex-grow justify-between items-center "
+      >
+        <div
+          id="MailAuthMobileTop"
+          className="flex flex-col items-center justify-center w-full "
+        >
+          <div
+            id="chevronContainer"
+            className="sm:hidden flex flex-row justify-start items-center h-16 w-full mt-4 xs:mt-6 2xs:mt-8 3xs:mt-10 sm:mt-16 ml-0"
+          >
+            <FontAwesomeIcon
+              icon={faChevronLeft}
+              className="text-neutral-800 dark:text-neutral-200 text-xs w-4 h-4 m-5 cursor-pointer"
+              onClick={handleBack}
+            />
+          </div>
+
+          <div
+            id="mobileTitleMainContainer"
+            className="flex flex-col items-center justify-center w-full mt-4 xs:mt-6 2xs:mt-8 3xs:mt-10 sm:mt-12"
+          >
+            <div
+              id="mobileTitleContainer"
+              className="flex flex-col items-start"
+            >
+              <CardAppTitle title="Votre profil" size="big" />
+
+              <div
+                id="mobileTextContainer"
+                className="w-60 xs:w-64 2xs:w-72 3xs:w-80  mb-10"
+              >
+                <CardAppText
+                  text="Choisissez un mot de passe"
+                  icon={faUser}
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          id="mailAuthMobileBottom"
+          className="flex flex-col items-center pb-4 xs:pb-24 2xs:pb-24 3xs:pb-24 sm:pb-24"
+        >
+          <form
+            id="formContainer"
+            onSubmit={handleSubmit}
+            className="flex flex-col items-center w-full"
+          >            <div
+            id="mobileInputContainer"
+            className="w-full pb-10 xs:pb-12 2xs:pb-16 3xs:pb-20 sm:pb-32"
+          >
+              <CardAppPasswordInput onChange={handlePasswordChange} />
+            </div>
+            <div className="w-4/5 flex items-center mt-14">
+              <Checkbox
+                size="md"
+                onChange={handleChangeCgu}
+                className="font-text"
+                isSelected={hasAcceptedTerms}
+              >             J&apos;accepte les conditions générales d&apos;utilisation
+              </Checkbox>         </div>
+            <div className="w-4/5 flex flex-row justify-start mb-4 ml-4 mt-1 3xs:mt-0">
+              <NextUILink href="/cgu">
+                Consulter les CGU
+              </NextUILink>
+            </div>
+            <div id="mobileButtonContainer" className="">
+              <Button
+                color={(password && hasAcceptedTerms) ? "primary" : "default"}
+                size="lg"
+                disabled={!(password && hasAcceptedTerms)}
+                onClick={handleSubmit}
+                className="w-60 xs:w-64 2xs:w-72 3xs:w-80 font-bold font-text"
+              >
+                Continuer
+              </Button>
+            </div>
+          </form>
         </div>
       </div>
     </div>
   );
-}
+};
 
 export default ConnexionPage;
