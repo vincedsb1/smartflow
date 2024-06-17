@@ -42,7 +42,8 @@ const ConnexionPage = () => {
 
   const router = useRouter();
 
-  const handlePasswordCheck = async () => {
+  const handlePasswordCheck = async (e: React.FormEvent) => {
+    e.preventDefault();
     console.log("handlePasswordCheck called");
     try {
       console.log("Sending request to /api/users/check-password");
@@ -123,7 +124,7 @@ const ConnexionPage = () => {
       {/* Mobile */}
       <div
         id="chevronContainer"
-        className="sm:hidden flex flex-row justify-start items-center h-16 w-full relative p-4"
+        className="sm:hidden flex flex-row justify-start items-center h-16 w-full relative p-4 cursor-pointer"
       >
         <FontAwesomeIcon icon={faChevronLeft} onClick={handleBack} />
       </div>
@@ -194,7 +195,7 @@ const ConnexionPage = () => {
       {/* Desktop Version */}
       <div
         id="desktopVersion"
-        className="hidden sm:flex w-16/20 lg:w- h-3/4 bg-white shadow-lg rounded-2xl flex-row items-start justify-between border-neutral-200 dark:border-neutral-700 mx-auto my-auto overflow-hidden border-3"
+        className="hidden sm:flex w-16/20 lg:w- h-3/4 bg-white shadow-lg rounded-2xl flex-row items-start justify-between border-neutral-200 dark:border-neutral-700 mx-auto my-auto max-w-[800px] max-h-[600px] overflow-hidden border-3"
       >
         <div className="flex w-1/2 h-full relative">
           <Image
@@ -202,7 +203,7 @@ const ConnexionPage = () => {
             alt="Entry Visual"
             width={400}
             height={600}
-            className="object-cover w-full h-full rounded-tl-2xl rounded-bl-2xl brightness-90"
+            className="object-cover w-full h-full dark:brightness-90"
           />
           <div className="absolute top-1/4 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
             <h2 className="text-4xl font-bold font-text text-cyan-900">
