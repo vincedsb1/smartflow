@@ -57,8 +57,8 @@ export default async function handler(
         );
 
         await resend.emails.send({
-          from: "contact@smartflow-app.com",
-          to: "vincedsb@gmail.com",
+          from: "contact@smartflow.com",
+          to: email,
           subject: "Vérifiez votre email",
           html: emailContent,
         });
