@@ -57,8 +57,8 @@ export default async function handler(
         );
 
         await resend.emails.send({
-          from: "onboarding@resend.dev",
-          to: "thibaut.mosteau@lilo.org",
+          from: "contact@smartflow.com",
+          to: email,
           subject: "Hello World",
           html: emailContent,
         });
