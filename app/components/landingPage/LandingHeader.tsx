@@ -139,10 +139,13 @@ const Header: FC = () => {
               </p>
             )}
             {isEmailSaved ? (
-              <p>
-                Merci, vous allez recevoir un mail pour valider votre adresse en
-                attendant la sortie !
-              </p>
+              <>
+                <p>
+                  Merci ! Dernière étape pour être averti de la sortie de
+                  SmartFlow :{" "}
+                </p>
+                <p>Veuillez cliquer sur le lien envoyé sur votre email.</p>
+              </>
             ) : (
               <Input
                 type="email"
@@ -156,7 +159,7 @@ const Header: FC = () => {
           <ModalFooter>
             {isEmailSaved ? (
               <Button color="primary" radius="lg" onClick={handleClose}>
-                Fermer
+                OK
               </Button>
             ) : (
               <>
