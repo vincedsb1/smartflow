@@ -100,7 +100,7 @@ const VerificationMail: React.FC<VerificationMailProps> = ({ email, link }) => {
                             Bonjour ! Merci de vous être inscrit·e sur SmartFlow, veuillez confirmer votre email en cliquant sur le bouton ci-dessous.
                         </p>
                         <div style={{ marginTop: "24px" }}>
-                            <Button
+                            <a
                                 href={link}
                                 style={{
                                     background: "#0E7490",
@@ -111,10 +111,11 @@ const VerificationMail: React.FC<VerificationMailProps> = ({ email, link }) => {
                                     display: "inline-block",
                                     fontSize: "16px",
                                     fontWeight: "600",
+                                    textAlign: "center",
                                 }}
                             >
                                 Valider votre email
-                            </Button>
+                            </a>
                             <p style={{ fontSize: "16px", marginTop: "34px", color: "#666666" }}>
                                 Ou cliquez sur le lien ci-dessous si le bouton ne fonctionne pas.
                             </p>
@@ -126,13 +127,13 @@ const VerificationMail: React.FC<VerificationMailProps> = ({ email, link }) => {
                                     fontSize: "14px",
                                     wordBreak: "break-all",
                                 }}
-                            />
+                            >
+                                {link}
+                            </a>
                             <p style={{ fontSize: "16px", color: "#666666" }}>
                                 Si vous n'êtes pas à l'origine de cette demande,<br></br>
                                 veuillez ignorer cet email.
                             </p>
-
-
                         </div>
 
                         <a
