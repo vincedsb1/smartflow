@@ -80,8 +80,8 @@ export default async function handle(
       );
 
       await resend.emails.send({
-        from: "contact@smartflow-app.com",
-        to: "vincedsb@gmail.com",
+        from: "contact@smartflow.com",
+        to: newEmail,
         subject: "Vérification du mail",
         html: emailContent,
       });

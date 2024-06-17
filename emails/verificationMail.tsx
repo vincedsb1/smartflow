@@ -1,13 +1,14 @@
+/* eslint-disable @next/next/no-img-element */
 /* eslint-disable react/no-unescaped-entities */
-import { Button, Html } from "@react-email/components";
+import { Html } from "@react-email/components";
 import * as React from "react";
 
-interface WelcomeMailProps {
+interface VerificationMailProps {
   email: string;
   link: string;
 }
 
-const WelcomeMail: React.FC<WelcomeMailProps> = ({ email, link }) => {
+const VerificationMail: React.FC<VerificationMailProps> = ({ email, link }) => {
   return (
     <Html>
       <div
@@ -66,7 +67,7 @@ const WelcomeMail: React.FC<WelcomeMailProps> = ({ email, link }) => {
             />
           </div>
           <div
-            id="welcomeContainer"
+            id="emailChangeContainer"
             style={{
               backgroundColor: "#FFFFFF",
               borderRadius: "10px",
@@ -82,17 +83,13 @@ const WelcomeMail: React.FC<WelcomeMailProps> = ({ email, link }) => {
             }}
           >
             <h1 style={{ color: "#0E7490", fontSize: "24px", fontWeight: "bold", marginBottom: "16px" }}>
-              Bienvenue sur Smartlow {email}!
+              Bienvenue sur Smartlow, {email}!
             </h1>
             <p style={{ fontSize: "16px", color: "#666666", marginBottom: "12px" }}>
               Nous sommes ravis de vous accueillir dans notre communauté dédiée à l'apprentissage de la méthode Leithner.
             </p>
-            <p style={{ fontSize: "16px", color: "#666666", marginBottom: "12px" }}>
-            </p>
-            <p style={{ fontSize: "16px", color: "#666666", marginBottom: "12px" }}>
-            </p>
             <div style={{ marginTop: "24px" }}>
-              <Button
+              <a
                 href={link}
                 style={{
                   background: "#3182CE",
@@ -103,10 +100,11 @@ const WelcomeMail: React.FC<WelcomeMailProps> = ({ email, link }) => {
                   display: "inline-block",
                   fontSize: "16px",
                   fontWeight: "bold",
+                  textAlign: "center",
                 }}
               >
                 Se connecter à Smartlow
-              </Button>
+              </a>
             </div>
           </div>
           <div
@@ -138,4 +136,4 @@ const WelcomeMail: React.FC<WelcomeMailProps> = ({ email, link }) => {
   );
 };
 
-export default WelcomeMail;
+export default VerificationMail;
