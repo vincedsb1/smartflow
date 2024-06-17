@@ -9,10 +9,13 @@ const prisma = new PrismaClient();
 
 export const resend = new Resend(process.env.RESEND_API_KEY);
 
-export default async function handle(req: NextApiRequest, res: NextApiResponse) {
+export default async function handle(
+  req: NextApiRequest,
+  res: NextApiResponse
+) {
   const userId = req.query.id;
 
-  if (req.method === 'DELETE') {
+  if (req.method === "DELETE") {
     if (isNaN(Number(userId))) {
       res.status(400).json({ message: "User ID must be a number" });
       return;
@@ -31,7 +34,6 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse) 
       where: { userId: Number(userId) },
     });
 
-
     const emailContent = ReactDOMServer.renderToString(
       React.createElement(DeleteMail, {
         email: existingUser.email,
@@ -39,7 +41,7 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse) 
     );
 
     await resend.emails.send({
-      from: "contact@smartflow.com",
+      from: "contact@smartflow-app.com",
       to: existingUser.email,
       subject: "Vérification du mail",
       html: emailContent,
@@ -51,7 +53,9 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse) 
       });
       res.json(user);
     } catch (error: any) {
-      res.status(500).json({ message: "Error deleting user", error: error.message });
+      res
+        .status(500)
+        .json({ message: "Error deleting user", error: error.message });
     }
   }
 }
