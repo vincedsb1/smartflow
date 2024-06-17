@@ -23,14 +23,14 @@ const MailAuth = () => {
   const { email, setEmail } = userContext;
   const [isEmailValid, setIsEmailValid] = useState(true);
 
-  const handleChangeEmail = (e: { target: { value: any; }; }) => {
+  const handleChangeEmail = (e: { target: { value: any } }) => {
     const email = e.target.value;
     const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
     setIsEmailValid(emailRegex.test(email));
     setEmail(email);
   };
 
-  const handleSubmit = async (e: { preventDefault: () => void; }) => {
+  const handleSubmit = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
     try {
       const res = await fetch(`/api/users/checkEmail?email=${email}`);
@@ -106,7 +106,7 @@ const MailAuth = () => {
               alt="Entry Visual"
               width={400}
               height={600}
-              className="object-cover w-full h-full brightness-90"
+              className="object-cover w-full h-full dark:brightness-90"
             />
             <div
               id="desktopWelcomeTextContainer"
