@@ -58,7 +58,7 @@ export default async function handle(
       );
 
       await resend.emails.send({
-        from: "onboarding@resend.dev",
+        from: "do-not-reply@smartflow-app.com",
         to: email,
         subject: "Vérification du mail",
         html: emailContent,
