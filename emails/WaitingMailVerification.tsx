@@ -23,7 +23,7 @@ const VerificationMail: React.FC<VerificationMailProps> = ({ email, link }) => {
       >
         <table
           width="100%"
-          border="0"
+          border={0}
           cellSpacing="0"
           cellPadding="0"
           style={{
@@ -35,7 +35,7 @@ const VerificationMail: React.FC<VerificationMailProps> = ({ email, link }) => {
             <td align="center">
               <table
                 width="70%"
-                border="0"
+                border={0}
                 cellSpacing="0"
                 cellPadding="0"
                 style={{
@@ -88,7 +88,7 @@ const VerificationMail: React.FC<VerificationMailProps> = ({ email, link }) => {
                   >
                     <table
                       width="90%"
-                      border="0"
+                      border={0}
                       cellSpacing="0"
                       cellPadding="0"
                     >
@@ -229,8 +229,8 @@ const VerificationMail: React.FC<VerificationMailProps> = ({ email, link }) => {
                             marginBottom: "20px",
                           }}
                         >
-                          Si vous n'êtes pas à l'origine de cette demande,
-                          veuillez ignorer cet email.
+                          Si vous n&apos;êtes pas à l&apos;origine de cette
+                          demande, veuillez ignorer cet email.
                         </td>
                       </tr>
                     </table>
