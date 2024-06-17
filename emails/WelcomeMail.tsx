@@ -91,7 +91,7 @@ const WelcomeMail: React.FC<WelcomeMailProps> = ({ email, link }) => {
               Vous pouvez maintenant commencer à explorer toutes les fonctionnalités que nous avons à offrir.
             </p>
             <div style={{ marginTop: "24px" }}>
-              <Button
+              <a
                 href={link}
                 style={{
                   background: "#3182CE",
@@ -102,10 +102,11 @@ const WelcomeMail: React.FC<WelcomeMailProps> = ({ email, link }) => {
                   display: "inline-block",
                   fontSize: "16px",
                   fontWeight: "bold",
+                  textAlign: "center",
                 }}
               >
                 Aller à la page d'accueil
-              </Button>
+              </a>
             </div>
           </div>
           <div

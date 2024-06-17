@@ -88,7 +88,7 @@ const EmailChangeMail: React.FC<EmailChangeMailProps> = ({ email, link }) => {
               Vous avez demandé à changer votre adresse e-mail. Veuillez confirmer que cette nouvelle adresse e-mail est correcte en cliquant sur le lien ci-dessous.
             </p>
             <div style={{ marginTop: "24px" }}>
-              <Button
+              <a
                 href={link}
                 style={{
                   background: "#3182CE",
@@ -99,10 +99,11 @@ const EmailChangeMail: React.FC<EmailChangeMailProps> = ({ email, link }) => {
                   display: "inline-block",
                   fontSize: "16px",
                   fontWeight: "bold",
+                  textAlign: "center",
                 }}
               >
                 Confirmer le changement d&apos;adresse e-mail
-              </Button>
+              </a>
             </div>
           </div>
           <div
