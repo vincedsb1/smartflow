@@ -17,11 +17,9 @@ export default async function handle(
   const { email } = req.body;
 
   if (!process.env.APP_SECRET) {
-    res
-      .status(500)
-      .json({
-        error: "JWT secret is not defined in the environment variables",
-      });
+    res.status(500).json({
+      error: "JWT secret is not defined in the environment variables",
+    });
     return;
   }
 
