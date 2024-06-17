@@ -1,7 +1,12 @@
 import { Button, Html } from "@react-email/components";
 import * as React from "react";
 
-const VerificationMail = ({ email, link }) => {
+interface VerificationMailProps {
+  email: string;
+  link: string;
+}
+
+const VerificationMail: React.FC<VerificationMailProps> = ({ email, link }) => {
   return (
     <html lang="fr">
       <body
