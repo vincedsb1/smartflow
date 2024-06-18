@@ -280,4 +280,6 @@ const InscriptionPage = () => {
   );
 };
 
+
+
 export default InscriptionPage;
