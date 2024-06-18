@@ -1,5 +1,5 @@
 "use client";
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import CardAppTitle from "../components/CardAppTitle";
 import CardAppText from "../components/CardAppText";
@@ -20,28 +20,24 @@ const ConnexionPage = () => {
   const [isVisible, setIsVisible] = useState(false);
   const { theme } = useTheme();
   const logo = theme === "dark" ? "/logo-dark.svg" : "/logo-light.svg";
-
   const toggleVisibility = () => setIsVisible(!isVisible);
-
   const userContext = useContext(UserContext);
 
   if (!userContext) {
     throw new Error("UserContext must be used within a UserContextProvider");
   }
 
-  const { email, firstname, birthday, setUser, onBoarding, setOnBoarding } =
-    userContext;
+  const { email, firstname, birthday, setUser, onBoarding, setOnBoarding } = userContext;
   const [password, setPassword] = useState("");
   const [displayMessage, setDisplayMessage] = useState("");
   const message = "Le mot de passe est incorrect, veuillez réessayer.";
+  const router = useRouter();
 
-  const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handlePasswordChange = (e: { target: { value: React.SetStateAction<string>; }; }) => {
     setPassword(e.target.value);
   };
 
-  const router = useRouter();
-
-  const handlePasswordCheck = async (e: React.FormEvent) => {
+  const handlePasswordCheck = async (e: { preventDefault: () => void; }) => {
     e.preventDefault();
     try {
       const response = await fetch("/api/users/check-password", {
@@ -93,6 +89,21 @@ const ConnexionPage = () => {
     router.back();
   };
 
+  const [showLogo, setShowLogo] = useState(false);
+
+  useEffect(() => {
+    const handleResize = () => {
+      const widthCondition = window.innerWidth >= 1280; // xl breakpoint
+      const heightCondition = window.innerHeight >= 896; // custom height condition
+      setShowLogo(widthCondition || heightCondition);
+    };
+
+    handleResize(); // Check on mount
+    window.addEventListener("resize", handleResize); // Check on resize
+
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
   return (
     <div
       id="mailAuthMainContainer"
@@ -103,12 +114,14 @@ const ConnexionPage = () => {
         id="mailAuthDesktop"
         className="hidden sm:flex h-full w-full flex-col justify-center items-center"
       >
-        <div
-          id="logoContainer"
-          className="absolute sm:top-0 sm:left-0 flex-row justify-start items-center h-16 w-full p-4"
-        >
-          <Image src={logo} alt="logo" width={151} height={38} priority={true} />
-        </div>
+        {showLogo && (
+          <div
+            id="logoContainer"
+            className="absolute sm:top-0 sm:left-0 flex-row justify-start items-center h-16 w-full p-4"
+          >
+            <Image src={logo} alt="logo" width={151} height={38} priority={true} />
+          </div>
+        )}
         <div
           id="desktopVersion"
           className="hidden sm:flex w-16/20 lg:w-16/20 h-[600px] bg-white shadow-lg rounded-2xl flex-row items-start justify-between border-3 border-neutral-200 mx-auto my-auto max-w-[800px] max-h-[600px] overflow-hidden"
@@ -220,53 +233,48 @@ const ConnexionPage = () => {
         </div>
         <div
           id="mailAuthMobileBottom"
-          className="flex flex-col items-center pb-4 xs:pb-24 2xs:pb-24 3xs:pb-24 sm:pb-24"
+          className="flex flex-col items-center pb-4 xs:pb-24 2xs:pb-24 3xs:pb-24"
         >
           <form
             id="formContainer"
             onSubmit={handlePasswordCheck}
-            className="flex flex-col items-center w-full"
+            className="flex flex-col justify-between items-center w-full"
           >
-            <div
-              id="mobileInputContainer"
-              className="w-full pb-10 xs:pb-12 2xs:pb-16 3xs:pb-20 sm:pb-32"
-            >
-              <Input
-                value={password}
-                onChange={handlePasswordChange}
-                isRequired
-                size="md"
-                type={isVisible ? "text" : "password"}
-                label="Mot de passe"
-                radius="lg"
-                className="w-60 xs:w-64 2xs:w-72 3xs:w-80 font-text"
-                endContent={
-                  <button
-                    className="focus:outline-none"
-                    type="button"
-                    onClick={toggleVisibility}
-                  >
-                    {isVisible ? (
-                      <FontAwesomeIcon
-                        icon={faEyeSlash}
-                        className="ml-28 mb-1 text-xl text-default-400 pointer-events-none"
-                      />
-                    ) : (
-                      <FontAwesomeIcon
-                        icon={faEye}
-                        className="ml-28 mb-1 text-xl text-default-400 pointer-events-none"
-                      />
-                    )}
-                  </button>
-                }
-              />
-            </div>
+            <Input
+              value={password}
+              onChange={handlePasswordChange}
+              isRequired
+              size="md"
+              type={isVisible ? "text" : "password"}
+              label="Mot de passe"
+              radius="lg"
+              className="w-64 xs:w-72 2xs:w-80 3xs:w-80 mb-4 font-text"
+              endContent={
+                <button
+                  className="focus:outline-none"
+                  type="button"
+                  onClick={toggleVisibility}
+                >
+                  {isVisible ? (
+                    <FontAwesomeIcon
+                      icon={faEyeSlash}
+                      className="ml-28 mb-1 text-xl text-default-400 pointer-events-none"
+                    />
+                  ) : (
+                    <FontAwesomeIcon
+                      icon={faEye}
+                      className="ml-28 mb-1 text-xl text-default-400 pointer-events-none"
+                    />
+                  )}
+                </button>
+              }
+            />
             <Button
               type="submit"
               color="default"
               variant="solid"
               size="lg"
-              className="w-60 xs:w-64 2xs:w-72 3xs:w-80 max-w-full pr-14 pl-14 font-bold font-text"
+              className="w-64 xs:w-72 2xs:w-80 3xs:w-80 pr-14 pl-14 font-bold font-text"
               onClick={handlePasswordCheck}
               disabled={password === ""}
             >
@@ -275,16 +283,6 @@ const ConnexionPage = () => {
           </form>
         </div>
       </div>
-      <div
-        id="bottomTextContainer"
-        className="hidden sm:flex flex-col items-center mb-4"
-      >
-      </div>
-      {displayMessage && (
-        <div id="messageContainer" className="mt-2">
-          <p className="text-red-500">{displayMessage}</p>
-        </div>
-      )}
     </div>
   );
 };
