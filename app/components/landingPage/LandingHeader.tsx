@@ -14,6 +14,7 @@ import {
   useDisclosure,
 } from "@nextui-org/react";
 import { Input } from "@nextui-org/input";
+import { Spinner } from "@nextui-org/spinner";
 
 const Header: FC = () => {
   const { theme } = useTheme();
@@ -21,6 +22,7 @@ const Header: FC = () => {
   const { isOpen, onOpen, onClose: close } = useDisclosure();
   const [email, setEmail] = useState<string>("");
   const [isEmailSaved, setIsEmailSaved] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   useEffect(() => {
     const handleResize = () => {
@@ -45,10 +47,12 @@ const Header: FC = () => {
   };
 
   const handleEmailSubmit = async () => {
+    setIsLoading(true);
     const emailRegex = /^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$/;
 
     if (!emailRegex.test(email)) {
       console.error("Invalid email format");
+      setIsLoading(false);
       return;
     }
 
@@ -63,10 +67,12 @@ const Header: FC = () => {
     if (!response.ok) {
       const errorData = await response.json();
       console.log(errorData);
+      setIsLoading(false);
       return;
     }
 
     setIsEmailSaved(true);
+    setIsLoading(false);
   };
 
   const handleClose = () => {
@@ -166,9 +172,19 @@ const Header: FC = () => {
                 <Button radius="lg" onClick={handleClose}>
                   Annuler
                 </Button>
-                <Button radius="lg" color="primary" onClick={handleEmailSubmit}>
-                  Confirmer
-                </Button>
+                {isLoading ? (
+                  <div style={{ width: "100px", textAlign: "center" }}>
+                    <Spinner />
+                  </div>
+                ) : (
+                  <Button
+                    radius="lg"
+                    color="primary"
+                    onClick={handleEmailSubmit}
+                  >
+                    Confirmer
+                  </Button>
+                )}
               </>
             )}
           </ModalFooter>
