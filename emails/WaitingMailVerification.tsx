@@ -43,12 +43,13 @@ const VerificationMail: React.FC<VerificationMailProps> = ({ email, link }) => {
                   borderRadius: "24px",
                   boxShadow: "0px 34px 80px 30px rgba(0, 0, 0, 0.25)",
                   overflow: "hidden",
+                  maxWidth: "800px",
                 }}
               >
                 <tr
                   style={{
                     backgroundImage:
-                      "url(https://www.smartflow-app.com/images/emailHeader.svg)",
+                      "url(https://www.smartflow-app.com/images/emailHeader.png)",
                     backgroundSize: "cover",
                     backgroundRepeat: "no-repeat",
                     backgroundPosition: "center",
@@ -63,10 +64,10 @@ const VerificationMail: React.FC<VerificationMailProps> = ({ email, link }) => {
                     }}
                   >
                     <img
-                      src="https://www.smartflow-app.com/images/LogoSmartFlowWhite.svg"
+                      src="https://www.smartflow-app.com/images/LogoSmartFlowWhite.png"
                       alt="Smartflow"
                       style={{
-                        maxWidth: "150px",
+                        maxWidth: "180px",
                         maxHeight: "100px",
                         marginBottom: "25px",
                       }}
@@ -107,7 +108,7 @@ const VerificationMail: React.FC<VerificationMailProps> = ({ email, link }) => {
                               margin: "20px 0",
                             }}
                           >
-                            Confirmation d'Email
+                            Confirmation d&apos;email
                           </h1>
                         </td>
                       </tr>
@@ -123,11 +124,7 @@ const VerificationMail: React.FC<VerificationMailProps> = ({ email, link }) => {
                           }}
                         ></td>
                       </tr>
-                      <tr
-                        style={{
-                          height: "60px",
-                        }}
-                      >
+                      <tr style={{}}>
                         <td
                           align="center"
                           style={{
@@ -136,75 +133,95 @@ const VerificationMail: React.FC<VerificationMailProps> = ({ email, link }) => {
                             marginBottom: "20px",
                           }}
                         >
-                          Bienvenue sur <b>SmartFlow </b> {email} !
-                        </td>
-                      </tr>
-                      <tr
-                        style={{
-                          height: "60px",
-                          verticalAlign: "top",
-                        }}
-                      >
-                        <td
-                          align="center"
-                          style={{
-                            fontSize: "16px",
-                            color: "#666666",
-                          }}
-                        >
-                          Bonjour ! Merci de vous être inscrit·e sur SmartFlow,
-                          veuillez confirmer votre email en cliquant sur le
-                          bouton ci-dessous :
-                        </td>
-                      </tr>
-                      <tr
-                        style={{
-                          height: "68px",
-                          verticalAlign: "top",
-                        }}
-                      >
-                        <td align="center" style={{ margin: "24px 0" }}>
-                          <a
-                            href={link}
+                          <div
                             style={{
-                              background: "#0E7490",
-                              color: "#FFFFFF",
-                              padding: "12px 24px",
-                              borderRadius: "14px",
-                              textDecoration: "none",
-                              display: "inline-block",
-                              fontSize: "16px",
-                              fontWeight: 600,
-                              textAlign: "center",
+                              marginTop: "16px",
+                              marginBottom: "16px",
                             }}
                           >
-                            Valider mon email
-                          </a>
+                            Bienvenue sur <b>SmartFlow </b> {email} !
+                          </div>
                         </td>
                       </tr>
                       <tr
                         style={{
-                          height: "60px",
-                          verticalAlign: "top",
+                          verticalAlign: "middle",
                         }}
                       >
                         <td
                           align="center"
                           style={{
                             fontSize: "16px",
-                            margin: "34px 0 20px",
                             color: "#666666",
                           }}
                         >
-                          Si le bouton ne fonctionne pas, cliquez ou
-                          copiez-coller le lien ci-dessous <br />
-                          dans votre navigateur :
+                          <div
+                            style={{
+                              marginBottom: "32px",
+                            }}
+                          >
+                            Bonjour ! Merci de vous être inscrit·e sur
+                            SmartFlow, veuillez confirmer votre email en
+                            cliquant sur le bouton ci-dessous :
+                          </div>
                         </td>
                       </tr>
                       <tr
                         style={{
-                          height: "60px",
-                          verticalAlign: "top",
+                          verticalAlign: "middle",
+                        }}
+                      >
+                        <td align="center" style={{}}>
+                          <div
+                            style={{
+                              marginBottom: "32px",
+                            }}
+                          >
+                            <a
+                              href={link}
+                              style={{
+                                background: "#0E7490",
+                                color: "#FFFFFF",
+                                padding: "16px 40px",
+                                borderRadius: "14px",
+                                textDecoration: "none",
+                                display: "inline-block",
+                                fontSize: "18px",
+                                fontWeight: 600,
+                                textAlign: "center",
+                              }}
+                            >
+                              Valider mon email
+                            </a>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr
+                        style={{
+                          verticalAlign: "middle",
+                        }}
+                      >
+                        <td
+                          align="center"
+                          style={{
+                            fontSize: "16px",
+                            color: "#666666",
+                          }}
+                        >
+                          <div
+                            style={{
+                              marginBottom: "16px",
+                            }}
+                          >
+                            Si le bouton ne fonctionne pas, cliquez ou
+                            copiez-coller le lien ci-dessous <br />
+                            dans votre navigateur :
+                          </div>
+                        </td>
+                      </tr>
+                      <tr
+                        style={{
+                          verticalAlign: "middle",
                         }}
                       >
                         <td
@@ -214,10 +231,15 @@ const VerificationMail: React.FC<VerificationMailProps> = ({ email, link }) => {
                             textDecoration: "none",
                             fontSize: "14px",
                             wordBreak: "break-all",
-                            marginBottom: "20px",
                           }}
                         >
-                          <a href={link}>{link}</a>
+                          <div
+                            style={{
+                              marginBottom: "16px",
+                            }}
+                          >
+                            <a href={link}>{link}</a>
+                          </div>
                         </td>
                       </tr>
                       <tr>
@@ -226,11 +248,12 @@ const VerificationMail: React.FC<VerificationMailProps> = ({ email, link }) => {
                           style={{
                             fontSize: "16px",
                             color: "#666666",
-                            marginBottom: "20px",
                           }}
                         >
-                          Si vous n&apos;êtes pas à l&apos;origine de cette
-                          demande, veuillez ignorer cet email.
+                          <div style={{}}>
+                            Si vous n&apos;êtes pas à l&apos;origine de cette
+                            demande, veuillez ignorer cet email.
+                          </div>
                         </td>
                       </tr>
                     </table>
@@ -243,34 +266,32 @@ const VerificationMail: React.FC<VerificationMailProps> = ({ email, link }) => {
                     align="center"
                     style={{
                       textAlign: "center",
-                      padding: "14px",
+                      // backgroundColor: "#000FFF",
                       backgroundColor: "rgba(6, 182, 212, 0.8)",
+                      verticalAlign: "top",
                     }}
                   >
-                    <a
-                      href="https://www.smartflow-app.com/"
-                      style={{ textDecoration: "none" }}
-                    >
-                      <p
-                        style={{
-                          fontSize: "12px",
-                          fontWeight: "bold",
-                          color: "#FFFFFF",
-                          margin: "1px",
-                        }}
+                    <div style={{ paddingBottom: "42px" }}>
+                      <a
+                        href="https://www.smartflow-app.com/"
+                        style={{ textDecoration: "none" }}
                       >
-                        SmartFlow-app.com
-                      </p>
-                    </a>
-                    <p
-                      style={{
-                        fontSize: "12px",
-                        color: "#FFFFFF",
-                        marginBottom: "30px",
-                      }}
-                    >
-                      2024 - Twenty Soft
-                    </p>
+                        <p
+                          style={{
+                            fontSize: "16px",
+                            fontWeight: "bold",
+                            color: "#FFFFFF",
+                            margin: 0,
+                          }}
+                        >
+                          smartflow-app.com
+                          <br />
+                          <span style={{ marginTop: "6px", display: "block" }}>
+                            2024 - Twenty Soft
+                          </span>
+                        </p>
+                      </a>
+                    </div>
                   </td>
                   <td></td>
                 </tr>
