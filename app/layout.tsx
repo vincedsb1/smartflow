@@ -1,7 +1,6 @@
 "use client";
 import React, { ReactNode } from "react";
 import TabBar from "./components/TabBar";
-import DesktopMenu from "./components/DesktopMenu";
 import { useSelectedLayoutSegment } from "next/navigation";
 import "./globals.css";
 import Providers from "./Providers";
@@ -40,7 +39,6 @@ export default function RootLayout({ children }: RootLayoutProps) {
                 <div className="sm:hidden">
                   <TabBar />
                 </div>
-                <div className="hidden sm:block">{/* <DesktopMenu /> */}</div>
               </>
             )}
           </UserContextProvider>

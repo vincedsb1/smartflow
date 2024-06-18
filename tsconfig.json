@@ -29,7 +29,8 @@
     "app/organize/categories/page.tsx",
     "app/organize/categories/page.tsx",
     "app/organize/categories/pageBackup.tsx",
-    "emails/WaitingMailVerification.tsx"
+    "emails/WaitingMailVerification.tsx",
+    "pages/_document.js"
   ],
   "exclude": ["node_modules"]
 }
