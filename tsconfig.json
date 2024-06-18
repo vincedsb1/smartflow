@@ -28,7 +28,8 @@
     "types/**/*.d.ts",
     "app/organize/categories/page.tsx",
     "app/organize/categories/page.tsx",
-    "app/organize/categories/pageBackup.tsx"
+    "app/organize/categories/pageBackup.tsx",
+    "emails/WaitingMailVerification.tsx"
   ],
   "exclude": ["node_modules"]
 }
