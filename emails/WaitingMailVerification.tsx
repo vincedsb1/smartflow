@@ -56,7 +56,6 @@ const VerificationMail: React.FC<VerificationMailProps> = ({ email, link }) => {
                     height: "222px",
                   }}
                 >
-                  <td></td>
                   <td
                     align="center"
                     style={{
@@ -69,22 +68,17 @@ const VerificationMail: React.FC<VerificationMailProps> = ({ email, link }) => {
                       style={{
                         maxWidth: "180px",
                         maxHeight: "100px",
-                        marginBottom: "25px",
                       }}
                     />
                   </td>
-                  <td></td>
                 </tr>
                 <tr>
-                  <td style={{ width: "40px" }}></td>
                   <td
                     align="center"
                     style={{
                       backgroundColor: "#FFFFFF",
-                      borderRadius: "10px",
+                      borderRadius: "0px",
                       padding: "40px 20px",
-                      boxShadow: "0px 4px 15px rgba(0, 0, 0, 0.25)",
-                      transform: "translateY(-50px)",
                     }}
                   >
                     <table
@@ -105,7 +99,8 @@ const VerificationMail: React.FC<VerificationMailProps> = ({ email, link }) => {
                               color: "#0E7490",
                               fontSize: "24px",
                               fontWeight: 600,
-                              margin: "20px 0",
+                              marginTop: "20px",
+                              marginBottom: "38px",
                             }}
                           >
                             Confirmation d&apos;email
@@ -135,8 +130,8 @@ const VerificationMail: React.FC<VerificationMailProps> = ({ email, link }) => {
                         >
                           <div
                             style={{
-                              marginTop: "16px",
-                              marginBottom: "16px",
+                              marginTop: "32px",
+                              marginBottom: "32px",
                             }}
                           >
                             Bienvenue sur <b>SmartFlow </b> {email} !
@@ -258,20 +253,18 @@ const VerificationMail: React.FC<VerificationMailProps> = ({ email, link }) => {
                       </tr>
                     </table>
                   </td>
-                  <td style={{ width: "40px" }}></td>
                 </tr>
                 <tr>
-                  <td></td>
                   <td
                     align="center"
                     style={{
                       textAlign: "center",
                       // backgroundColor: "#000FFF",
-                      backgroundColor: "rgba(6, 182, 212, 0.8)",
+                      backgroundColor: "#0E7490",
                       verticalAlign: "top",
                     }}
                   >
-                    <div style={{ paddingBottom: "42px" }}>
+                    <div style={{ paddingBottom: "42px", paddingTop: "42px" }}>
                       <a
                         href="https://www.smartflow-app.com/"
                         style={{ textDecoration: "none" }}
@@ -293,7 +286,6 @@ const VerificationMail: React.FC<VerificationMailProps> = ({ email, link }) => {
                       </a>
                     </div>
                   </td>
-                  <td></td>
                 </tr>
               </table>
             </td>
