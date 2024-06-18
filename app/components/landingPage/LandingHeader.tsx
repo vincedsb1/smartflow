@@ -48,7 +48,6 @@ const Header: FC = () => {
     const emailRegex = /^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$/;
 
     if (!emailRegex.test(email)) {
-      console.error("Invalid email format");
       return;
     }
 
@@ -62,7 +61,6 @@ const Header: FC = () => {
 
     if (!response.ok) {
       const errorData = await response.json();
-      console.log(errorData);
       return;
     }
 
