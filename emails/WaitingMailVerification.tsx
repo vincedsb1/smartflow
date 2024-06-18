@@ -34,7 +34,7 @@ const VerificationMail: React.FC<VerificationMailProps> = ({ email, link }) => {
           <tr>
             <td align="center">
               <table
-                width="70%"
+                width="90%"
                 border={0}
                 cellSpacing="0"
                 cellPadding="0"
@@ -76,7 +76,7 @@ const VerificationMail: React.FC<VerificationMailProps> = ({ email, link }) => {
                   <td
                     align="center"
                     style={{
-                      backgroundColor: "#FFFFFF",
+                      backgroundColor: "#FAFAFA",
                       borderRadius: "0px",
                       padding: "40px 20px",
                     }}
