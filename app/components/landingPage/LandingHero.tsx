@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState, ChangeEvent } from "react";
+import React, { useEffect, useState, ChangeEvent, useRef } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faRocket } from "@fortawesome/free-solid-svg-icons";
 import { useRouter } from "next/navigation";
@@ -21,10 +21,18 @@ import { Spinner } from "@nextui-org/spinner";
 const Hero = () => {
   const router = useRouter();
   const [isClient, setIsClient] = useState(false);
+  const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     setIsClient(true);
   }, []);
+
+  const { isOpen, onOpen, onClose: close } = useDisclosure();
+  useEffect(() => {
+    if (isOpen && inputRef.current) {
+      inputRef.current.focus();
+    }
+  }, [isOpen]);
 
   const handleNavigation = () => {
     router.push("/login");
@@ -32,7 +40,6 @@ const Hero = () => {
 
   const words = ["mieux", "efficacement", "rapidement", "durablement"];
 
-  const { isOpen, onOpen, onClose: close } = useDisclosure();
   const [email, setEmail] = useState<string>("");
   const [isEmailSaved, setIsEmailSaved] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -156,6 +163,7 @@ const Hero = () => {
               </>
             ) : (
               <Input
+                ref={inputRef}
                 type="email"
                 placeholder="Votre email"
                 value={email}
