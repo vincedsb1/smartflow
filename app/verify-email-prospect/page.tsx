@@ -6,7 +6,7 @@ import { Spinner } from "@nextui-org/spinner";
 
 const VerifyEmailProspect = () => {
   const [status, setStatus] = useState(
-    "Merci ! Vérification en cours, vous serez redirigé dans quelques secondes lorsque votre email sera validé."
+    "Merci ! <br />Vérification en cours, vous serez redirigé dans quelques secondes lorsque votre email sera validé."
   );
   const [isVerified, setIsVerified] = useState(false);
 
@@ -26,11 +26,14 @@ const VerifyEmailProspect = () => {
             window.location.href = "/";
           } else {
             const errorData = await response.json();
+            setStatus(
+              "Une erreur est survenue lors de la vérification de l'email. <br />Veuillez réessayer ultérieurement."
+            );
           }
         } catch (error) {
           console.error("Error occurred:", error);
           setStatus(
-            "Une erreur est survenue lors de la vérification de l'email. Veuillez réessayer ultérieurement."
+            "Une erreur est survenue lors de la vérification de l'email. <br />Veuillez réessayer ultérieurement."
           );
         }
       };
@@ -38,17 +41,18 @@ const VerifyEmailProspect = () => {
       verifyEmail();
     } else {
       setStatus(
-        "Token non fourni. Veuillez cliquer à nouveau sur le lien ou réessayez l'inscription."
+        "Token non fourni. <br />Veuillez cliquer à nouveau sur le lien ou réessayez l'inscription."
       );
     }
   }, []);
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen py-2 bg-neutral-200">
+    <div className="flex flex-col items-center justify-center min-h-screen py-2 bg-neutral-200 dark:bg-neutral-900">
       <div className="flex flex-col items-center bg-white dark:bg-neutral-800 rounded-xl shadow-xl w-80 p-10 ">
-        <h1 className="text-lg font-bold text-center text-neutral-800 dark:text-neutral-200 mb-6">
-          {status}
-        </h1>
+        <h1
+          className="text-lg font-bold text-center text-neutral-800 dark:text-neutral-200 mb-6"
+          dangerouslySetInnerHTML={{ __html: status }}
+        />
         <div className="mb-6">
           <Spinner />
         </div>
