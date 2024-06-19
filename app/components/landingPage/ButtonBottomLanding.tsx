@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState, ChangeEvent } from "react";
+import React, { useEffect, useState, ChangeEvent, useRef } from "react";
 import {
   Modal,
   ModalContent,
@@ -32,6 +32,13 @@ const ButtonConnexion: React.FC<ButtonConnexionProps> = ({
   const [email, setEmail] = useState<string>("");
   const [isEmailSaved, setIsEmailSaved] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    if (isOpen && inputRef.current) {
+      inputRef.current.focus();
+    }
+  }, [isOpen]);
 
   const handleEmailChange = (event: ChangeEvent<HTMLInputElement>) => {
     setEmail(event.target.value);
@@ -42,6 +49,7 @@ const ButtonConnexion: React.FC<ButtonConnexionProps> = ({
     const emailRegex = /^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$/;
 
     if (!emailRegex.test(email)) {
+      setIsLoading(false);
       return;
     }
 
@@ -55,6 +63,8 @@ const ButtonConnexion: React.FC<ButtonConnexionProps> = ({
 
     if (!response.ok) {
       const errorData = await response.json();
+      alert("Une erreur s'est produite lors de l'enregistrement de l'email.");
+      setIsLoading(false);
       return;
     }
 
@@ -88,24 +98,6 @@ const ButtonConnexion: React.FC<ButtonConnexionProps> = ({
       >
         {label}
       </Button>
-      {/* <Button
-        onClick={handleNavigation}
-        id="buttonConnexion"
-        color="primary"
-        className="xs:hidden bg-cyan-950 dark:bg-cyan-100 text-white"
-        size="lg"
-      >
-        {labelSmall}
-      </Button>
-      <Button
-        onClick={handleNavigation}
-        id="buttonConnexion"
-        color="primary"
-        className="hidden xs:block bg-cyan-950 dark:bg-cyan-100 text-white"
-        size="lg"
-      >
-        {label}
-      </Button> */}
 
       <Modal isOpen={isOpen} onClose={handleClose}>
         <ModalContent>
@@ -129,6 +121,7 @@ const ButtonConnexion: React.FC<ButtonConnexionProps> = ({
               </>
             ) : (
               <Input
+                ref={inputRef}
                 type="email"
                 placeholder="Votre email"
                 value={email}
