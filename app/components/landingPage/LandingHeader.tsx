@@ -1,11 +1,17 @@
-// Correction du composant Header avec des améliorations pour la lisibilité et la maintenance
-
-import React, { FC, useEffect, useState, ChangeEvent } from "react";
+import React, { FC, useEffect, useState, useRef, ChangeEvent } from "react";
 import Image from "next/image";
 import ButtonConnexion from "./ButtonConnexion";
 import ButtonTheme from "./ButtonTheme";
 import { useTheme } from "next-themes";
-import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDisclosure } from "@nextui-org/react";
+import {
+  Modal,
+  ModalContent,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+  Button,
+  useDisclosure,
+} from "@nextui-org/react";
 import { Input } from "@nextui-org/input";
 import { Spinner } from "@nextui-org/spinner";
 
@@ -16,6 +22,7 @@ const Header: FC = () => {
   const [email, setEmail] = useState<string>("");
   const [isEmailSaved, setIsEmailSaved] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     const handleResize = () => setWindowWidth(window.innerWidth);
@@ -24,6 +31,12 @@ const Header: FC = () => {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
+  useEffect(() => {
+    if (isOpen && inputRef.current) {
+      inputRef.current.focus();
+    }
+  }, [isOpen]);
+
   const determineLogoSrc = (): string => {
     if (windowWidth < 390) return "/logoOnly.svg";
     return theme === "dark" ? "/logo-dark.svg" : "/logo-light.svg";
@@ -31,7 +44,8 @@ const Header: FC = () => {
 
   const logoSrc = determineLogoSrc();
 
-  const handleEmailChange = (event: ChangeEvent<HTMLInputElement>) => setEmail(event.target.value);
+  const handleEmailChange = (event: ChangeEvent<HTMLInputElement>) =>
+    setEmail(event.target.value);
 
   const handleEmailSubmit = async () => {
     setIsLoading(true);
@@ -65,15 +79,48 @@ const Header: FC = () => {
   };
 
   return (
-    <div id="headerContainer" className="flex dark:bg-neutral-800 dark:bg-opacity-60 items-center justify-between h-16 bg-white bg-opacity-60 backdrop-filter backdrop-blur-lg">
-      <div id="logoContainer" className="flex h-10 w-32 relative ml-2 2xs:ml-4 flex-row justify-start">
-        <Image id="logoHeader" src={logoSrc} alt="Logo" fill style={{ objectFit: "contain" }} />
+    <div
+      id="headerContainer"
+      className="flex dark:bg-neutral-800 dark:bg-opacity-60 items-center justify-between h-16 bg-white bg-opacity-60 backdrop-filter backdrop-blur-lg"
+    >
+      <div
+        id="logoContainer"
+        className="flex h-10 w-32 relative ml-2 2xs:ml-4 flex-row justify-start"
+      >
+        <Image
+          id="logoHeader"
+          src={logoSrc}
+          alt="Logo"
+          fill
+          style={{ objectFit: "contain" }}
+        />
       </div>
       <div id="buttonContainer" className="flex items-center">
         <div id="waitlistButtonContainer" className="mx-2">
-          <Button color="primary" onClick={onOpen} className="2xs:hidden px-4" radius="lg">Wait List</Button>
-          <Button color="primary" onClick={onOpen} className="hidden 2xs:block 3xs:hidden px-8" radius="lg">Liste d&apos;attente</Button>
-          <Button color="primary" onClick={onOpen} className="hidden 3xs:block px-8" radius="lg">Rejoignez la liste d&apos;attente</Button>
+          <Button
+            color="primary"
+            onClick={onOpen}
+            className="2xs:hidden px-4"
+            radius="lg"
+          >
+            Wait List
+          </Button>
+          <Button
+            color="primary"
+            onClick={onOpen}
+            className="hidden 2xs:block 3xs:hidden px-8"
+            radius="lg"
+          >
+            Liste d&apos;attente
+          </Button>
+          <Button
+            color="primary"
+            onClick={onOpen}
+            className="hidden 3xs:block px-8"
+            radius="lg"
+          >
+            Rejoignez la liste d&apos;attente
+          </Button>
         </div>
         <div id="connexionButtonContainer" className="hidden 3xs:block">
           <ButtonConnexion label="Connexion" />
@@ -82,30 +129,57 @@ const Header: FC = () => {
       </div>
       <Modal isOpen={isOpen} onClose={handleClose}>
         <ModalContent>
-          <ModalHeader className="flex flex-col gap-1">Soyez les premiers à découvrir Smartflow !</ModalHeader>
+          <ModalHeader className="flex flex-col gap-1">
+            Soyez les premiers à découvrir Smartflow !
+          </ModalHeader>
           <ModalBody>
             {!isEmailSaved ? (
               <>
-                <p>Ne manquez pas le lancement ! Inscrivez-vous et recevez un accès prioritaire dès que Smartflow sera disponible.</p>
-                <Input type="email" placeholder="Votre email" value={email} onChange={handleEmailChange} className="mb-4 rounded w-full" />
+                <p>
+                  Ne manquez pas le lancement ! Inscrivez-vous et recevez un
+                  accès prioritaire dès que Smartflow sera disponible.
+                </p>
+                <Input
+                  ref={inputRef}
+                  type="email"
+                  placeholder="Votre email"
+                  value={email}
+                  onChange={handleEmailChange}
+                  className="mb-4 rounded w-full"
+                />
               </>
             ) : (
               <>
-                <p>Merci ! Dernière étape pour être averti de la sortie de SmartFlow :</p>
+                <p>
+                  Merci ! Dernière étape pour être averti de la sortie de
+                  SmartFlow :
+                </p>
                 <p>Veuillez cliquer sur le lien envoyé sur votre email.</p>
               </>
             )}
           </ModalBody>
           <ModalFooter>
             {isEmailSaved ? (
-              <Button color="primary" radius="lg" onClick={handleClose}>OK</Button>
+              <Button color="primary" radius="lg" onClick={handleClose}>
+                OK
+              </Button>
             ) : (
               <>
-                <Button radius="lg" onClick={handleClose}>Annuler</Button>
+                <Button radius="lg" onClick={handleClose}>
+                  Annuler
+                </Button>
                 {isLoading ? (
-                  <div style={{ width: "100px", textAlign: "center" }}><Spinner /></div>
+                  <div style={{ width: "100px", textAlign: "center" }}>
+                    <Spinner />
+                  </div>
                 ) : (
-                  <Button radius="lg" color="primary" onClick={handleEmailSubmit}>Confirmer</Button>
+                  <Button
+                    radius="lg"
+                    color="primary"
+                    onClick={handleEmailSubmit}
+                  >
+                    Confirmer
+                  </Button>
                 )}
               </>
             )}
