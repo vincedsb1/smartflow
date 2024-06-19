@@ -23,7 +23,7 @@ const VerifyEmailProspect = () => {
           if (response.ok) {
             setIsVerified(true);
             await new Promise((resolve) => setTimeout(resolve, 5000));
-            // window.location.href = "/";
+            window.location.href = "/";
           } else {
             const errorData = await response.json();
           }
