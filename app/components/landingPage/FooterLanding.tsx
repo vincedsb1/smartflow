@@ -13,7 +13,7 @@ const FooterLanding = () => {
     >
       <div
         id="textFooter"
-        className="absolute inset-0 flex flex-row h-full w-full justify-center items-center font-title  text-center z-20"
+        className="absolute inset-0 flex flex-row h-full w-full justify-center items-center font-title text-center z-20"
       >
         <p className="text-md text-neutral-600 dark:text-neutral-400 text-sm leading-relaxed">
           © 2024 SmartFlow.
@@ -24,17 +24,18 @@ const FooterLanding = () => {
           <br /> Made with ❤️ in Nantes
         </p>
       </div>
-      <Image
-        src={
-          theme === "dark"
-            ? "/LandingFooterDark.svg"
-            : "/LandingFooterLight.svg"
-        }
-        alt="logo"
-        layout="fill"
-        objectFit="cover"
-        className="absolute opacity-30 z-10"
-      />
+      <div className="absolute inset-0 z-10 opacity-30">
+        <Image
+          src={
+            theme === "dark"
+              ? "/LandingFooterDark.svg"
+              : "/LandingFooterLight.svg"
+          }
+          alt="logo"
+          fill
+          style={{ objectFit: "cover" }}
+        />
+      </div>
     </div>
   );
 };

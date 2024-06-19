@@ -42,7 +42,6 @@ const ButtonConnexion: React.FC<ButtonConnexionProps> = ({
     const emailRegex = /^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$/;
 
     if (!emailRegex.test(email)) {
-      console.error("Invalid email format");
       return;
     }
 
@@ -56,7 +55,6 @@ const ButtonConnexion: React.FC<ButtonConnexionProps> = ({
 
     if (!response.ok) {
       const errorData = await response.json();
-      console.log(errorData);
       return;
     }
 

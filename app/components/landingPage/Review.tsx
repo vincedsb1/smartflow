@@ -30,14 +30,13 @@ const Review: React.FC<ReviewProps> = ({
           id="reviewPhotoContainer"
           className="flex flex-row justify-center items-center w-3/20 3xs:w-1/3 h-full flex-grow "
         >
-          <div className="w-10 xs:w-16 h-10 xs:h-16 flex justify-center items-center ">
+          <div className="w-10 xs:w-16 h-10 xs:h-16 flex justify-center items-center relative">
             <Image
               src={consumerPhoto}
               alt={name}
-              layout="intrinsic"
-              width={64}
-              height={64}
+              fill
               className="rounded-full"
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
             />
           </div>
         </div>
