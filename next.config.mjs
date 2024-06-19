@@ -86,7 +86,7 @@ const nextConfig = {
   },
   reactStrictMode: true,
   images: {
-    domains: ["smartflow-app.com"],
+    domains: ["smartflow-app"],
   },
 };
 

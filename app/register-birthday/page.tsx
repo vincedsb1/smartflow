@@ -2,46 +2,38 @@
 import React, { useEffect, useState } from "react";
 import CardAppText from "../components/CardAppText";
 import CardAppTitle from "../components/CardAppTitle";
-
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faChevronLeft } from "@fortawesome/free-solid-svg-icons";
+import {
+  faChevronLeft,
+  faBirthdayCake,
+} from "@fortawesome/free-solid-svg-icons";
 import { useRouter } from "next/navigation";
 import InputBirthday from "../components/InputBirthday";
 import { useUser } from "../context/UserContext";
 import { Button } from "@nextui-org/react";
 import Image from "next/image";
 import { useTheme } from "next-themes";
-import { faBirthdayCake } from "@fortawesome/free-solid-svg-icons";
 
-
-// Page d'inscription - Date de naissance
 const InscriptionPage = () => {
   const { theme } = useTheme();
   const logo = theme === "dark" ? "/logo-dark.svg" : "/logo-light.svg";
   const router = useRouter();
-  const {
-    user,
-    setUser,
-    email,
-    setEmail,
-    firstname,
-    setFirstname,
-    birthday,
-    setBirthday,
-  } = useUser();
+  const { user, setUser, email, firstname, birthday, setBirthday } = useUser();
 
-  // Affichage des données stockées
-  useEffect(() => {
-  }, [firstname, email]);
+  useEffect(() => {}, [firstname, email]);
 
-  // Fonction de redirection vers la page suivante
-  const handleContinue = () => {
+  const handleContinue = (event: React.FormEvent) => {
+    event.preventDefault();
     if (!birthday) {
-      alert("Veuillez sélectionner une date de naissance.");
+      alert("Veuillez indiquer votre date de naissance.");
       return;
     }
-    const formattedBirthday = `${("0" + birthday.getDate()).slice(-2)}/${("0" + (birthday.getMonth() + 1)).slice(-2)}/${birthday.getFullYear()}`;
-    const dateRegex = /^(0[1-9]|[12][0-9]|3[01])\/(0[1-9]|1[012])\/(19|20)\d\d$/;
+    const formattedBirthday = `${("0" + birthday.getDate()).slice(-2)}/${(
+      "0" +
+      (birthday.getMonth() + 1)
+    ).slice(-2)}/${birthday.getFullYear()}`;
+    const dateRegex =
+      /^(0[1-9]|[12][0-9]|3[01])\/(0[1-9]|1[012])\/(19|20)\d\d$/;
     console.log("Date de naissance formatée:", formattedBirthday);
     if (formattedBirthday && dateRegex.test(formattedBirthday)) {
       setUser({ ...user, email, firstname, birthday });
@@ -60,24 +52,22 @@ const InscriptionPage = () => {
 
   useEffect(() => {
     const handleResize = () => {
-      const widthCondition = window.innerWidth >= 1280; // xl breakpoint
-      const heightCondition = window.innerHeight >= 896; // custom height condition
+      const widthCondition = window.innerWidth >= 1280;
+      const heightCondition = window.innerHeight >= 896;
       setShowLogo(widthCondition || heightCondition);
     };
 
-    handleResize(); // Check on mount
-    window.addEventListener("resize", handleResize); // Check on resize
+    handleResize();
+    window.addEventListener("resize", handleResize);
 
     return () => window.removeEventListener("resize", handleResize);
   }, []);
-
 
   return (
     <div
       id="mailAuthMainContainer"
       className="flex flex-col items-center justify-center w-full h-full min-h-screen"
     >
-      {/* Desktop version */}
       <div
         id="mailAuthDesktop"
         className="hidden sm:flex h-full w-full flex-col justify-center items-center"
@@ -164,7 +154,6 @@ const InscriptionPage = () => {
           </div>
         </div>
       </div>
-      {/* Mobile version */}
       <div
         id="mailAuthMobile"
         className="sm:hidden w-full h-full flex flex-col flex-grow justify-between items-center "
@@ -183,7 +172,6 @@ const InscriptionPage = () => {
               onClick={handleBack}
             />
           </div>
-
           <div
             id="mobileTitleMainContainer"
             className="flex flex-col items-center justify-center w-full mt-4 xs:mt-6 2xs:mt-8 3xs:mt-10 sm:mt-12"
@@ -193,7 +181,6 @@ const InscriptionPage = () => {
               className="flex flex-col items-start"
             >
               <CardAppTitle title="Votre profil" size="big" />
-
               <div
                 id="mobileTextContainer"
                 className="w-60 xs:w-64 2xs:w-72 3xs:w-80  mb-10"
@@ -214,12 +201,14 @@ const InscriptionPage = () => {
             id="formContainer"
             onSubmit={handleContinue}
             className="flex flex-col items-center w-full"
-          >            <div
-            id="mobileInputContainer"
-            className="w-full pb-10 xs:pb-12 2xs:pb-16 3xs:pb-20 sm:pb-32"
           >
+            <div
+              id="mobileInputContainer"
+              className="w-full pb-10 xs:pb-12 2xs:pb-16 3xs:pb-20 sm:pb-32"
+            >
               <InputBirthday
-                label="Date de naissance" inputType="date"
+                label="Date de naissance"
+                inputType="date"
                 onChange={(date) => {
                   console.log("Date sélectionnée:", date);
                   setBirthday(
@@ -228,7 +217,6 @@ const InscriptionPage = () => {
                 }}
               />
             </div>
-
             <div id="mobileButtonContainer" className="">
               <Button
                 type="submit"
