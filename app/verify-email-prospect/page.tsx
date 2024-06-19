@@ -22,7 +22,7 @@ const VerifyEmailProspect = () => {
           );
           if (response.ok) {
             setIsVerified(true);
-            await new Promise((resolve) => setTimeout(resolve, 5000));
+            await new Promise((resolve) => setTimeout(resolve, 10000));
             window.location.href = "/";
           } else {
             const errorData = await response.json();
@@ -50,7 +50,7 @@ const VerifyEmailProspect = () => {
     <div className="flex flex-col items-center justify-center min-h-screen py-2 bg-neutral-200 dark:bg-neutral-900">
       <div className="flex flex-col items-center bg-white dark:bg-neutral-800 rounded-xl shadow-xl w-80 p-10 ">
         <h1
-          className="text-lg font-bold text-center text-neutral-800 dark:text-neutral-200 mb-6"
+          className="text-lg font-bold text-center text-neutral-800 dark:text-neutral-300 mb-6"
           dangerouslySetInnerHTML={{ __html: status }}
         />
         <div className="mb-6">
