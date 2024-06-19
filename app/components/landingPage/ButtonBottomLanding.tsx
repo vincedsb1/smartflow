@@ -11,6 +11,7 @@ import {
 } from "@nextui-org/react";
 import { useRouter } from "next/navigation";
 import { Input } from "@nextui-org/input";
+import { Spinner } from "@nextui-org/spinner";
 
 interface ButtonConnexionProps {
   label: string;
@@ -30,15 +31,18 @@ const ButtonConnexion: React.FC<ButtonConnexionProps> = ({
   const { isOpen, onOpen, onClose: close } = useDisclosure();
   const [email, setEmail] = useState<string>("");
   const [isEmailSaved, setIsEmailSaved] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const handleEmailChange = (event: ChangeEvent<HTMLInputElement>) => {
     setEmail(event.target.value);
   };
 
   const handleEmailSubmit = async () => {
+    setIsLoading(true);
     const emailRegex = /^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$/;
 
     if (!emailRegex.test(email)) {
+      console.error("Invalid email format");
       return;
     }
 
@@ -52,10 +56,12 @@ const ButtonConnexion: React.FC<ButtonConnexionProps> = ({
 
     if (!response.ok) {
       const errorData = await response.json();
+      console.log(errorData);
       return;
     }
 
     setIsEmailSaved(true);
+    setIsLoading(false);
   };
 
   const handleClose = () => {
@@ -70,7 +76,7 @@ const ButtonConnexion: React.FC<ButtonConnexionProps> = ({
         onClick={onOpen}
         id="buttonConnexion"
         color="primary"
-        className="xs:hidden bg-cyan-950 dark:bg-cyan-100 text-white"
+        className="xs:hidden bg-cyan-950 dark:bg-cyan-100 text-white dark:text-cyan-950"
         size="lg"
       >
         {labelSmall}
@@ -79,7 +85,7 @@ const ButtonConnexion: React.FC<ButtonConnexionProps> = ({
         onClick={onOpen}
         id="buttonConnexion"
         color="primary"
-        className="hidden xs:block bg-cyan-950 dark:bg-cyan-100 text-white"
+        className="hidden xs:block bg-cyan-950 dark:bg-cyan-100 text-white dark:text-cyan-950"
         size="lg"
       >
         {label}
@@ -143,9 +149,19 @@ const ButtonConnexion: React.FC<ButtonConnexionProps> = ({
                 <Button radius="lg" onClick={handleClose}>
                   Annuler
                 </Button>
-                <Button radius="lg" color="primary" onClick={handleEmailSubmit}>
-                  Confirmer
-                </Button>
+                {isLoading ? (
+                  <div style={{ width: "100px", textAlign: "center" }}>
+                    <Spinner />
+                  </div>
+                ) : (
+                  <Button
+                    radius="lg"
+                    color="primary"
+                    onClick={handleEmailSubmit}
+                  >
+                    Confirmer
+                  </Button>
+                )}
               </>
             )}
           </ModalFooter>
