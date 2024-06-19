@@ -2,11 +2,10 @@ import React from "react";
 
 type TitleProps = {
   title: string;
-  size?: "medium" | "big"; // Ajout de la nouvelle propriété avec ses types possibles
+  size?: "medium" | "big";
 };
 
 const Title: React.FC<TitleProps> = ({ title, size = "medium" }) => {
-  // Définition des classes conditionnelles basées sur la propriété size
   const textSizeClass =
     size === "big"
       ? "text-2xl 2xs:text-3xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl "
