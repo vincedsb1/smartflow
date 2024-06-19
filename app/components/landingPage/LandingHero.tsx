@@ -16,6 +16,7 @@ import {
   useDisclosure,
 } from "@nextui-org/react";
 import { Input } from "@nextui-org/input";
+import { Spinner } from "@nextui-org/spinner";
 
 const Hero = () => {
   const router = useRouter();
@@ -34,15 +35,18 @@ const Hero = () => {
   const { isOpen, onOpen, onClose: close } = useDisclosure();
   const [email, setEmail] = useState<string>("");
   const [isEmailSaved, setIsEmailSaved] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const handleEmailChange = (event: ChangeEvent<HTMLInputElement>) => {
     setEmail(event.target.value);
   };
 
   const handleEmailSubmit = async () => {
+    setIsLoading(true);
     const emailRegex = /^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$/;
 
     if (!emailRegex.test(email)) {
+      console.error("Invalid email format");
       return;
     }
 
@@ -56,10 +60,12 @@ const Hero = () => {
 
     if (!response.ok) {
       const errorData = await response.json();
+      console.log(errorData);
       return;
     }
 
     setIsEmailSaved(true);
+    setIsLoading(false);
   };
 
   const handleClose = () => {
@@ -127,15 +133,6 @@ const Hero = () => {
             <FontAwesomeIcon icon={faRocket} />
             &nbsp;Let&apos;s go
           </Button>
-          {/* <Button
-            className="bg-cyan-950 dark:bg-cyan-100 text-white w-40 xs:w-60 dark:text-cyan-950 hidden 2xs:block"
-            onClick={handleNavigation}
-            size="lg"
-            isDisabled={false}
-          >
-            <FontAwesomeIcon icon={faRocket} />
-            &nbsp;Let&apos;s go
-          </Button> */}
         </div>
       </div>
 
@@ -179,9 +176,19 @@ const Hero = () => {
                 <Button radius="lg" onClick={handleClose}>
                   Annuler
                 </Button>
-                <Button radius="lg" color="primary" onClick={handleEmailSubmit}>
-                  Confirmer
-                </Button>
+                {isLoading ? (
+                  <div style={{ width: "100px", textAlign: "center" }}>
+                    <Spinner />
+                  </div>
+                ) : (
+                  <Button
+                    radius="lg"
+                    color="primary"
+                    onClick={handleEmailSubmit}
+                  >
+                    Confirmer
+                  </Button>
+                )}
               </>
             )}
           </ModalFooter>
