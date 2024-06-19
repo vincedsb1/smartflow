@@ -53,7 +53,7 @@ const VerificationMail: React.FC<VerificationMailProps> = ({ email, link }) => {
                     backgroundSize: "cover",
                     backgroundRepeat: "no-repeat",
                     backgroundPosition: "center",
-                    height: "222px",
+                    height: "160px",
                   }}
                 >
                   <td
