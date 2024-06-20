@@ -49,12 +49,15 @@ const MailAuth = () => {
     setIsButtonDisabled(!validateEmail(email));
   }, [email]);
 
-  const handleSubmit = async (e: { preventDefault: () => void }) => {
+  const handleSubmit = async (e: { preventDefault: () => void; }) => {
     e.preventDefault();
     try {
       const res = await fetch(`/api/users/checkEmail?email=${email}`);
       const data = await res.json();
       const emailExists = res.ok && data.message === "Email already exists";
+
+      userContext.setEmail(email); 
+
       router.push(emailExists ? "/connexion" : "/register");
     } catch (err) {
       console.error(`Error: ${err}`);
@@ -94,7 +97,7 @@ const MailAuth = () => {
         {showLogo && (
           <div
             id="logoContainer"
-            className="absolute sm:top-0 sm:left-0 flex-row justify-start items-center h-16 w-full p-4 "
+            className="absolute sm:top-0 sm:left-0 flex-row justify-start items-center h-16 w-full p-4"
           >
             <Image
               src={logo}
@@ -147,8 +150,8 @@ const MailAuth = () => {
             <form
               id="formContainer"
               onSubmit={handleSubmit}
-              className="flex flex-col items-center w-full"
-            >
+              className="flex flex-col justify-between items-center w-full mb-4"
+              >
               <Input
                 value={email || ""}
                 onChange={handleChangeEmail}
@@ -226,49 +229,33 @@ const MailAuth = () => {
           <form
             id="formContainer"
             onSubmit={handleSubmit}
-            className="flex flex-col items-center w-full"
+            className="flex flex-col justify-between items-center w-full"
           >
-            <div
-              id="mobileInputContainer"
-              className="w-full pb-10 xs:pb-12 2xs:pb-16 3xs:pb-20 sm:pb-32"
+            <Input
+              value={email || ""}
+              onChange={handleChangeEmail}
+              isRequired
+              size="md"
+              type="email"
+              label="Email"
+              radius="lg"
+              className="w-64 xs:w-72 2xs:w-80 3xs:w-80 mb-4 font-text"
+              errorMessage={emailErrorMessage}
+              isInvalid={isEmailInvalid || emailErrorMessage !== ""}
+              placeholder="Entrez votre email"
+            />
+            <Button
+              type="submit"
+              color="default"
+              variant="solid"
+              size="lg"
+              className="w-64 xs:w-72 2xs:w-80 3xs:w-80 pr-14 pl-14 font-bold font-text"
+              onClick={handleSubmit}
+              disabled={isButtonDisabled}
             >
-              <Input
-                value={email || ""}
-                onChange={handleChangeEmail}
-                isRequired
-                size="md"
-                type="email"
-                label="Email"
-                radius="lg"
-                className="w-60 xs:w-64 2xs:w-72 3xs:w-80 font-text"
-                errorMessage={emailErrorMessage}
-                isInvalid={isEmailInvalid || emailErrorMessage !== ""}
-                placeholder="Entrez votre email"
-              />
-            </div>
-
-            <div id="mobileButtonContainer" className="">
-              <Button
-                type="submit"
-                color="primary"
-                variant="solid"
-                size="lg"
-                className="w-60 xs:w-64 2xs:w-72 3xs:w-80 font-bold font-text"
-                onClick={handleSubmit}
-                disabled={isButtonDisabled}
-              >
-                Suivant
-              </Button>
-            </div>
+              Suivant
+            </Button>
           </form>
-          <div id="linkToResetPasswordContainer" className="mt-6">
-            <Link
-              className="font-text font-light text-neutral-800 dark:text-neutral-200"
-              href="/"
-            >
-              Retourner à la page principale
-            </Link>
-          </div>
         </div>
       </div>
     </div>
