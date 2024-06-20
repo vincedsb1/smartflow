@@ -17,18 +17,37 @@ const MailAuth = () => {
   const router = useRouter();
 
   if (!userContext) {
-    throw new Error("UserContext must be used within a UserContextProvider");
+    throw new Error("UserContext doit être utilisé dans un UserContextProvider");
   }
 
-  const { email, setEmail } = userContext;
-  const [isEmailValid, setIsEmailValid] = useState(true);
+  const [email, setEmail] = useState("");
+  const [isEmailInvalid, setEmailInvalid] = useState(false);
+  const [emailErrorMessage, setEmailErrorMessage] = useState("");
+  const [isButtonDisabled, setIsButtonDisabled] = useState(true);
 
-  const handleChangeEmail = (e: { target: { value: any } }) => {
-    const email = e.target.value;
+  const validateEmail = (email: string) => {
     const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
-    setIsEmailValid(emailRegex.test(email));
-    setEmail(email);
+    return emailRegex.test(email);
   };
+
+  const handleChangeEmail = (e: { target: { value: any; }; }) => {
+    const emailValue = e.target.value;
+    setEmail(emailValue);
+    const isValid = validateEmail(emailValue);
+    setEmailInvalid(!isValid);
+
+    if (!emailValue) {
+      setEmailErrorMessage("L'email est requis");
+    } else if (!isValid) {
+      setEmailErrorMessage("Veuillez entrer un email valide");
+    } else {
+      setEmailErrorMessage("");
+    }
+  };
+
+  useEffect(() => {
+    setIsButtonDisabled(!validateEmail(email));
+  }, [email]);
 
   const handleSubmit = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
@@ -43,13 +62,6 @@ const MailAuth = () => {
     }
   };
 
-  const handleClick = () => {
-    const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
-    if (!email || !emailRegex.test(email)) {
-      alert("Veuillez entrer un email valide");
-    }
-  };
-
   const handleBack = () => {
     router.back();
   };
@@ -58,13 +70,13 @@ const MailAuth = () => {
 
   useEffect(() => {
     const handleResize = () => {
-      const widthCondition = window.innerWidth >= 1280; // xl breakpoint
-      const heightCondition = window.innerHeight >= 896; // custom height condition
+      const widthCondition = window.innerWidth >= 1280;
+      const heightCondition = window.innerHeight >= 896;
       setShowLogo(widthCondition || heightCondition);
     };
 
-    handleResize(); // Check on mount
-    window.addEventListener("resize", handleResize); // Check on resize
+    handleResize();
+    window.addEventListener("resize", handleResize);
 
     return () => window.removeEventListener("resize", handleResize);
   }, []);
@@ -146,6 +158,9 @@ const MailAuth = () => {
                 label="Email"
                 radius="lg"
                 className="w-full mb-4 font-text"
+                errorMessage={emailErrorMessage}
+                isInvalid={isEmailInvalid || emailErrorMessage !== ""}
+                placeholder="Entrez votre email"
               />
               <Button
                 type="submit"
@@ -153,8 +168,8 @@ const MailAuth = () => {
                 variant="solid"
                 size="lg"
                 className="w-full max-w-full pr-14 pl-14 font-bold font-text"
-                onClick={handleClick}
-                disabled={!isEmailValid}
+                onClick={handleSubmit}
+                disabled={isButtonDisabled}
               >
                 Suivant
               </Button>
@@ -194,7 +209,7 @@ const MailAuth = () => {
 
               <div
                 id="mobileTextContainer"
-                className="w-60 xs:w-64 2xs:w-72 3xs:w-80  mb-10"
+                className="w-60 xs:w-64 2xs:w-72 3xs:w-80 mb-10"
               >
                 <CardAppText
                   text="Commencez par saisir votre email"
@@ -226,6 +241,9 @@ const MailAuth = () => {
                 label="Email"
                 radius="lg"
                 className="w-60 xs:w-64 2xs:w-72 3xs:w-80 font-text"
+                errorMessage={emailErrorMessage}
+                isInvalid={isEmailInvalid || emailErrorMessage !== ""}
+                placeholder="Entrez votre email"
               />
             </div>
 
@@ -236,13 +254,21 @@ const MailAuth = () => {
                 variant="solid"
                 size="lg"
                 className="w-60 xs:w-64 2xs:w-72 3xs:w-80 font-bold font-text"
-                onClick={handleClick}
-                disabled={!isEmailValid}
+                onClick={handleSubmit}
+                disabled={isButtonDisabled}
               >
                 Suivant
               </Button>
             </div>
           </form>
+          <div id="linkToResetPasswordContainer" className="mt-6">
+            <Link
+              className="font-text font-light text-neutral-800 dark:text-neutral-200"
+              href="/"
+            >
+              Retourner à la page principale
+            </Link>
+          </div>
         </div>
       </div>
     </div>
