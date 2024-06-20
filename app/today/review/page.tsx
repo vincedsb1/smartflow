@@ -41,7 +41,7 @@ const Review: React.FC = () => {
   const [cardCount, setCardCount] = useState(1);
   const [showAnswer, setShowAnswer] = useState(false);
   const [forceRender, setForceRender] = useState(0);
-
+  const [categoryColorName, setCategoryColorName] = useState("defaultColor");
   const calculatePercentage = (level: number): number =>
     Math.round((level * 100) / 7);
 
@@ -60,14 +60,22 @@ const Review: React.FC = () => {
       })
         .then((response) => response.json())
         .then((data) => {
+          console.log("Data from API:", data);
           setTitle(data.title);
           setAnswer(data.answer);
           setLevel(data.level);
           setCategoryName(data.categoryName);
+          const colorFromAPI = data.categoryColor;
+          setCategoryColorName(colorFromAPI || "defaultColor");
+          console.log("categoryColorName:", categoryColorName);
         })
         .catch((error) => console.error("Fetch error:", error));
     }
   }, [id, userContext.token]);
+
+  useEffect(() => {
+    console.log("categoryColorName updated:", categoryColorName);
+  }, [categoryColorName]);
 
   const handleShowAnswer = () => setShowAnswer(true);
 
@@ -156,6 +164,7 @@ const Review: React.FC = () => {
             categoryName={categoryName}
             level={level}
             calculatePercentage={calculatePercentage}
+            color={categoryColorName}
           />
           <ReviewHeaderDesktop
             className="hidden sm:flex mb-4 2xs:mb-8 3xs:mb-10 sm:mb-16"
@@ -166,6 +175,7 @@ const Review: React.FC = () => {
             categoryName={categoryName}
             level={level}
             calculatePercentage={calculatePercentage}
+            color={categoryColorName}
           />
           <div
             id="reviewMiddleContainer"

@@ -4,17 +4,8 @@ import React, { useContext, useState, useEffect } from "react";
 import List from "../components/List";
 import CardAppTitle from "../components/CardAppTitle";
 import CardAppText from "../components/CardAppText";
-import { CircularProgress, code } from "@nextui-org/react";
-import {
-  faListUl,
-  fa1,
-  fa2,
-  fa3,
-  fa4,
-  fa5,
-  fa6,
-  fa7,
-} from "@fortawesome/free-solid-svg-icons";
+import { CircularProgress } from "@nextui-org/react";
+import { faListUl, fa1, fa2, fa3, fa4, fa5, fa6, fa7 } from "@fortawesome/free-solid-svg-icons";
 import { UserContext } from "../context/UserContext";
 import { UserCardProps } from "../context/UserContext";
 import CardsToReviewList from "../components/today/CardsToReviewList";
@@ -45,9 +36,9 @@ const Today = () => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [isError, setIsError] = useState<boolean>(false);
   const [code, setCode] = useState<number>(0);
+  const [categoryColor, setCategoryColor] = useState("");
 
   useEffect(() => {
-    // Ne faire la requête fetch que si le token est chargé
     if (userContext.token) {
       console.log("Fetching data from Today");
       fetch("/api/cards/cardByUser?toReview=true", {
@@ -82,7 +73,7 @@ const Today = () => {
           setIsLoading(false);
         });
     }
-  }, [userContext.token]); // Ajoutez userContext.token comme dépendance
+  }, [setCardsToReview, userContext, userContext.token]);
 
   if (isLoading) {
     return (
@@ -105,7 +96,7 @@ const Today = () => {
   if (cards) {
     rows = cards.map((card) => ({
       mainLabel: card.title,
-      link: "/today/review?id=" + card.id + "&nbcard=" + cards.length,
+      link: `/today/review?id=${card.id}&nbcard=${cards.length}&color=${card.categoryColorName || "white"}`,
       color: card.categoryColorName || "white",
       icon: levelIcons[card.level - 1],
     }));
@@ -124,21 +115,12 @@ const Today = () => {
       return <AllCardsReviewed />;
     case 4:
       return (
-        <div
-          id="todayMainContainer"
-          className="flex flex-row justify-center items-center"
-        >
-          <div
-            id="todaySubMainContainer"
-            className="w-full sm:max-w-[1170px]  bg-neutral-200 sm:shadow-2xl sm:shadow-neutral-200 flex flex-row "
-          >
+        <div id="todayMainContainer" className="flex flex-row justify-center items-center">
+          <div id="todaySubMainContainer" className="w-full sm:max-w-[1170px]  bg-neutral-200 sm:shadow-2xl sm:shadow-neutral-200 flex flex-row ">
             <div id="todayMenuContainer" className="hidden sm:block">
               <DesktopMenu />
             </div>
-            <div
-              id="todayContentContainer"
-              className="flex flex-row justify-center  w-full sm:ml-48 md:ml-72"
-            >
+            <div id="todayContentContainer" className="flex flex-row justify-center  w-full sm:ml-48 md:ml-72">
               <CardsToReviewList rows={rows} firstCardId={firstCardId} />
             </div>
           </div>
