@@ -129,7 +129,6 @@ const UserContextProvider: React.FC<UserContextProviderProps> = ({
         const data = await response.json();
         setId(data.id);
         setFirstname(data.firstname);
-        console.log("data", data.firstname, data.birthday);
         setBirthday(new Date(data.birthday));
         setEmail(data.email);
       } else {
@@ -143,7 +142,6 @@ const UserContextProvider: React.FC<UserContextProviderProps> = ({
     }
   }, [token, setFirstname, setBirthday]);
 
-  console.log("user", user);
 
   // Fetch user card details from the API
   const contextValue = {
@@ -172,11 +170,9 @@ const UserContextProvider: React.FC<UserContextProviderProps> = ({
   };
 
   useEffect(() => {
-    console.log("shouldRunContext changed", shouldRunContext);
   }, [shouldRunContext]);
 
   useEffect(() => {
-    console.log("token changed", token);
   }, [token]);
 
   return (
