@@ -49,7 +49,7 @@ const AddCategory: React.FC<AddCategoryProps> = ({ onValidate }) => {
   const createCategory = async () => {
     const selectedColor = colors.find((color) => color.selected);
     if (!selectedColor) {
-      alert("Please select a color");
+      alert("Sélectionnez une couleur pour la catégorie");
       return;
     }
     console.log(
