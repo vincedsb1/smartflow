@@ -4,6 +4,7 @@ import { faChevronLeft } from "@fortawesome/free-solid-svg-icons";
 import CardAppTitle from "@/app/components/CardAppTitle";
 import { Progress } from "@nextui-org/react";
 import { useRouter } from "next/navigation";
+import { colorClasses } from '../utils/colorUtils';
 
 interface ReviewHeaderDesktopProps {
   className?: string;
@@ -14,6 +15,7 @@ interface ReviewHeaderDesktopProps {
   categoryName: string;
   level: number;
   calculatePercentage: (level: number) => number;
+  color: string;
 }
 
 const ReviewHeaderDesktop: React.FC<ReviewHeaderDesktopProps> = ({
@@ -25,6 +27,7 @@ const ReviewHeaderDesktop: React.FC<ReviewHeaderDesktopProps> = ({
   categoryName,
   level,
   calculatePercentage,
+  color,
 }) => (
   <div
     id="reviewPageTopContainer"
@@ -68,8 +71,7 @@ const ReviewHeaderDesktop: React.FC<ReviewHeaderDesktopProps> = ({
         className="flex flex-row justify-between w-full mb-4"
       >
         <div id="reviewTitleCategoryColorContainer" className="flex flex-row">
-          <div id="reviewColor" className="bg-red-500 w-[6px] h-full"></div>
-          <div
+        <div id="reviewColor" className={`w-[6px] h-full ${colorClasses[color] || ''}`}></div>          <div
             id="reviewTitleCategoryContainer"
             className="flex flex-col w-full ml-2"
           >
