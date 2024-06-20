@@ -85,6 +85,7 @@ const UserContextProvider: React.FC<UserContextProviderProps> = ({
 
   const [user, setUser] = useState<any>(null);
   const [email, setEmail] = useState<string | null>(null);
+console.log("email dans le context", email);
   const [firstname, setFirstname] = useState<string>("");
   const [birthday, setBirthday] = useState<Date | null>(null);
   const [password, setPassword] = useState<string | null>(null);
