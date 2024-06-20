@@ -85,7 +85,6 @@ const UserContextProvider: React.FC<UserContextProviderProps> = ({
 
   const [user, setUser] = useState<any>(null);
   const [email, setEmail] = useState<string | null>(null);
-console.log("email dans le context", email);
   const [firstname, setFirstname] = useState<string>("");
   const [birthday, setBirthday] = useState<Date | null>(null);
   const [password, setPassword] = useState<string | null>(null);
@@ -130,7 +129,6 @@ console.log("email dans le context", email);
         const data = await response.json();
         setId(data.id);
         setFirstname(data.firstname);
-        console.log("data", data.firstname, data.birthday);
         setBirthday(new Date(data.birthday));
         setEmail(data.email);
       } else {
@@ -144,7 +142,6 @@ console.log("email dans le context", email);
     }
   }, [token, setFirstname, setBirthday]);
 
-  console.log("user", user);
 
   // Fetch user card details from the API
   const contextValue = {
@@ -173,11 +170,9 @@ console.log("email dans le context", email);
   };
 
   useEffect(() => {
-    console.log("shouldRunContext changed", shouldRunContext);
   }, [shouldRunContext]);
 
   useEffect(() => {
-    console.log("token changed", token);
   }, [token]);
 
   return (
