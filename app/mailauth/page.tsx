@@ -60,7 +60,6 @@ const MailAuth = () => {
 
       router.push(emailExists ? "/connexion" : "/register");
     } catch (err) {
-      console.error(`Error: ${err}`);
       alert("Une erreur s'est produite lors de la vérification de l'e-mail");
     }
   };

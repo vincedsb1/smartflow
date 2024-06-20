@@ -28,7 +28,6 @@ const ConnexionPage = () => {
   }
 
   const { email, firstname, birthday, setUser, onBoarding, setOnBoarding } = userContext;
-  console.log("le mail de l'user est le suivant :", email);
   const [password, setPassword] = useState("");
   const [displayMessage, setDisplayMessage] = useState("");
   const message = "Le mot de passe est incorrect, veuillez réessayer.";
@@ -82,7 +81,6 @@ const ConnexionPage = () => {
         }
       }
     } catch (error) {
-      console.error("Error in handlePasswordCheck", error);
     }
   };
 
