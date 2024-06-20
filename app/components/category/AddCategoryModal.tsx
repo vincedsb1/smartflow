@@ -80,7 +80,7 @@ const AddCategoryModal: React.FC<AddCategoryModalProps> = ({
 
     const selectedColor = colors.find((color) => color.selected);
     if (!selectedColor) {
-      alert("Please select a color");
+      alert("Sélectionnez une couleur pour la catégorie");
       return;
     }
     const response = await fetch("/api/categories/createCategories", {
