@@ -81,7 +81,6 @@ const ConnexionPage = () => {
         }
       }
     } catch (error) {
-      console.error("Error in handlePasswordCheck", error);
     }
   };
 
