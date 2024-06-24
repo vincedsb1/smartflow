@@ -20,20 +20,16 @@ const UserProfile: React.FC = () => {
   const userId = user?.id;
   const router = useRouter();
 
-  // useEffect(() => {
-  //   // If the user or token is null or undefined, redirect to "/welcome"
-  //   if (!user || user === undefined || !token || token === undefined) {
-  //     router.push("/");
-  //   }
-  // }, [user, token, router]);
+  useEffect(() => {
+    if (!user || user === undefined || !token || token === undefined) {
+      router.push("/");
+    }
+  }, [user, token, router]);
 
-  // const handleLogout = () => {
-  //   router.push("/");
-  // };
   const handleLogout = () => {
     setUser(null);
     setToken(null);
-    // router.push("/");
+    router.push("/");
   };
 
   const formattedBirthday = birthday
