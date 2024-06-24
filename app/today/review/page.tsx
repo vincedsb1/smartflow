@@ -3,19 +3,6 @@
 import React, { useEffect, useState, useContext } from "react";
 import { UserContext } from "../../context/UserContext";
 import { useRouter } from "next/navigation";
-import {
-  faChevronLeft,
-  faRandom,
-  faForward,
-} from "@fortawesome/free-solid-svg-icons";
-import {
-  faCircleXmark,
-  faCircleCheck,
-} from "@fortawesome/free-regular-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import CardAppTitle from "@/app/components/CardAppTitle";
-import { Button } from "@nextui-org/button";
-import { Progress } from "@nextui-org/react";
 import DesktopMenu from "../../components/DesktopMenu";
 import ReviewQuestionButtons from "@/app/components/review/ReviewQuestionButtons";
 import ReviewAnswerButtons from "@/app/components/review/ReviewAnswerButtons";
@@ -27,6 +14,12 @@ const Review: React.FC = () => {
   const userContext = useContext(UserContext);
   const apiUrl = process.env.NEXT_PUBLIC_API_URL;
   const router = useRouter();
+
+  useEffect(() => {
+    if (!userContext || !userContext.token) {
+      router.push('/');
+    }
+  }, [userContext, router]);
 
   if (!userContext) {
     throw new Error("UserContext must be used within a UserContextProvider");
