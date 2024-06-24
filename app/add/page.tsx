@@ -29,6 +29,12 @@ const CardCreation: React.FC = () => {
   const [content, setContent] = useState("");
 
   useEffect(() => {
+    if (!userContext || !userContext.token) {
+      router.push('/');
+    }
+  }, [userContext, router]);
+
+  useEffect(() => {
     if (step === STEP_CONTENT) {
       console.log("Titre de la carte : ", cardTitle);
       console.log("ID de la catégorie sélectionnée : ", selectedCategoryId);

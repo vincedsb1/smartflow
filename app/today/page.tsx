@@ -25,6 +25,12 @@ const Today = () => {
   const userContext = useContext(UserContext);
   const router = useRouter();
 
+  useEffect(() => {
+    if (!userContext || !userContext.token) {
+      router.push('/');
+    }
+  }, [userContext, router]);
+
   if (!userContext) {
     throw new Error("UserContext must be used within a UserContextProvider");
   }
@@ -73,7 +79,8 @@ const Today = () => {
           setIsLoading(false);
         });
     }
-  }, [setCardsToReview, userContext, userContext.token]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   if (isLoading) {
     return (
