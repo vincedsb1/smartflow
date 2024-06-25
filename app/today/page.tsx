@@ -1,24 +1,34 @@
 "use client";
 
 import React, { useContext, useState, useEffect } from "react";
-import List from "../components/List";
-import CardAppTitle from "../components/CardAppTitle";
-import CardAppText from "../components/CardAppText";
 import { CircularProgress } from "@nextui-org/react";
-import { faListUl, fa1, fa2, fa3, fa4, fa5, fa6, fa7 } from "@fortawesome/free-solid-svg-icons";
-import { UserContext } from "../context/UserContext";
-import { UserCardProps } from "../context/UserContext";
+import { fa1, fa2, fa3, fa4, fa5, fa6, fa7 } from "@fortawesome/free-solid-svg-icons";
+import { UserContext, UserCardProps } from "../context/UserContext";
 import CardsToReviewList from "../components/today/CardsToReviewList";
 import AllCardsReviewed from "../components/today/AllCardsReviewed";
 import NoCardsToReview from "../components/today/NoCardsToReview";
 import NoCard from "../components/today/NoCard";
 import { IconDefinition } from "@fortawesome/fontawesome-svg-core";
 import DesktopMenu from "../components/DesktopMenu";
+import CategoryDistribution from "../components/CategoryDistribution";
+import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
+
+ChartJS.register(ArcElement, Tooltip, Legend);
 
 interface CardData {
   cards: UserCardProps[];
   code: number;
 }
+
+// Données fictives pour le test
+const fakeData = {
+  labels: ['Catégorie 1', 'Catégorie 2', 'Catégorie 3'],
+  datasets: [{
+    data: [300, 50, 100],
+    backgroundColor: ['red', 'blue', 'green'],
+    hoverBackgroundColor: ['darkred', 'darkblue', 'darkgreen']
+  }]
+};
 
 const Today = () => {
   const { useRouter } = require("next/navigation");
@@ -69,8 +79,6 @@ const Today = () => {
             console.error("data.cards is undefined");
           }
           setIsLoading(false);
-          console.log("Data received from Today", data);
-          console.log("Data.code", data.code);
           setCode(data.code);
         })
         .catch((error) => {
@@ -79,7 +87,6 @@ const Today = () => {
           setIsLoading(false);
         });
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   if (isLoading) {
@@ -127,8 +134,11 @@ const Today = () => {
             <div id="todayMenuContainer" className="hidden sm:block">
               <DesktopMenu />
             </div>
-            <div id="todayContentContainer" className="flex flex-row justify-center  w-full sm:ml-48 md:ml-72">
+            <div id="todayContentContainer" className="flex flex-row justify-center w-full sm:ml-48 md:ml-72">
               <CardsToReviewList rows={rows} firstCardId={firstCardId} />
+              <div className="mt-72 ml-8">
+                <CategoryDistribution data={fakeData} />
+              </div>
             </div>
           </div>
         </div>
