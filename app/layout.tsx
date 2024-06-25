@@ -8,6 +8,7 @@ import { UserContextProvider } from "../app/context/UserContext";
 import "@fortawesome/fontawesome-svg-core/styles.css";
 import { config } from "@fortawesome/fontawesome-svg-core";
 config.autoAddCss = false;
+import { ThemeProvider } from "./components/theme-provider";
 
 interface RootLayoutProps {
   children: ReactNode;
@@ -29,20 +30,27 @@ export default function RootLayout({ children }: RootLayoutProps) {
   return (
     <html lang="fr">
       <body className="">
-        <Providers>
-          <UserContextProvider>
-            <main className="bg-neutral-200 sm:bg-white dark:bg-neutral-900">
-              {children}
-            </main>
-            {showMenu && (
-              <>
-                <div className="sm:hidden">
-                  <TabBar />
-                </div>
-              </>
-            )}
-          </UserContextProvider>
-        </Providers>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <Providers>
+            <UserContextProvider>
+              <main className="bg-neutral-200 sm:bg-white dark:bg-neutral-900">
+                {children}
+              </main>
+              {showMenu && (
+                <>
+                  <div className="sm:hidden">
+                    <TabBar />
+                  </div>
+                </>
+              )}
+            </UserContextProvider>
+          </Providers>
+        </ThemeProvider>
       </body>
     </html>
   );

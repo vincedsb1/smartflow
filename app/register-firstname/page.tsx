@@ -87,7 +87,6 @@ const InscriptionPage = () => {
     handleContinue();
   };
 
-
   const [showLogo, setShowLogo] = useState(false);
 
   useEffect(() => {
@@ -133,7 +132,7 @@ const InscriptionPage = () => {
         )}
         <div
           id="desktopVersion"
-          className="hidden sm:flex w-16/20 lg:w-16/20 h-[600px] bg-white shadow-lg rounded-2xl flex-row items-start justify-between border-3 border-neutral-200 mx-auto my-auto max-w-[800px] max-h-[600px] overflow-hidden"
+          className="hidden sm:flex w-16/20 lg:w-16/20 h-[600px] bg-white shadow-lg rounded-2xl flex-row items-start justify-between border-3 border-neutral-200 dark:border-neutral-600 mx-auto my-auto max-w-[800px] max-h-[600px] overflow-hidden"
         >
           <div
             id="desktopImageContainer"
@@ -157,7 +156,7 @@ const InscriptionPage = () => {
           </div>
           <div
             id="desktopContentContainer"
-            className="flex flex-col items-center dark:bg-neutral-800 w-1/2 h-full justify-between p-8 dark:rounded-tr-2xl dark:rounded-br-2xl"
+            className="flex flex-col items-center dark:bg-neutral-800 w-1/2 h-full justify-between p-8 "
           >
             <div
               id="desktopTitleContainer"
@@ -184,6 +183,7 @@ const InscriptionPage = () => {
                 radius="lg"
                 className="w-full mb-4 font-text"
                 label="Prénom"
+                color="primary"
               />
               <Button
                 type="submit"
@@ -279,7 +279,5 @@ const InscriptionPage = () => {
     </div>
   );
 };
-
-
 
 export default InscriptionPage;
