@@ -1,5 +1,7 @@
 import type { Config } from "tailwindcss";
-import { nextui } from "@nextui-org/react";
+// import { nextui } from "@nextui-org/react";
+
+const { nextui } = require("@nextui-org/react");
 
 const config: Config = {
   content: [
@@ -29,30 +31,24 @@ const config: Config = {
         secondary: {
           DEFAULT: "#a3a3a3",
         },
-
         light: {
           primary: "#f5f5f5",
           secondary: "#e0e0e0",
         },
         dark: {
-          primary: "#1F2937",
+          primary: {
+            DEFAULT: "#fde047",
+          },
           secondary: "#2b6cb0",
         },
         neutral: {
           50: "#fafafa",
           800: "#262626",
-          // ...autres nuances si nécessaire...
         },
       },
       boxShadow: {
         sf: "-3px 2px 16px -9px rgba(0,0,0,0.05)",
       },
-      // backgroundImage: {
-      //   "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
-      //   "gradient-conic":
-      //     "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
-      //   "custom-background": "url('/methodImages/Logosmartflow.svg')",
-      // },
       fontFamily: {
         text: ["Quicksand", "sans-serif"],
         title: ["Inter", "sans-serif"],
@@ -104,7 +100,22 @@ const config: Config = {
       },
     },
   },
-  plugins: [nextui()],
+  plugins: [
+    nextui({
+      themes: {
+        dark: {
+          colors: {
+            primary: {
+              DEFAULT: "#BEF264",
+              foreground: "#BEF264",
+            },
+            focus: "#BEF264",
+          },
+        },
+      },
+    }),
+  ],
   darkMode: "class",
 };
+
 export default config;

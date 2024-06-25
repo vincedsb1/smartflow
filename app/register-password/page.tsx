@@ -75,7 +75,11 @@ const ConnexionPage = () => {
         );
 
         setTimeout(async () => {
-          console.log("Tentative de connexion avec l'email et le mot de passe suivants :", email, password);
+          console.log(
+            "Tentative de connexion avec l'email et le mot de passe suivants :",
+            email,
+            password
+          );
           const response = await fetch("/api/users/check-password", {
             method: "POST",
             headers: {
@@ -103,6 +107,7 @@ const ConnexionPage = () => {
       }
     }
   };
+
   const handleBack = () => {
     router.back();
   };
@@ -121,8 +126,6 @@ const ConnexionPage = () => {
 
     return () => window.removeEventListener("resize", handleResize);
   }, []);
-
-
 
   return (
     <div
@@ -174,13 +177,12 @@ const ConnexionPage = () => {
           </div>
           <div
             id="desktopContentContainer"
-            className="flex flex-col items-center dark:bg-neutral-800 w-1/2 h-full justify-between p-8 dark:rounded-tr-2xl dark:rounded-br-2xl"
+            className="flex flex-col items-center dark:bg-neutral-800 w-1/2 h-full justify-start p-8 dark:rounded-tr-2xl dark:rounded-br-2xl"
           >
             <div
               id="desktopTitleContainer"
-              className="flex flex-col items-start w-full mt-12"
+              className="flex flex-col items-start w-full mt-0"
             >
-              <CardAppTitle title="Votre profil" size="big" />
               <CardAppText
                 text="Choisissez un mot de passe"
                 icon={faUser}
@@ -190,23 +192,24 @@ const ConnexionPage = () => {
             <form
               id="formContainer"
               onSubmit={handleSubmit}
-              className="flex flex-col items-center w-full"
-            >              <CardAppPasswordInput onChange={handlePasswordChange} />
+              className="flex flex-col items-center w-full mt-10"
+            >
+              <CardAppPasswordInput onChange={handlePasswordChange} />
               <div className="w-4/5 flex items-center mt-14">
                 <Checkbox
                   size="md"
                   onChange={handleChangeCgu}
                   className="font-text"
                   isSelected={hasAcceptedTerms}
-                >             J&apos;accepte les conditions générales d&apos;utilisation
-                </Checkbox>         </div>
+                >
+                  J&apos;accepte les conditions générales d&apos;utilisation
+                </Checkbox>
+              </div>
               <div className="w-4/5 flex flex-row justify-start mb-4 ml-4 mt-1 3xs:mt-0">
-                <NextUILink href="/cgu">
-                  Consulter les CGU
-                </NextUILink>
+                <NextUILink href="/cgu">Consulter les CGU</NextUILink>
               </div>
               <Button
-                color={(password && hasAcceptedTerms) ? "primary" : "default"}
+                color={password && hasAcceptedTerms ? "primary" : "default"}
                 size="lg"
                 disabled={!(password && hasAcceptedTerms)}
                 onClick={handleSubmit}
@@ -252,10 +255,7 @@ const ConnexionPage = () => {
                 id="mobileTextContainer"
                 className="w-60 xs:w-64 2xs:w-72 3xs:w-80  mb-10"
               >
-                <CardAppText
-                  text="Choisissez un mot de passe"
-                  icon={faUser}
-                />
+                <CardAppText text="Choisissez un mot de passe" icon={faUser} />
               </div>
             </div>
           </div>
@@ -268,10 +268,11 @@ const ConnexionPage = () => {
             id="formContainer"
             onSubmit={handleSubmit}
             className="flex flex-col items-center w-full"
-          >            <div
-            id="mobileInputContainer"
-            className="w-full pb-10 xs:pb-12 2xs:pb-16 3xs:pb-20 sm:pb-32"
           >
+            <div
+              id="mobileInputContainer"
+              className="w-full pb-10 xs:pb-12 2xs:pb-16 3xs:pb-20 sm:pb-32"
+            >
               <CardAppPasswordInput onChange={handlePasswordChange} />
             </div>
             <div className="w-4/5 flex items-center mt-14">
@@ -280,16 +281,16 @@ const ConnexionPage = () => {
                 onChange={handleChangeCgu}
                 className="font-text"
                 isSelected={hasAcceptedTerms}
-              >             J&apos;accepte les conditions générales d&apos;utilisation
-              </Checkbox>         </div>
+              >
+                J&apos;accepte les conditions générales d&apos;utilisation
+              </Checkbox>
+            </div>
             <div className="w-4/5 flex flex-row justify-start mb-4 ml-4 mt-1 3xs:mt-0">
-              <NextUILink href="/cgu">
-                Consulter les CGU
-              </NextUILink>
+              <NextUILink href="/cgu">Consulter les CGU</NextUILink>
             </div>
             <div id="mobileButtonContainer" className="">
               <Button
-                color={(password && hasAcceptedTerms) ? "primary" : "default"}
+                color={password && hasAcceptedTerms ? "primary" : "default"}
                 size="lg"
                 disabled={!(password && hasAcceptedTerms)}
                 onClick={handleSubmit}

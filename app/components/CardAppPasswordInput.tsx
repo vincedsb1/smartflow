@@ -13,7 +13,11 @@ const CardAppPasswordInput: React.FC<CardAppPasswordInputProps> = ({
   showForgotPassword = true,
 }) => {
   const [password, setPassword] = useState("");
-  const [passwordVisible, setPasswordVisible] = useState(false);
+  // const [passwordVisible, setPasswordVisible] = useState(false);
+
+  const [isVisible, setIsVisible] = React.useState(false);
+  const toggleVisibility = () => setIsVisible(!isVisible);
+
   const [errorMessage, setErrorMessage] = useState("");
   const [hasStartedTyping, setHasStartedTyping] = useState(false);
 
@@ -40,9 +44,9 @@ const CardAppPasswordInput: React.FC<CardAppPasswordInputProps> = ({
     },
   ];
 
-  const togglePasswordVisibility = () => {
-    setPasswordVisible(!passwordVisible);
-  };
+  // const togglePasswordVisibility = () => {
+  //   setPasswordVisible(!passwordVisible);
+  // };
 
   const handlePasswordChange = (e: ChangeEvent<HTMLInputElement>) => {
     setPassword(e.target.value);
@@ -51,13 +55,11 @@ const CardAppPasswordInput: React.FC<CardAppPasswordInputProps> = ({
   };
 
   return (
-    <div id="-main-conatiner" className="w-full flex flex-col items-center">
-      <div id="title">
-        <p className="text-neutral-600 font-semibold mb-2">Mot de passe</p>
-      </div>
+    <div id="main-container" className="w-full flex flex-col items-center">
       <div id="input" className="relative w-full max-w-md">
-        <Input
-          className="rounded-2xl p-2 w-full h-12 mb-1 pr-10 relative z-10 text-6xl font-quicksand tracking-widest"
+        {/* <Input
+          className="rounded-2xl p-2 w-full h-12 mb-1 pr-10 relative z-10 text-6xl font-quicksand tracking-widest dark:bg-yellow-400"
+          color="default"
           type={passwordVisible ? "text" : "password"}
           value={password}
           onChange={handlePasswordChange}
@@ -85,12 +87,37 @@ const CardAppPasswordInput: React.FC<CardAppPasswordInputProps> = ({
             fontFamily: "Quicksand",
             letterSpacing: "0.1em",
           }}
+        /> */}
+        <Input
+          label="Mot de passe"
+          variant="flat"
+          onChange={handlePasswordChange}
+          color="primary"
+          endContent={
+            <button
+              className="focus:outline-none"
+              type="button"
+              onClick={toggleVisibility}
+            >
+              {isVisible ? (
+                <FontAwesomeIcon
+                  icon={faEyeSlash}
+                  className="text-2xl text-default-400 pointer-events-none"
+                />
+              ) : (
+                <FontAwesomeIcon
+                  icon={faEye}
+                  className="text-2xl text-default-400 pointer-events-none"
+                />
+              )}
+            </button>
+          }
+          type={isVisible ? "text" : "password"}
+          className="w-full dark:bg-yellow-600 rounded-xl"
         />
-        {!hasStartedTyping && showForgotPassword && (
-          <div className="flex justify-end text-cyan-500 font-semibold mt-2">
-            <p className="cursor-pointer">Mot de passe oublié ?</p>
-          </div>
-        )}
+        <div className="flex justify-end text-cyan-500 font-semibold mt-2">
+          <p className="cursor-pointer">Mot de passe oublié ?</p>
+        </div>
       </div>
       <div className="mt-2 w-full max-w-md">
         {passwordCriteria.map((criteria, index) => (
@@ -106,7 +133,7 @@ const CardAppPasswordInput: React.FC<CardAppPasswordInputProps> = ({
               )}
             </div>
             <p
-              className={`text-sm ${
+              className={`text-xs ${
                 criteria.validate(password) ? "text-green-500" : ""
               }`}
             >

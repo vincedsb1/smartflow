@@ -3,7 +3,7 @@
 import React, { ReactNode, useState, useEffect } from "react";
 import { NextUIProvider } from "@nextui-org/react";
 import { ThemeProvider as NextThemesProvider } from "next-themes";
-import { UserContextProvider } from "./context/UserContext"; // Assurez-vous que le chemin d'importation est correct
+import { UserContextProvider } from "./context/UserContext";
 
 interface ProvidersProps {
   children: ReactNode;
@@ -22,11 +22,7 @@ export default function Providers({ children }: ProvidersProps) {
 
   return (
     <UserContextProvider>
-      <NextUIProvider>
-        <NextThemesProvider attribute="class" defaultTheme="dark">
-          {children}
-        </NextThemesProvider>
-      </NextUIProvider>
+      <NextUIProvider>{children}</NextUIProvider>
     </UserContextProvider>
   );
 }

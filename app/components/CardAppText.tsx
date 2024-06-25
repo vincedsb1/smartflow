@@ -33,8 +33,8 @@ const CardAppText: React.FC<CardAppTextProps> = ({
   }
 
   const containerClassName = shadow
-    ? "bg-white shadow-lg dark:bg-neutral-800 rounded-2xl w-full flex flex-row p-2"
-    : "bg-white dark:bg-neutral-800 rounded-2xl w-full flex flex-row p-2";
+    ? "bg-white shadow-lg dark:bg-neutral-700 rounded-2xl w-full flex flex-row p-2"
+    : "bg-white dark:bg-neutral-700 rounded-2xl w-full flex flex-row p-2";
 
   return (
     <div id="cardExplanations" className={containerClassName}>
