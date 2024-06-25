@@ -1,110 +1,98 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useContext, useState, useEffect } from "react";
+import CardAppTitle from "../components/CardAppTitle";
+import CardAppText from "../components/CardAppText";
+import { faEnvelope, faChevronLeft } from "@fortawesome/free-solid-svg-icons";
 import { useRouter } from "next/navigation";
-import { useUser } from "../context/UserContext";
-import { Button } from "@nextui-org/react";
-import { Input } from "@nextui-org/react";
+import { UserContext } from "../context/UserContext";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Button, Input } from "@nextui-org/react";
 import Image from "next/image";
 import { useTheme } from "next-themes";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faChevronLeft, faUser } from "@fortawesome/free-solid-svg-icons";
-import CardAppText from "../components/CardAppText";
-import CardAppTitle from "../components/CardAppTitle";
 
-// Page d'inscription pour le prénom
-const InscriptionPage = () => {
-  const router = useRouter();
-  const [token, setToken] = useState<string | null>(null);
-  const [firstName, setFirstName] = useState<string | null>("");
-  const { user, setUser, setEmail, setFirstname } = useUser();
-  const [isEmailVerified, setIsEmailVerified] = useState(false);
+const MailAuth = () => {
+  const userContext = useContext(UserContext);
   const { theme } = useTheme();
   const logo = theme === "dark" ? "/logo-dark.svg" : "/logo-light.svg";
+  const router = useRouter();
 
-  // Fonction pour gérer le changement de prénom
-  const handleFirstNameChange = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    setFirstName(event.target.value);
-    console.log("Prénom entré :", event.target.value);
+  if (!userContext) {
+    throw new Error(
+      "UserContext doit être utilisé dans un UserContextProvider"
+    );
+  }
+
+  const [email, setEmail] = useState("");
+  const [isEmailInvalid, setEmailInvalid] = useState(false);
+  const [emailErrorMessage, setEmailErrorMessage] = useState("");
+  const [isButtonDisabled, setIsButtonDisabled] = useState(true);
+  const [showError, setShowError] = useState(false);
+
+  const validateEmail = (email: string) => {
+    const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
+    return emailRegex.test(email);
   };
 
-  // Récupérer le token de l'URL
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      const urlParams = new URLSearchParams(window.location.search);
-      const token = urlParams.get("token");
-      setToken(token);
-    }
-  }, []);
-
-  // Vérifier l'email
-  useEffect(() => {
-    const verifyEmail = async () => {
-      if (token) {
-        try {
-          const response = await fetch(
-            `/api/emailverification?token=${token}`,
-            {
-              method: "GET",
-              headers: {
-                "Content-Type": "application/json",
-              },
-            }
-          );
-          const data = await response.json();
-          setEmail(data.email);
-          console.log("Email récupéré et stocké :", data.email);
-          setUser({ ...user, email: data.email });
-          setIsEmailVerified(true);
-        } catch (error) {
-          console.error(error);
-          console.log("Erreur lors de la vérification de l'email :", error);
-
-          router.push("/mailauth");
-        }
-      }
-    };
-
-    verifyEmail();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [token, setEmail]);
-
-  // Fonction pour continuer
-  const handleContinue = () => {
-    const nameRegex = /^[a-zA-Z ]+$/;
-    if (!firstName || !nameRegex.test(firstName)) {
-      alert("Veuillez entrer un prénom valide.");
-      return;
-    }
-    setFirstname(firstName);
-    router.push("/register-birthday");
+  const handleChangeEmail = (e: { target: { value: any } }) => {
+    const emailValue = e.target.value;
+    setEmail(emailValue);
+    setShowError(false);
   };
 
-  // Fonction pour gérer la soumission du formulaire
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault(); // Empêche le rechargement de la page
-    handleContinue();
+  const handleBlurEmail = () => {
+    const isValid = validateEmail(email);
+    setEmailInvalid(!isValid);
+    setShowError(!isValid);
+
+    if (!email) {
+      setEmailErrorMessage("L'email est requis");
+    } else if (!isValid) {
+      setEmailErrorMessage("Veuillez entrer un email valide");
+    } else {
+      setEmailErrorMessage("");
+    }
+  };
+
+  useEffect(() => {
+    setIsButtonDisabled(!validateEmail(email));
+  }, [email]);
+
+  const handleSubmit = async (e: { preventDefault: () => void }) => {
+    e.preventDefault();
+    handleBlurEmail();
+    if (!validateEmail(email)) return;
+
+    try {
+      const res = await fetch(`/api/users/checkEmail?email=${email}`);
+      const data = await res.json();
+      const emailExists = res.ok && data.message === "Email already exists";
+
+      userContext.setEmail(email);
+
+      router.push(emailExists ? "/connexion" : "/register");
+    } catch (err) {
+      alert("Une erreur s'est produite lors de la vérification de l'e-mail");
+    }
+  };
+
+  const handleBack = () => {
+    router.back();
   };
 
   const [showLogo, setShowLogo] = useState(false);
 
   useEffect(() => {
     const handleResize = () => {
-      const widthCondition = window.innerWidth >= 1280; // xl breakpoint
-      const heightCondition = window.innerHeight >= 896; // custom height condition
+      const widthCondition = window.innerWidth >= 1280;
+      const heightCondition = window.innerHeight >= 896;
       setShowLogo(widthCondition || heightCondition);
     };
 
-    handleResize(); // Check on mount
-    window.addEventListener("resize", handleResize); // Check on resize
+    handleResize();
+    window.addEventListener("resize", handleResize);
 
     return () => window.removeEventListener("resize", handleResize);
   }, []);
-
-  const handleBack = () => {
-    router.back();
-  };
 
   return (
     <div
@@ -143,7 +131,7 @@ const InscriptionPage = () => {
               alt="Entry Visual"
               width={400}
               height={600}
-              className="object-cover w-full h-full"
+              className="object-cover w-full h-full dark:brightness-90"
             />
             <div
               id="desktopWelcomeTextContainer"
@@ -162,28 +150,32 @@ const InscriptionPage = () => {
               id="desktopTitleContainer"
               className="flex flex-col items-start w-full mt-12"
             >
-              <CardAppTitle title="Votre profil" size="big" />
+              <CardAppTitle title="Se connecter / S'inscrire" size="big" />
               <CardAppText
-                text="Quel est votre prénom ?"
-                icon={faUser}
+                text="Commencez par saisir votre email"
+                icon={faEnvelope}
                 shadow
               />
             </div>
             <form
               id="formContainer"
               onSubmit={handleSubmit}
-              className="flex flex-col items-center w-full"
+              className="flex flex-col justify-between items-center w-full mb-4"
             >
               <Input
-                onChange={handleFirstNameChange}
-                value={firstName || ""}
+                value={email || ""}
+                onChange={handleChangeEmail}
+                onBlur={handleBlurEmail}
                 isRequired
                 size="md"
-                type="text"
+                type="email"
+                label="Email"
                 radius="lg"
+                color="default"
                 className="w-full mb-4 font-text"
-                label="Prénom"
-                color="primary"
+                errorMessage={showError ? emailErrorMessage : ""}
+                isInvalid={isEmailInvalid}
+                placeholder="Entrez votre email"
               />
               <Button
                 type="submit"
@@ -191,6 +183,8 @@ const InscriptionPage = () => {
                 variant="solid"
                 size="lg"
                 className="w-full max-w-full pr-14 pl-14 font-bold font-text"
+                onClick={handleSubmit}
+                disabled={isButtonDisabled}
               >
                 Suivant
               </Button>
@@ -226,13 +220,16 @@ const InscriptionPage = () => {
               id="mobileTitleContainer"
               className="flex flex-col items-start"
             >
-              <CardAppTitle title="Votre profil" size="big" />
+              <CardAppTitle title="Se connecter / S'inscrire" size="big" />
 
               <div
                 id="mobileTextContainer"
                 className="w-60 xs:w-64 2xs:w-72 3xs:w-80 mb-10"
               >
-                <CardAppText text="Quel est votre prénom ?" icon={faUser} />
+                <CardAppText
+                  text="Commencez par saisir votre email"
+                  icon={faEnvelope}
+                />
               </div>
             </div>
           </div>
@@ -244,35 +241,33 @@ const InscriptionPage = () => {
           <form
             id="formContainer"
             onSubmit={handleSubmit}
-            className="flex flex-col items-center w-full"
+            className="flex flex-col justify-between items-center w-full"
           >
-            <div
-              id="mobileInputContainer"
-              className="w-full pb-10 xs:pb-12 2xs:pb-16 3xs:pb-20 sm:pb-32"
+            <Input
+              value={email || ""}
+              onChange={handleChangeEmail}
+              onBlur={handleBlurEmail}
+              isRequired
+              size="md"
+              type="email"
+              label="Email"
+              radius="lg"
+              className="w-64 xs:w-72 2xs:w-80 3xs:w-80 mb-4 font-text"
+              errorMessage={showError ? emailErrorMessage : ""}
+              isInvalid={isEmailInvalid}
+              placeholder="Entrez votre email"
+            />
+            <Button
+              type="submit"
+              color="default"
+              variant="solid"
+              size="lg"
+              className="w-64 xs:w-72 2xs:w-80 3xs:w-80 pr-14 pl-14 font-bold font-text"
+              onClick={handleSubmit}
+              disabled={isButtonDisabled}
             >
-              <Input
-                onChange={handleFirstNameChange}
-                value={firstName || ""}
-                isRequired
-                size="md"
-                type="text"
-                radius="lg"
-                className="w-60 xs:w-64 2xs:w-72 3xs:w-80 font-text"
-                label="Prénom"
-              />
-            </div>
-
-            <div id="mobileButtonContainer" className="">
-              <Button
-                type="submit"
-                color="default"
-                variant="solid"
-                size="lg"
-                className="w-60 xs:w-64 2xs:w-72 3xs:w-80 font-bold font-text"
-              >
-                Suivant
-              </Button>
-            </div>
+              Suivant
+            </Button>
           </form>
         </div>
       </div>
@@ -280,4 +275,4 @@ const InscriptionPage = () => {
   );
 };
 
-export default InscriptionPage;
+export default MailAuth;
