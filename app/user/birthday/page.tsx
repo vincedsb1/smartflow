@@ -9,6 +9,8 @@ import CardAppTitle from "../../components/CardAppTitle";
 import ServerBirthdayEditPage from "./ServerBirthdayEditPage";
 import { useRouter } from "next/navigation";
 import Datepicker from "react-tailwindcss-datepicker";
+import DesktopMenu from "../../components/DesktopMenu";
+
 
 const ClientBirthdayEditPage = () => {
   const userContext = useContext(UserContext);
@@ -67,9 +69,14 @@ const ClientBirthdayEditPage = () => {
   console.log("startDate:", value.startDate);
   console.log("endDate:", value.endDate);
   return (
+    <div className="flex flex-row justify-center items-center">
+    <div className="w-full sm:max-w-[1170px]  bg-neutral-200 sm:shadow-2xl sm:shadow-neutral-200 flex flex-row ">
+      <div className="hidden sm:block">
+        <DesktopMenu />
+      </div>
     <div
       id="birthdayPageMainContainer"
-      className="flex flex-col justify-between min-h-screen w-full"
+      className="flex flex-col justify-between min-h-screen  w-full sm:ml-48 md:ml-72"
     >
       <div
         id="birthdayPageTopContainer"
@@ -123,6 +130,8 @@ const ClientBirthdayEditPage = () => {
         {displayMessage && <p>{displayMessage}</p>}
       </div>
     </div>
+    </div>
+  </div>
   );
 };
 

@@ -15,6 +15,8 @@ import CardAppTitle from "../../components/CardAppTitle";
 import CardAppText from "../../components/CardAppText";
 import { faListUl } from "@fortawesome/free-solid-svg-icons";
 import { UserCardProps } from "../../context/UserContext";
+import DesktopMenu from "../../components/DesktopMenu";
+
 const { useRouter } = require("next/navigation");
 
 const OrganizeCards = () => {
@@ -98,30 +100,37 @@ const OrganizeCards = () => {
   }));
 
   return (
-    <div
-      id="todayMainContainer"
-      className="flex flex-col justify-between align-middle items-center min-h-screen"
-    >
-      <div
-        id="todayTitleHintListContainer"
-        className="flex flex-col w-full items-center"
-      >
-        <div id="themeSwitcherBackIcon" className="w-full flex flex-col mt-16">
-          <Link href="/organize">
-            <FontAwesomeIcon
-              icon={faChevronLeft}
-              className="text-neutral-800 dark:text-neutral-200 text-xs w-4 h-4 m-5"
-            />
-          </Link>
+    <div className="flex flex-row justify-center items-center">
+      <div className="w-full sm:max-w-[1170px]  bg-neutral-200 sm:shadow-2xl sm:shadow-neutral-200 flex flex-row ">
+        <div className="hidden sm:block">
+          <DesktopMenu />
         </div>
-        <div id="todayListContainer" className="w-full">
-          <List
-            rows={rows}
-            title="Fiches"
-            isLargeRow={true}
-            setModalContent={setMyModalContent}
-            modalContent={myModalContent}
-          />
+        <div
+          id="todayMainContainer"
+          className="flex flex-col justify-between align-middle items-center min-h-screen"
+        >
+          <div
+            id="todayTitleHintListContainer"
+            className="flex flex-col w-full items-center"
+          >
+            <div id="themeSwitcherBackIcon" className="w-full flex flex-col mt-16">
+              <Link href="/organize">
+                <FontAwesomeIcon
+                  icon={faChevronLeft}
+                  className="text-neutral-800 dark:text-neutral-200 text-xs w-4 h-4 m-5"
+                />
+              </Link>
+            </div>
+            <div id="todayListContainer" className="w-full">
+              <List
+                rows={rows}
+                title="Fiches"
+                isLargeRow={true}
+                setModalContent={setMyModalContent}
+                modalContent={myModalContent}
+              />
+            </div>
+          </div>
         </div>
       </div>
     </div>

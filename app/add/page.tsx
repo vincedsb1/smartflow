@@ -112,62 +112,65 @@ const CardCreation: React.FC = () => {
         <div className="hidden sm:block">
           <DesktopMenu />
         </div>
-        <div className="flex flex-row justify-center  w-full">
-          <div
-            id="addMainContainer"
-            className="flex flex-col justify-between min-h-screen w-full"
-          >
+        <div id="todayContentContainer" className="flex flex-row justify-center  w-full sm:ml-48 md:ml-72">
+
+          <div className="flex flex-row justify-center  w-full">
             <div
-              id="addTopContainer"
-              className="flex flex-col justify-center w-full"
+              id="addMainContainer"
+              className="flex flex-col justify-between min-h-screen w-full"
             >
-              <div id="birthdayBackIcon" className="w-full flex flex-col mt-16">
-                <button
-                  type="button"
-                  onClick={handleBackClick}
-                  className="text-neutral-800 dark:text-neutral-200 text-xs w-4 h-4 m-5"
-                >
-                  {step > STEP_TITLE && (
-                    <FontAwesomeIcon icon={faChevronLeft} />
-                  )}
-                </button>
-              </div>
-              <div id="addContentContainer">
-                {step === STEP_TITLE && (
-                  <TitleCreation onTitleChange={setCardTitle} />
-                )}
-                {step === STEP_CATEGORY && (
-                  <CategorySelection onCategoryChange={setSelectedCategoryId} />
-                )}
-                {step === STEP_CONTENT && (
-                  <ContentInput onContentChange={setContent} />
-                )}
-                {step === STEP_CONFIRMATION && <ConfirmationScreen />}
-              </div>
-            </div>
-            <div
-              id="addBottomContainer"
-              className="flex justify-center items-center w-full mb-32"
-            >
-              <Button
-                type="submit"
-                color="primary"
-                isDisabled={
-                  cardTitle === "" ||
-                  (step === STEP_CONTENT &&
-                    (content === "" || cardTitle === ""))
-                }
-                variant="solid"
-                size="lg"
-                className="w-18/20 font-bold font-text"
-                onClick={handleContinueClick}
+              <div
+                id="addTopContainer"
+                className="flex flex-col justify-center w-full"
               >
-                {step === STEP_CATEGORY && selectedCategoryId === null
-                  ? "Continuer sans catégorie"
-                  : step < STEP_CONFIRMATION
-                  ? "Continuer"
-                  : "Voir la fiche"}
-              </Button>
+                <div id="birthdayBackIcon" className="w-full flex flex-col mt-16">
+                  <button
+                    type="button"
+                    onClick={handleBackClick}
+                    className="text-neutral-800 dark:text-neutral-200 text-xs w-4 h-4 m-5"
+                  >
+                    {step > STEP_TITLE && (
+                      <FontAwesomeIcon icon={faChevronLeft} />
+                    )}
+                  </button>
+                </div>
+                <div id="addContentContainer">
+                  {step === STEP_TITLE && (
+                    <TitleCreation onTitleChange={setCardTitle} />
+                  )}
+                  {step === STEP_CATEGORY && (
+                    <CategorySelection onCategoryChange={setSelectedCategoryId} />
+                  )}
+                  {step === STEP_CONTENT && (
+                    <ContentInput onContentChange={setContent} />
+                  )}
+                  {step === STEP_CONFIRMATION && <ConfirmationScreen />}
+                </div>
+              </div>
+              <div
+                id="addBottomContainer"
+                className="flex justify-center items-center w-full mb-32"
+              >
+                <Button
+                  type="submit"
+                  color="primary"
+                  isDisabled={
+                    cardTitle === "" ||
+                    (step === STEP_CONTENT &&
+                      (content === "" || cardTitle === ""))
+                  }
+                  variant="solid"
+                  size="lg"
+                  className="w-18/20 font-bold font-text"
+                  onClick={handleContinueClick}
+                >
+                  {step === STEP_CATEGORY && selectedCategoryId === null
+                    ? "Continuer sans catégorie"
+                    : step < STEP_CONFIRMATION
+                      ? "Continuer"
+                      : "Voir la fiche"}
+                </Button>
+              </div>
             </div>
           </div>
         </div>

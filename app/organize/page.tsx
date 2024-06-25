@@ -35,45 +35,48 @@ const Organize = () => {
         <div className="hidden sm:block">
           <DesktopMenu />
         </div>
-        <div className="flex flex-row justify-center  w-full">
-          <div
-            id="organizeMainContainer"
-            className="flex flex-col justify-between min-h-screen w-full"
-          >
+        <div id="todayContentContainer" className="flex flex-row justify-center  w-full sm:ml-48 md:ml-72">
+
+          <div className="flex flex-row justify-center  w-full">
             <div
-              id="organizeContainer"
-              className="flex flex-col justify-center w-full"
+              id="organizeMainContainer"
+              className="flex flex-col justify-between min-h-screen w-full"
             >
               <div
-                id="organizeHeaderContainer"
-                className="flex flex-col justify-center items-center w-full mb-20"
+                id="organizeContainer"
+                className="flex flex-col justify-center w-full"
               >
                 <div
-                  id="organizeTitle"
-                  className="flex flex-col mt-11 w-18/20 "
+                  id="organizeHeaderContainer"
+                  className="flex flex-col justify-center items-center w-full mb-20"
                 >
-                  <CardAppTitle title="Organiser" />
+                  <div
+                    id="organizeTitle"
+                    className="flex flex-col mt-11 w-18/20 "
+                  >
+                    <CardAppTitle title="Organiser" />
+                  </div>
+                  <div
+                    id="organizeHint"
+                    className="flex flex-col items-center w-18/20"
+                  >
+                    <CardAppText
+                      text="Que voulez-vous organiser ?"
+                      icon={faTag}
+                    />
+                  </div>
                 </div>
-                <div
-                  id="organizeHint"
-                  className="flex flex-col items-center w-18/20"
-                >
-                  <CardAppText
-                    text="Que voulez-vous organiser ?"
-                    icon={faTag}
+                <div id="organizeList" className="w-full flex justify-center">
+                  <List
+                    rows={rows}
+                    title="Élements"
+                    isLargeRow={false}
+                    setModalIsOpen={setMyModalIsOpen}
+                    setModalTitle={setMyModalTitle}
+                    setModalContent={setMyModalContent}
+                    modalContent={myModalContent}
                   />
                 </div>
-              </div>
-              <div id="organizeList" className="">
-                <List
-                  rows={rows}
-                  title="Élements"
-                  isLargeRow={false}
-                  setModalIsOpen={setMyModalIsOpen}
-                  setModalTitle={setMyModalTitle}
-                  setModalContent={setMyModalContent}
-                  modalContent={myModalContent}
-                />
               </div>
             </div>
           </div>

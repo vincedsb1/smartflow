@@ -7,6 +7,7 @@ import { useContext } from "react";
 import { useRouter } from "next/navigation";
 import { faChevronLeft } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import DesktopMenu from "@/app/components/DesktopMenu";
 
 // Composant de la page de modification d'une catégorie
 const EditCategorie = () => {
@@ -185,62 +186,67 @@ const EditCategorie = () => {
   };
 
   return (
-    <div
-      id="modifyCategoryContainer"
-      className="flex flex-col justify-between min-h-screen w-full items-center"
-    >
-      <div id="themeSwitcherBackIcon" className="w-full flex flex-col mt-16">
-        <Link href="/organize">
-          <FontAwesomeIcon
-            icon={faChevronLeft}
-            className="text-neutral-800 dark:text-neutral-200 text-xs w-4 h-4 m-5"
-          />
-        </Link>
-      </div>
-      <div className="flex flex-col items-center gap-8">
-        <div
-          id="inputChangeNameCategorie"
-          className="flex flex-col items-center w-18/20 mb-1"
-        >
-          <Input
-            className="flex flex-wrap md:flex-nowrap gap-4"
-            type="text"
-            placeholder={title}
-            onChange={(e) => setTitle(e.target.value)}
-          />
+    <div className="flex flex-row justify-center items-center">
+      <div className="w-full sm:max-w-[1170px]  bg-neutral-200 sm:shadow-2xl sm:shadow-neutral-200 flex flex-row ">
+        <div className="hidden sm:block">
+          <DesktopMenu />
         </div>
-        <div className="lex flex-col items-center w-18/20 mt-1">
-          <div className="flex flex-wrap justify-center bg-neutral-50 dark:bg-neutral-800 rounded-2xl  ">
-            {colors.map((color) => (
-              <div
-                key={color.id}
-                className={`w-8 h-8 rounded-full hover:scale-105 hover:ring-2 ring-neutral-900 dark:ring-neutral-100 active:scale-110 transition-all bg-${
-                  color.name
-                } m-3 cursor-pointer ${
-                  color.selected
-                    ? "ring-2 ring-neutral-900 dark:ring-neutral-100"
-                    : ""
-                }`}
-                onClick={() => handleColorClick(color.id)}
-              ></div>
-            ))}
+        <div
+          id="modifyCategoryContainer"
+          className="flex flex-col justify-between min-h-screen w-full items-center sm:ml-48 md:ml-72"
+        >
+          <div id="themeSwitcherBackIcon" className="w-full flex flex-col mt-16 ">
+            <Link href="/organize">
+              <FontAwesomeIcon
+                icon={faChevronLeft}
+                className="text-neutral-800 dark:text-neutral-200 text-xs w-4 h-4 m-5"
+              />
+            </Link>
+          </div>
+          <div className="flex flex-col items-center gap-8 sm:w-3/4 ml:w-3/4">
+            <div
+              id="inputChangeNameCategorie"
+              className="flex flex-col items-center w-18/20 mb-1"
+            >
+              <Input
+                className="flex flex-wrap md:flex-nowrap gap-4"
+                type="text"
+                placeholder={title}
+                onChange={(e) => setTitle(e.target.value)}
+              />
+            </div>
+            <div className="lex flex-col items-center w-18/20 mt-1">
+              <div className="flex flex-wrap justify-center bg-neutral-50 dark:bg-neutral-800 rounded-2xl  ">
+                {colors.map((color) => (
+                  <div
+                    key={color.id}
+                    className={`w-8 h-8 rounded-full hover:scale-105 hover:ring-2 ring-neutral-900 dark:ring-neutral-100 active:scale-110 transition-all bg-${color.name
+                      } m-3 cursor-pointer ${color.selected
+                        ? "ring-2 ring-neutral-900 dark:ring-neutral-100"
+                        : ""
+                      }`}
+                    onClick={() => handleColorClick(color.id)}
+                  ></div>
+                ))}
+              </div>
+            </div>
+          </div>
+          <div
+            id="button"
+            className="flex justify-center items-center w-full mb-32 mt-32 "
+          >
+            <Button
+              type="submit"
+              color="primary"
+              variant="solid"
+              size="lg"
+              className="w-18/20 font-bold font-text"
+              onClick={handleSaveClick}
+            >
+              Enregistrer
+            </Button>
           </div>
         </div>
-      </div>
-      <div
-        id="button"
-        className="flex justify-center items-center w-full mb-32 mt-32 "
-      >
-        <Button
-          type="submit"
-          color="primary"
-          variant="solid"
-          size="lg"
-          className="w-18/20 font-bold font-text"
-          onClick={handleSaveClick}
-        >
-          Enregistrer
-        </Button>
       </div>
     </div>
   );
