@@ -142,7 +142,6 @@ const UserContextProvider: React.FC<UserContextProviderProps> = ({
     }
   }, [token, setFirstname, setBirthday]);
 
-
   // Fetch user card details from the API
   const contextValue = {
     id,
@@ -169,11 +168,9 @@ const UserContextProvider: React.FC<UserContextProviderProps> = ({
     setShouldRunContext,
   };
 
-  useEffect(() => {
-  }, [shouldRunContext]);
+  useEffect(() => {}, [shouldRunContext]);
 
-  useEffect(() => {
-  }, [token]);
+  useEffect(() => {}, [token]);
 
   return (
     <UserContext.Provider value={contextValue}>{children}</UserContext.Provider>
