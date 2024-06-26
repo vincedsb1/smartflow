@@ -38,6 +38,7 @@ export default function handle(
         include: {
           category: {
             select: {
+              name: true,
               color: {
                 select: {
                   name: true,
@@ -47,18 +48,6 @@ export default function handle(
           },
         },
       });
-
-      // Code 1 : Aucune carte trouvée pour cet utilisateur
-      // Cela signifie que l'utilisateur n'a pas encore créé de cartes.
-
-      // Code 2 : Aucune carte à réviser aujourd'hui
-      // Cela signifie que l'utilisateur a des cartes, mais aucune d'entre elles n'est due pour une révision aujourd'hui.
-
-      // Code 3 : Toutes les cartes à réviser ont été révisées aujourd'hui
-      // Cela signifie que l'utilisateur avait des cartes à réviser aujourd'hui, mais toutes ont déjà été révisées.
-
-      // Code 4 : Liste des cartes à réviser
-      // Cela signifie qu'il y a des cartes que l'utilisateur doit réviser aujourd'hui. Les détails de ces cartes sont inclus dans la réponse.
 
       if (cards.length === 0) {
         return res
@@ -129,10 +118,11 @@ export default function handle(
           }
         })
         .map(
-          (card: Card & { category: { color: { name: string } } | null }) => {
+          (card: Card & { category: { name: string; color: { name: string } } | null }) => {
             return {
               ...card,
               categoryColorName: card.category?.color.name,
+              categoryName: card.category?.name,
               category: undefined,
             };
           }
@@ -145,7 +135,17 @@ export default function handle(
         });
       }
 
-      return res.json({ code: 4, cards: reformattedCards });
+      // Calculer le nombre de cartes par catégorie et les couleurs des catégories
+      const categoryCount: { [key: string]: number } = {};
+      const categoryColors: { [key: string]: string } = {};
+      reformattedCards.forEach(card => {
+        const categoryName = card.categoryName || 'Non catégorisé';
+        const categoryColor = card.categoryColorName || 'grey';
+        categoryCount[categoryName] = (categoryCount[categoryName] || 0) + 1;
+        categoryColors[categoryName] = categoryColor;
+      });
+
+      return res.json({ code: 4, cards: reformattedCards, categoryCount, categoryColors });
     } catch (error) {
       console.error(error);
       return res
