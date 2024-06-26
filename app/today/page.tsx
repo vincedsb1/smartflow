@@ -12,23 +12,25 @@ import { IconDefinition } from "@fortawesome/fontawesome-svg-core";
 import DesktopMenu from "../components/DesktopMenu";
 import CategoryDistribution from "../components/CategoryDistribution";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
+import colors from 'tailwindcss/colors';
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 interface CardData {
   cards: UserCardProps[];
   code: number;
+  categoryCount: { [key: string]: number };
+  categoryColors: { [key: string]: string };
 }
 
-// Données fictives pour le test
-const fakeData = {
-  labels: ['Catégorie 1', 'Catégorie 2', 'Catégorie 3'],
-  datasets: [{
-    data: [300, 50, 100],
-    backgroundColor: ['red', 'blue', 'green'],
-    hoverBackgroundColor: ['darkred', 'darkblue', 'darkgreen']
-  }]
-};
+interface CategoryData {
+  labels: string[];
+  datasets: Array<{
+    data: number[];
+    backgroundColor: string[];
+    hoverBackgroundColor: string[];
+  }>;
+}
 
 const Today = () => {
   const { useRouter } = require("next/navigation");
@@ -52,11 +54,11 @@ const Today = () => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [isError, setIsError] = useState<boolean>(false);
   const [code, setCode] = useState<number>(0);
-  const [categoryColor, setCategoryColor] = useState("");
+  const [categoryData, setCategoryData] = useState<CategoryData>({ labels: [], datasets: [] });
+  const [categoryColors, setCategoryColors] = useState<{ [key: string]: string }>({});
 
   useEffect(() => {
     if (userContext.token) {
-      console.log("Fetching data from Today");
       fetch("/api/cards/cardByUser?toReview=true", {
         headers: {
           Authorization: `Bearer ${userContext.token}`,
@@ -70,11 +72,41 @@ const Today = () => {
         })
         .then((data) => {
           if (data.cards) {
-            console.log("data.cards", data.cards);
             setCards(data.cards);
             setFirstCardId(data.cards[0].id);
             setCardsToReview(data.cards);
             userContext.setNbCardsToReview(data.cards.length);
+  
+            setCategoryColors(data.categoryColors);
+  
+            const colorMap: { [key: string]: string } = {
+              'red-500': '#ef4444',
+              'orange-500': '#f59e0b',
+              'yellow-500': '#fbbf24',
+              'green-500': '#10b981',
+              'teal-500': '#14b8a6',
+              'blue-500': '#3b82f6',
+              'indigo-500': '#6366f1',
+              'purple-500': '#8b5cf6',
+              'pink-500': '#ec4899',
+              'red-600': '#dc2626',
+              'orange-600': '#f97316',
+              'yellow-600': '#f59e0b',
+            };
+  
+            const labels = Object.keys(data.categoryCount);
+            const values = Object.values(data.categoryCount);
+            const backgroundColors = labels.map(label => colorMap[data.categoryColors[label]] || 'grey');
+            const hoverBackgroundColors = backgroundColors;
+
+            setCategoryData({
+              labels,
+              datasets: [{
+                data: values,
+                backgroundColor: backgroundColors,
+                hoverBackgroundColor: hoverBackgroundColors,
+              }]
+            });
           } else {
             console.error("data.cards is undefined");
           }
@@ -88,6 +120,8 @@ const Today = () => {
         });
     }
   }, []);
+  
+
 
   if (isLoading) {
     return (
@@ -129,22 +163,22 @@ const Today = () => {
       return <AllCardsReviewed />;
     case 4:
       return (
-        <div id="todayMainContainer" className="flex flex-row justify-center items-center">
-          <div id="todaySubMainContainer" className="w-full sm:max-w-[1170px]  bg-neutral-200 sm:shadow-2xl sm:shadow-neutral-200 flex flex-row ">
-            <div id="todayMenuContainer" className="hidden sm:block">
-              <DesktopMenu />
-            </div>
-            <div id="todayContentContainer" className="flex flex-row justify-center w-full sm:ml-48 md:ml-72">
-              <CardsToReviewList rows={rows} firstCardId={firstCardId} />
-              <div className="mt-72 ml-8">
-                <CategoryDistribution data={fakeData} />
-              </div>
-            </div>
-          </div>
+<div id="todayMainContainer" className="flex flex-row justify-center items-center">
+  <div id="todaySubMainContainer" className="w-full sm:max-w-[1170px] bg-neutral-200 sm:shadow-2xl sm:shadow-neutral-200 flex flex-row">
+    <div id="todayMenuContainer" className="hidden sm:block">
+      <DesktopMenu />
+    </div>
+    <div id="todayContentContainer" className="flex flex-row justify-center w-full sm:ml-48 md:ml-72">
+      <div className="flex flex-row">
+        <CardsToReviewList rows={rows} firstCardId={firstCardId} />
+        <div className="mt-80 ml-8 ">
+          <CategoryDistribution data={categoryData} categoryColors={categoryColors} />
         </div>
+      </div>
+    </div>
+  </div>
+</div>
       );
-    default:
-      return <div>Unknown code</div>;
   }
 };
 
