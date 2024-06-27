@@ -89,11 +89,11 @@ const List: React.FC<ListProps> = ({
     }
   };
   return (
-    <div id="ListContainer" className="flex flex-col mx-5">
+    <div id="ListContainer" className="flex flex-col mx-5 w-full">
       <ListTitle title={title || ""} />
       <div
         id="ListContainer"
-        className="flex flex-col bg-white dark:bg-neutral-800 rounded-xl shadow-sf"
+        className="flex flex-col bg-white dark:bg-neutral-800 rounded-xl shadow-sf md:w-full lg:w-full"
       >
         {rows.map((row, index) => {
           const RowComponent = row.isModal ? "div" : Link;

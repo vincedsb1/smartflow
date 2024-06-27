@@ -120,71 +120,74 @@ const UserProfile: React.FC = () => {
         <div className="hidden sm:block">
           <DesktopMenu />
         </div>
-        <div className="flex flex-row justify-center  w-full">
-          <div
-            id="userMainContainer"
-            className="flex flex-col min-h-screen align-middle items-center"
-          >
+        <div id="todayContentContainer" className="flex flex-row justify-center  w-full sm:ml-48 md:ml-72">
+
+          <div className="flex flex-row justify-center  w-full">
             <div
-              id="userHeaderContainer"
-              className="flex flex-row w-full mt-10 mb-4 justify-center"
+              id="userMainContainer"
+              className="flex flex-col min-h-screen align-middle items-center"
             >
               <div
-                id="userTopInfosContainer"
-                className=" w-18/20 flex flex-col"
+                id="userHeaderContainer"
+                className="flex flex-row w-full mt-10 mb-4 justify-center"
               >
-                <div id="userTopNameContainer" className="flex flex-row h-2/5">
-                  <div
-                    id="userTopName"
-                    className="flex flex-row  font-title font-bold text-2xl mt-2 ml-1"
-                  >
-                    {firstname}
-                  </div>
-                </div>
                 <div
-                  id="userMemberSinceContainer"
-                  className="flex flex-row  h-3/5"
+                  id="userTopInfosContainer"
+                  className=" w-18/20 flex flex-col"
                 >
+                  <div id="userTopNameContainer" className="flex flex-row h-2/5">
+                    <div
+                      id="userTopName"
+                      className="flex flex-row  font-title font-bold text-2xl mt-2 ml-1"
+                    >
+                      {firstname}
+                    </div>
+                  </div>
                   <div
-                    id="userTopMemberSince"
-                    className="flex flex-row font-title text-md mt-2 ml-1 text-neutral-600"
+                    id="userMemberSinceContainer"
+                    className="flex flex-row  h-3/5"
                   >
-                    Membre depuis le 19/07/2024
+                    <div
+                      id="userTopMemberSince"
+                      className="flex flex-row font-title text-md mt-2 ml-1 text-neutral-600"
+                    >
+                      Membre depuis le 19/07/2024
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-            <div id="userInfosContainer" className="w-full pb-8">
-              <List
-                rows={topRows}
-                title={"Informations du compte"}
-                isLargeRow={true}
-                belowListLink={""}
-                onBelowListLinkClick={() => setModalIsOpen(true)}
-                modalIsOpen={modalIsOpen}
-                setModalIsOpen={setModalIsOpen}
-                setModalTitle={setModalTitle}
-                setModalContent={setModalContent}
-                modalTitle={modalTitle}
-                modalContent={modalContent}
-                userId={user?.id}
-              />
-            </div>
-            <div id="userOtherContainer" className="w-full mb-24">
-              <List
-                rows={bottomRows}
-                title={"Autre"}
-                isLargeRow={true}
-                belowListLink={""}
-                onBelowListLinkClick={() => setModalIsOpen(true)}
-                modalIsOpen={modalIsOpen}
-                setModalIsOpen={setModalIsOpen}
-                setModalTitle={setModalTitle}
-                setModalContent={setModalContent}
-                modalTitle={modalTitle}
-                modalContent={modalContent}
-                userId={user?.id}
-              />
+              <div id="userInfosContainer" className="w-full pb-8">
+                <List
+                  rows={topRows}
+                  title={"Informations du compte"}
+                  isLargeRow={true}
+                  belowListLink={""}
+                  onBelowListLinkClick={() => setModalIsOpen(true)}
+                  modalIsOpen={modalIsOpen}
+                  setModalIsOpen={setModalIsOpen}
+                  setModalTitle={setModalTitle}
+                  setModalContent={setModalContent}
+                  modalTitle={modalTitle}
+                  modalContent={modalContent}
+                  userId={user?.id}
+                />
+              </div>
+              <div id="userOtherContainer" className="w-full mb-24">
+                <List
+                  rows={bottomRows}
+                  title={"Autre"}
+                  isLargeRow={true}
+                  belowListLink={""}
+                  onBelowListLinkClick={() => setModalIsOpen(true)}
+                  modalIsOpen={modalIsOpen}
+                  setModalIsOpen={setModalIsOpen}
+                  setModalTitle={setModalTitle}
+                  setModalContent={setModalContent}
+                  modalTitle={modalTitle}
+                  modalContent={modalContent}
+                  userId={user?.id}
+                />
+              </div>
             </div>
           </div>
         </div>
