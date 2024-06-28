@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import Image from "next/image";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -114,6 +114,41 @@ const UserProfile: React.FC = () => {
   const [modalTitle, setModalTitle] = useState("");
   const [modalContent, setModalContent] = useState("");
 
+  const [signupDate, setSignupDate] = useState('');
+  const userContext = useContext(UserContext);
+  
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const response = await fetch('/api/users/details', {
+          method: 'GET',
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
+          },
+        });
+  
+        if (!response.ok) {
+          throw new Error('Erreur lors de la récupération des données utilisateur');
+        }
+  
+        const data = await response.json();
+        console.log('Données utilisateur:', data.signupDate);
+  
+        if (data.signupDate) {
+          setSignupDate(new Date(data.signupDate).toLocaleDateString('fr-FR'));
+        } else {
+          console.log('signupDate est undefined dans la réponse de l\'API');
+          setSignupDate('Date non disponible');
+        }
+      } catch (error) {
+        console.error('Erreur:', error);
+      }
+    };
+  
+    fetchUserData();
+  }, []);
+
   return (
     <div className="flex flex-row justify-center items-center">
       <div className="w-full sm:max-w-[1170px]  bg-neutral-200 sm:shadow-2xl sm:shadow-neutral-200 flex flex-row ">
@@ -151,7 +186,7 @@ const UserProfile: React.FC = () => {
                       id="userTopMemberSince"
                       className="flex flex-row font-title text-md mt-2 ml-1 text-neutral-600"
                     >
-                      Membre depuis le 19/07/2024
+                      {signupDate && <p>Membre depuis le {signupDate}</p>}
                     </div>
                   </div>
                 </div>
