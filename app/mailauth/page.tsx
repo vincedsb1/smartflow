@@ -13,10 +13,8 @@ import { useTheme } from "next-themes";
 const MailAuth = () => {
   const userContext = useContext(UserContext);
   const [email, setEmail] = useState("");
-  const [isEmailValid, setIsEmailValid] = useState(false); // Initialisé à false
-  useEffect(() => {
-    console.log("isEmailValid: ", isEmailValid);
-  }, [isEmailValid]);
+  const [isEmailValid, setIsEmailValid] = useState(false);
+  const [emailTouched, setEmailTouched] = useState(false);
   const [showLogo, setShowLogo] = useState(false);
   const { theme } = useTheme();
   const logo = theme === "dark" ? "/logo-dark.svg" : "/logo-light.svg";
@@ -34,23 +32,17 @@ const MailAuth = () => {
   const handleChangeEmail = (e: { target: { value: any } }) => {
     const emailValue = e.target.value;
     setEmail(emailValue);
+    setIsEmailValid(validateEmail(emailValue)); // Valider l'email à chaque changement
     console.log("handleChangeEmail: emailValue =", emailValue);
   };
 
-  const [emailTouched, setEmailTouched] = useState(false); // Nouvel état pour suivre si l'email a été touché
-
   const handleBlurEmail = () => {
-    setEmailTouched(true); // Marquer l'email comme touché
-    if (email) {
-      setIsEmailValid(validateEmail(email));
-    } else {
-      setIsEmailValid(false);
-    }
+    setEmailTouched(true);
   };
 
   const handleClickNext = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
-    setEmailTouched(true); // Marquer l'email comme touché
+    setEmailTouched(true);
     console.log("handleClickNext: ", email);
     if (email) {
       setIsEmailValid(validateEmail(email));
@@ -79,11 +71,25 @@ const MailAuth = () => {
     }
   };
 
+  useEffect(() => {
+    const handleResize = () => {
+      const widthCondition = window.innerWidth >= 1280; // xl breakpoint
+      const heightCondition = window.innerHeight >= 896; // custom height condition
+      setShowLogo(widthCondition || heightCondition);
+    };
+
+    handleResize(); // Check on mount
+    window.addEventListener("resize", handleResize); // Check on resize
+
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
   return (
     <div
       id="mailAuthMainContainer"
       className="flex flex-col items-center justify-center w-full h-full min-h-screen"
     >
+      {/* Desktop version */}
       <div
         id="mailAuthDesktop"
         className="hidden sm:flex h-full w-full flex-col justify-center items-center"
