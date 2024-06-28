@@ -4,8 +4,9 @@ import CardAppText from "../CardAppText";
 import CardAppTitle from "../CardAppTitle";
 import { Button } from "@nextui-org/button";
 import { useRouter } from "next/navigation";
+import DesktopMenu from "../DesktopMenu";
 
-const NoCard = () => {
+const NoCard: React.FC = () => {
   const router = useRouter();
   return (
     <div
@@ -33,8 +34,8 @@ const NoCard = () => {
         </div>
         <div id="todayListContainer" className="w-full mb-8"></div>
       </div>
+      <div id="todayListContainer" className="w-full mb-8"></div>
       <div id="todayMainButton" className="w-18/20 mb-24 flex justify-center">
-        {" "}
         <Button
           color="primary"
           variant="solid"

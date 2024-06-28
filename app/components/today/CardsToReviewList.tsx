@@ -1,4 +1,3 @@
-import cards from "@/pages/api/cards";
 import { faListUl } from "@fortawesome/free-solid-svg-icons";
 import { Button } from "@nextui-org/button";
 import List from "../List";
@@ -29,7 +28,7 @@ const CardsToReviewList: React.FC<CardsToReviewListProps> = ({
   return (
     <div
       id="todayMainContainer"
-      className="flex flex-col justify-between align-middle items-center min-h-screen"
+      className="flex flex-col justify-between align-middle items-center min-h-screen "
     >
       <div
         id="todayTitleHintListContainer"
