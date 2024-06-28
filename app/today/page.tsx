@@ -59,13 +59,9 @@ const Today: React.FC = () => {
   }>({});
 
   useEffect(() => {
-    if (!userContext || !userContext.token) {
-      router.push("/");
-    }
-  }, [userContext, router]);
-
-  useEffect(() => {
-    if (userContext?.token) {
+    if (!userContext?.token) {
+      router.push('/');
+    } else {
       fetch("/api/cards/cardByUser?toReview=true", {
         headers: {
           Authorization: `Bearer ${userContext.token}`,
