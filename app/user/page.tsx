@@ -20,11 +20,11 @@ const UserProfile: React.FC = () => {
   const userId = user?.id;
   const router = useRouter();
 
-  useEffect(() => {
-    if (!user || user === undefined || !token || token === undefined) {
-      router.push("/");
-    }
-  }, [user, token, router]);
+  // useEffect(() => {
+  //   if (!user || user === undefined || !token || token === undefined) {
+  //     router.push("/");
+  //   }
+  // }, [user, token, router]);
 
   const handleLogout = () => {
     setUser(null);
