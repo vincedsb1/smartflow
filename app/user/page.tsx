@@ -114,55 +114,57 @@ const UserProfile: React.FC = () => {
   const [modalTitle, setModalTitle] = useState("");
   const [modalContent, setModalContent] = useState("");
 
-  const [signupDate, setSignupDate] = useState('');
+  const [signupDate, setSignupDate] = useState("");
   const userContext = useContext(UserContext);
-  
+
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const response = await fetch('/api/users/details', {
-          method: 'GET',
+        const response = await fetch("/api/users/details", {
+          method: "GET",
           headers: {
-            'Authorization': `Bearer ${token}`,
-            'Content-Type': 'application/json'
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
           },
         });
-  
+
         if (!response.ok) {
-          throw new Error('Erreur lors de la récupération des données utilisateur');
+          throw new Error(
+            "Erreur lors de la récupération des données utilisateur"
+          );
         }
-  
+
         const data = await response.json();
-        console.log('Données utilisateur:', data.signupDate);
-  
+        console.log("Données utilisateur:", data.signupDate);
+
         if (data.signupDate) {
-          setSignupDate(new Date(data.signupDate).toLocaleDateString('fr-FR'));
+          setSignupDate(new Date(data.signupDate).toLocaleDateString("fr-FR"));
         } else {
-          console.log('signupDate est undefined dans la réponse de l\'API');
-          setSignupDate('Date non disponible');
+          console.log("signupDate est undefined dans la réponse de l'API");
+          setSignupDate("Date non disponible");
         }
       } catch (error) {
-        console.error('Erreur:', error);
+        console.error("Erreur:", error);
       }
     };
-  
+
     fetchUserData();
   }, [token]);
 
   return (
-    <div className="flex flex-row justify-center items-center">
-      <div className="w-full sm:max-w-[1170px]  bg-neutral-200 dark:bg-neutral-700 sm:shadow-2xl sm:shadow-neutral-200 dark:sm:shadow-black flex flex-row ">
+    <div className="flex flex-row justify-center items-center w-full">
+      <div className="w-full sm:max-w-[1170px] bg-neutral-200 dark:bg-neutral-700 sm:shadow-2xl sm:shadow-neutral-200 dark:sm:shadow-black flex flex-row">
         <div className="hidden sm:block">
           <DesktopMenu />
         </div>
         <div
-          id="todayContentContainer"
-          className="flex flex-row justify-center  w-full sm:ml-48 md:ml-72"
+          id="userContentContainer"
+          className="flex flex-row justify-center w-full sm:ml-48 md:ml-72 "
         >
-          <div className="flex flex-row justify-center  w-full">
+          <div className="flex flex-row justify-center w-full">
             <div
               id="userMainContainer"
-              className="flex flex-col min-h-screen align-middle items-center"
+              className="flex flex-col min-h-screen align-middle items-center flex-grow w-full sm:px-10"
             >
               <div
                 id="userHeaderContainer"
@@ -170,7 +172,7 @@ const UserProfile: React.FC = () => {
               >
                 <div
                   id="userTopInfosContainer"
-                  className=" w-18/20 flex flex-col"
+                  className="w-full flex flex-col px-4"
                 >
                   <div
                     id="userTopNameContainer"
@@ -178,25 +180,25 @@ const UserProfile: React.FC = () => {
                   >
                     <div
                       id="userTopName"
-                      className="flex flex-row  font-title font-bold text-2xl mt-2 ml-1"
+                      className="flex flex-row font-title font-bold text-2xl mt-2 ml-1"
                     >
                       {firstname}
                     </div>
                   </div>
                   <div
                     id="userMemberSinceContainer"
-                    className="flex flex-row  h-3/5"
+                    className="flex flex-row h-3/5"
                   >
                     <div
                       id="userTopMemberSince"
-                      className="flex flex-row font-title text-md mt-2 ml-1 text-neutral-600"
+                      className="flex flex-row font-title text-md mt-2 ml-1 text-neutral-600 dark:text-neutral-400"
                     >
                       {signupDate && <p>Membre depuis le {signupDate}</p>}
                     </div>
                   </div>
                 </div>
               </div>
-              <div id="userInfosContainer" className="w-full pb-8">
+              <div id="userInfosContainer" className="w-full pb-8 mb-4">
                 <List
                   rows={topRows}
                   title={"Informations du compte"}
