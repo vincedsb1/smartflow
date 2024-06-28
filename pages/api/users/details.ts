@@ -4,7 +4,6 @@ import jwt from "jsonwebtoken";
 
 const prisma = new PrismaClient();
 
-// récupérer le firstname, email et birthday de l'utilisateur
 export default async function handle(
   req: NextApiRequest,
   res: NextApiResponse
@@ -31,19 +30,32 @@ export default async function handle(
         },
       });
 
+      console.log(
+        `Données utilisateur: ${
+          user ? JSON.stringify(user) : "undefined"
+        } page.tsx:136:16`
+      );
+
       if (user) {
-        console.log("User details retrieved from database:", user);
-        res.json({
-          id: user.id,
-          firstname: user.firstname,
-          email: user.email,
-          birthday: user.birthday,
-        });
+        console.log(
+          `Données utilisateur: ${JSON.stringify(user)} page.tsx:136:16`
+        );
+        console.log(
+          `signupDate est ${
+            user.signupDate ? "défini" : "undefined"
+          } dans la réponse de l'API page.tsx:141:18`
+        );
+        res.status(200).json(user);
       } else {
-        res.status(401).json({ error: "Utilisateur non trouvé" });
+        console.log("Données utilisateur: undefined page.tsx:136:16");
+        console.log(
+          "signupDate est undefined dans la réponse de l'API page.tsx:141:18"
+        );
+        res.status(404).json({ error: "Utilisateur non trouvé" });
       }
-    } catch (err) {
-      res.status(500).json({ error: (err as Error).message });
+    } catch (error) {
+      console.error("Erreur lors de la récupération de l'utilisateur:", error);
+      res.status(500).json({ error: "Erreur serveur" });
     }
   }
 }
