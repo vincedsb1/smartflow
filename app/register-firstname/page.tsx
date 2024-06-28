@@ -184,6 +184,7 @@ const InscriptionPage = () => {
                 className="w-full mb-4 font-text"
                 label="Prénom"
                 color="primary"
+                variant="bordered"
               />
               <Button
                 type="submit"

@@ -18,20 +18,22 @@ const InputBirthday: React.FC<InputBirthdayProps> = (props) => {
 
   return (
     <div id="-main-conatiner" className="w-full">
-      <div id="title" >
+      <div id="title">
         <p className="text-neutral-600 font-semibold">{props.label}</p>
       </div>
       <div id="input" className="relative">
         <Input
           type="date"
-          value={selectedDate ? selectedDate.toISOString().substring(0, 10) : ""}
+          variant="bordered"
+          value={
+            selectedDate ? selectedDate.toISOString().substring(0, 10) : ""
+          }
           onChange={handleDateChange}
-          className=" mb-4 font-text w-full"
+          className=" mb-4 font-text w-full "
         />
       </div>
     </div>
   );
 };
-
 
 export default InputBirthday;
