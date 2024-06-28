@@ -58,11 +58,11 @@ const Today: React.FC = () => {
     [key: string]: string;
   }>({});
 
-  useEffect(() => {
-    if (!userContext || !userContext.token) {
-      router.push("/");
-    }
-  }, [userContext, router]);
+  // useEffect(() => {
+  //   if (!userContext || !userContext.token) {
+  //     router.push("/");
+  //   }
+  // }, [userContext, router]);
 
   useEffect(() => {
     if (userContext?.token) {
