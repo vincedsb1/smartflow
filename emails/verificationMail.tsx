@@ -14,9 +14,7 @@ const VerificationMail: React.FC<VerificationMailProps> = ({ email, link }) => {
       <div
         id="mainPage"
         style={{
-          fontFamily: "Arial, sans-serif",
-          textAlign: "center",
-          background: "linear-gradient(180deg, rgba(6,182,212,1) 50%, rgba(14,116,144,1) 100%)",
+          fontFamily: "Helvetica, Arial, sans-serif",
           filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr='#075985',endColorstr='#082f49',GradientType=1)",
           padding: "40px 0",
           minHeight: "100vh",
@@ -37,19 +35,17 @@ const VerificationMail: React.FC<VerificationMailProps> = ({ email, link }) => {
             overflow: "hidden",
             display: "flex",
             flexDirection: "column",
-            justifyContent: "space-between",
-            paddingBottom: "14px",
           }}
         >
           <div
             id="headerWithLogo"
             style={{
-              backgroundImage: "url('http://localhost:3000/images/emailHeader.svg')",
+              backgroundImage: "url('https://www.smartflow-app.com/images/emailHeader.png')",
               backgroundSize: "cover",
               backgroundRepeat: "no-repeat",
               backgroundPosition: "center",
               borderRadius: "24px 24px 0 0",
-              height: "222px",
+              height: "160px",
               display: "flex",
               justifyContent: "center",
               alignItems: "center",
@@ -57,78 +53,167 @@ const VerificationMail: React.FC<VerificationMailProps> = ({ email, link }) => {
             }}
           >
             <img
-              src="http://localhost:3000/images/LogoSmartFlowWhite.svg"
+              src="https://www.smartflow-app.com/images/LogoSmartFlowWhite.png"
               alt="Smartflow"
               style={{
-                maxWidth: "150px",
+                maxWidth: "180px",
                 maxHeight: "100px",
-                marginBottom: "25px",
               }}
             />
           </div>
           <div
             id="emailChangeContainer"
             style={{
-              backgroundColor: "#FFFFFF",
-              borderRadius: "10px",
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              textAlign: "center",
-              margin: "0 auto",
-              width: "65%",
-              padding: "20px",
-              boxShadow: "0px 4px 15px rgba(0, 0, 0, 0.25)",
-              transform: "translateY(-50px)",
+              backgroundColor: "#FAFAFA",
+              borderRadius: "0px",
+              padding: "40px 20px",
             }}
           >
-            <h1 style={{ color: "#0E7490", fontSize: "24px", fontWeight: "bold", marginBottom: "16px" }}>
-              Bienvenue sur Smartlow, {email}!
-            </h1>
-            <p style={{ fontSize: "16px", color: "#666666", marginBottom: "12px" }}>
-              Nous sommes ravis de vous accueillir dans notre communauté dédiée à l'apprentissage de la méthode Leithner.
-            </p>
-            <div style={{ marginTop: "24px" }}>
+            <div
+              style={{
+                textAlign: "center",
+                marginBottom: "38px",
+              }}
+            >
+              <img
+                src="https://www.smartflow-app.com/images/EnvelopeEmail.png"
+                alt="enveloppe"
+                style={{ maxWidth: "40px", maxHeight: "50px" }}
+              />
+              <h1
+                style={{
+                  color: "#0E7490",
+                  fontSize: "24px",
+                  fontWeight: 600,
+                  marginTop: "20px",
+                  marginBottom: "38px",
+                }}
+              >
+                Confirmation d'email
+              </h1>
+            </div>
+            <hr
+              style={{
+                width: "90%",
+                height: "1px",
+                backgroundColor: "#9499A3",
+                opacity: 0.5,
+              }}
+            />
+            <div
+              style={{
+                fontSize: "16px",
+                color: "#666666",
+                marginBottom: "20px",
+              }}
+            >
+              <div
+                style={{
+                  marginTop: "32px",
+                  marginBottom: "32px",
+                }}
+              >
+                Bienvenue sur <b>SmartFlow</b>, {email} !
+              </div>
+            </div>
+            <div
+              style={{
+                fontSize: "16px",
+                color: "#666666",
+              }}
+            >
+              <div
+                style={{
+                  marginBottom: "32px",
+                }}
+              >
+                Bonjour ! Merci de vous être inscrit·e sur SmartFlow, veuillez confirmer votre email en cliquant sur le bouton ci-dessous :
+              </div>
+            </div>
+            <div
+              style={{
+                marginBottom: "32px",
+                textAlign: "center",
+              }}
+            >
               <a
                 href={link}
                 style={{
-                  background: "#3182CE",
+                  background: "#0E7490",
                   color: "#FFFFFF",
-                  padding: "12px 24px",
+                  padding: "16px 40px",
                   borderRadius: "14px",
                   textDecoration: "none",
                   display: "inline-block",
-                  fontSize: "16px",
-                  fontWeight: "bold",
+                  fontSize: "18px",
+                  fontWeight: 600,
                   textAlign: "center",
                 }}
               >
-                Se connecter à Smartlow
+                Valider mon email
               </a>
+            </div>
+            <div
+              style={{
+                fontSize: "16px",
+                color: "#666666",
+              }}
+            >
+              <div
+                style={{
+                  marginBottom: "16px",
+                }}
+              >
+                Si le bouton ne fonctionne pas, cliquez ou copiez-collez le lien ci-dessous dans votre navigateur :
+              </div>
+            </div>
+            <div
+              style={{
+                color: "#3182CE",
+                textDecoration: "none",
+                fontSize: "14px",
+                wordBreak: "break-all",
+                marginBottom: "16px",
+              }}
+            >
+              <a href={link}>{link}</a>
+            </div>
+            <div
+              style={{
+                color: "#666666",
+              }}>
+              Si vous n'êtes pas à l'origine de cette demande, veuillez ignorer cet email.
             </div>
           </div>
           <div
             id="footer"
             style={{
               textAlign: "center",
-              padding: "14px",
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              flexDirection: "column",
-              backgroundColor: "rgba(6, 182, 212, 0.8)",
-              position: "relative",
-              top: "calc(50% - 40px)",
+              backgroundColor: "#0E7490",
+              padding: "42px 0",
+              marginTop: "auto",
+
             }}
           >
-            <a href="https://www.smartflow-app.com/" style={{ textDecoration: "none" }}>
-              <p style={{ fontSize: "12px", fontWeight: "bold", color: "#FFFFFF", margin: 1 }}>
-                SmartFlow-app.com
+            <a
+              href="https://www.smartflow-app.com/"
+              style={{ textDecoration: "none" }}
+            >
+              <p
+                style={{
+                  fontSize: "16px",
+                  fontWeight: "bold",
+                  color: "#FFFFFF",
+                  margin: 0,
+                }}
+              >
+                smartflow-app.com
+                <br />
+                <span style={{ marginTop: "6px", display: "block" }}>
+                  2024 - Twenty Soft
+                </span>
               </p>
             </a>
-            <p style={{ fontSize: "12px", color: "#FFFFFF", marginBottom: "30px" }}>
-              2024 - Twenty Soft
-            </p>
           </div>
         </div>
       </div>
