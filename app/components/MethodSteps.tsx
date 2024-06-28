@@ -119,7 +119,10 @@ function MethodSteps() {
         <Image src={logo} alt="logo" width={151} height={38} priority />
       </div>
       {/* Mobile */}
-      <div id="mobileVersion" className="flex flex-col items-center justify-center w-full md:hidden space-y-2 xs:space-y-4">
+      <div
+        id="mobileVersion"
+        className="flex flex-col items-center justify-center w-full md:hidden space-y-2 xs:space-y-4"
+      >
         <div className="w-full max-w-xs m-2 xs:m-0">
           <CardAppTitle title={step.title} size="big" />
         </div>
@@ -148,7 +151,10 @@ function MethodSteps() {
         </div>
       </div>
       {/* Desktop */}
-      <div id="desktopVersion" className="hidden md:flex flex-col items-center justify-center w-3/4 lg:w-2/3 xl:w-1/2 h-4/5 border-3 bg-neutral-50 shadow-lg rounded-2xl space-y-4 border-neutral-200 mx-auto my-auto p-4 overflow-auto">
+      <div
+        id="desktopVersion"
+        className="hidden md:flex flex-col items-center justify-center w-[800px]  h-[600px] border-3 bg-neutral-50 dark:bg-neutral-800 shadow-lg rounded-2xl space-y-4 border-neutral-200 dark:border-neutral-500 mx-auto my-auto p-4 overflow-auto "
+      >
         <div className="w-full max-w-md mb-2 md:mb-0 flex justify-center">
           <CardAppTitle title={step.title} size="big" />
         </div>

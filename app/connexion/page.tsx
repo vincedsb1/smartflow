@@ -27,17 +27,20 @@ const ConnexionPage = () => {
     throw new Error("UserContext must be used within a UserContextProvider");
   }
 
-  const { email, firstname, birthday, setUser, onBoarding, setOnBoarding } = userContext;
+  const { email, firstname, birthday, setUser, onBoarding, setOnBoarding } =
+    userContext;
   const [password, setPassword] = useState("");
   const [displayMessage, setDisplayMessage] = useState("");
   const message = "Le mot de passe est incorrect, veuillez réessayer.";
   const router = useRouter();
 
-  const handlePasswordChange = (e: { target: { value: React.SetStateAction<string>; }; }) => {
+  const handlePasswordChange = (e: {
+    target: { value: React.SetStateAction<string> };
+  }) => {
     setPassword(e.target.value);
   };
 
-  const handlePasswordCheck = async (e: { preventDefault: () => void; }) => {
+  const handlePasswordCheck = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
     try {
       const response = await fetch("/api/users/check-password", {
@@ -80,8 +83,7 @@ const ConnexionPage = () => {
           setUser({ email, firstname, birthday, setUser });
         }
       }
-    } catch (error) {
-    }
+    } catch (error) {}
   };
 
   const handleBack = () => {
@@ -118,14 +120,23 @@ const ConnexionPage = () => {
             id="logoContainer"
             className="absolute sm:top-0 sm:left-0 flex-row justify-start items-center h-16 w-full p-4"
           >
-            <Image src={logo} alt="logo" width={151} height={38} priority={true} />
+            <Image
+              src={logo}
+              alt="logo"
+              width={151}
+              height={38}
+              priority={true}
+            />
           </div>
         )}
         <div
           id="desktopVersion"
-          className="hidden sm:flex w-16/20 lg:w-16/20 h-[600px] bg-white shadow-lg rounded-2xl flex-row items-start justify-between border-3 border-neutral-200 mx-auto my-auto max-w-[800px] max-h-[600px] overflow-hidden"
+          className="hidden sm:flex w-16/20 lg:w-16/20 h-[600px] bg-white shadow-lg rounded-2xl flex-row items-start justify-between border-3 border-neutral-200 dark:border-neutral-600 mx-auto my-auto max-w-[800px] max-h-[600px] overflow-hidden"
         >
-          <div id="desktopImageContainer" className="flex w-1/2 h-full relative">
+          <div
+            id="desktopImageContainer"
+            className="flex w-1/2 h-full relative"
+          >
             <Image
               src="/images/entryVisual.svg"
               alt="Entry Visual"
@@ -144,11 +155,17 @@ const ConnexionPage = () => {
           </div>
           <div
             id="desktopContentContainer"
-            className="flex flex-col items-center dark:bg-neutral-800 w-1/2 h-full justify-between p-8 dark:rounded-tr-2xl dark:rounded-br-2xl"
+            className="flex flex-col items-center dark:bg-neutral-800 w-1/2 h-full justify-between p-8 "
           >
-            <div id="desktopTitleContainer" className="flex flex-col items-center w-full mt-12">
+            <div
+              id="desktopTitleContainer"
+              className="flex flex-col items-center w-full mt-12"
+            >
               <CardAppTitle title="Se connecter" size="big" />
-              <CardAppText text="Saisissez votre mot de passe" icon={faUnlock} />
+              <CardAppText
+                text="Saisissez votre mot de passe"
+                icon={faUnlock}
+              />
             </div>
             <form
               id="formContainer"
@@ -164,6 +181,7 @@ const ConnexionPage = () => {
                 label="Mot de passe"
                 radius="lg"
                 className="w-full mb-4 font-text"
+                variant="bordered"
                 endContent={
                   <button
                     className="focus:outline-none"
@@ -222,10 +240,19 @@ const ConnexionPage = () => {
             id="mobileTitleMainContainer"
             className="flex flex-col items-center justify-center w-full mt-4 xs:mt-6 2xs:mt-8 3xs:mt-10 sm:mt-12"
           >
-            <div id="mobileTitleContainer" className="flex flex-col items-start">
+            <div
+              id="mobileTitleContainer"
+              className="flex flex-col items-start"
+            >
               <CardAppTitle title="Se connecter" size="big" />
-              <div id="mobileTextContainer" className="w-60 xs:w-64 2xs:w-72 3xs:w-80 mb-10">
-                <CardAppText text="Saisissez votre mot de passe" icon={faUnlock} />
+              <div
+                id="mobileTextContainer"
+                className="w-60 xs:w-64 2xs:w-72 3xs:w-80 mb-10"
+              >
+                <CardAppText
+                  text="Saisissez votre mot de passe"
+                  icon={faUnlock}
+                />
               </div>
             </div>
           </div>

@@ -90,7 +90,7 @@ const CardAppPasswordInput: React.FC<CardAppPasswordInputProps> = ({
         /> */}
         <Input
           label="Mot de passe"
-          variant="flat"
+          variant="bordered"
           onChange={handlePasswordChange}
           color="primary"
           endContent={
@@ -113,7 +113,7 @@ const CardAppPasswordInput: React.FC<CardAppPasswordInputProps> = ({
             </button>
           }
           type={isVisible ? "text" : "password"}
-          className="w-full dark:bg-yellow-600 rounded-xl"
+          className="w-full  rounded-xl"
         />
         <div className="flex justify-end text-cyan-500 font-semibold mt-2">
           <p className="cursor-pointer">Mot de passe oublié ?</p>
