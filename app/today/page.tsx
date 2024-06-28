@@ -40,23 +40,11 @@ interface CategoryData {
   }>;
 }
 
-const Today = () => {
+const Today: React.FC = () => {
   const { useRouter } = require("next/navigation");
   const userContext = useContext(UserContext);
   const router = useRouter();
 
-  useEffect(() => {
-    if (!userContext || !userContext.token) {
-      router.push("/");
-    }
-  }, [userContext, router]);
-
-  if (!userContext) {
-    throw new Error("UserContext must be used within a UserContextProvider");
-  }
-
-  const { setCardsToReview } = userContext;
-  const levelIcons = [fa1, fa2, fa3, fa4, fa5, fa6, fa7];
   const [cards, setCards] = useState<UserCardProps[]>([]);
   const [firstCardId, setFirstCardId] = useState<number | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -71,7 +59,13 @@ const Today = () => {
   }>({});
 
   useEffect(() => {
-    if (userContext.token) {
+    if (!userContext || !userContext.token) {
+      router.push("/");
+    }
+  }, [userContext, router]);
+
+  useEffect(() => {
+    if (userContext?.token) {
       fetch("/api/cards/cardByUser?toReview=true", {
         headers: {
           Authorization: `Bearer ${userContext.token}`,
@@ -87,7 +81,7 @@ const Today = () => {
           if (data.cards) {
             setCards(data.cards);
             setFirstCardId(data.cards[0].id);
-            setCardsToReview(data.cards);
+            userContext.setCardsToReview(data.cards);
             userContext.setNbCardsToReview(data.cards.length);
 
             setCategoryColors(data.categoryColors);
@@ -136,7 +130,7 @@ const Today = () => {
           setIsLoading(false);
         });
     }
-  }, []);
+  }, [userContext?.token]);
 
   if (isLoading) {
     return (
@@ -150,123 +144,62 @@ const Today = () => {
     return <div>Error</div>;
   }
 
-  let rows: {
-    mainLabel: string;
-    link: string;
-    color: string;
-    icon: IconDefinition;
-  }[] = [];
-  if (cards) {
-    rows = cards.map((card) => ({
-      mainLabel: card.title,
-      link: `/today/review?id=${card.id}&nbcard=${cards.length}&color=${
-        card.categoryColorName || "white"
-      }`,
-      color: card.categoryColorName || "white",
-      icon: levelIcons[card.level - 1],
-    }));
-  }
+  const levelIcons = [fa1, fa2, fa3, fa4, fa5, fa6, fa7];
+  const rows = cards.map((card) => ({
+    mainLabel: card.title,
+    link: `/today/review?id=${card.id}&nbcard=${cards.length}&color=${
+      card.categoryColorName || "white"
+    }`,
+    color: card.categoryColorName || "white",
+    icon: levelIcons[card.level - 1],
+  }));
 
-  switch (code) {
-    case 1:
-      return (
-        <div
-          id="todayMainContainer"
-          className="flex flex-row justify-center items-center"
-        >
-          <div
-            id="todaySubMainContainer"
-            className="w-full sm:max-w-[1170px] bg-neutral-200 dark:bg-neutral-700 sm:shadow-2xl sm:shadow-neutral-200 dark:sm:shadow-black flex flex-row"
-          >
-            <div id="todayMenuContainer" className="hidden sm:block">
-              <DesktopMenu />
-            </div>
-            <div
-              id="todayContentContainer"
-              className="flex flex-row justify-center w-full sm:ml-48 md:ml-72"
-            >
-              <div className="flex flex-row">
-                <NoCard />
-              </div>
-            </div>
-          </div>
-        </div>
-      );
-    case 2:
+  const renderContent = () => {
+    switch (code) {
+      case 1:
+        return <NoCard />;
+      case 2:
+        return <NoCardsToReview />;
+      case 3:
+        return <AllCardsReviewed />;
+      case 4:
+        return (
+          <>
+            <CardsToReviewList
+              rows={rows}
+              firstCardId={firstCardId}
+              data={categoryData}
+              categoryColors={categoryColors}
+            />
+          </>
+        );
+      default:
+        return null;
+    }
+  };
+
+  return (
+    <div
+      id="todayMainContainer"
+      className="flex flex-row justify-center items-center"
+    >
       <div
-        id="todayMainContainer"
-        className="flex flex-row justify-center items-center"
+        id="todaySubMainContainer"
+        className="w-full sm:max-w-[1170px] bg-neutral-200 dark:bg-neutral-700 sm:shadow-2xl sm:shadow-neutral-200 dark:sm:shadow-black flex flex-row"
       >
+        <div id="todayMenuContainer" className="hidden sm:block">
+          <DesktopMenu />
+        </div>
         <div
-          id="todaySubMainContainer"
-          className="w-full sm:max-w-[1170px] bg-neutral-200 dark:bg-neutral-700 sm:shadow-2xl sm:shadow-neutral-200 dark:sm:shadow-black flex flex-row"
+          id="todayContentContainer"
+          className="flex flex-row justify-center w-full sm:ml-48 md:ml-72 "
         >
-          <div id="todayMenuContainer" className="hidden sm:block">
-            <DesktopMenu />
-          </div>
-          <div
-            id="todayContentContainer"
-            className="flex flex-row justify-center w-full sm:ml-48 md:ml-72"
-          >
-            <div className="flex flex-row">
-              <NoCardsToReview />
-            </div>
+          <div className="flex flex-row w-full justify-center ">
+            {renderContent()}
           </div>
         </div>
-      </div>;
-    case 3:
-      <div
-        id="todayMainContainer"
-        className="flex flex-row justify-center items-center"
-      >
-        <div
-          id="todaySubMainContainer"
-          className="w-full sm:max-w-[1170px] bg-neutral-200 dark:bg-neutral-700 sm:shadow-2xl sm:shadow-neutral-200 dark:sm:shadow-black flex flex-row"
-        >
-          <div id="todayMenuContainer" className="hidden sm:block">
-            <DesktopMenu />
-          </div>
-          <div
-            id="todayContentContainer"
-            className="flex flex-row justify-center w-full sm:ml-48 md:ml-72"
-          >
-            <div className="flex flex-row">
-              <AllCardsReviewed />
-            </div>
-          </div>
-        </div>
-      </div>;
-    case 4:
-      return (
-        <div
-          id="todayMainContainer"
-          className="flex flex-row justify-center items-center"
-        >
-          <div
-            id="todaySubMainContainer"
-            className="w-full sm:max-w-[1170px] bg-neutral-200 dark:bg-neutral-700 sm:shadow-2xl sm:shadow-neutral-200 dark:sm:shadow-black flex flex-row"
-          >
-            <div id="todayMenuContainer" className="hidden sm:block">
-              <DesktopMenu />
-            </div>
-            <div
-              id="todayContentContainer"
-              className="flex flex-row justify-center w-full sm:ml-48 md:ml-72"
-            >
-              <div className="flex flex-row">
-                <CardsToReviewList rows={rows} firstCardId={firstCardId} />
-                <div className="mt-80 ml-8 ">
-                  <CategoryDistribution
-                    data={categoryData}
-                    categoryColors={categoryColors}
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      );
-  }
+      </div>
+    </div>
+  );
 };
-
 export default Today;

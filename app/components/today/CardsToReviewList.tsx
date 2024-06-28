@@ -6,6 +6,7 @@ import React, { useState } from "react";
 import CardAppText from "../CardAppText";
 import CardAppTitle from "../CardAppTitle";
 import { IconDefinition } from "@fortawesome/fontawesome-svg-core";
+import CategoryDistribution from "../CategoryDistribution";
 
 interface Row {
   mainLabel: string;
@@ -14,14 +15,27 @@ interface Row {
   icon: IconDefinition;
 }
 
+interface CategoryData {
+  labels: string[];
+  datasets: Array<{
+    data: number[];
+    backgroundColor: string[];
+    hoverBackgroundColor: string[];
+  }>;
+}
+
 interface CardsToReviewListProps {
   rows: Row[];
   firstCardId: number | null;
+  data: CategoryData;
+  categoryColors: { [key: string]: string };
 }
 
 const CardsToReviewList: React.FC<CardsToReviewListProps> = ({
   rows,
   firstCardId,
+  data,
+  categoryColors,
 }) => {
   const [myModalContent, setMyModalContent] = useState("");
   const router = useRouter();
@@ -32,7 +46,7 @@ const CardsToReviewList: React.FC<CardsToReviewListProps> = ({
     >
       <div
         id="todayTitleHintListContainer"
-        className="flex flex-col w-full items-center"
+        className="flex flex-col w-full items-center "
       >
         <div
           id="todayTitleHintContainer"
@@ -56,6 +70,9 @@ const CardsToReviewList: React.FC<CardsToReviewListProps> = ({
             setModalContent={setMyModalContent}
             modalContent={myModalContent}
           />
+        </div>
+        <div id="CategoryDistributionContainer" className="px-5">
+          <CategoryDistribution data={data} categoryColors={categoryColors} />
         </div>
       </div>
       <div id="todayMainButton" className="w-18/20 mb-24 flex justify-center">
