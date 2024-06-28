@@ -6,6 +6,8 @@ import {
   faInbox,
   faUser,
   faSignOutAlt,
+  faSun,
+  faMoon,
 } from "@fortawesome/free-solid-svg-icons";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -16,7 +18,7 @@ import { useTheme } from "next-themes";
 const DesktopMenu: React.FC = () => {
   const pathname = usePathname();
   const { firstname } = useUser();
-  const { theme } = useTheme();
+  const { theme, setTheme } = useTheme();
   const logo = theme === "dark" ? "/logo-dark.svg" : "/logo-light.svg";
 
   const iconStyle = (icon: string) =>
@@ -25,6 +27,10 @@ const DesktopMenu: React.FC = () => {
         ? "text-cyan-700 dark:text-cyan-500"
         : "text-neutral-500"
     } group-hover:text-cyan-600 dark:group-hover:text-cyan-400 transition-all hover:scale-105`;
+
+  const toggleTheme = () => {
+    setTheme(theme === "dark" ? "light" : "dark");
+  };
 
   return (
     <div
@@ -90,19 +96,37 @@ const DesktopMenu: React.FC = () => {
               Bonjour {firstname}
             </span>
             <Link href="/user" className="flex items-center space-x-2 group">
-              <FontAwesomeIcon
-                icon={faUser}
-                className={`${iconStyle("user")} text-xl`}
-              />
+              <div className="w-7 flex justify-center items-center">
+                <FontAwesomeIcon
+                  icon={faUser}
+                  className={`${iconStyle("user")} text-xl`}
+                />
+              </div>
               <span className="font-text text-lg text-neutral-700 dark:text-neutral-300 group-hover:text-cyan-600 dark:group-hover:text-cyan-400 transition-colors duration-300 ease-in-out pl-2">
                 Paramètres
               </span>
             </Link>
+            <button
+              onClick={toggleTheme}
+              className="flex items-center space-x-2 group"
+            >
+              <div className="w-7 flex justify-center items-center">
+                <FontAwesomeIcon
+                  icon={theme === "dark" ? faSun : faMoon}
+                  className="text-xl text-neutral-700 dark:text-neutral-500 group-hover:text-cyan-600 dark:group-hover:text-cyan-400 transition-colors duration-300 ease-in-out"
+                />
+              </div>
+              <span className="font-text text-lg text-neutral-700 dark:text-neutral-300 group-hover:text-cyan-600 dark:group-hover:text-cyan-400 transition-colors duration-300 ease-in-out pl-2">
+                {theme === "dark" ? "Mode clair" : "Mode sombre"}
+              </span>
+            </button>
             <Link href="/" className="flex items-center space-x-2 group">
-              <FontAwesomeIcon
-                icon={faSignOutAlt}
-                className={`${iconStyle("")} text-xl`}
-              />
+              <div className="w-7 flex justify-center items-center">
+                <FontAwesomeIcon
+                  icon={faSignOutAlt}
+                  className={`${iconStyle("")} text-xl`}
+                />
+              </div>
               <span className="font-text text-lg text-neutral-700 dark:text-neutral-300 group-hover:text-cyan-600 dark:group-hover:text-cyan-400 transition-colors duration-300 ease-in-out pl-2">
                 Déconnexion
               </span>
