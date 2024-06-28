@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faBookOpen,
@@ -11,10 +11,13 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import Image from "next/image";
 import { useUser } from "../context/UserContext";
+import { useTheme } from "next-themes";
 
 const DesktopMenu: React.FC = () => {
   const pathname = usePathname();
   const { firstname } = useUser();
+  const { theme } = useTheme();
+  const logo = theme === "dark" ? "/logo-dark.svg" : "/logo-light.svg";
 
   const iconStyle = (icon: string) =>
     `h-7 w-7 ${
@@ -26,19 +29,14 @@ const DesktopMenu: React.FC = () => {
   return (
     <div
       id="desktopMenuMainContainer"
-      className="fixed top-0 flex flex-col items-start bg-white shadow-lg h-full max-h-screen justify-between w-48 md:w-72 pl-5 md:pl-10 pb-10 "
+      className="fixed top-0 flex flex-col items-start bg-white dark:bg-neutral-800 shadow-lg h-full max-h-screen justify-between w-48 md:w-72 pl-5 md:pl-10 pb-10 "
     >
       <div id="logoContainer" className="flex flex-col items-start">
         <div
           id="logoImageContainer"
           className="flex items-center space-x-2 relative w-36 h-32"
         >
-          <Image
-            src="/logo-light.svg"
-            alt="Logo"
-            fill
-            className="object-contain"
-          />
+          <Image src={logo} alt="Logo" fill className="object-contain" />
         </div>
         <nav id="navigationMenu" className="flex flex-col space-y-8 mt-8">
           <Link href="/today" className="flex items-center space-x-2 group">
