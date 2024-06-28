@@ -116,12 +116,14 @@ const UserProfile: React.FC = () => {
 
   return (
     <div className="flex flex-row justify-center items-center">
-      <div className="w-full sm:max-w-[1170px]  bg-neutral-200 sm:shadow-2xl sm:shadow-neutral-200 flex flex-row ">
+      <div className="w-full sm:max-w-[1170px]  bg-neutral-200 dark:bg-neutral-700 sm:shadow-2xl sm:shadow-neutral-200 dark:sm:shadow-black flex flex-row ">
         <div className="hidden sm:block">
           <DesktopMenu />
         </div>
-        <div id="todayContentContainer" className="flex flex-row justify-center  w-full sm:ml-48 md:ml-72">
-
+        <div
+          id="todayContentContainer"
+          className="flex flex-row justify-center  w-full sm:ml-48 md:ml-72"
+        >
           <div className="flex flex-row justify-center  w-full">
             <div
               id="userMainContainer"
@@ -135,7 +137,10 @@ const UserProfile: React.FC = () => {
                   id="userTopInfosContainer"
                   className=" w-18/20 flex flex-col"
                 >
-                  <div id="userTopNameContainer" className="flex flex-row h-2/5">
+                  <div
+                    id="userTopNameContainer"
+                    className="flex flex-row h-2/5"
+                  >
                     <div
                       id="userTopName"
                       className="flex flex-row  font-title font-bold text-2xl mt-2 ml-1"
