@@ -101,7 +101,7 @@ const OrganizeCards = () => {
 
   return (
     <div className="flex flex-row justify-center items-center">
-      <div className="w-full sm:max-w-[1170px]  bg-neutral-200 sm:shadow-2xl sm:shadow-neutral-200 flex flex-row ">
+      <div className="w-full sm:max-w-[1170px]  bg-neutral-200 dark:bg-neutral-700 sm:shadow-2xl sm:shadow-neutral-200 sm:dark:shadow-black flex flex-row ">
         <div className="hidden sm:block">
           <DesktopMenu />
         </div>
@@ -113,7 +113,10 @@ const OrganizeCards = () => {
             id="todayTitleHintListContainer"
             className="flex flex-col w-full items-center"
           >
-            <div id="themeSwitcherBackIcon" className="w-full flex flex-col mt-16">
+            <div
+              id="themeSwitcherBackIcon"
+              className="w-full flex flex-col mt-16"
+            >
               <Link href="/organize">
                 <FontAwesomeIcon
                   icon={faChevronLeft}
