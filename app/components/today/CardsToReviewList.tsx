@@ -42,7 +42,7 @@ const CardsToReviewList: React.FC<CardsToReviewListProps> = ({
   return (
     <div
       id="todayMainContainer"
-      className="flex flex-col justify-between align-middle items-center min-h-screen "
+      className="flex flex-col justify-between align-middle items-center min-h-screen flex-grow sm:px-10"
     >
       <div
         id="todayTitleHintListContainer"
@@ -52,27 +52,47 @@ const CardsToReviewList: React.FC<CardsToReviewListProps> = ({
           id="todayTitleHintContainer"
           className="flex flex-col w-full items-center"
         >
-          <div className="w-18/20 mt-20">
+          <div className="w-18/20 sm:w-full mt-2  sm:border-b-2 dark:border-neutral-500 border-neutral-400 sm:my-6">
             <CardAppTitle title="Aujourd'hui" size="big" />
           </div>
-          <div className="w-18/20 mb-14">
+          <div className="w-18/20 sm:w-full mb-14">
             <CardAppText
               icon={faListUl}
               text={`Vous avez ${rows.length} fiches à réciter.`}
+              colorVariant={false}
             />
           </div>
         </div>
-        <div id="todayListContainer" className="w-full mb-8">
-          <List
-            rows={rows}
-            title="Fiches"
-            isLargeRow={true}
-            setModalContent={setMyModalContent}
-            modalContent={myModalContent}
-          />
-        </div>
-        <div id="CategoryDistributionContainer" className="px-5">
-          <CategoryDistribution data={data} categoryColors={categoryColors} />
+        <div
+          id="ListAndChart"
+          className="flex flex-col justify-between lg:flex-row w-full "
+        >
+          <div id="todayListContainer" className="w-full mb-8 pr-0 lg:pr-4">
+            <List
+              rows={rows}
+              title="Fiches"
+              isLargeRow={true}
+              setModalContent={setMyModalContent}
+              modalContent={myModalContent}
+            />
+          </div>
+          <div
+            id="CategoryDistributionContainer"
+            className="px-0 hidden md:block pb-10"
+          >
+            <div
+              id="ListTitleContainer"
+              className="hidden md:block mb-2 font-title font-bold text-md text-neutral-600 dark:text-neutral-300"
+            >
+              Répartition
+            </div>
+            <div id="CategoryDistribution" className="w-full">
+              <CategoryDistribution
+                data={data}
+                categoryColors={categoryColors}
+              />
+            </div>
+          </div>
         </div>
       </div>
       <div id="todayMainButton" className="w-18/20 mb-24 flex justify-center">

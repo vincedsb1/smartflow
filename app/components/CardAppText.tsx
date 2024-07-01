@@ -6,14 +6,16 @@ interface CardAppTextProps {
   icon?: IconProp;
   iconColor?: "normal" | "confirmation" | "warning" | "error";
   shadow?: boolean;
+  colorVariant?: boolean;
 }
 
-const CardAppText: React.FC<CardAppTextProps> = ({
+const CardAppText = ({
   text,
   icon,
   iconColor = "normal",
   shadow = false,
-}) => {
+  colorVariant = false,
+}: CardAppTextProps) => {
   let iconColorClass: string;
   switch (iconColor) {
     case "confirmation":
@@ -32,9 +34,13 @@ const CardAppText: React.FC<CardAppTextProps> = ({
       iconColorClass = "text-primary dark:text-neutral-400 text-2xl";
   }
 
-  const containerClassName = shadow
-    ? "bg-white shadow-lg dark:bg-neutral-700 rounded-2xl w-full flex flex-row p-2"
-    : "bg-white dark:bg-neutral-700 rounded-2xl w-full flex flex-row p-2";
+  const shadowClass = shadow ? "shadow-lg" : "";
+  const colorVariantClass = colorVariant
+    ? "bg-white dark:bg-neutral-700"
+    : "bg-white dark:bg-neutral-800";
+  const containerClassName = `${shadowClass} ${colorVariantClass} rounded-2xl w-full flex flex-row p-2`;
+  console.log("colorVariant : ", colorVariant);
+  console.log("containerClassName : ", containerClassName);
 
   return (
     <div id="cardExplanations" className={containerClassName}>
