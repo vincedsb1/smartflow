@@ -10,7 +10,7 @@ const ReviewQuestionButtons: React.FC<{
 }> = ({ handleShuffle, handleShowAnswer, handleNextCard }) => (
   <div
     id="controlButtonContainer"
-    className="flex flex-row justify-between gap-2 w-full "
+    className="flex flex-row justify-between gap-2 w-full pb-4"
   >
     <Button
       color="default"

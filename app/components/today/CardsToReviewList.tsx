@@ -95,7 +95,7 @@ const CardsToReviewList: React.FC<CardsToReviewListProps> = ({
           </div>
         </div>
       </div>
-      <div id="todayMainButton" className="w-18/20 mb-24 flex justify-center">
+      <div id="todayMainButton" className="w-18/20 mb-20 flex justify-center">
         <Button
           color="primary"
           variant="solid"
