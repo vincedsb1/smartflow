@@ -60,7 +60,7 @@ const Today: React.FC = () => {
 
   useEffect(() => {
     if (!userContext?.token) {
-      router.push('/');
+      console.log("userContext not loaded");
     } else {
       fetch("/api/cards/cardByUser?toReview=true", {
         headers: {
