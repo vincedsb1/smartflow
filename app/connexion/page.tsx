@@ -58,6 +58,7 @@ const ConnexionPage = () => {
 
         if (data.status === "ok") {
           userContext.setToken(data.token);
+          localStorage.setItem("userToken", data.token);
 
           const userResponse = await fetch("/api/users/details", {
             headers: {

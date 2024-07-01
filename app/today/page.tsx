@@ -58,14 +58,10 @@ const Today: React.FC = () => {
     [key: string]: string;
   }>({});
 
-  // useEffect(() => {
-  //   if (!userContext || !userContext.token) {
-  //     router.push("/");
-  //   }
-  // }, [userContext, router]);
-
   useEffect(() => {
-    if (userContext?.token) {
+    if (!userContext?.token) {
+      console.log("userContext not loaded");
+    } else {
       fetch("/api/cards/cardByUser?toReview=true", {
         headers: {
           Authorization: `Bearer ${userContext.token}`,
