@@ -12,12 +12,13 @@ import ReviewContent from "@/app/components/review/ReviewContent";
 
 const Review: React.FC = () => {
   const userContext = useContext(UserContext);
-  const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+  const apiUrl = process.env.NEXT_PUBLIC_REACT_APP_BACKEND_URL;
+  // const apiUrl = process.env.NEXT_PUBLIC_API_URL;
   const router = useRouter();
 
   useEffect(() => {
     if (!userContext || !userContext.token) {
-      router.push('/');
+      router.push("/");
     }
   }, [userContext, router]);
 
@@ -139,7 +140,7 @@ const Review: React.FC = () => {
     >
       <div
         id="ReviewSubMainContainer"
-        className="w-full sm:max-w-[1170px] bg-neutral-200 sm:shadow-2xl sm:shadow-neutral-200 flex flex-row pb-24 sm:pb-0"
+        className="w-full sm:max-w-[1170px] bg-neutral-200 dark:bg-neutral-700 sm:shadow-2xl sm:shadow-neutral-200 sm:dark:shadow-black flex flex-row pb-24 sm:pb-0"
       >
         <div id="todayMenuContainer" className="hidden sm:block">
           <DesktopMenu />
@@ -187,7 +188,7 @@ const Review: React.FC = () => {
           </div>
           <div
             id="reviewPageBottomContainer"
-            className="flex flex-col justify-center items-center w-full px-10 xs:px-10  "
+            className="flex flex-col justify-center items-center w-full px-10 xs:px-10 sm:pb-10 "
           >
             {showAnswer ? (
               <ReviewAnswerButtons handleReview={handleReview} />
