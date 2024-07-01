@@ -11,7 +11,6 @@ import { useRouter } from "next/navigation";
 import Datepicker from "react-tailwindcss-datepicker";
 import DesktopMenu from "../../components/DesktopMenu";
 
-
 const ClientBirthdayEditPage = () => {
   const userContext = useContext(UserContext);
   const [birthday, setBirthday] = useState(userContext?.birthday || "");
@@ -70,68 +69,73 @@ const ClientBirthdayEditPage = () => {
   console.log("endDate:", value.endDate);
   return (
     <div className="flex flex-row justify-center items-center">
-    <div className="w-full sm:max-w-[1170px]  bg-neutral-200 sm:shadow-2xl sm:shadow-neutral-200 flex flex-row ">
-      <div className="hidden sm:block">
-        <DesktopMenu />
-      </div>
-    <div
-      id="birthdayPageMainContainer"
-      className="flex flex-col justify-between min-h-screen  w-full sm:ml-48 md:ml-72"
-    >
-      <div
-        id="birthdayPageTopContainer"
-        className="flex flex-col justify-center w-full"
-      >
-        <div id="birthdayBackIcon" className="w-full flex flex-col mt-16">
-          <button
-            type="button"
-            onClick={() => router.back()}
-            className="text-neutral-800 dark:text-neutral-200 text-xs w-4 h-4 m-5"
-          >
-            <FontAwesomeIcon icon={faChevronLeft} />
-          </button>
+      <div className="w-full sm:max-w-[1170px]  bg-neutral-200 dark:bg-neutral-700 sm:shadow-2xl sm:shadow-neutral-200 sm:dark:shadow-black flex flex-row ">
+        <div className="hidden sm:block">
+          <DesktopMenu />
         </div>
         <div
-          id="birthdayPageHeaderContainer"
-          className="flex flex-col justify-center items-center w-full"
+          id="birthdayPageMainContainer"
+          className="flex flex-col justify-between min-h-screen  w-full sm:ml-48 md:ml-72"
         >
-          <div id="birthdayPageTitle" className="flex flex-col mt-10 w-16/20">
-            <CardAppTitle title="Date de naissance" size="small" />
+          <div
+            id="birthdayPageTopContainer"
+            className="flex flex-col justify-center w-full"
+          >
+            <div id="birthdayBackIcon" className="w-full flex flex-col mt-16">
+              <button
+                type="button"
+                onClick={() => router.back()}
+                className="text-neutral-800 dark:text-neutral-200 text-xs w-4 h-4 m-5"
+              >
+                <FontAwesomeIcon icon={faChevronLeft} />
+              </button>
+            </div>
+            <div
+              id="birthdayPageHeaderContainer"
+              className="flex flex-col justify-center items-center w-full"
+            >
+              <div
+                id="birthdayPageTitle"
+                className="flex flex-col mt-10 w-16/20"
+              >
+                <CardAppTitle title="Date de naissance" size="small" />
+              </div>
+              <div className="flex flex-col justify-between items-center w-16/20">
+                <Datepicker
+                  i18n={"fr"}
+                  useRange={false}
+                  asSingle={true}
+                  value={{
+                    startDate: value.startDate
+                      ? new Date(value.startDate)
+                      : null,
+                    endDate: value.endDate ? new Date(value.endDate) : null,
+                  }}
+                  onChange={handleValueChange}
+                  displayFormat={"DD/MM/YYYY"}
+                />
+              </div>
+            </div>
           </div>
-          <div className="flex flex-col justify-between items-center w-16/20">
-            <Datepicker
-              i18n={"fr"}
-              useRange={false}
-              asSingle={true}
-              value={{
-                startDate: value.startDate ? new Date(value.startDate) : null,
-                endDate: value.endDate ? new Date(value.endDate) : null,
-              }}
-              onChange={handleValueChange}
-              displayFormat={"DD/MM/YYYY"}
-            />
+          <div
+            id="birthdayPageBottomContainer"
+            className="flex flex-col justify-center items-center w-full mb-32"
+          >
+            <Button
+              type="submit"
+              color="primary"
+              variant="solid"
+              size="lg"
+              className="w-80 font-bold font-text"
+              onClick={handleBirthdayChange}
+            >
+              Modifier la date de naissance
+            </Button>
+            {displayMessage && <p>{displayMessage}</p>}
           </div>
         </div>
       </div>
-      <div
-        id="birthdayPageBottomContainer"
-        className="flex flex-col justify-center items-center w-full mb-32"
-      >
-        <Button
-          type="submit"
-          color="primary"
-          variant="solid"
-          size="lg"
-          className="w-80 font-bold font-text"
-          onClick={handleBirthdayChange}
-        >
-          Modifier la date de naissance
-        </Button>
-        {displayMessage && <p>{displayMessage}</p>}
-      </div>
     </div>
-    </div>
-  </div>
   );
 };
 

@@ -187,7 +187,7 @@ const EditCategorie = () => {
 
   return (
     <div className="flex flex-row justify-center items-center">
-      <div className="w-full sm:max-w-[1170px]  bg-neutral-200 sm:shadow-2xl sm:shadow-neutral-200 flex flex-row ">
+      <div className="w-full sm:max-w-[1170px]  bg-neutral-200 dark:bg-neutral-700 sm:shadow-2xl sm:shadow-neutral-200 sm:dark:shadow-black flex flex-row ">
         <div className="hidden sm:block">
           <DesktopMenu />
         </div>
@@ -195,7 +195,10 @@ const EditCategorie = () => {
           id="modifyCategoryContainer"
           className="flex flex-col justify-between min-h-screen w-full items-center sm:ml-48 md:ml-72"
         >
-          <div id="themeSwitcherBackIcon" className="w-full flex flex-col mt-16 ">
+          <div
+            id="themeSwitcherBackIcon"
+            className="w-full flex flex-col mt-16 "
+          >
             <Link href="/organize">
               <FontAwesomeIcon
                 icon={faChevronLeft}
@@ -220,11 +223,13 @@ const EditCategorie = () => {
                 {colors.map((color) => (
                   <div
                     key={color.id}
-                    className={`w-8 h-8 rounded-full hover:scale-105 hover:ring-2 ring-neutral-900 dark:ring-neutral-100 active:scale-110 transition-all bg-${color.name
-                      } m-3 cursor-pointer ${color.selected
+                    className={`w-8 h-8 rounded-full hover:scale-105 hover:ring-2 ring-neutral-900 dark:ring-neutral-100 active:scale-110 transition-all bg-${
+                      color.name
+                    } m-3 cursor-pointer ${
+                      color.selected
                         ? "ring-2 ring-neutral-900 dark:ring-neutral-100"
                         : ""
-                      }`}
+                    }`}
                     onClick={() => handleColorClick(color.id)}
                   ></div>
                 ))}
