@@ -4,7 +4,7 @@ import { faChevronLeft } from "@fortawesome/free-solid-svg-icons";
 import CardAppTitle from "@/app/components/CardAppTitle";
 import { Progress } from "@nextui-org/react";
 import { useRouter } from "next/navigation";
-import { colorClasses } from '../utils/colorUtils';
+import { colorClasses } from "../utils/colorUtils";
 
 interface ReviewHeaderDesktopProps {
   className?: string;
@@ -35,7 +35,7 @@ const ReviewHeaderDesktop: React.FC<ReviewHeaderDesktopProps> = ({
   >
     <div
       id="reviewTopContainer"
-      className="w-full flex flex-row justify-between mt-16 mb-4"
+      className="w-full flex flex-row justify-between mt-16 mb-4 pr-2"
     >
       <div id="reviewBackTitle" className="flex flex-row ">
         <button
@@ -64,14 +64,18 @@ const ReviewHeaderDesktop: React.FC<ReviewHeaderDesktopProps> = ({
     </div>
     <div
       id="reviewPageHeaderContainer"
-      className="flex flex-col justify-center items-center w-80"
+      className="flex flex-col justify-center items-center w-full pl-8 pr-10"
     >
       <div
         id="reviewHeaderTopContainer"
-        className="flex flex-row justify-between w-full mb-4"
+        className="flex flex-row justify-between w-full mb-4 pl-4"
       >
         <div id="reviewTitleCategoryColorContainer" className="flex flex-row">
-        <div id="reviewColor" className={`w-[6px] h-full ${colorClasses[color] || ''}`}></div>          <div
+          <div
+            id="reviewColor"
+            className={`w-[6px] h-full ${colorClasses[color] || ""}`}
+          ></div>{" "}
+          <div
             id="reviewTitleCategoryContainer"
             className="flex flex-col w-full ml-2"
           >
@@ -90,7 +94,10 @@ const ReviewHeaderDesktop: React.FC<ReviewHeaderDesktopProps> = ({
           </div>
         </div>
       </div>
-      <div id="reviewHeaderBottomContainer" className="flex flex-col w-full">
+      <div
+        id="reviewHeaderBottomContainer"
+        className="flex flex-col w-full pl-3"
+      >
         <div id="reviewProgressContainer" className="flex flex-row w-full">
           <Progress
             aria-label="Loading..."
@@ -99,7 +106,7 @@ const ReviewHeaderDesktop: React.FC<ReviewHeaderDesktopProps> = ({
             value={calculatePercentage(level)}
             valueLabel={`Niveau ${level}`}
             showValueLabel={true}
-            className="max-w-md text-neutral-500 text-sm font-title"
+            className="max-w-md sm:max-w-full text-neutral-500 text-sm font-title"
           />
         </div>
       </div>
