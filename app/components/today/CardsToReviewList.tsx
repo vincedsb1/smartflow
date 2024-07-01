@@ -42,7 +42,7 @@ const CardsToReviewList: React.FC<CardsToReviewListProps> = ({
   return (
     <div
       id="todayMainContainer"
-      className="flex flex-col justify-between align-middle items-center min-h-screen "
+      className="flex flex-col justify-between align-middle items-center min-h-screen"
     >
       <div
         id="todayTitleHintListContainer"
@@ -75,7 +75,7 @@ const CardsToReviewList: React.FC<CardsToReviewListProps> = ({
           <CategoryDistribution data={data} categoryColors={categoryColors} />
         </div>
       </div>
-      <div id="todayMainButton" className="w-18/20 mb-24 flex justify-center">
+      <div id="todayMainButton" className="w-18/20 mb-20 flex justify-center">
         <Button
           color="primary"
           variant="solid"
