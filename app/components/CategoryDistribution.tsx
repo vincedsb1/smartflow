@@ -52,7 +52,7 @@ const CategoryDistribution: React.FC<CategoryDistributionProps> = ({
   };
 
   return (
-    <div className=" hidden md:block sm:w-[346px] sm:h-[346px] md:w-[346px] md:h-[346px] lg:w-[346px] lg:h-[346px] bg-neutral-50 dark:bg-neutral-800 rounded-xl">
+    <div className=" hidden md:block  sm:w-[346px] sm:h-[346px] md:w-[346px] md:h-[346px] lg:w-[346px] lg:h-[346px] bg-neutral-50 dark:bg-neutral-800 rounded-xl ">
       <Pie data={data} options={options} />
     </div>
   );

@@ -45,7 +45,7 @@ const ContentInput: React.FC<ContentInputProps> = ({ onContentChange }) => {
           <Textarea
             label="Description"
             placeholder="Votre réponse"
-            className="max-w-xs"
+            className="w-full"
             onChange={handleChange}
             value={value}
           />
