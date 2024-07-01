@@ -89,7 +89,7 @@ const List: React.FC<ListProps> = ({
     }
   };
   return (
-    <div id="ListContainer" className="flex flex-col px-5 w-full">
+    <div id="ListContainer" className="flex flex-col px-5 sm:px-0 w-full">
       <ListTitle title={title || ""} />
       <div
         id="ListContainer"
