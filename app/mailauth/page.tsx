@@ -145,6 +145,7 @@ const MailAuth = () => {
                 text="Commencez par saisir votre email"
                 icon={faEnvelope}
                 shadow
+                colorVariant={true}
               />
             </div>
             <form
@@ -213,7 +214,7 @@ const MailAuth = () => {
               id="mobileTitleContainer"
               className="flex flex-col items-start"
             >
-              <CardAppTitle title="Se connecter / S'inscrire" size="big" />
+              <CardAppTitle title="Se connecter / S'inscrirefsdq" size="big" />
 
               <div
                 id="mobileTextContainer"
@@ -222,6 +223,8 @@ const MailAuth = () => {
                 <CardAppText
                   text="Commencez par saisir votre email"
                   icon={faEnvelope}
+                  colorVariant={true}
+                  shadow={true}
                 />
               </div>
             </div>
