@@ -26,19 +26,22 @@ const ClientEmailEditPage = () => {
     // Simple validation for email
     const emailRegex = /\S+@\S+\.\S+/;
     if (!emailRegex.test(email)) {
-      setDisplayMessage('Veuillez entrer un email valide');
+      setDisplayMessage("Veuillez entrer un email valide");
       return;
     }
 
     try {
       if (userContext) {
-        const response = await fetch('/api/users/ServerEmailEditPage', {
-          method: 'POST',
+        const response = await fetch("/api/users/ServerEmailEditPage", {
+          method: "POST",
           headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${userContext.token}`
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${userContext.token}`,
           },
-          body: JSON.stringify({ currentEmail: userContext.email, newEmail: email })
+          body: JSON.stringify({
+            currentEmail: userContext.email,
+            newEmail: email,
+          }),
         });
 
         if (!response.ok) {
@@ -57,7 +60,7 @@ const ClientEmailEditPage = () => {
 
   return (
     <div className="flex flex-row justify-center items-center">
-      <div className="w-full sm:max-w-[1170px]  bg-neutral-200 sm:shadow-2xl sm:shadow-neutral-200 flex flex-row ">
+      <div className="w-full sm:max-w-[1170px]  bg-neutral-200 dark:bg-neutral-700 sm:shadow-2xl sm:shadow-neutral-200 sm:dark:shadow-black flex flex-row ">
         <div className="hidden sm:block">
           <DesktopMenu />
         </div>

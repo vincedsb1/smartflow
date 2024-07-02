@@ -23,9 +23,11 @@ const ClientFirstNameEditPage = () => {
   const handleFirstnameChange = async () => {
     try {
       const nameRegex = /^[a-zA-Z\s]+$/;
-      const trimmedFirstname = firstname ? firstname.trim() : '';
+      const trimmedFirstname = firstname ? firstname.trim() : "";
       if (!nameRegex.test(trimmedFirstname)) {
-        setDisplayMessage("Le prénom ne doit contenir que des lettres et des espaces");
+        setDisplayMessage(
+          "Le prénom ne doit contenir que des lettres et des espaces"
+        );
         return;
       }
       if (userContext) {
@@ -61,7 +63,7 @@ const ClientFirstNameEditPage = () => {
 
   return (
     <div className="flex flex-row justify-center items-center">
-      <div className="w-full sm:max-w-[1170px]  bg-neutral-200 sm:shadow-2xl sm:shadow-neutral-200 flex flex-row ">
+      <div className="w-full sm:max-w-[1170px]  bg-neutral-200 dark:bg-neutral-700 sm:shadow-2xl sm:shadow-neutral-200 sm:dark:shadow-black flex flex-row ">
         <div className="hidden sm:block">
           <DesktopMenu />
         </div>
@@ -86,7 +88,10 @@ const ClientFirstNameEditPage = () => {
               id="firstNamePageHeaderContainer"
               className="flex flex-col justify-center items-center w-full"
             >
-              <div id="firstNamePageTitle" className="flex flex-col mt-10 w-16/20">
+              <div
+                id="firstNamePageTitle"
+                className="flex flex-col mt-10 w-16/20"
+              >
                 <CardAppTitle title="Prénom" size="small" />
               </div>
               <div

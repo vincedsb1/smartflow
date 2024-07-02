@@ -31,16 +31,18 @@ const Organize = () => {
 
   return (
     <div className="flex flex-row justify-center items-center">
-      <div className="w-full sm:max-w-[1170px]  bg-neutral-200 sm:shadow-2xl sm:shadow-neutral-200 flex flex-row ">
+      <div className="w-full sm:max-w-[1170px]  bg-neutral-200 dark:bg-neutral-700 sm:shadow-2xl sm:shadow-neutral-200 sm:dark:shadow-black flex flex-row ">
         <div className="hidden sm:block">
           <DesktopMenu />
         </div>
-        <div id="todayContentContainer" className="flex flex-row justify-center  w-full sm:ml-48 md:ml-72">
-
+        <div
+          id="todayContentContainer"
+          className="flex flex-row justify-center  w-full sm:ml-48 md:ml-72"
+        >
           <div className="flex flex-row justify-center  w-full">
             <div
               id="organizeMainContainer"
-              className="flex flex-col justify-between min-h-screen w-full"
+              className="flex flex-col justify-between min-h-screen w-full sm:w-18/20"
             >
               <div
                 id="organizeContainer"
@@ -52,13 +54,13 @@ const Organize = () => {
                 >
                   <div
                     id="organizeTitle"
-                    className="flex flex-col mt-11 w-18/20 "
+                    className="flex flex-col mt-11 w-18/20 sm:w-full "
                   >
-                    <CardAppTitle title="Organiser" />
+                    <CardAppTitle title="Organiser" size="big" />
                   </div>
                   <div
                     id="organizeHint"
-                    className="flex flex-col items-center w-18/20"
+                    className="flex flex-col items-center w-18/20 sm:w-full"
                   >
                     <CardAppText
                       text="Que voulez-vous organiser ?"
