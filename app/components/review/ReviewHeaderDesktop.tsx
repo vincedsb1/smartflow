@@ -73,8 +73,9 @@ const ReviewHeaderDesktop: React.FC<ReviewHeaderDesktopProps> = ({
         <div id="reviewTitleCategoryColorContainer" className="flex flex-row">
           <div
             id="reviewColor"
-            className={`w-[6px] h-full ${colorClasses[color] || ""}`}
-          ></div>{" "}
+            className={`w-[6px] h-full ${colorClasses[color] ? colorClasses[color] : "border-1 border-gray-300"}`}
+            style={!colorClasses[color] ? { borderWidth: "1px", borderColor: "#D1D5DB", borderStyle: "solid", boxSizing: "border-box" } : {}}
+          ></div>
           <div
             id="reviewTitleCategoryContainer"
             className="flex flex-col w-full ml-2"
