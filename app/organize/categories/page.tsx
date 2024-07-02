@@ -14,7 +14,6 @@ import { colorClasses } from "../../components/utils/colorUtils";
 import AddCategoryModal from "../../components/category/AddCategoryModal";
 import DesktopMenu from "../../components/DesktopMenu";
 
-
 // Définition des interfaces
 interface Category {
   id: number;
@@ -22,10 +21,10 @@ interface Category {
   colorName: string;
 }
 
-interface OrganizeCategoriesProps { }
+interface OrganizeCategoriesProps {}
 
 // Définition du composant
-const OrganizeCategories: React.FC<OrganizeCategoriesProps> = ({ }) => {
+const OrganizeCategories: React.FC<OrganizeCategoriesProps> = ({}) => {
   // Déclaration des états
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [selectedCategoryId, setSelectedCategoryId] = useState<number | null>(
@@ -77,9 +76,7 @@ const OrganizeCategories: React.FC<OrganizeCategoriesProps> = ({ }) => {
 
   if (isLoading) {
     return (
-
       <div className="min-h-screen flex flex-row justify-center items-center w-full">
-
         <CircularProgress aria-label="Loading..." />
       </div>
     );
@@ -127,7 +124,7 @@ const OrganizeCategories: React.FC<OrganizeCategoriesProps> = ({ }) => {
   // Affichage du composant
   return (
     <div className="flex flex-row justify-center items-center">
-      <div className="w-full sm:max-w-[1170px]  bg-neutral-200 sm:shadow-2xl sm:shadow-neutral-200 flex flex-row ">
+      <div className="w-full sm:max-w-[1170px]  bg-neutral-200 dark:bg-neutral-700 sm:shadow-2xl sm:shadow-neutral-200 sm:dark:shadow-black flex flex-row ">
         <div className="hidden sm:block">
           <DesktopMenu />
         </div>
@@ -139,8 +136,10 @@ const OrganizeCategories: React.FC<OrganizeCategoriesProps> = ({ }) => {
             id="organizeContainer"
             className="flex flex-col justify-center w-full items-center"
           >
-
-            <div id="themeSwitcherBackIcon" className="w-full flex flex-col mt-16">
+            <div
+              id="themeSwitcherBackIcon"
+              className="w-full flex flex-col mt-16"
+            >
               <Link href="/organize">
                 <FontAwesomeIcon
                   icon={faChevronLeft}
@@ -150,7 +149,9 @@ const OrganizeCategories: React.FC<OrganizeCategoriesProps> = ({ }) => {
             </div>
             <div id="organizeList" className="">
               <List rows={rows} title="Catégories" isLargeRow={false} />
-              <BelowListLink onClick={onOpen}>Ajouter une catégorie</BelowListLink>
+              <BelowListLink onClick={onOpen}>
+                Ajouter une catégorie
+              </BelowListLink>
             </div>
           </div>
           <AddCategoryModal
