@@ -116,7 +116,6 @@ const CardAppPasswordInput: React.FC<CardAppPasswordInputProps> = ({
           className="w-full  rounded-xl"
         />
         <div className="flex justify-end text-cyan-500 font-semibold mt-2">
-          <p className="cursor-pointer">Mot de passe oublié ?</p>
         </div>
       </div>
       <div className="mt-2 w-full max-w-md">
