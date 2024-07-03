@@ -142,7 +142,7 @@ const EditCards: React.FC = () => {
     setTitle(e.target.value);
   };
 
-  const handleAnswerChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+  const handleAnswerChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setAnswer(e.target.value);
   };
 
