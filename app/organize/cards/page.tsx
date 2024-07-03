@@ -128,7 +128,7 @@ const OrganizeCards = () => {
               <Link href="/organize">
                 <FontAwesomeIcon
                   icon={faChevronLeft}
-                  className="text-neutral-800 dark:text-neutral-200 text-xs w-4 h-4 m-5"
+                  className="text-neutral-800 dark:text-neutral-200 text-xs w-4 h-4 m-5 sm:mx-0"
                 />
               </Link>
             </div>
