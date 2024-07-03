@@ -17,7 +17,13 @@ const FooterLanding = () => {
       >
         <p className="text-md text-neutral-600 dark:text-neutral-400 text-sm leading-relaxed">
           © 2024 SmartFlow.
-          <br /> <Link href="https://vincent.desbrosses.net">
+          <br />
+          <p>
+            <Link href="/cgu">
+              Consulter les conditions générales
+            </Link>
+          </p>
+          <Link href="https://vincent.desbrosses.net">
             Twenty Soft
           </Link>{" "}
           - Tous droits réservés.
