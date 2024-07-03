@@ -114,11 +114,11 @@ const OrganizeCards = () => {
           <DesktopMenu />
         </div>
         <div
-          id="todayMainContainer"
-          className="flex flex-col justify-between align-middle items-center min-h-screen"
+          id="organizeCardMainContainer"
+          className="w-full flex flex-col justify-between align-middle items-center min-h-screen sm:ml-48 md:ml-72 sm:px-10"
         >
           <div
-            id="todayTitleHintListContainer"
+            id="organizeCardTitleHintListContainer"
             className="flex flex-col w-full items-center"
           >
             <div
@@ -128,11 +128,11 @@ const OrganizeCards = () => {
               <Link href="/organize">
                 <FontAwesomeIcon
                   icon={faChevronLeft}
-                  className="text-neutral-800 dark:text-neutral-200 text-xs w-4 h-4 m-5"
+                  className="text-neutral-800 dark:text-neutral-200 text-xs w-4 h-4 m-5 sm:mx-0"
                 />
               </Link>
             </div>
-            <div id="todayListContainer" className="w-full">
+            <div id="organizeCardListContainer" className="w-full">
               <List
                 rows={rows}
                 title="Fiches"
