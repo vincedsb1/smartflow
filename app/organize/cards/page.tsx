@@ -41,27 +41,33 @@ const OrganizeCards = () => {
     // Vérifiez si le token est disponible
     if (userContext.token) {
       setIsTokenLoaded(true);
+      console.log("vérification du token OK");
     }
   }, [userContext.token]);
 
   useEffect(() => {
     // Ne faire la requête fetch que si le token est chargé
+    console.log("entrée dans le useEffect");
     if (isTokenLoaded) {
+      console.log("entrée dans le if");
       fetch("/api/cards/cardByUser?toReview=true", {
         headers: {
           Authorization: `Bearer ${userContext.token}`,
         },
       })
         .then((response) => {
+          console.log("entrée dans le then");
           if (!response.ok) {
             throw new Error("Network response was not ok");
           }
           return response.json();
         })
         .then((data) => {
-          if (Array.isArray(data)) {
-            setCards(data);
-            setCardsToReview(data);
+          console.log("entrée dans le then 2");
+          console.log("Données récupérées :", data); // Ajoutez ce log pour vérifier les données
+          if (Array.isArray(data.cards)) {
+            setCards(data.cards);
+            setCardsToReview(data.cards);
           } else {
             setCards([]);
             setCardsToReview([]);
@@ -98,6 +104,8 @@ const OrganizeCards = () => {
     link: "/organize/cards/edit?id=" + card.id,
     color: card.categoryColorName || "white",
   }));
+
+  console.log("Rows à afficher :", rows); // Ajoutez ce log pour vérifier les rows
 
   return (
     <div className="flex flex-row justify-center items-center">
