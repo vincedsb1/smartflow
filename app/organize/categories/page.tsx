@@ -134,20 +134,20 @@ const OrganizeCategories: React.FC<OrganizeCategoriesProps> = ({}) => {
         >
           <div
             id="organizeContainer"
-            className="flex flex-col justify-center w-full items-center"
+            className="flex flex-col justify-center w-full items-center sm:px-10"
           >
             <div
-              id="themeSwitcherBackIcon"
-              className="w-full flex flex-col mt-16"
+              id="organizeCategoriesBackIcon"
+              className="w-full flex flex-col mt-16 "
             >
               <Link href="/organize">
                 <FontAwesomeIcon
                   icon={faChevronLeft}
-                  className="text-neutral-800 dark:text-neutral-200 text-xs w-4 h-4 m-5"
+                  className="text-neutral-800 dark:text-neutral-200 text-xs w-4 h-4 m-5 sm:ml-0"
                 />
               </Link>
             </div>
-            <div id="organizeList" className="">
+            <div id="organizeList" className="w-full">
               <List rows={rows} title="Catégories" isLargeRow={false} />
               <BelowListLink onClick={onOpen}>
                 Ajouter une catégorie
