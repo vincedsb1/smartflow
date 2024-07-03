@@ -24,6 +24,7 @@ const EditCategorie = () => {
   interface Color {
     id: number;
     name: string;
+    fullName: string;
     selected: boolean;
   }
 
@@ -86,7 +87,7 @@ const EditCategorie = () => {
             console.log("Category found: ", category);
             setTitle(category.name);
             setColorId(category.colorId);
-            setColorName(category.color.name);
+            setColorName(category.color.fullName); // Utilisation de fullName
 
             setColors(
               colors.map((color) =>
@@ -161,12 +162,31 @@ const EditCategorie = () => {
     }
   };
 
+  // Définir les noms complets des couleurs
+  const colorFullNames: { [key: string]: string } = {
+    "red-500": "Rouge Vif",
+    "orange-500": "Orange Brillant",
+    "yellow-500": "Jaune Soleil",
+    "green-500": "Vert Émeraude",
+    "teal-500": "Sarcelle",
+    "blue-500": "Bleu Ciel",
+    "indigo-500": "Indigo Profond",
+    "purple-500": "Violet Royal",
+    "pink-500": "Rose Fuchsia",
+    "red-600": "Rouge Intense",
+    "orange-600": "Orange Sanguine",
+    "yellow-600": "Jaune Moutarde",
+  };
+
   // Définir les couleurs initiales
-  const initialColors = Object.keys(colorClasses).map((colorName, index) => ({
-    id: index + 1,
-    name: colorName,
-    selected: index === 0,
-  }));
+  const initialColors = Object.keys(colorClasses).map((colorName, index) => {
+    return {
+      id: index + 1,
+      name: colorName,
+      fullName: colorFullNames[colorName] || colorName,
+      selected: index === 0,
+    };
+  });
 
   // Ajouter un état pour les couleurs
   const [colors, setColors] = useState<Color[]>(initialColors);
@@ -186,40 +206,55 @@ const EditCategorie = () => {
   };
 
   return (
-    <div className="flex flex-row justify-center items-center">
-      <div className="w-full sm:max-w-[1170px]  bg-neutral-200 dark:bg-neutral-700 sm:shadow-2xl sm:shadow-neutral-200 sm:dark:shadow-black flex flex-row ">
-        <div className="hidden sm:block">
+    <div
+      id="editCategoriesMainContainer"
+      className="flex flex-row justify-center items-center"
+    >
+      <div
+        id="editCategoriesSubContainer"
+        className="w-full sm:max-w-[1170px]  bg-neutral-200 dark:bg-neutral-700 sm:shadow-2xl sm:shadow-neutral-200 sm:dark:shadow-black flex flex-row "
+      >
+        <div id="editCategoriesDesktopMenu" className="hidden sm:block">
           <DesktopMenu />
         </div>
         <div
           id="modifyCategoryContainer"
-          className="flex flex-col justify-between min-h-screen w-full items-center sm:ml-48 md:ml-72"
+          className="flex flex-col justify-between min-h-screen w-full items-center sm:ml-48 md:ml-72 px-4 sm:px-10"
         >
-          <div
-            id="themeSwitcherBackIcon"
-            className="w-full flex flex-col mt-16 "
-          >
-            <Link href="/organize">
-              <FontAwesomeIcon
-                icon={faChevronLeft}
-                className="text-neutral-800 dark:text-neutral-200 text-xs w-4 h-4 m-5"
-              />
-            </Link>
-          </div>
-          <div className="flex flex-col items-center gap-8 sm:w-3/4 ml:w-3/4">
+          <div id="categoryEditTopContainer" className="w-full">
             <div
-              id="inputChangeNameCategorie"
-              className="flex flex-col items-center w-18/20 mb-1"
+              id="editCategoriesSwitcherBackIcon"
+              className="w-full flex flex-col mt-16"
             >
-              <Input
-                className="flex flex-wrap md:flex-nowrap gap-4"
-                type="text"
-                placeholder={title}
-                onChange={(e) => setTitle(e.target.value)}
-              />
+              <Link href="/organize">
+                <FontAwesomeIcon
+                  icon={faChevronLeft}
+                  className="text-neutral-800 dark:text-neutral-200 text-xs w-4 h-4 my-5 mr-5"
+                />
+              </Link>
             </div>
-            <div className="lex flex-col items-center w-18/20 mt-1">
-              <div className="flex flex-wrap justify-center bg-neutral-50 dark:bg-neutral-800 rounded-2xl  ">
+            <div id="colorPicker" className="flex flex-col items-center w-full">
+              <div
+                id="inputChangeNameCategorie"
+                className="flex flex-col items-center w-full mb-1"
+              >
+                <Input
+                  className=""
+                  type="text"
+                  value={title}
+                  placeholder="Nom de la catégorie, ex. : Mathématiques"
+                  onChange={(e) => setTitle(e.target.value)}
+                />
+              </div>
+            </div>
+            <div
+              id="colorPickerContainer"
+              className="flex flex-col items-center w-full mt-1"
+            >
+              <div
+                id="colorPickerMobile"
+                className="flex sm:hidden flex-wrap justify-center bg-neutral-50 dark:bg-neutral-800 rounded-2xl  "
+              >
                 {colors.map((color) => (
                   <div
                     key={color.id}
@@ -234,6 +269,36 @@ const EditCategorie = () => {
                   ></div>
                 ))}
               </div>
+              <div
+                id="colorPickerDesktop"
+                className="hidden sm:flex flex-wrap justify-center bg-neutral-50 dark:bg-neutral-800 rounded-2xl py-8 mt-4"
+              >
+                {colors.map((color) => (
+                  <div
+                    key={color.id}
+                    className={`w-36 h-16 rounded-xl hover:scale-105  ring-neutral-600 dark:ring-neutral-100 active:scale-110 transition-all flex flex-row item-center justify-center bg-${
+                      color.name
+                    } m-4 cursor-pointer ${
+                      color.selected
+                        ? "ring-4 ring-neutral-500 dark:ring-neutral-300"
+                        : ""
+                    }`}
+                    onClick={() => handleColorClick(color.id)}
+                  >
+                    <div
+                      id="colorFullNameLabelContainer"
+                      className="flex flex-row justify-center items-center"
+                    >
+                      <div
+                        id="colorFullNameLabelContainer"
+                        className="flex flex-row justify-center items-center font-text"
+                      >
+                        {color.fullName}
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
           <div
@@ -245,7 +310,7 @@ const EditCategorie = () => {
               color="primary"
               variant="solid"
               size="lg"
-              className="w-18/20 font-bold font-text"
+              className="w-full font-bold font-text"
               onClick={handleSaveClick}
             >
               Enregistrer
