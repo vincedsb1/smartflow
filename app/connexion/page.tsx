@@ -15,6 +15,7 @@ import {
 import { Input } from "@nextui-org/react";
 import Image from "next/image";
 import { useTheme } from "next-themes";
+import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter } from "@nextui-org/modal";
 
 const ConnexionPage = () => {
   const [isVisible, setIsVisible] = useState(false);
@@ -22,6 +23,8 @@ const ConnexionPage = () => {
   const logo = theme === "dark" ? "/logo-dark.svg" : "/logo-light.svg";
   const toggleVisibility = () => setIsVisible(!isVisible);
   const userContext = useContext(UserContext);
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   if (!userContext) {
     throw new Error("UserContext must be used within a UserContextProvider");
@@ -34,15 +37,15 @@ const ConnexionPage = () => {
   const message = "Le mot de passe est incorrect, veuillez réessayer.";
   const router = useRouter();
 
-  const handlePasswordChange = (e: {
-    target: { value: React.SetStateAction<string> };
-  }) => {
+  const handlePasswordChange = (e: { target: { value: React.SetStateAction<string>; }; }) => {
     setPassword(e.target.value);
   };
 
-  const handlePasswordCheck = async (e: { preventDefault: () => void }) => {
+  const handlePasswordCheck = async (e: { preventDefault: () => void; }) => {
     e.preventDefault();
+    console.log("Début de la vérification du mot de passe"); // Ajout d'un log pour le début de la fonction
     try {
+      console.log("Envoi de la requête à /api/users/check-password avec l'email:", email); // Log avant l'envoi de la requête
       const response = await fetch("/api/users/check-password", {
         method: "POST",
         headers: {
@@ -51,15 +54,20 @@ const ConnexionPage = () => {
         body: JSON.stringify({ email, password }),
       });
 
+      console.log("Réponse reçue avec le statut:", response.status); // Log du statut de la réponse
       if (response.status === 401) {
+        console.log("Échec de l'authentification pour l'email:", email); // Log en cas d'échec d'authentification
         setDisplayMessage(message);
       } else if (response.status === 200) {
         const data = await response.json();
+        console.log("Données reçues:", data); // Log des données reçues
 
         if (data.status === "ok") {
+          console.log("Statut OK, mise à jour du contexte utilisateur et redirection"); // Log en cas de succès
           userContext.setToken(data.token);
           localStorage.setItem("userToken", data.token);
 
+          console.log("Récupération des détails de l'utilisateur avec le token:", data.token); // Log avant la requête des détails de l'utilisateur
           const userResponse = await fetch("/api/users/details", {
             headers: {
               Authorization: `Bearer ${data.token}`,
@@ -68,6 +76,7 @@ const ConnexionPage = () => {
 
           if (userResponse.ok) {
             const userData = await userResponse.json();
+            console.log("Détails de l'utilisateur reçus:", userData); // Log des détails de l'utilisateur
             userContext.setUser({
               firstname: userData.firstname,
               email: userData.email,
@@ -76,19 +85,37 @@ const ConnexionPage = () => {
           }
           setOnBoarding(data.onBoarding);
           if (data.onBoarding) {
+            console.log("Redirection vers /today"); // Log de la redirection
             router.push("/today");
           } else {
+            console.log("Redirection vers /onboarding"); // Log de la redirection
             router.push("/onboarding");
           }
 
           setUser({ email, firstname, birthday, setUser });
         }
       }
-    } catch (error) {}
+    } catch (error) {
+      console.error("Erreur lors de la vérification du mot de passe:", error);
+    }
   };
 
   const handleBack = () => {
     router.back();
+  };
+
+  const handleForgotPasswordClick = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+  };
+
+  const handleSendEmail = () => {
+    // Logic to handle sending the reset email
+    console.log("Email for reset:", email);
+    setIsModalOpen(false);
   };
 
   const [showLogo, setShowLogo] = useState(false);
@@ -203,6 +230,14 @@ const ConnexionPage = () => {
                   </button>
                 }
               />
+              <div className="text-right w-full mb-4">
+                <a
+                  className="text-sm text-blue-500 hover:underline cursor-pointer"
+                  onClick={handleForgotPasswordClick}
+                >
+                  Mot de passe oublié ?
+                </a>
+              </div>
               <Button
                 type="submit"
                 color="default"
@@ -238,78 +273,106 @@ const ConnexionPage = () => {
             />
           </div>
           <div
-            id="mobileTitleMainContainer"
-            className="flex flex-col items-center justify-center w-full mt-4 xs:mt-6 2xs:mt-8 3xs:mt-10 sm:mt-12"
+            id="mobileTitleContainer"
+            className="flex flex-col justify-center items-center w-full"
           >
-            <div
-              id="mobileTitleContainer"
-              className="flex flex-col items-start"
-            >
-              <CardAppTitle title="Se connecter" size="big" />
-              <div
-                id="mobileTextContainer"
-                className="w-60 xs:w-64 2xs:w-72 3xs:w-80 mb-10"
-              >
-                <CardAppText
-                  text="Saisissez votre mot de passe"
-                  icon={faUnlock}
-                />
-              </div>
-            </div>
+            <CardAppTitle title="Se connecter" size="big" />
+            <CardAppText text="Saisissez votre mot de passe" icon={faUnlock} />
           </div>
         </div>
-        <div
-          id="mailAuthMobileBottom"
-          className="flex flex-col items-center pb-4 xs:pb-24 2xs:pb-24 3xs:pb-24"
+        <form
+          id="mobileFormContainer"
+          onSubmit={handlePasswordCheck}
+          className="flex flex-col items-center w-full"
         >
-          <form
-            id="formContainer"
-            onSubmit={handlePasswordCheck}
-            className="flex flex-col justify-between items-center w-full"
+          <Input
+            value={password}
+            onChange={handlePasswordChange}
+            isRequired
+            size="lg"
+            type={isVisible ? "text" : "password"}
+            label="Mot de passe"
+            radius="lg"
+            className="mb-8 font-text w-10/12 mx-auto"
+            variant="bordered"
+            endContent={
+              <button
+                className="focus:outline-none"
+                type="button"
+                onClick={toggleVisibility}
+              >
+                {isVisible ? (
+                  <FontAwesomeIcon
+                    icon={faEyeSlash}
+                    className="ml-28 mb-1 text-xl text-default-400 pointer-events-none"
+                  />
+                ) : (
+                  <FontAwesomeIcon
+                    icon={faEye}
+                    className="ml-28 mb-1 text-xl text-default-400 pointer-events-none"
+                  />
+                )}
+              </button>
+            }
+          />
+          <div className="text-right w-full mb-4">
+            <a
+              className="text-sm text-blue-500 hover:underline cursor-pointer"
+              onClick={handleForgotPasswordClick}
+            >
+              Mot de passe oublié ?
+            </a>
+          </div>
+          <Button
+            type="submit"
+            color="default"
+            variant="solid"
+            size="lg"
+            className="pr-14 pl-14 w-10/12 mx-auto mb-20 font-bold font-text"
+            onClick={handlePasswordCheck}
+            disabled={password === ""}
           >
+            Suivant
+          </Button>
+        </form>
+      </div>
+
+      {/* Forgot Password Modal */}
+      <Modal isOpen={isModalOpen} onClose={handleCloseModal}>
+        <ModalContent>
+          <ModalHeader>
+            Réinitialiser le mot de passe
+          </ModalHeader>
+          <ModalBody>
             <Input
-              value={password}
-              onChange={handlePasswordChange}
+              value={email || ""}
               isRequired
               size="md"
-              type={isVisible ? "text" : "password"}
-              label="Mot de passe"
+              type="email"
+              label="Adresse e-mail"
               radius="lg"
-              className="w-64 xs:w-72 2xs:w-80 3xs:w-80 mb-4 font-text"
-              endContent={
-                <button
-                  className="focus:outline-none"
-                  type="button"
-                  onClick={toggleVisibility}
-                >
-                  {isVisible ? (
-                    <FontAwesomeIcon
-                      icon={faEyeSlash}
-                      className="ml-28 mb-1 text-xl text-default-400 pointer-events-none"
-                    />
-                  ) : (
-                    <FontAwesomeIcon
-                      icon={faEye}
-                      className="ml-28 mb-1 text-xl text-default-400 pointer-events-none"
-                    />
-                  )}
-                </button>
-              }
+              className="w-full mb-4 font-text"
+              variant="bordered"
             />
+          </ModalBody>
+          <ModalFooter>
             <Button
-              type="submit"
-              color="default"
-              variant="solid"
-              size="lg"
-              className="w-64 xs:w-72 2xs:w-80 3xs:w-80 pr-14 pl-14 font-bold font-text"
-              onClick={handlePasswordCheck}
-              disabled={password === ""}
+              variant="light"
+              onClick={handleCloseModal}
+              className="mr-4"
             >
-              Suivant
+              Fermer
             </Button>
-          </form>
-        </div>
-      </div>
+            <Button
+              variant="solid"
+              color="default"
+              onClick={handleSendEmail}
+            >
+              Envoyer
+            </Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
     </div>
   );
 };
