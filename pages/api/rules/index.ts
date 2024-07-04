@@ -13,6 +13,8 @@ export default async function handle(
       res.json(rules);
     } catch (err) {
       res.status(500).json({ error: (err as Error).message });
+    } finally {
+      await prisma.$disconnect();
     }
   } else if (req.method === "POST") {
     const rule = req.body;
@@ -21,6 +23,8 @@ export default async function handle(
       res.status(201).json(createdRule);
     } catch (err) {
       res.status(500).json({ error: (err as Error).message });
+    } finally {
+      await prisma.$disconnect();
     }
   } else if (req.method === "PUT") {
     const rule = req.body;
@@ -32,6 +36,8 @@ export default async function handle(
       res.json(updatedRule);
     } catch (err) {
       res.status(500).json({ error: (err as Error).message });
+    } finally {
+      await prisma.$disconnect();
     }
   } else if (req.method === "DELETE") {
     const { id } = req.body;
@@ -42,6 +48,8 @@ export default async function handle(
       res.json(deletedRule);
     } catch (err) {
       res.status(500).json({ error: (err as Error).message });
+    } finally {
+      await prisma.$disconnect();
     }
   } else {
     res.status(405).end();

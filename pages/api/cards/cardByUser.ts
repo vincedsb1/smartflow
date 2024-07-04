@@ -118,7 +118,11 @@ export default function handle(
           }
         })
         .map(
-          (card: Card & { category: { name: string; color: { name: string } } | null }) => {
+          (
+            card: Card & {
+              category: { name: string; color: { name: string } } | null;
+            }
+          ) => {
             return {
               ...card,
               categoryColorName: card.category?.color.name,
@@ -138,19 +142,26 @@ export default function handle(
       // Calculer le nombre de cartes par catégorie et les couleurs des catégories
       const categoryCount: { [key: string]: number } = {};
       const categoryColors: { [key: string]: string } = {};
-      reformattedCards.forEach(card => {
-        const categoryName = card.categoryName || 'Non catégorisé';
-        const categoryColor = card.categoryColorName || 'grey';
+      reformattedCards.forEach((card) => {
+        const categoryName = card.categoryName || "Non catégorisé";
+        const categoryColor = card.categoryColorName || "grey";
         categoryCount[categoryName] = (categoryCount[categoryName] || 0) + 1;
         categoryColors[categoryName] = categoryColor;
       });
 
-      return res.json({ code: 4, cards: reformattedCards, categoryCount, categoryColors });
+      return res.json({
+        code: 4,
+        cards: reformattedCards,
+        categoryCount,
+        categoryColors,
+      });
     } catch (error) {
       console.error(error);
       return res
         .status(500)
         .json({ message: "An error occurred while fetching the cards." });
+    } finally {
+      await prisma.$disconnect();
     }
   });
 }
