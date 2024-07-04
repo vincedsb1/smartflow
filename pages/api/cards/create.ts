@@ -48,5 +48,7 @@ export default async function handle(
     res.status(201).json(card);
   } catch (err) {
     res.status(500).json({ error: (err as Error).message });
+  } finally {
+    await prisma.$disconnect();
   }
 }

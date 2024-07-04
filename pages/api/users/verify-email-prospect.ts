@@ -1,21 +1,30 @@
-import { NextApiRequest, NextApiResponse } from 'next';
-import { PrismaClient } from '@prisma/client';
-import jwt from 'jsonwebtoken';
+import { NextApiRequest, NextApiResponse } from "next";
+import { PrismaClient } from "@prisma/client";
+import jwt from "jsonwebtoken";
 
 const prisma = new PrismaClient();
 
-export default async function handle(req: NextApiRequest, res: NextApiResponse) {
+export default async function handle(
+  req: NextApiRequest,
+  res: NextApiResponse
+) {
   const { token } = req.query;
 
   if (!process.env.APP_SECRET) {
     console.error("JWT secret is not defined in the environment variables");
-    res.status(500).json({ error: "JWT secret is not defined in the environment variables" });
+    res
+      .status(500)
+      .json({
+        error: "JWT secret is not defined in the environment variables",
+      });
     return;
   }
 
-  if (req.method === 'GET') {
+  if (req.method === "GET") {
     try {
-      const decoded = jwt.verify(token as string, process.env.APP_SECRET) as { email: string };
+      const decoded = jwt.verify(token as string, process.env.APP_SECRET) as {
+        email: string;
+      };
 
       const { email } = decoded;
 
@@ -43,7 +52,11 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse) 
       res.status(200).json({ success: true });
     } catch (error: any) {
       console.error("Error occurred:", error);
-      res.status(500).json({ error: "Something went wrong", message: error.message });
+      res
+        .status(500)
+        .json({ error: "Something went wrong", message: error.message });
+    } finally {
+      await prisma.$disconnect();
     }
   } else {
     console.error("Method not allowed");
