@@ -17,7 +17,7 @@ model User {
   onBoarding          Boolean   @default(false)
   imageUrl            String    @db.VarChar(200)
   verificationToken   String?
-  passwordResetToken  String?   @db.VarChar(100)
+  passwordResetToken  String?
   passwordResetTokenExpires DateTime?
   languageId          Int       @default(1)
   language            Language  @relation(fields: [languageId], references: [id])

@@ -22,6 +22,7 @@ export default function Providers({ children }: { children: React.ReactNode }) {
     "/register",
     "/",
     "/cgu",
+    "/resetPassword",
   ];
   // Vérifie si le chemin actuel est autorisé
   const isAllowedPath =
