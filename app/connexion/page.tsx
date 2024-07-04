@@ -23,8 +23,8 @@ const ConnexionPage = () => {
   const logo = theme === "dark" ? "/logo-dark.svg" : "/logo-light.svg";
   const toggleVisibility = () => setIsVisible(!isVisible);
   const userContext = useContext(UserContext);
-
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   if (!userContext) {
     throw new Error("UserContext must be used within a UserContextProvider");
@@ -112,10 +112,30 @@ const ConnexionPage = () => {
     setIsModalOpen(false);
   };
 
-  const handleSendEmail = () => {
-    // Logic to handle sending the reset email
-    console.log("Email for reset:", email);
-    setIsModalOpen(false);
+  const handleSendEmail = async () => {
+    setIsLoading(true);
+    try {
+      console.log("Email for reset:", email);
+      const response = await fetch('/api/users/reset-password', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email }),
+      });
+
+      if (response.ok) {
+        setIsModalOpen(false);
+        console.log("Email de réinitialisation envoyé avec succès.");
+      } else {
+        const errorData = await response.json();
+        console.error("Erreur lors de l'envoi de l'email de réinitialisation:", errorData.error);
+      }
+    } catch (error) {
+      console.error("Erreur lors de l'envoi de l'email de réinitialisation:", error);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const [showLogo, setShowLogo] = useState(false);
@@ -367,6 +387,7 @@ const ConnexionPage = () => {
               variant="solid"
               color="default"
               onClick={handleSendEmail}
+              disabled={isLoading}
             >
               Envoyer
             </Button>
