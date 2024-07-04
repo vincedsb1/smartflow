@@ -26,10 +26,13 @@ const ContentInput: React.FC<ContentInputProps> = ({ onContentChange }) => {
           id="addHeaderContainer"
           className="flex flex-col justify-center items-center w-full"
         >
-          <div id="addTitle" className="flex flex-col w-16/20 ">
+          <div id="addTitle" className="flex flex-col w-16/20 sm:w-full ">
             <CardAppTitle title="Nouvelle fiche" size="big" />
           </div>
-          <div id="addHint" className="flex flex-col items-center w-16/20">
+          <div
+            id="addHint"
+            className="flex flex-col items-center w-16/20 sm:w-full"
+          >
             <CardAppText
               text="Quel est le contenu de cette fiche ?"
               icon={faFileLines}
@@ -41,7 +44,7 @@ const ContentInput: React.FC<ContentInputProps> = ({ onContentChange }) => {
         id="addMiddleContainer"
         className="flex flex-col justify-center items-center w-full flex-grow"
       >
-        <div id="addInputContainer" className="w-16/20 mt-16">
+        <div id="addInputContainer" className="w-16/20 mt-16 sm:w-full">
           <Textarea
             label="Description"
             placeholder="Votre réponse"

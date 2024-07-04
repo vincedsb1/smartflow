@@ -60,6 +60,8 @@ export default async function handle(
       return res
         .status(500)
         .json({ error: "An error occurred while retrieving the card" });
+    } finally {
+      await prisma.$disconnect();
     }
   } else if (req.method === "PATCH") {
     const { isReviewPositive } = req.body;
@@ -106,6 +108,8 @@ export default async function handle(
       return res.json(updatedCard);
     } catch (error) {
       return res.status(500).json({ error: "Something went wrong" });
+    } finally {
+      await prisma.$disconnect();
     }
   } else {
     return res.status(405).json({ error: "Method not allowed" });

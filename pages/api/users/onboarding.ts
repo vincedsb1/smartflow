@@ -9,21 +9,27 @@ export default async function handle(
 ) {
   const { userEmail } = req.body;
 
-  // Get user by email
-  const user = await prisma.user.findUnique({
-    where: { email: userEmail },
-  });
+  try {
+    // Get user by email
+    const user = await prisma.user.findUnique({
+      where: { email: userEmail },
+    });
 
-  if (!user) {
-    res.status(404).json({ error: "User not found" });
-    return;
+    if (!user) {
+      res.status(404).json({ error: "User not found" });
+      return;
+    }
+
+    // Update user
+    const updatedUser = await prisma.user.update({
+      where: { id: user.id },
+      data: { onBoarding: true },
+    });
+
+    res.json(updatedUser);
+  } catch (error) {
+    res.status(500).json({ error: (error as Error).message });
+  } finally {
+    await prisma.$disconnect();
   }
-
-  // Update user
-  const updatedUser = await prisma.user.update({
-    where: { id: user.id },
-    data: { onBoarding: true },
-  });
-
-  res.json(updatedUser);
 }

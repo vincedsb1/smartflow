@@ -59,5 +59,7 @@ export async function seedUsers(languageId: number) {
     return [alice, bob, charlie];
   } catch (err) {
     console.error(err);
+  } finally {
+    await prisma.$disconnect();
   }
 }
