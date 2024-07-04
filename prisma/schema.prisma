@@ -8,22 +8,24 @@ datasource db {
 }
 
 model User {
-  id                Int       @id @default(autoincrement())
-  firstname         String    @db.VarChar(50)
-  lastname          String    @db.VarChar(50)
-  birthday          DateTime
-  password          String    @db.VarChar(100)
-  email             String    @db.VarChar(100) @unique
-  onBoarding        Boolean   @default(false)
-  imageUrl          String    @db.VarChar(200)
-  verificationToken String?
-  languageId        Int       @default(1)
-  language          Language  @relation(fields: [languageId], references: [id])
-  cards             Card[]
-  notifications     Notification[]
-  EmailVerification EmailVerification?
-  categories        Category[]
-  signupDate        DateTime @default(now()) // Date d'inscription de l'utilisateur
+  id                  Int       @id @default(autoincrement())
+  firstname           String    @db.VarChar(50)
+  lastname            String    @db.VarChar(50)
+  birthday            DateTime
+  password            String    @db.VarChar(100)
+  email               String    @db.VarChar(100) @unique
+  onBoarding          Boolean   @default(false)
+  imageUrl            String    @db.VarChar(200)
+  verificationToken   String?
+  passwordResetToken  String?
+  passwordResetTokenExpires DateTime?
+  languageId          Int       @default(1)
+  language            Language  @relation(fields: [languageId], references: [id])
+  cards               Card[]
+  notifications       Notification[]
+  EmailVerification   EmailVerification?
+  categories          Category[]
+  signupDate          DateTime @default(now()) // Date d'inscription de l'utilisateur
 }
 
 model EmailVerification {

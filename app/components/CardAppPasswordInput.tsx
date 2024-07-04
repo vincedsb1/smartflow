@@ -44,10 +44,6 @@ const CardAppPasswordInput: React.FC<CardAppPasswordInputProps> = ({
     },
   ];
 
-  // const togglePasswordVisibility = () => {
-  //   setPasswordVisible(!passwordVisible);
-  // };
-
   const handlePasswordChange = (e: ChangeEvent<HTMLInputElement>) => {
     setPassword(e.target.value);
     setHasStartedTyping(true);
@@ -57,37 +53,6 @@ const CardAppPasswordInput: React.FC<CardAppPasswordInputProps> = ({
   return (
     <div id="main-container" className="w-full flex flex-col items-center">
       <div id="input" className="relative w-full max-w-md">
-        {/* <Input
-          className="rounded-2xl p-2 w-full h-12 mb-1 pr-10 relative z-10 text-6xl font-quicksand tracking-widest dark:bg-yellow-400"
-          color="default"
-          type={passwordVisible ? "text" : "password"}
-          value={password}
-          onChange={handlePasswordChange}
-          endContent={
-            <button
-              className="focus:outline-none"
-              type="button"
-              onClick={togglePasswordVisibility}
-            >
-              {passwordVisible ? (
-                <FontAwesomeIcon
-                  icon={faEyeSlash}
-                  className="text-2xl text-default-400 pointer-events-none mb-3"
-                />
-              ) : (
-                <FontAwesomeIcon
-                  icon={faEye}
-                  className="text-2xl text-default-400 pointer-events-none mb-3"
-                />
-              )}
-            </button>
-          }
-          style={{
-            fontSize: "20px",
-            fontFamily: "Quicksand",
-            letterSpacing: "0.1em",
-          }}
-        /> */}
         <Input
           label="Mot de passe"
           variant="bordered"
@@ -116,7 +81,6 @@ const CardAppPasswordInput: React.FC<CardAppPasswordInputProps> = ({
           className="w-full  rounded-xl"
         />
         <div className="flex justify-end text-cyan-500 font-semibold mt-2">
-          <p className="cursor-pointer">Mot de passe oublié ?</p>
         </div>
       </div>
       <div className="mt-2 w-full max-w-md">
