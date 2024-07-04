@@ -72,9 +72,11 @@ const AddCategoryModal: React.FC<AddCategoryModalProps> = ({
   };
 
   const createCategory = async () => {
-    const nameRegex = /^[\w\s\p{P}\p{S}]*$/u;
+    const nameRegex = /^[\p{L}\s\p{P}\p{S}]*$/u;
     if (!nameRegex.test(categoryName)) {
-      alert("Le nom de la catégorie ne doit contenir que des lettres et des chiffres");
+      alert(
+        "Le nom de la catégorie ne doit contenir que des lettres et des chiffres"
+      );
       return;
     }
 
@@ -126,11 +128,13 @@ const AddCategoryModal: React.FC<AddCategoryModalProps> = ({
               {colors.map((color) => (
                 <div
                   key={color.id}
-                  className={`w-8 h-8 rounded-full hover:scale-105 hover:ring-2 ring-neutral-900 dark:ring-neutral-100 active:scale-110 transition-all bg-${color.name
-                    } m-3 cursor-pointer ${color.selected
+                  className={`w-8 h-8 rounded-full hover:scale-105 hover:ring-2 ring-neutral-900 dark:ring-neutral-100 active:scale-110 transition-all bg-${
+                    color.name
+                  } m-3 cursor-pointer ${
+                    color.selected
                       ? "ring-2 ring-neutral-900 dark:ring-neutral-100"
                       : ""
-                    }`}
+                  }`}
                   onClick={() => handleColorClick(color.id)}
                 ></div>
               ))}
@@ -139,7 +143,11 @@ const AddCategoryModal: React.FC<AddCategoryModalProps> = ({
         </ModalBody>
         <ModalFooter>
           <Button onClick={onClose}>Annuler</Button>
-          <Button color="primary" onClick={createCategory} isDisabled={isNameEmpty || !isColorSelected}>
+          <Button
+            color="primary"
+            onClick={createCategory}
+            isDisabled={isNameEmpty || !isColorSelected}
+          >
             Créer la catégorie
           </Button>
         </ModalFooter>

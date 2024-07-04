@@ -30,7 +30,7 @@ const CardCreation: React.FC = () => {
 
   useEffect(() => {
     if (!userContext || !userContext.token) {
-      router.push('/');
+      router.push("/");
     }
   }, [userContext, router]);
 
@@ -68,7 +68,7 @@ const CardCreation: React.FC = () => {
   };
 
   const handleContinueClick = () => {
-    const titleRegex = /^[\w\s\p{P}\p{S}]*$/u;
+    const titleRegex = /^[\p{L}\s\p{P}\p{S}]*$/u;
     if (!titleRegex.test(cardTitle)) {
       alert(
         "Le titre de la carte ne doit contenir que des lettres et des chiffres"
@@ -107,27 +107,41 @@ const CardCreation: React.FC = () => {
   };
 
   return (
-    <div className="flex flex-row justify-center items-center">
-      <div className="w-full sm:max-w-[1170px]  bg-neutral-200 sm:shadow-2xl sm:shadow-neutral-200 flex flex-row ">
-        <div className="hidden sm:block">
+    <div
+      id="mainContainer"
+      className="flex flex-row justify-center items-center"
+    >
+      <div
+        id="subContainer"
+        className="w-full sm:max-w-[1170px] bg-neutral-200 dark:bg-neutral-700 sm:shadow-2xl sm:shadow-neutral-200 sm:dark:shadow-black flex flex-row"
+      >
+        <div id="desktopMenuContainer" className="hidden sm:block">
           <DesktopMenu />
         </div>
-        <div id="todayContentContainer" className="flex flex-row justify-center  w-full sm:ml-48 md:ml-72">
-
-          <div className="flex flex-row justify-center  w-full">
+        <div
+          id="todayContentContainer"
+          className="flex flex-row justify-center w-full sm:ml-48 md:ml-72"
+        >
+          <div
+            id="contentWrapper"
+            className="flex flex-row justify-center w-full"
+          >
             <div
               id="addMainContainer"
-              className="flex flex-col justify-between min-h-screen w-full"
+              className="flex flex-col justify-between min-h-screen w-full sm:px-10"
             >
               <div
                 id="addTopContainer"
                 className="flex flex-col justify-center w-full"
               >
-                <div id="birthdayBackIcon" className="w-full flex flex-col mt-16">
+                <div
+                  id="birthdayBackIcon"
+                  className="w-full flex flex-col mt-16"
+                >
                   <button
                     type="button"
                     onClick={handleBackClick}
-                    className="text-neutral-800 dark:text-neutral-200 text-xs w-4 h-4 m-5"
+                    className="text-neutral-800 dark:text-neutral-200 text-xs w-4 h-4 m-5 sm:ml-0"
                   >
                     {step > STEP_TITLE && (
                       <FontAwesomeIcon icon={faChevronLeft} />
@@ -139,7 +153,9 @@ const CardCreation: React.FC = () => {
                     <TitleCreation onTitleChange={setCardTitle} />
                   )}
                   {step === STEP_CATEGORY && (
-                    <CategorySelection onCategoryChange={setSelectedCategoryId} />
+                    <CategorySelection
+                      onCategoryChange={setSelectedCategoryId}
+                    />
                   )}
                   {step === STEP_CONTENT && (
                     <ContentInput onContentChange={setContent} />
@@ -167,8 +183,8 @@ const CardCreation: React.FC = () => {
                   {step === STEP_CATEGORY && selectedCategoryId === null
                     ? "Continuer sans catégorie"
                     : step < STEP_CONFIRMATION
-                      ? "Continuer"
-                      : "Voir la fiche"}
+                    ? "Continuer"
+                    : "Voir la fiche"}
                 </Button>
               </div>
             </div>

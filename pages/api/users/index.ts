@@ -41,6 +41,8 @@ export default async function handle(
       return res.json(createdUser);
     } catch (err) {
       return res.status(500).json({ error: (err as Error).message });
+    } finally {
+      await prisma.$disconnect();
     }
   } else if (req.method === "PUT") {
     const { email, password } = req.body;
@@ -64,6 +66,8 @@ export default async function handle(
       return res.json(updatedUser);
     } catch (err) {
       return res.status(500).json({ error: (err as Error).message });
+    } finally {
+      await prisma.$disconnect();
     }
   } else if (req.method === "GET" && req.query.email) {
     const email = req.query.email as string;
@@ -76,6 +80,8 @@ export default async function handle(
       res.json(user);
     } catch (err) {
       res.status(500).json({ error: (err as Error).message });
+    } finally {
+      await prisma.$disconnect();
     }
   } else if (req.method === "GET" && !req.query.email) {
     try {
@@ -87,6 +93,8 @@ export default async function handle(
       res.json(users.map((user) => user.email));
     } catch (err) {
       res.status(500).json({ error: (err as Error).message });
+    } finally {
+      await prisma.$disconnect();
     }
   } else if (req.method === "DELETE") {
     const { id } = req.query;
@@ -97,6 +105,8 @@ export default async function handle(
       res.json(deletedUser);
     } catch (err) {
       res.status(500).json({ error: (err as Error).message });
+    } finally {
+      await prisma.$disconnect();
     }
   }
 }

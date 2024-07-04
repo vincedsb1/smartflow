@@ -36,17 +36,19 @@ export default function handle(
       const newCategory = await prisma.category.create({
         data: {
           name,
-          colorId,
+          colorId: parseInt(colorId, 10), // Assurez-vous que colorId est un nombre
           userId,
         },
       });
 
       return res.status(201).json(newCategory);
     } catch (error) {
-      console.error(error);
+      console.error("Error creating category:", error);
       return res
         .status(500)
         .json({ error: "An error occurred while creating the category" });
+    } finally {
+      await prisma.$disconnect();
     }
   });
 }

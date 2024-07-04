@@ -44,6 +44,8 @@ export default function handle(
         return res.status(500).json({
           message: "An error occurred while fetching the categories.",
         });
+      } finally {
+        await prisma.$disconnect();
       }
     } else if (req.method === "PUT") {
       let { categoryId, name, colorId } = req.body;
@@ -72,6 +74,8 @@ export default function handle(
         return res
           .status(500)
           .json({ message: "An error occurred while updating the category." });
+      } finally {
+        await prisma.$disconnect();
       }
     }
   });

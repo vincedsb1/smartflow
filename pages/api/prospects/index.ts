@@ -72,6 +72,8 @@ export default async function handle(
       res
         .status(500)
         .json({ error: "Something went wrong", message: error.message });
+    } finally {
+      await prisma.$disconnect();
     }
   } else {
     res.status(405).json({ error: "Method not allowed" });

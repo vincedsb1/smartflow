@@ -72,6 +72,8 @@ export default async function handler(
       res
         .status(500)
         .json({ message: "An error occurred while checking the email" });
+    } finally {
+      await prisma.$disconnect();
     }
   }
 }

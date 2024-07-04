@@ -13,6 +13,8 @@ export default async function handle(
       res.json(languages);
     } catch (err) {
       res.status(500).json({ error: (err as Error).message });
+    } finally {
+      await prisma.$disconnect();
     }
   } else if (req.method === "POST") {
     const language = req.body;
@@ -21,6 +23,8 @@ export default async function handle(
       res.status(201).json(createdLanguage);
     } catch (err) {
       res.status(500).json({ error: (err as Error).message });
+    } finally {
+      await prisma.$disconnect();
     }
   } else if (req.method === "PUT") {
     const language = req.body;
@@ -32,6 +36,8 @@ export default async function handle(
       res.json(updatedLanguage);
     } catch (err) {
       res.status(500).json({ error: (err as Error).message });
+    } finally {
+      await prisma.$disconnect();
     }
   } else if (req.method === "DELETE") {
     const { id } = req.body;
@@ -42,6 +48,8 @@ export default async function handle(
       res.json(deletedLanguage);
     } catch (err) {
       res.status(500).json({ error: (err as Error).message });
+    } finally {
+      await prisma.$disconnect();
     }
   } else {
     res.status(405).end();

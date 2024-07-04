@@ -5,7 +5,6 @@ import { sign } from "jsonwebtoken";
 
 const prisma = new PrismaClient();
 
-
 export default async function handle(
   req: NextApiRequest,
   res: NextApiResponse
@@ -30,9 +29,9 @@ export default async function handle(
           expiresIn: "7d",
           // expiresIn: "1h",
         });
-      
+
         console.log("Token generated:", token);
-      
+
         // Include onBoarding in the response
         res.json({ status: "ok", token, onBoarding: user.onBoarding });
       } else {
@@ -40,6 +39,8 @@ export default async function handle(
       }
     } catch (err) {
       res.status(500).json({ error: (err as Error).message });
+    } finally {
+      await prisma.$disconnect();
     }
   }
 }

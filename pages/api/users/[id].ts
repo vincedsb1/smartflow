@@ -56,6 +56,8 @@ export default async function handle(
       res
         .status(500)
         .json({ message: "Error deleting user", error: error.message });
+    } finally {
+      await prisma.$disconnect();
     }
   }
 }

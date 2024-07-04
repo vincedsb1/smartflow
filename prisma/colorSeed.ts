@@ -24,13 +24,16 @@ const colors: Color[] = [
 ];
 
 export async function seedColors() {
-  for (const color of colors) {
-    try {
+  try {
+    for (const color of colors) {
       await prisma.color.create({
         data: color,
       });
-    } catch (err) {
-      console.error(`Error creating color ${color.name}:`, err);
+      console.log(`Color ${color.name} created successfully`);
     }
+  } catch (err) {
+    console.error("Error creating colors:", err);
+  } finally {
+    await prisma.$disconnect();
   }
 }
