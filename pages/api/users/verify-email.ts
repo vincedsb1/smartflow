@@ -60,6 +60,8 @@ export default async function handle(
       return res
         .status(500)
         .json({ error: "An error occurred while verifying the email" });
+    } finally {
+      await prisma.$disconnect();
     }
   } else {
     res.status(405).json({ error: "We only support GET" });

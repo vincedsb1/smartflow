@@ -16,13 +16,19 @@ export async function seedCategories(users: User[]) {
     { name: "Culture Générale", colorId: 10, userId: users[0].id },
   ];
 
-  for (const category of categories) {
-    await prisma.category.create({
-      data: {
-        name: category.name,
-        color: { connect: { id: category.colorId } },
-        user: { connect: { id: category.userId } },
-      },
-    });
+  try {
+    for (const category of categories) {
+      await prisma.category.create({
+        data: {
+          name: category.name,
+          color: { connect: { id: category.colorId } },
+          user: { connect: { id: category.userId } },
+        },
+      });
+    }
+  } catch (error) {
+    console.error("Error seeding categories: ", error);
+  } finally {
+    await prisma.$disconnect();
   }
 }

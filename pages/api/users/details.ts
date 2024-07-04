@@ -56,6 +56,8 @@ export default async function handle(
     } catch (error) {
       console.error("Erreur lors de la récupération de l'utilisateur:", error);
       res.status(500).json({ error: "Erreur serveur" });
+    } finally {
+      await prisma.$disconnect();
     }
   }
 }

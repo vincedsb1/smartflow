@@ -7,7 +7,7 @@ export default async function handle(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  console.log('Requête reçue', req.method, req.query);
+  console.log("Requête reçue", req.method, req.query);
 
   if (req.method === "DELETE") {
     const { email } = req.query;
@@ -20,6 +20,8 @@ export default async function handle(
       return res.json(deletedEmailVerification);
     } catch (err) {
       return res.status(500).json({ error: (err as Error).message });
+    } finally {
+      await prisma.$disconnect();
     }
   } else {
     res.status(405).json({ error: "Méthode non autorisée" });
