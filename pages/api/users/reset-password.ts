@@ -23,8 +23,6 @@ export default async function handle(
 
   if (req.method === "POST") {
     const { email, password, token } = req.body;
-
-    // Si un token est fourni, on procède à la réinitialisation du mot de passe
     if (token && password) {
       try {
         const decoded = jwt.verify(token, process.env.APP_SECRET);
@@ -69,7 +67,6 @@ export default async function handle(
           });
       }
     } else if (email) {
-      // Sinon, on procède à l'envoi de l'email de réinitialisation
       const emailRegex = /^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$/;
 
       if (!emailRegex.test(email)) {

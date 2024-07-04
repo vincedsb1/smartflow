@@ -20,7 +20,6 @@ const ResetPassword = () => {
   const logo = theme === "dark" ? "/logo-dark.svg" : "/logo-light.svg";
   const [isVisible, setIsVisible] = React.useState(false);
   const toggleVisibility = () => setIsVisible(!isVisible);
-  const [errorMessage, setErrorMessage] = useState("");
   const [hasStartedTyping, setHasStartedTyping] = useState(false);
 
 
