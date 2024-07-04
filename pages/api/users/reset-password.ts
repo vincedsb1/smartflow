@@ -10,10 +10,19 @@ import argon2 from "argon2";
 const prisma = new PrismaClient();
 const resend = new Resend(process.env.RESEND_API_KEY);
 
-export default async function handle(
-  req: NextApiRequest,
-  res: NextApiResponse
-) {
+const passwordCriteria = [
+  { validate: (password: string) => password.length >= 8, message: "8 caractères minimum" },
+  { validate: (password: string) => /[A-Z]/.test(password), message: "Contient des lettres MAJUSCULES" },
+  { validate: (password: string) => /[a-z]/.test(password), message: "Contient des lettres minuscules" },
+  { validate: (password: string) => /\d/.test(password), message: "Contient 1 chiffre minimum" },
+  { validate: (password: string) => /[!@#$%^&*(),.?":{}|<>]/.test(password), message: "Contient 1 caractère spécial minimum" },
+];
+
+const validatePassword = (password: string) => {
+  return passwordCriteria.every(criteria => criteria.validate(password));
+};
+
+export default async function handle(req: NextApiRequest, res: NextApiResponse) {
   if (!process.env.APP_SECRET) {
     res.status(500).json({
       error: "JWT secret is not defined in the environment variables",
@@ -23,8 +32,13 @@ export default async function handle(
 
   if (req.method === "POST") {
     const { email, password, token } = req.body;
+    
     if (token && password) {
       try {
+        if (!validatePassword(password)) {
+          return res.status(400).json({ error: "Password does not meet criteria" });
+        }
+
         const decoded = jwt.verify(token, process.env.APP_SECRET);
         const userEmail = decoded.email;
 
@@ -34,12 +48,7 @@ export default async function handle(
           },
         });
 
-        if (
-          !user ||
-          user.passwordResetToken !== token ||
-          (user.passwordResetTokenExpires &&
-            new Date() > user.passwordResetTokenExpires)
-        ) {
+        if (!user || user.passwordResetToken !== token || (user.passwordResetTokenExpires && new Date() > user.passwordResetTokenExpires)) {
           return res.status(400).json({ error: "Invalid or expired token" });
         }
 
@@ -59,12 +68,7 @@ export default async function handle(
         return res.status(200).json({ message: "Password reset successfully" });
       } catch (error) {
         console.error("Error occurred:", error);
-        return res
-          .status(500)
-          .json({
-            error: "Something went wrong",
-            message: (error as Error).message,
-          });
+        return res.status(500).json({ error: "Something went wrong", message: (error as Error).message });
       }
     } else if (email) {
       const emailRegex = /^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$/;
@@ -95,9 +99,7 @@ export default async function handle(
 
         console.log("Password reset token saved successfully");
 
-        const resetLink = `${
-          process.env.BASE_URL
-        }/resetPassword?token=${token}&email=${encodeURIComponent(email)}`;
+        const resetLink = `${process.env.BASE_URL}/resetPassword?token=${token}&email=${encodeURIComponent(email)}`;
 
         const emailContent = ReactDOMServer.renderToString(
           React.createElement(PasswordResetMail, {
@@ -116,12 +118,7 @@ export default async function handle(
         res.status(200).json({ message: "Email sent successfully" });
       } catch (error) {
         console.error("Error occurred:", error);
-        res
-          .status(500)
-          .json({
-            error: "Something went wrong",
-            message: (error as Error).message,
-          });
+        res.status(500).json({ error: "Something went wrong", message: (error as Error).message });
       }
     } else {
       res.status(400).json({ error: "Email or token and password required" });
