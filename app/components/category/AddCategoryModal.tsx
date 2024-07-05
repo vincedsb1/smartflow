@@ -114,6 +114,8 @@ const AddCategoryModal: React.FC<AddCategoryModalProps> = ({
     }
   }, [isOpen]);
 
+  console.log(colors);
+
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
       <ModalContent>
@@ -137,7 +139,7 @@ const AddCategoryModal: React.FC<AddCategoryModalProps> = ({
               {colors.map((color) => (
                 <div
                   key={color.id}
-                  className={`w-8 h-8 rounded-full hover:scale-105 hover:ring-2 ring-neutral-900 dark:ring-neutral-100 active:scale-110 transition-all bg-${
+                  className={`w-8 h-8 2xs:mx-5 3xs:mx-4 rounded-full hover:scale-105 hover:ring-2 ring-neutral-900 dark:ring-neutral-100 active:scale-110 transition-all bg-${
                     color.name
                   } m-3 cursor-pointer ${
                     color.selected
@@ -155,7 +157,7 @@ const AddCategoryModal: React.FC<AddCategoryModalProps> = ({
           <Button
             color="primary"
             onClick={createCategory}
-            isDisabled={isNameEmpty || !isColorSelected}
+            isDisabled={isNameEmpty}
           >
             Créer la catégorie
           </Button>
