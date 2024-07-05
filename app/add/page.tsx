@@ -177,7 +177,7 @@ const CardCreation: React.FC = () => {
                   }
                   variant="solid"
                   size="lg"
-                  className="w-18/20 font-bold font-text"
+                  className="w-18/20 sm:w-full font-bold font-text"
                   onClick={handleContinueClick}
                 >
                   {step === STEP_CATEGORY && selectedCategoryId === null

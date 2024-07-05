@@ -15,7 +15,13 @@ import {
 import { Input } from "@nextui-org/react";
 import Image from "next/image";
 import { useTheme } from "next-themes";
-import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter } from "@nextui-org/modal";
+import {
+  Modal,
+  ModalContent,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+} from "@nextui-org/modal";
 
 const ConnexionPage = () => {
   const [isVisible, setIsVisible] = useState(false);
@@ -37,15 +43,20 @@ const ConnexionPage = () => {
   const message = "Le mot de passe est incorrect, veuillez réessayer.";
   const router = useRouter();
 
-  const handlePasswordChange = (e: { target: { value: React.SetStateAction<string>; }; }) => {
+  const handlePasswordChange = (e: {
+    target: { value: React.SetStateAction<string> };
+  }) => {
     setPassword(e.target.value);
   };
 
-  const handlePasswordCheck = async (e: { preventDefault: () => void; }) => {
+  const handlePasswordCheck = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
     console.log("Début de la vérification du mot de passe"); // Ajout d'un log pour le début de la fonction
     try {
-      console.log("Envoi de la requête à /api/users/check-password avec l'email:", email); // Log avant l'envoi de la requête
+      console.log(
+        "Envoi de la requête à /api/users/check-password avec l'email:",
+        email
+      ); // Log avant l'envoi de la requête
       const response = await fetch("/api/users/check-password", {
         method: "POST",
         headers: {
@@ -63,11 +74,16 @@ const ConnexionPage = () => {
         console.log("Données reçues:", data); // Log des données reçues
 
         if (data.status === "ok") {
-          console.log("Statut OK, mise à jour du contexte utilisateur et redirection"); // Log en cas de succès
+          console.log(
+            "Statut OK, mise à jour du contexte utilisateur et redirection"
+          ); // Log en cas de succès
           userContext.setToken(data.token);
           localStorage.setItem("userToken", data.token);
 
-          console.log("Récupération des détails de l'utilisateur avec le token:", data.token); // Log avant la requête des détails de l'utilisateur
+          console.log(
+            "Récupération des détails de l'utilisateur avec le token:",
+            data.token
+          ); // Log avant la requête des détails de l'utilisateur
           const userResponse = await fetch("/api/users/details", {
             headers: {
               Authorization: `Bearer ${data.token}`,
@@ -116,10 +132,10 @@ const ConnexionPage = () => {
     setIsLoading(true);
     try {
       console.log("Email for reset:", email);
-      const response = await fetch('/api/users/reset-password', {
-        method: 'POST',
+      const response = await fetch("/api/users/reset-password", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({ email }),
       });
@@ -129,10 +145,16 @@ const ConnexionPage = () => {
         console.log("Email de réinitialisation envoyé avec succès.");
       } else {
         const errorData = await response.json();
-        console.error("Erreur lors de l'envoi de l'email de réinitialisation:", errorData.error);
+        console.error(
+          "Erreur lors de l'envoi de l'email de réinitialisation:",
+          errorData.error
+        );
       }
     } catch (error) {
-      console.error("Erreur lors de l'envoi de l'email de réinitialisation:", error);
+      console.error(
+        "Erreur lors de l'envoi de l'email de réinitialisation:",
+        error
+      );
     } finally {
       setIsLoading(false);
     }
@@ -209,10 +231,13 @@ const ConnexionPage = () => {
               id="desktopTitleContainer"
               className="flex flex-col items-center w-full mt-12"
             >
-              <CardAppTitle title="Se connecter" size="big" />
+              <div id="desktopTitleConnexion" className="w-full">
+                <CardAppTitle title="Se connecter" size="big" />
+              </div>
               <CardAppText
                 text="Saisissez votre mot de passe"
                 icon={faUnlock}
+                colorVariant
               />
             </div>
             <form
@@ -276,7 +301,7 @@ const ConnexionPage = () => {
       {/* Mobile version */}
       <div
         id="mailAuthMobile"
-        className="sm:hidden w-full h-full flex flex-col flex-grow justify-between items-center"
+        className="sm:hidden w-full h-full flex flex-col flex-grow justify-between items-center px-4"
       >
         <div
           id="MailAuthMobileTop"
@@ -313,7 +338,7 @@ const ConnexionPage = () => {
             type={isVisible ? "text" : "password"}
             label="Mot de passe"
             radius="lg"
-            className="mb-8 font-text w-10/12 mx-auto"
+            className="mb-8 font-text w-full mx-auto"
             variant="bordered"
             endContent={
               <button
@@ -348,7 +373,7 @@ const ConnexionPage = () => {
             color="default"
             variant="solid"
             size="lg"
-            className="pr-14 pl-14 w-10/12 mx-auto mb-20 font-bold font-text"
+            className="pr-14 pl-14 w-full mx-auto mb-20 font-bold font-text"
             onClick={handlePasswordCheck}
             disabled={password === ""}
           >
@@ -360,9 +385,7 @@ const ConnexionPage = () => {
       {/* Forgot Password Modal */}
       <Modal isOpen={isModalOpen} onClose={handleCloseModal}>
         <ModalContent>
-          <ModalHeader>
-            Réinitialiser le mot de passe
-          </ModalHeader>
+          <ModalHeader>Réinitialiser le mot de passe</ModalHeader>
           <ModalBody>
             <Input
               value={email || ""}
@@ -376,11 +399,7 @@ const ConnexionPage = () => {
             />
           </ModalBody>
           <ModalFooter>
-            <Button
-              variant="light"
-              onClick={handleCloseModal}
-              className="mr-4"
-            >
+            <Button variant="light" onClick={handleCloseModal} className="mr-4">
               Fermer
             </Button>
             <Button

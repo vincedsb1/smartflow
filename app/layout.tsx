@@ -38,7 +38,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
         >
           <Providers>
             <UserContextProvider>
-              <main className="bg-neutral-200 sm:bg-white dark:bg-neutral-900">
+              <main className=" bg-neutral-200 sm:bg-white dark:bg-neutral-900">
                 {children}
               </main>
               {showMenu && (
