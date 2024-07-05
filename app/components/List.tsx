@@ -163,7 +163,7 @@ const List: React.FC<ListProps> = ({
                 >
                   <div
                     id="ListRowTopLabel"
-                    className="font-text line-clamp-2 w-60"
+                    className="font-text line-clamp-2 w-60 sm:w-full"
                   >
                     {row.mainLabel}
                   </div>
