@@ -69,7 +69,9 @@ const List: React.FC<ListProps> = ({
   userId,
   selectedIndex,
 }) => {
-  const { selectedRow, handleRowSelection } = useRowSelection(selectedIndex);
+  const { selectedRow, handleRowSelection } = useRowSelection(
+    selectedIndex ?? null
+  );
 
   const isOpen = modalIsOpen || false; // État d'ouverture de la modale
 
