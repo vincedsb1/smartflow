@@ -2,8 +2,7 @@
 
 import { faFileLines } from "@fortawesome/free-solid-svg-icons";
 import { Input } from "@nextui-org/react";
-import { Button } from "@nextui-org/react";
-import React, { useState, ChangeEvent } from "react";
+import React, { useState, ChangeEvent, useEffect, useRef } from "react";
 import CardAppText from "../CardAppText";
 import CardAppTitle from "../CardAppTitle";
 
@@ -13,11 +12,18 @@ interface TitleCreationProps {
 
 const TitleCreation: React.FC<TitleCreationProps> = ({ onTitleChange }) => {
   const [title, setTitle] = useState<string>("");
+  const inputRef = useRef<HTMLInputElement>(null);
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     setTitle(e.target.value);
     onTitleChange(e.target.value);
   };
+
+  useEffect(() => {
+    if (inputRef.current) {
+      inputRef.current.focus();
+    }
+  }, []);
 
   return (
     <div id="addMainContainer" className="flex flex-col justify-between w-full">
@@ -29,7 +35,7 @@ const TitleCreation: React.FC<TitleCreationProps> = ({ onTitleChange }) => {
           id="addHeaderContainer"
           className="flex flex-col justify-center items-center w-full"
         >
-          <div id="addTitle" className="flex flex-col w-16/20 ">
+          <div id="addTitle" className="flex flex-col w-16/20 sm:w-full">
             <CardAppTitle title="Nouvelle fiche" size="big" />
           </div>
           <div
@@ -47,14 +53,15 @@ const TitleCreation: React.FC<TitleCreationProps> = ({ onTitleChange }) => {
         id="addMiddleContainer"
         className="flex flex-col justify-center items-center w-full flex-grow "
       >
-        <div id="addInputContainer" className="w-16/20 mt-16 sm:w-full ">
+        <div id="addInputContainer" className="w-16/20 mt-16 sm:w-full  ">
           <Input
+            ref={inputRef}
             isRequired
             size="md"
             type="text"
             label="Titre de la fiche"
             radius="lg"
-            className="w-full font-text mb-16"
+            className="w-full font-text mb-16 "
             value={title}
             onChange={handleInputChange}
           />
@@ -63,4 +70,5 @@ const TitleCreation: React.FC<TitleCreationProps> = ({ onTitleChange }) => {
     </div>
   );
 };
+
 export default TitleCreation;
