@@ -85,28 +85,41 @@ const CategorySelection: React.FC<CategorySelectionProps> = ({
     return <div>Error</div>;
   }
 
-  const handleCategoryCreation = (categoryName: string, colorId: number) => {
-    // Trouvez le nom de la couleur correspondant à l'ID de couleur
+  const handleCategoryCreation = async (
+    categoryName: string,
+    colorId: number
+  ) => {
     const colorName = Object.keys(colorClasses)[colorId - 1];
 
-    setCategories((prevCategories) => [
-      ...prevCategories,
-      { id: Date.now(), name: categoryName, colorName: colorName },
-    ]);
-    onClose();
+    try {
+      const response = await fetch("/api/categories/createCategories", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${userContext.token}`,
+        },
+        body: JSON.stringify({
+          name: categoryName,
+          colorId: colorId,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Error creating category");
+      }
+
+      const newCategory = await response.json();
+      setCategories((prevCategories) => [
+        ...prevCategories,
+        { ...newCategory, colorName },
+      ]);
+      setSelectedCategoryId(newCategory.id); // Sélectionner automatiquement la nouvelle catégorie
+      onCategoryChange(newCategory.id); // Appeler onCategoryChange avec l'ID de la nouvelle catégorie
+      onClose();
+    } catch (error) {
+      console.error("Error:", error);
+    }
   };
-
-  if (isLoading) {
-    return (
-      <div className="min-h-screen flex flex-row justify-center items-center w-full">
-        <CircularProgress aria-label="Loading..." />
-      </div>
-    );
-  }
-
-  if (isError) {
-    return <div>Error</div>;
-  }
 
   const rows = categories.map((category) => ({
     mainLabel: category.name,
@@ -142,6 +155,9 @@ const CategorySelection: React.FC<CategorySelectionProps> = ({
               title="Catégories"
               isLargeRow={false}
               selectable={true}
+              selectedIndex={categories.findIndex(
+                (category) => category.id === selectedCategoryId
+              )}
             />
             <BelowListLink onClick={onOpen}>
               Ajouter une catégorie
