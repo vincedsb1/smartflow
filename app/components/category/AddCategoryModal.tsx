@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from "react";
+import React, { useContext, useState, useEffect, useRef } from "react";
 import {
   Modal,
   ModalContent,
@@ -106,6 +106,14 @@ const AddCategoryModal: React.FC<AddCategoryModalProps> = ({
     onValidate(categoryName, selectedColor.id);
   };
 
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    if (inputRef.current) {
+      inputRef.current.focus();
+    }
+  }, [isOpen]);
+
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
       <ModalContent>
@@ -123,6 +131,7 @@ const AddCategoryModal: React.FC<AddCategoryModalProps> = ({
               className="mb-6 w-full font-text h-14"
               value={categoryName}
               onChange={(e) => setCategoryName(e.target.value)}
+              ref={inputRef}
             />
             <div className="flex flex-wrap justify-center bg-neutral-200 dark:bg-neutral-800 rounded-2xl">
               {colors.map((color) => (

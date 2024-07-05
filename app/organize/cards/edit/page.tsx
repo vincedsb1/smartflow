@@ -226,7 +226,7 @@ const EditCards: React.FC = () => {
                     </button>
                     <div
                       id="editCardPageTitle"
-                      className="flex flex-row justify-between items-center mt-2 w-14/20"
+                      className="flex flex-row justify-between items-center mt-2 w-14/20 sm:w-full"
                     >
                       <CardAppTitle title="Modifier une fiche" size="big" />
                     </div>
