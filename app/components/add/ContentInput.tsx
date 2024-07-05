@@ -1,5 +1,5 @@
 import { faFileLines } from "@fortawesome/free-solid-svg-icons";
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import CardAppText from "../CardAppText";
 import CardAppTitle from "../CardAppTitle";
 import { Textarea } from "@nextui-org/react";
@@ -15,6 +15,14 @@ const ContentInput: React.FC<ContentInputProps> = ({ onContentChange }) => {
     setValue(e.target.value);
     onContentChange && onContentChange(e.target.value);
   };
+
+  const inputRef = useRef<HTMLTextAreaElement>(null);
+
+  useEffect(() => {
+    if (inputRef.current) {
+      inputRef.current.focus();
+    }
+  }, []);
 
   return (
     <div id="addMainContainer" className="flex flex-col justify-between w-full">
@@ -46,6 +54,7 @@ const ContentInput: React.FC<ContentInputProps> = ({ onContentChange }) => {
       >
         <div id="addInputContainer" className="w-16/20 mt-16 sm:w-full">
           <Textarea
+            ref={inputRef}
             label="Description"
             placeholder="Votre réponse"
             className="w-full"
