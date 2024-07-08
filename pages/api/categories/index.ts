@@ -77,6 +77,33 @@ export default function handle(
       } finally {
         await prisma.$disconnect();
       }
+    } else if (req.method === "DELETE") {
+      const { categoryId } = req.body;
+
+      if (!categoryId) {
+        return res
+          .status(400)
+          .json({ message: "Missing categoryId parameter" });
+      }
+
+      try {
+        await prisma.category.delete({
+          where: { id: categoryId },
+        });
+
+        return res.json({ message: "Category successfully deleted" });
+      } catch (error: any) {
+        console.error(error);
+        if (error.code === "P2025") {
+          // Handle the case where the category does not exist
+          return res.status(404).json({ message: "Category not found" });
+        }
+        return res
+          .status(500)
+          .json({ message: "An error occurred while deleting the category." });
+      } finally {
+        await prisma.$disconnect();
+      }
     }
   });
 }

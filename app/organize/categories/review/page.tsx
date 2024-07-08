@@ -1,15 +1,16 @@
 "use client";
 import { colorClasses } from "@/app/components/utils/colorUtils";
 import { UserContext } from "@/app/context/UserContext";
-import { Button, Input, Link } from "@nextui-org/react";
+import { Input, Modal, Textarea, Button, ModalContent, ModalHeader, ModalFooter, ModalBody } from "@nextui-org/react";
 import { useEffect, useState } from "react";
 import { useContext } from "react";
 import { useRouter } from "next/navigation";
 import { faChevronLeft } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import DesktopMenu from "@/app/components/DesktopMenu";
+import Link from "next/link";
+import { faTrash } from '@fortawesome/free-solid-svg-icons';
 
-// Composant de la page de modification d'une catégorie
 const EditCategorie = () => {
   const [categoryId, setCategoryId] = useState<string | null>(null);
   const [title, setTitle] = useState<string>("");
@@ -20,6 +21,7 @@ const EditCategorie = () => {
   const [colorId, setColorId] = useState<number | null>(null);
   const [colorName, setColorName] = useState<string | null>(null);
   const router = useRouter();
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
 
   interface Color {
     id: number;
@@ -28,7 +30,6 @@ const EditCategorie = () => {
     selected: boolean;
   }
 
-  // Récupère les categories
   useEffect(() => {
     const token = userContext?.token;
     if (token) {
@@ -53,7 +54,6 @@ const EditCategorie = () => {
     }
   }, [userContext?.token]);
 
-  // Récupère l'ID de la catégorie à modifier dans l'url
   useEffect(() => {
     if (typeof window !== "undefined") {
       const urlParams = new URLSearchParams(window.location.search);
@@ -62,7 +62,6 @@ const EditCategorie = () => {
     }
   }, []);
 
-  // Récupère le titre de la catégorie selon id
   useEffect(() => {
     if (categoryId) {
       console.log("CategoryId: ", categoryId);
@@ -87,7 +86,7 @@ const EditCategorie = () => {
             console.log("Category found: ", category);
             setTitle(category.name);
             setColorId(category.colorId);
-            setColorName(category.color.fullName); // Utilisation de fullName
+            setColorName(category.color.fullName);
 
             setColors(
               colors.map((color) =>
@@ -107,7 +106,6 @@ const EditCategorie = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [categoryId, userContext?.token]);
 
-  // Fonction pour mettre à jour une catégorie
   const updateCategory = async (
     categoryId: string | null,
     categoryName: string,
@@ -137,7 +135,6 @@ const EditCategorie = () => {
     }
   };
 
-  // Fonction pour gérer le clic sur le bouton Enregistrer
   const handleSaveClick = async () => {
     console.log(title, selectedColor);
     if (!title) {
@@ -162,7 +159,6 @@ const EditCategorie = () => {
     }
   };
 
-  // Définir les noms complets des couleurs
   const colorFullNames: { [key: string]: string } = {
     "red-500": "Rouge Vif",
     "orange-500": "Orange Brillant",
@@ -178,7 +174,6 @@ const EditCategorie = () => {
     "yellow-600": "Jaune Moutarde",
   };
 
-  // Définir les couleurs initiales
   const initialColors = Object.keys(colorClasses).map((colorName, index) => {
     return {
       id: index + 1,
@@ -188,10 +183,8 @@ const EditCategorie = () => {
     };
   });
 
-  // Ajouter un état pour les couleurs
   const [colors, setColors] = useState<Color[]>(initialColors);
 
-  // Fonction pour gérer le clic sur une couleur
   const handleColorClick = (colorId: number) => {
     setSelectedColor(colorId.toString());
     if (selectedColor !== colorId.toString()) {
@@ -204,6 +197,54 @@ const EditCategorie = () => {
       );
     }
   };
+
+
+  const handleConfirmDelete = async () => {
+    const token = localStorage.getItem("userToken");
+    if (!token) {
+      console.error("Token is not defined in local storage");
+      return;
+    }
+
+    if (!categoryId) {
+      console.error("Category ID is not defined");
+      return;
+    }
+
+    try {
+      const response = await fetch(`/api/categories`, {
+        method: "DELETE",
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ categoryId: Number(categoryId) }),
+      });
+
+      if (response.ok) {
+        console.log("Catégorie supprimée avec succès");
+        router.push("/organize/categories");
+      } else {
+        throw new Error("Une erreur est survenue lors de la suppression de la catégorie");
+      }
+    } catch (error) {
+      console.error("Error:", error);
+    } finally {
+      setShowDeleteModal(false);
+    }
+  };
+
+
+
+  const handleDelete = async () => {
+    const token = localStorage.getItem("userToken");
+    if (!token) {
+      console.error("Token is not defined in local storage");
+      return;
+    }
+    setShowDeleteModal(true);
+  };
+
 
   return (
     <div
@@ -233,18 +274,25 @@ const EditCategorie = () => {
                 />
               </Link>
             </div>
-            <div id="colorPicker" className="flex flex-col items-center w-full">
-              <div
-                id="inputChangeNameCategorie"
-                className="flex flex-col items-center w-full mb-1"
-              >
+            <div id="inputChangeNameCategorie" className="flex items-center w-full mb-1">
+              <div className="flex w-full">
                 <Input
-                  className=""
+                  className="w-full"
                   type="text"
                   value={title}
                   placeholder="Nom de la catégorie, ex. : Mathématiques"
                   onChange={(e) => setTitle(e.target.value)}
                 />
+                <Button
+                  variant="solid"
+                  color="default"
+                  onClick={handleDelete}
+                  isIconOnly
+                  className="ml-2 sm:ml-4 bg-white dark:bg-neutral-800"
+
+                >
+                    <FontAwesomeIcon icon={faTrash} className=" text-red-600 dark:text-red-400" />
+                </Button>
               </div>
             </div>
             <div
@@ -258,13 +306,11 @@ const EditCategorie = () => {
                 {colors.map((color) => (
                   <div
                     key={color.id}
-                    className={`w-8 h-8 rounded-full hover:scale-105 hover:ring-2 ring-neutral-900 dark:ring-neutral-100 active:scale-110 transition-all bg-${
-                      color.name
-                    } m-3 cursor-pointer ${
-                      color.selected
+                    className={`w-8 h-8 rounded-full hover:scale-105 hover:ring-2 ring-neutral-900 dark:ring-neutral-100 active:scale-110 transition-all bg-${color.name
+                      } m-3 cursor-pointer ${color.selected
                         ? "ring-2 ring-neutral-900 dark:ring-neutral-100"
                         : ""
-                    }`}
+                      }`}
                     onClick={() => handleColorClick(color.id)}
                   ></div>
                 ))}
@@ -276,13 +322,11 @@ const EditCategorie = () => {
                 {colors.map((color) => (
                   <div
                     key={color.id}
-                    className={`w-36 h-16 rounded-xl hover:scale-105  ring-neutral-600 dark:ring-neutral-100 active:scale-110 transition-all flex flex-row item-center justify-center bg-${
-                      color.name
-                    } m-4 cursor-pointer ${
-                      color.selected
+                    className={`w-36 h-16 rounded-xl hover:scale-105  ring-neutral-600 dark:ring-neutral-100 active:scale-110 transition-all flex flex-row item-center justify-center bg-${color.name
+                      } m-4 cursor-pointer ${color.selected
                         ? "ring-4 ring-neutral-500 dark:ring-neutral-300"
                         : ""
-                    }`}
+                      }`}
                     onClick={() => handleColorClick(color.id)}
                   >
                     <div
@@ -305,6 +349,7 @@ const EditCategorie = () => {
             id="button"
             className="flex justify-center items-center w-full mb-32 mt-32 "
           >
+
             <Button
               type="submit"
               color="primary"
@@ -318,6 +363,34 @@ const EditCategorie = () => {
           </div>
         </div>
       </div>
+      <Modal isOpen={showDeleteModal} onOpenChange={setShowDeleteModal}>
+        <ModalContent>
+          {(onClose: () => void) => (
+            <>
+              <ModalHeader className="flex flex-col gap-1">Confirmation de suppression</ModalHeader>
+              <ModalBody>
+                <p className="text-neutral-800 dark:text-neutral-300">
+                  Êtes-vous sûr de vouloir supprimer cette catégorie ?
+                </p>
+              </ModalBody>
+              <ModalFooter>
+                <Button onPress={onClose} >
+                  Annuler
+                </Button>
+                <Button
+                  color="danger"
+                  onPress={() => {
+                    handleConfirmDelete();
+                    onClose();
+                  }}
+                >
+                  Supprimer la catégorie
+                </Button>
+              </ModalFooter>
+            </>
+          )}
+        </ModalContent>
+      </Modal>
     </div>
   );
 };
