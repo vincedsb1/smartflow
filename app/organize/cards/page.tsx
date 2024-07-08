@@ -50,7 +50,7 @@ const OrganizeCards = () => {
     console.log("entrée dans le useEffect");
     if (isTokenLoaded) {
       console.log("entrée dans le if");
-      fetch("/api/cards/cardByUser?toReview=true", {
+      fetch("/api/cards/cardByUser", {
         headers: {
           Authorization: `Bearer ${userContext.token}`,
         },
@@ -105,7 +105,7 @@ const OrganizeCards = () => {
     color: card.categoryColorName || "white",
   }));
 
-  console.log("Rows à afficher :", rows); // Ajoutez ce log pour vérifier les rows
+  console.log("Rows à afficher :", rows);
 
   return (
     <div className="flex flex-row justify-center items-center">
