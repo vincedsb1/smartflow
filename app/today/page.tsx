@@ -75,6 +75,7 @@ const Today: React.FC = () => {
         })
         .then((data) => {
           if (data.cards) {
+            console.log("Les datas : ", data.cards);
             setCards(data.cards);
             setFirstCardId(data.cards[0].id);
             userContext.setCardsToReview(data.cards);
@@ -149,6 +150,8 @@ const Today: React.FC = () => {
     color: card.categoryColorName || "white",
     icon: levelIcons[card.level - 1],
   }));
+
+  console.log("categoryData : ", categoryData);
 
   const renderContent = () => {
     switch (code) {

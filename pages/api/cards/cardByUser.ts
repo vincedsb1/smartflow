@@ -55,37 +55,43 @@ export default function handle(
           .json({ code: 1, message: "No cards found for this user." });
       }
 
-      const cardsToReview = cards.filter((card) => {
-        const lastReviewDate = moment(card.lastReviewDate).startOf("day");
-        console.log(`Card ID: ${card.id}, Last Review Date: ${lastReviewDate}`);
-        return lastReviewDate.isSameOrBefore(today);
-      });
+      let cardsToReturn = cards;
 
-      console.log(`Cards to review: ${cardsToReview.length}`);
-
-      if (cardsToReview.length === 0) {
-        return res
-          .status(200)
-          .json({ code: 2, message: "No cards to review today." });
-      }
-
-      const allReviewed = cardsToReview.every((card) => {
-        const lastReviewDate = moment(card.lastReviewDate);
-        console.log(`Card ID: ${card.id}, Last Review Date: ${lastReviewDate}`);
-        return lastReviewDate.isSame(today, "day");
-      });
-
-      console.log(`All reviewed: ${allReviewed}`);
-
-      if (allReviewed) {
-        return res.status(200).json({
-          code: 3,
-          message: "All cards to review have been reviewed today.",
+      if (toReview) {
+        const cardsToReview = cards.filter((card) => {
+          const lastReviewDate = moment(card.lastReviewDate).startOf("day");
+          console.log(
+            `Card ID: ${card.id}, Last Review Date: ${lastReviewDate}`
+          );
+          return lastReviewDate.isSameOrBefore(today);
         });
-      }
 
-      const reformattedCards = cardsToReview
-        .filter((card) => {
+        console.log(`Cards to review: ${cardsToReview.length}`);
+
+        if (cardsToReview.length === 0) {
+          return res
+            .status(200)
+            .json({ code: 2, message: "No cards to review today." });
+        }
+
+        const allReviewed = cardsToReview.every((card) => {
+          const lastReviewDate = moment(card.lastReviewDate);
+          console.log(
+            `Card ID: ${card.id}, Last Review Date: ${lastReviewDate}`
+          );
+          return lastReviewDate.isSame(today, "day");
+        });
+
+        console.log(`All reviewed: ${allReviewed}`);
+
+        if (allReviewed) {
+          return res.status(200).json({
+            code: 3,
+            message: "All cards to review have been reviewed today.",
+          });
+        }
+
+        cardsToReturn = cardsToReview.filter((card) => {
           const createdAt = moment(card.createdAt);
           const lastReviewDate = moment(card.lastReviewDate);
           const sameDate = createdAt.isSame(lastReviewDate, "minute");
@@ -116,21 +122,23 @@ export default function handle(
             default:
               return false;
           }
-        })
-        .map(
-          (
-            card: Card & {
-              category: { name: string; color: { name: string } } | null;
-            }
-          ) => {
-            return {
-              ...card,
-              categoryColorName: card.category?.color.name,
-              categoryName: card.category?.name,
-              category: undefined,
-            };
+        });
+      }
+
+      const reformattedCards = cardsToReturn.map(
+        (
+          card: Card & {
+            category: { name: string; color: { name: string } } | null;
           }
-        );
+        ) => {
+          return {
+            ...card,
+            categoryColorName: card.category?.color.name,
+            categoryName: card.category?.name,
+            category: undefined,
+          };
+        }
+      );
 
       if (reformattedCards.length === 0) {
         return res.status(200).json({
@@ -145,9 +153,15 @@ export default function handle(
       reformattedCards.forEach((card) => {
         const categoryName = card.categoryName || "Non catégorisé";
         const categoryColor = card.categoryColorName || "grey";
+        console.log(
+          `Card ID: ${card.id}, Category Name: ${categoryName}, Category Color: ${categoryColor}`
+        );
         categoryCount[categoryName] = (categoryCount[categoryName] || 0) + 1;
         categoryColors[categoryName] = categoryColor;
       });
+
+      console.log("Category Count:", categoryCount);
+      console.log("Category Colors:", categoryColors);
 
       return res.json({
         code: 4,
