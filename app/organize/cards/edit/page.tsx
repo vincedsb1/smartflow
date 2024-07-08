@@ -6,10 +6,7 @@ import { useRouter } from "next/navigation";
 import { faChevronLeft } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import CardAppTitle from "@/app/components/CardAppTitle";
-import { Button } from "@nextui-org/button";
-import { CircularProgress, Progress } from "@nextui-org/react";
-import { Input } from "@nextui-org/react";
-import { Textarea } from "@nextui-org/react";
+import { Input, Modal, Textarea, Button, ModalContent, ModalHeader, ModalFooter, ModalBody } from "@nextui-org/react";
 import List from "../../../components/List";
 import DesktopMenu from "@/app/components/DesktopMenu";
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
@@ -33,20 +30,7 @@ const EditCards: React.FC = () => {
   const [cardCount, setCardCount] = useState(1);
   const [categoryId, setCategoryId] = useState<number | null>(null);
   const [categoryIndex, setCategoryIndex] = useState<number | null>(null);
-
-  useEffect(() => {
-  }, [categoryId]);
-
-  useEffect(() => {
-  }, [categoryIndex]);
-
-  const handleSelectRow = (index: number) => {
-    if (Array.isArray(categories) && index >= 0 && index < categories.length) {
-      const selectedCategory = categories[index];
-      const categoryId = selectedCategory.id;
-      setCategoryId(categoryId);
-    }
-  };
+  const [showDeleteModal, setShowDeleteModal] = useState(false); // State pour contrôler l'affichage de la modal de suppression
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -177,28 +161,42 @@ const EditCards: React.FC = () => {
     }))
     : [];
 
-    const handleDelete = async () => {
-      const token = localStorage.getItem("userToken");
-      if (!token) {
-        console.error("Token is not defined in local storage");
-        return;
+  const handleDelete = async () => {
+    const token = localStorage.getItem("userToken");
+    if (!token) {
+      console.error("Token is not defined in local storage");
+      return;
+    }
+    setShowDeleteModal(true); // Affiche la modal de confirmation
+  };
+
+  const handleConfirmDelete = async () => {
+    const token = localStorage.getItem("userToken");
+    if (!token) {
+      console.error("Token is not defined in local storage");
+      return;
+    }
+    try {
+      const response = await fetch(`/api/cards/edit/${id}`, {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      if (!response.ok) {
+        throw new Error("Une erreur est survenue lors de la suppression de la carte");
       }
-      try {
-        const response = await fetch(`/api/cards/edit/${id}`, {
-          method: "DELETE",
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-        if (!response.ok) {
-          throw new Error("Une erreur est survenue lors de la suppression de la carte");
-        }
-        router.back();
-      } catch (error) {
-        console.error("Error:", error);
-      }
-    };
-  
+      router.back();
+    } catch (error) {
+      console.error("Error:", error);
+    } finally {
+      setShowDeleteModal(false); // Masque la modal de confirmation après la suppression
+    }
+  };
+
+  function handleSelectRow(index: number): void {
+    throw new Error("Function not implemented.");
+  }
 
   return (
     <div id="editCardMainContainer" className="flex flex-row justify-center items-center">
@@ -213,14 +211,12 @@ const EditCards: React.FC = () => {
                 <div id="editCardTopContainer" className="w-full flex flex-row justify-between mt-16 mb-4">
                   <div id="editCardBackTitle" className="flex flex-row w-full justify-between items-center">
                     <div className="flex flex-row items-center">
-                      <button type="button" onClick={() => router.back()} className="text-neutral-800 dark:text-neutral-200 text-xs w-4 h-4 m-5 sm:ml-0">
-                        <FontAwesomeIcon icon={faChevronLeft} />
-                      </button>
+                      <button type="button" onClick={() => router.back()} className="text-neutral-800 dark:text-neutral-200 text-xs w-4 h-4 m-5 mb-7 sm:ml-0">
+                        <FontAwesomeIcon icon={faChevronLeft} />                      </button>
                       <CardAppTitle title="Modifier une fiche" size="big" />
                     </div>
                     <div>
-                      <FontAwesomeIcon icon={faTrash} className="text-red-500 cursor-pointer" onClick={handleDelete} />
-                    </div>
+                      <FontAwesomeIcon icon={faTrash} className="text-red-500 cursor-pointer mr-8 mb-2 text-xl sm:text-2xl" onClick={handleDelete} />                    </div>
                   </div>
                 </div>
                 <div id="editCardMiddleContainer" className="flex flex-col justify-center items-center w-full">
@@ -257,6 +253,34 @@ const EditCards: React.FC = () => {
           </div>
         </div>
       </div>
+      <Modal isOpen={showDeleteModal} onOpenChange={setShowDeleteModal}>
+        <ModalContent>
+          {(onClose: () => void) => (
+            <>
+              <ModalHeader className="flex flex-col gap-1">Confirmation de suppression</ModalHeader>
+              <ModalBody>
+                <p className="text-neutral-800 dark:text-neutral-300">
+                  Êtes-vous sûr de vouloir supprimer cette fiche ?
+                </p>
+              </ModalBody>
+              <ModalFooter>
+                <Button onPress={onClose} >
+                  Annuler
+                </Button>
+                <Button
+                  color="danger"
+                  onPress={() => {
+                    handleConfirmDelete();
+                    onClose();
+                  }}
+                >
+                  Supprimer la fiche
+                </Button>
+              </ModalFooter>
+            </>
+          )}
+        </ModalContent>
+      </Modal>
     </div>
   );
 };
