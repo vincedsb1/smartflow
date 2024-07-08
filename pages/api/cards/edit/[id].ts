@@ -8,9 +8,9 @@ export default async function handle(
   res: NextApiResponse
 ) {
   const { id } = req.query;
-  const { title, answer, categoryId } = req.body;
 
   if (req.method === "PUT") {
+    const { title, answer, categoryId } = req.body;
     try {
       const card = await prisma.card.update({
         where: { id: Number(id) },
@@ -21,6 +21,18 @@ export default async function handle(
     } catch (error) {
       res.status(500).json({
         error: "Une erreur est survenue lors de la mise à jour de la carte",
+      });
+    }
+  } else if (req.method === "DELETE") {
+    try {
+      const card = await prisma.card.delete({
+        where: { id: Number(id) },
+      });
+
+      res.json({ message: "La carte a été supprimée avec succès" });
+    } catch (error) {
+      res.status(500).json({
+        error: "Une erreur est survenue lors de la suppression de la carte",
       });
     }
   } else {
