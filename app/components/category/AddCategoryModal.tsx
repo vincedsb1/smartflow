@@ -71,7 +71,7 @@ const AddCategoryModal: React.FC<AddCategoryModalProps> = ({
     );
   };
 
-  const createCategory = async () => {
+  const handleCreateCategory = () => {
     const nameRegex = /^[\p{L}\s\p{P}\p{S}]*$/u;
     if (!nameRegex.test(categoryName)) {
       alert(
@@ -85,24 +85,12 @@ const AddCategoryModal: React.FC<AddCategoryModalProps> = ({
       alert("Sélectionnez une couleur pour la catégorie");
       return;
     }
-    const response = await fetch("/api/categories/createCategories", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${userContext.token}`,
-      },
-      body: JSON.stringify({
-        name: categoryName,
-        colorId: selectedColor.id,
-      }),
+
+    console.log("Passing category data to onValidate:", {
+      categoryName,
+      colorId: selectedColor.id,
     });
 
-    if (!response.ok) {
-      console.error("Error creating category");
-      return;
-    }
-
-    const data = await response.json();
     onValidate(categoryName, selectedColor.id);
   };
 
@@ -156,7 +144,7 @@ const AddCategoryModal: React.FC<AddCategoryModalProps> = ({
           <Button onClick={onClose}>Annuler</Button>
           <Button
             color="primary"
-            onClick={createCategory}
+            onClick={handleCreateCategory}
             isDisabled={isNameEmpty}
           >
             Créer la catégorie
