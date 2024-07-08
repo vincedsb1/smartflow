@@ -82,7 +82,7 @@ const Hero = () => {
   return (
     <div
       id="containerHero"
-      className="w-full relative flex flex-row items-center align-middle h-full py-16 lg:py-20 xl:py-24  "
+      className="w-full relative flex flex-row items-center align-middle h-full py-16 lg:py-20 xl:py-24 lg:h-full "
     >
       <video
         className="w-full h-full opacity-30 absolute top-0 left-0 object-cover "
