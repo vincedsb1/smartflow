@@ -34,7 +34,7 @@ const LandingPage = () => {
         <div
           id="heroContainer"
           data-aos="zoom-out"
-          className="h-[66vh] flex flex-row justify-center items-center mb-14 md:mb-28"
+          className="h-[66vh] lg:h-[75vh] flex flex-row justify-center items-center mb-14 md:mb-28"
         >
           <Hero />
         </div>
