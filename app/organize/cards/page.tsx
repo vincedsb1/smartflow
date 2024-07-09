@@ -115,7 +115,7 @@ const OrganizeCards = () => {
             </div>
             <div id="organizeCardListContainer" className="w-full">
               {showNoCardsMessage && (
-                <p className="text-center my-8">
+                <p className="text-center my-8 font-text text-xl">
                   Aucune carte disponible pour le moment.
                 </p>
               )}
