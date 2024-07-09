@@ -11,6 +11,7 @@ import {
 import { colorClasses } from "../utils/colorUtils";
 import { UserContext } from "@/app/context/UserContext";
 
+
 interface Color {
   id: number;
   name: string;
@@ -71,8 +72,8 @@ const AddCategoryModal: React.FC<AddCategoryModalProps> = ({
     );
   };
 
-  const handleCreateCategory = () => {
-    const nameRegex = /^[\p{L}\s\p{P}\p{S}]*$/u;
+  const createCategory = async () => {
+    const nameRegex = /^[\p{L}\p{N}\s\p{P}\p{S}]*$/u;
     if (!nameRegex.test(categoryName)) {
       alert(
         "Le nom de la catégorie ne doit contenir que des lettres et des chiffres"
@@ -144,7 +145,7 @@ const AddCategoryModal: React.FC<AddCategoryModalProps> = ({
           <Button onClick={onClose}>Annuler</Button>
           <Button
             color="primary"
-            onClick={handleCreateCategory}
+            onClick={createCategory}
             isDisabled={isNameEmpty}
           >
             Créer la catégorie
