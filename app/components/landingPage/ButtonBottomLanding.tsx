@@ -32,9 +32,11 @@ const ButtonConnexion: React.FC<ButtonConnexionProps> = ({
   const [email, setEmail] = useState<string>("");
   const [isEmailSaved, setIsEmailSaved] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [errorMessage, setErrorMessage] = useState<string>("");
   const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
+    console.log("Modal isOpen:", isOpen); // Debug log
     if (isOpen && inputRef.current) {
       inputRef.current.focus();
     }
@@ -46,36 +48,48 @@ const ButtonConnexion: React.FC<ButtonConnexionProps> = ({
 
   const handleEmailSubmit = async () => {
     setIsLoading(true);
+    setErrorMessage("");  // Reset the error message
     const emailRegex = /^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$/;
 
     if (!emailRegex.test(email)) {
+      setErrorMessage("Format de l'email invalide.");
       setIsLoading(false);
       return;
     }
 
-    const response = await fetch("/api/prospects", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ email }),
-    });
+    try {
+      const response = await fetch("/api/prospects", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email }),
+      });
 
-    if (!response.ok) {
-      const errorData = await response.json();
-      alert("Une erreur s'est produite lors de l'enregistrement de l'email.");
+      if (!response.ok) {
+        const errorData = await response.json();
+        console.log("API response error data:", errorData); // Debug log
+        if (response.status === 409) {
+          setErrorMessage("Vous êtes déjà inscrit à dans la liste d'attente.");
+        } else {
+          setErrorMessage("Une erreur s'est produite lors de l'enregistrement de l'email.");
+        }
+      } else {
+        setIsEmailSaved(true);
+      }
+    } catch (error) {
+      console.error("Error occurred during email submission:", error); // Debug log
+      setErrorMessage("Une erreur s'est produite lors de l'enregistrement de l'email.");
+    } finally {
       setIsLoading(false);
-      return;
     }
-
-    setIsEmailSaved(true);
-    setIsLoading(false);
   };
 
   const handleClose = () => {
     close();
     setIsEmailSaved(false);
     setEmail("");
+    setErrorMessage("");  // Reset the error message when closing the modal
   };
 
   return (
@@ -106,12 +120,25 @@ const ButtonConnexion: React.FC<ButtonConnexionProps> = ({
           </ModalHeader>
           <ModalBody>
             {!isEmailSaved && (
-              <p>
-                Ne manquez pas le lancement ! Inscrivez-vous et recevez un accès
-                prioritaire dès que Smartflow sera disponible.
-              </p>
+              <>
+                <p>
+                  Ne manquez pas le lancement ! Inscrivez-vous et recevez un accès
+                  prioritaire dès que Smartflow sera disponible.
+                </p>
+                <Input
+                  ref={inputRef}
+                  type="email"
+                  placeholder="Votre email"
+                  value={email}
+                  onChange={handleEmailChange}
+                  className="mb-4 rounded w-full"
+                />
+                {errorMessage && (
+                  <p className="text-red-500">{errorMessage}</p>
+                )}
+              </>
             )}
-            {isEmailSaved ? (
+            {isEmailSaved && (
               <>
                 <p>
                   Merci ! Dernière étape pour être averti de la sortie de
@@ -119,15 +146,6 @@ const ButtonConnexion: React.FC<ButtonConnexionProps> = ({
                 </p>
                 <p>Veuillez cliquer sur le lien envoyé sur votre email.</p>
               </>
-            ) : (
-              <Input
-                ref={inputRef}
-                type="email"
-                placeholder="Votre email"
-                value={email}
-                onChange={handleEmailChange}
-                className="mb-4 rounded w-full"
-              />
             )}
           </ModalBody>
           <ModalFooter>
