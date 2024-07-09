@@ -15,6 +15,7 @@ import Image from "next/image";
 import { useUser } from "../context/UserContext";
 import { useTheme } from "next-themes";
 import { useRouter } from "next/navigation";
+import { useStep } from "../context/StepContext";
 
 const DesktopMenu: React.FC = () => {
   const pathname = usePathname();
@@ -22,11 +23,17 @@ const DesktopMenu: React.FC = () => {
   const { theme, setTheme } = useTheme();
   const logo = theme === "dark" ? "/logo-dark.svg" : "/logo-light.svg";
   const router = useRouter();
+  const { setStep } = useStep();
 
   const handleLogout = () => {
     setUser(null);
     setToken(null);
     router.push("/");
+  };
+
+  const handleAddClick = () => {
+    setStep(1);
+    router.push("/add");
   };
 
   const iconStyle = (icon: string) =>
@@ -67,7 +74,10 @@ const DesktopMenu: React.FC = () => {
               Réciter
             </span>
           </Link>
-          <Link href="/add" className="flex items-center space-x-2 group">
+          <button
+            onClick={handleAddClick}
+            className="flex items-center space-x-2 group"
+          >
             <div
               id="addIcon"
               className="w-7 h-7 flex justify-center items-center"
@@ -80,7 +90,7 @@ const DesktopMenu: React.FC = () => {
             <span className="font-text text-lg text-neutral-700 dark:text-neutral-300 group-hover:text-cyan-600 dark:group-hover:text-cyan-400 transition-colors duration-300 ease-in-out pl-2">
               Ajouter une fiche
             </span>
-          </Link>
+          </button>
           <Link href="/organize" className="flex items-center space-x-2 group">
             <div
               id="organizeIcon"

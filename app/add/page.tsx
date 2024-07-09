@@ -9,6 +9,7 @@ import { faChevronLeft } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useRouter } from "next/navigation";
 import { UserContext } from "../context/UserContext";
+import { StepProvider, useStep } from "../context/StepContext";
 import DesktopMenu from "../components/DesktopMenu";
 
 // Définir des constantes pour les étapes
@@ -20,7 +21,7 @@ const STEP_CONFIRMATION = 4;
 const CardCreation: React.FC = () => {
   const userContext = useContext(UserContext);
   const router = useRouter();
-  const [step, setStep] = useState(STEP_TITLE);
+  const { step, setStep } = useStep();
   const [cardId, setCardId] = useState<number | null>(null);
   const [cardTitle, setCardTitle] = useState("");
   const [selectedCategoryId, setSelectedCategoryId] = useState<number | null>(
@@ -29,12 +30,11 @@ const CardCreation: React.FC = () => {
   const [content, setContent] = useState("");
   const continueButtonRef = useRef<HTMLButtonElement>(null);
 
-  // Désactivation car bug sf-217
-  // useEffect(() => {
-  //   if (!userContext || !userContext.token) {
-  //     router.push("/");
-  //   }
-  // }, [userContext, router]);
+  useEffect(() => {
+    if (!userContext || !userContext.token) {
+      router.push("/");
+    }
+  }, [userContext, router]);
 
   useEffect(() => {
     if (step === STEP_CONTENT) {
@@ -65,7 +65,7 @@ const CardCreation: React.FC = () => {
         default:
           break;
       }
-      setStep((prevStep) => prevStep - 1);
+      setStep(step - 1);
     }
   };
 
@@ -201,4 +201,10 @@ const CardCreation: React.FC = () => {
   );
 };
 
-export default CardCreation;
+const CardCreationWithProvider: React.FC = () => (
+  <StepProvider>
+    <CardCreation />
+  </StepProvider>
+);
+
+export default CardCreationWithProvider;
