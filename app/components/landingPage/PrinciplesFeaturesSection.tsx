@@ -20,7 +20,7 @@ const PrinciplesFeaturesSection: React.FC = () => {
           data-aos="fade-up"
         />
         <h3
-          className="font-title font-bold text-lg dark:text-neutral-300 text-dark-primary mb-4"
+          className="font-title font-bold text-lg dark:text-neutral-300 text-neutral-600 mb-4"
           data-aos="fade-up"
         >
           Apprentissage actif
@@ -44,7 +44,7 @@ const PrinciplesFeaturesSection: React.FC = () => {
           data-aos="fade-up"
         />
         <h3
-          className="font-title font-bold text-lg dark:text-neutral-300 text-dark-primary mb-4"
+          className="font-title font-bold text-lg dark:text-neutral-300 text-neutral-600 mb-4"
           data-aos="fade-up"
         >
           Répétitions espacées
@@ -68,7 +68,7 @@ const PrinciplesFeaturesSection: React.FC = () => {
           data-aos="fade-up"
         />
         <h3
-          className="font-title font-bold text-lg dark:text-neutral-300 text-dark-primary mb-4"
+          className="font-title font-bold text-lg dark:text-neutral-300 text-neutral-600 mb-4"
           data-aos="fade-up"
         >
           Zone de difficulté idéale
