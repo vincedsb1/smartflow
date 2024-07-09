@@ -16,8 +16,6 @@ import { useUser } from "../context/UserContext";
 import { useTheme } from "next-themes";
 import { useRouter } from "next/navigation";
 
-
-
 const DesktopMenu: React.FC = () => {
   const pathname = usePathname();
   const { firstname, setUser, setToken } = useUser();
@@ -31,11 +29,11 @@ const DesktopMenu: React.FC = () => {
     router.push("/");
   };
 
-
   const iconStyle = (icon: string) =>
-    `h-7 w-7 ${pathname === `/${icon}`
-      ? "text-cyan-700 dark:text-cyan-500"
-      : "text-neutral-500"
+    `h-7 w-7 ${
+      pathname === `/${icon}`
+        ? "text-cyan-700 dark:text-cyan-500"
+        : "text-neutral-500"
     } group-hover:text-cyan-600 dark:group-hover:text-cyan-400 transition-all hover:scale-105`;
 
   const toggleTheme = () => {
@@ -123,14 +121,21 @@ const DesktopMenu: React.FC = () => {
               <div className="w-7 flex justify-center items-center">
                 <FontAwesomeIcon
                   icon={theme === "dark" ? faSun : faMoon}
-                  className="text-xl text-neutral-700 dark:text-neutral-500 group-hover:text-cyan-600 dark:group-hover:text-cyan-400 transition-colors duration-300 ease-in-out"
+                  className="text-xl text-neutral-700 dark:text-neutral-500 group-hover:text-cyan-600 dark:group-hover:text-cyan-400 transition-colors duration-300 ease-in-ou opacity-70 dark:opacity-100"
                 />
               </div>
               <span className="font-text text-lg text-neutral-700 dark:text-neutral-300 group-hover:text-cyan-600 dark:group-hover:text-cyan-400 transition-colors duration-300 ease-in-out pl-2">
                 {theme === "dark" ? "Mode clair" : "Mode sombre"}
               </span>
             </button>
-            <Link href="/" className="flex items-center space-x-2 group" onClick={(e) => { e.preventDefault(); handleLogout(); }}>
+            <Link
+              href="/"
+              className="flex items-center space-x-2 group"
+              onClick={(e) => {
+                e.preventDefault();
+                handleLogout();
+              }}
+            >
               <div className="w-7 flex justify-center items-center">
                 <FontAwesomeIcon
                   icon={faSignOutAlt}
