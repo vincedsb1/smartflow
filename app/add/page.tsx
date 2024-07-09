@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext, useRef } from "react";
 import TitleCreation from "../components/add/TitleCreation";
 import CategorySelection from "../components/add/CategorySelection";
 import ContentInput from "../components/add/ContentInput";
@@ -9,6 +9,7 @@ import { faChevronLeft } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useRouter } from "next/navigation";
 import { UserContext } from "../context/UserContext";
+import { StepProvider, useStep } from "../context/StepContext";
 import DesktopMenu from "../components/DesktopMenu";
 
 // Définir des constantes pour les étapes
@@ -20,13 +21,14 @@ const STEP_CONFIRMATION = 4;
 const CardCreation: React.FC = () => {
   const userContext = useContext(UserContext);
   const router = useRouter();
-  const [step, setStep] = useState(STEP_TITLE);
+  const { step, setStep } = useStep();
   const [cardId, setCardId] = useState<number | null>(null);
   const [cardTitle, setCardTitle] = useState("");
   const [selectedCategoryId, setSelectedCategoryId] = useState<number | null>(
     null
   );
   const [content, setContent] = useState("");
+  const continueButtonRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
     if (!userContext || !userContext.token) {
@@ -63,7 +65,7 @@ const CardCreation: React.FC = () => {
         default:
           break;
       }
-      setStep((prevStep) => prevStep - 1);
+      setStep(step - 1);
     }
   };
 
@@ -132,7 +134,7 @@ const CardCreation: React.FC = () => {
             >
               <div
                 id="addTopContainer"
-                className="flex flex-col justify-center w-full"
+                className="flex flex-col justify-center w-full h-full"
               >
                 <div
                   id="birthdayBackIcon"
@@ -148,9 +150,12 @@ const CardCreation: React.FC = () => {
                     )}
                   </button>
                 </div>
-                <div id="addContentContainer">
+                <div id="addContentContainer" className="h-full">
                   {step === STEP_TITLE && (
-                    <TitleCreation onTitleChange={setCardTitle} />
+                    <TitleCreation
+                      onTitleChange={setCardTitle}
+                      continueButtonRef={continueButtonRef}
+                    />
                   )}
                   {step === STEP_CATEGORY && (
                     <CategorySelection
@@ -168,6 +173,7 @@ const CardCreation: React.FC = () => {
                 className="flex justify-center items-center w-full mb-32"
               >
                 <Button
+                  ref={continueButtonRef}
                   type="submit"
                   color="primary"
                   isDisabled={
@@ -183,8 +189,8 @@ const CardCreation: React.FC = () => {
                   {step === STEP_CATEGORY && selectedCategoryId === null
                     ? "Continuer sans catégorie"
                     : step < STEP_CONFIRMATION
-                      ? "Continuer"
-                      : "Voir la fiche"}
+                    ? "Continuer"
+                    : "Voir la fiche"}
                 </Button>
               </div>
             </div>
@@ -195,4 +201,10 @@ const CardCreation: React.FC = () => {
   );
 };
 
-export default CardCreation;
+const CardCreationWithProvider: React.FC = () => (
+  <StepProvider>
+    <CardCreation />
+  </StepProvider>
+);
+
+export default CardCreationWithProvider;

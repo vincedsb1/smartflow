@@ -90,6 +90,7 @@ const CategorySelection: React.FC<CategorySelectionProps> = ({
     colorId: number
   ) => {
     const colorName = Object.keys(colorClasses)[colorId - 1];
+    console.log("Creating category with:", { categoryName, colorId });
 
     try {
       const response = await fetch("/api/categories/createCategories", {
@@ -109,6 +110,7 @@ const CategorySelection: React.FC<CategorySelectionProps> = ({
       }
 
       const newCategory = await response.json();
+      console.log("Category created:", newCategory);
       setCategories((prevCategories) => [
         ...prevCategories,
         { ...newCategory, colorName },
