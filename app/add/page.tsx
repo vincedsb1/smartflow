@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext, useRef } from "react";
 import TitleCreation from "../components/add/TitleCreation";
 import CategorySelection from "../components/add/CategorySelection";
 import ContentInput from "../components/add/ContentInput";
@@ -27,6 +27,7 @@ const CardCreation: React.FC = () => {
     null
   );
   const [content, setContent] = useState("");
+  const continueButtonRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
     if (!userContext || !userContext.token) {
@@ -150,7 +151,10 @@ const CardCreation: React.FC = () => {
                 </div>
                 <div id="addContentContainer">
                   {step === STEP_TITLE && (
-                    <TitleCreation onTitleChange={setCardTitle} />
+                    <TitleCreation
+                      onTitleChange={setCardTitle}
+                      continueButtonRef={continueButtonRef}
+                    />
                   )}
                   {step === STEP_CATEGORY && (
                     <CategorySelection
@@ -168,6 +172,7 @@ const CardCreation: React.FC = () => {
                 className="flex justify-center items-center w-full mb-32"
               >
                 <Button
+                  ref={continueButtonRef}
                   type="submit"
                   color="primary"
                   isDisabled={
