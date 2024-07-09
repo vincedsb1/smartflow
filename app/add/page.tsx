@@ -29,11 +29,12 @@ const CardCreation: React.FC = () => {
   const [content, setContent] = useState("");
   const continueButtonRef = useRef<HTMLButtonElement>(null);
 
-  useEffect(() => {
-    if (!userContext || !userContext.token) {
-      router.push("/");
-    }
-  }, [userContext, router]);
+  // Désactivation car bug sf-217
+  // useEffect(() => {
+  //   if (!userContext || !userContext.token) {
+  //     router.push("/");
+  //   }
+  // }, [userContext, router]);
 
   useEffect(() => {
     if (step === STEP_CONTENT) {
@@ -133,7 +134,7 @@ const CardCreation: React.FC = () => {
             >
               <div
                 id="addTopContainer"
-                className="flex flex-col justify-center w-full"
+                className="flex flex-col justify-center w-full h-full"
               >
                 <div
                   id="birthdayBackIcon"
@@ -149,7 +150,7 @@ const CardCreation: React.FC = () => {
                     )}
                   </button>
                 </div>
-                <div id="addContentContainer">
+                <div id="addContentContainer" className="h-full">
                   {step === STEP_TITLE && (
                     <TitleCreation
                       onTitleChange={setCardTitle}
@@ -188,8 +189,8 @@ const CardCreation: React.FC = () => {
                   {step === STEP_CATEGORY && selectedCategoryId === null
                     ? "Continuer sans catégorie"
                     : step < STEP_CONFIRMATION
-                      ? "Continuer"
-                      : "Voir la fiche"}
+                    ? "Continuer"
+                    : "Voir la fiche"}
                 </Button>
               </div>
             </div>
