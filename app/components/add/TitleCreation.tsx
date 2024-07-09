@@ -2,21 +2,37 @@
 
 import { faFileLines } from "@fortawesome/free-solid-svg-icons";
 import { Input } from "@nextui-org/react";
-import React, { useState, ChangeEvent, useEffect, useRef } from "react";
+import React, {
+  useState,
+  ChangeEvent,
+  useEffect,
+  useRef,
+  KeyboardEvent,
+} from "react";
 import CardAppText from "../CardAppText";
 import CardAppTitle from "../CardAppTitle";
 
 interface TitleCreationProps {
   onTitleChange: (title: string) => void;
+  continueButtonRef: React.RefObject<HTMLButtonElement>;
 }
 
-const TitleCreation: React.FC<TitleCreationProps> = ({ onTitleChange }) => {
+const TitleCreation: React.FC<TitleCreationProps> = ({
+  onTitleChange,
+  continueButtonRef,
+}) => {
   const [title, setTitle] = useState<string>("");
   const inputRef = useRef<HTMLInputElement>(null);
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     setTitle(e.target.value);
     onTitleChange(e.target.value);
+  };
+
+  const handleKeyPress = (e: KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter" && continueButtonRef.current) {
+      continueButtonRef.current.focus();
+    }
   };
 
   useEffect(() => {
@@ -64,6 +80,7 @@ const TitleCreation: React.FC<TitleCreationProps> = ({ onTitleChange }) => {
             className="w-full font-text mb-16 "
             value={title}
             onChange={handleInputChange}
+            onKeyPress={handleKeyPress}
           />
         </div>
       </div>
