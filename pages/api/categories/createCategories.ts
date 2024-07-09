@@ -27,12 +27,14 @@ export default function handle(
     }
 
     const { name, colorId } = req.body;
+    console.log("Received data:", { name, colorId });
 
     if (!name || !colorId) {
       return res.status(400).json({ message: "Name and colorId are required" });
     }
 
     try {
+      console.log("Creating category...");
       const newCategory = await prisma.category.create({
         data: {
           name,
@@ -40,6 +42,7 @@ export default function handle(
           userId,
         },
       });
+      console.log("Category created:", newCategory);
 
       return res.status(201).json(newCategory);
     } catch (error) {

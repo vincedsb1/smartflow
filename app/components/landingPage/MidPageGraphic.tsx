@@ -8,10 +8,10 @@ const MidPageGraphic = () => {
 
   return (
     <div
-      id="MidPageGraphic"
+      id="MidPageGraphicContainer"
       className="flex flex-col md:flex-row justify-around items-center mb-14 md:mb-28 px-8"
     >
-      <div className="relative w-[500px] h-[500px]">
+      <div id="MidPageGraphic" className="relative w-[616px] h-[500px]">
         <img
           src={
             theme === "dark"

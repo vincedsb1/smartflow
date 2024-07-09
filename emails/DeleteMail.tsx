@@ -154,7 +154,9 @@ const DeleteMail: React.FC<DeleteMailProps> = ({ email }) => {
                               marginBottom: "32px",
                             }}
                           >
-                            Merci d`&apos;`avoir utilisé notre application. Votre soutien et votre confiance nous ont été très précieux.
+                            Merci d&apos;avoir utilisé notre application. Votre
+                            soutien et votre confiance nous ont été très
+                            précieux.
                           </div>
                         </td>
                       </tr>
@@ -170,7 +172,11 @@ const DeleteMail: React.FC<DeleteMailProps> = ({ email }) => {
                               color: "#666666",
                             }}
                           >
-                            Si vous avez apprécié notre service, nous serions ravis que vous laissiez un avis sur les réseaux sociaux et sur les différentes plateformes. Vos commentaires nous aident à nous améliorer et à offrir un meilleur service à nos utilisateurs.
+                            Si vous avez apprécié notre service, nous serions
+                            ravis que vous laissiez un avis sur les réseaux
+                            sociaux et sur les différentes plateformes. Vos
+                            commentaires nous aident à nous améliorer et à
+                            offrir un meilleur service à nos utilisateurs.
                           </div>
                         </td>
                       </tr>
@@ -187,7 +193,12 @@ const DeleteMail: React.FC<DeleteMailProps> = ({ email }) => {
                               marginBottom: "16px",
                             }}
                           >
-                            Si vous avez des questions ou des préoccupations, n`&apos;`hésitez pas à nous contacter à <a href="mailto:support@example.com">support@smartflow.fr</a>.
+                            Si vous avez des questions ou des préoccupations,
+                            n&apos;hésitez pas à nous contacter à{" "}
+                            <a href="mailto:support@example.com">
+                              support@smartflow.fr
+                            </a>
+                            .
                           </div>
                         </td>
                       </tr>
