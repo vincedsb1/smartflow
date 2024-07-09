@@ -72,7 +72,7 @@ const AddCategoryModal: React.FC<AddCategoryModalProps> = ({
   };
 
   const createCategory = async () => {
-    const nameRegex = /^[\p{L}\s\p{P}\p{S}]*$/u;
+    const nameRegex = /^[\p{L}\p{N}\s\p{P}\p{S}]*$/u;
     if (!nameRegex.test(categoryName)) {
       alert(
         "Le nom de la catégorie ne doit contenir que des lettres et des chiffres"

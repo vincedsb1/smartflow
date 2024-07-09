@@ -68,7 +68,7 @@ const CardCreation: React.FC = () => {
   };
 
   const handleContinueClick = () => {
-    const titleRegex = /^[\p{L}\s\p{P}\p{S}]*$/u;
+    const titleRegex = /^[\p{L}\p{N}\s\p{P}\p{S}]*$/u;
     if (!titleRegex.test(cardTitle)) {
       alert(
         "Le titre de la carte ne doit contenir que des lettres et des chiffres"
@@ -183,8 +183,8 @@ const CardCreation: React.FC = () => {
                   {step === STEP_CATEGORY && selectedCategoryId === null
                     ? "Continuer sans catégorie"
                     : step < STEP_CONFIRMATION
-                    ? "Continuer"
-                    : "Voir la fiche"}
+                      ? "Continuer"
+                      : "Voir la fiche"}
                 </Button>
               </div>
             </div>
