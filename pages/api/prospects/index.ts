@@ -10,10 +10,7 @@ const prisma = new PrismaClient();
 
 export const resend = new Resend(process.env.RESEND_API_KEY);
 
-export default async function handle(
-  req: NextApiRequest,
-  res: NextApiResponse
-) {
+export default async function handle(req: NextApiRequest, res: NextApiResponse) {
   const { email } = req.body;
 
   if (!process.env.APP_SECRET) {
@@ -32,6 +29,17 @@ export default async function handle(
     }
 
     try {
+      const existingProspect = await prisma.waitingListEmail.findUnique({
+        where: {
+          email,
+        },
+      });
+
+      if (existingProspect) {
+        res.status(409).json({ error: "Email already exists in the waiting list" });
+        return;
+      }
+
       console.log("Saving email:", email);
 
       const token = jwt.sign(
@@ -67,11 +75,9 @@ export default async function handle(
       console.log("Verification email sent successfully");
 
       res.status(201).json(newProspect);
-    } catch (error: any) {
+    } catch (error) {
       console.error("Error occurred:", error);
-      res
-        .status(500)
-        .json({ error: "Something went wrong", message: error.message });
+      res.status(500).json({ error: "Something went wrong", message: (error as Error).message });
     } finally {
       await prisma.$disconnect();
     }
@@ -79,3 +85,4 @@ export default async function handle(
     res.status(405).json({ error: "Method not allowed" });
   }
 }
+
