@@ -18,11 +18,11 @@ import { Spinner } from "@nextui-org/spinner";
 const Header: FC = () => {
   const { theme } = useTheme();
   const [windowWidth, setWindowWidth] = useState<number>(0);
-  const { isOpen, onOpen, onClose } = useDisclosure();
   const [email, setEmail] = useState<string>("");
   const [isEmailSaved, setIsEmailSaved] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const inputRef = useRef<HTMLInputElement>(null);
+  const [errorMessage, setErrorMessage] = useState<string>("");
 
   useEffect(() => {
     const handleResize = () => setWindowWidth(window.innerWidth);
@@ -31,6 +31,7 @@ const Header: FC = () => {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
+  const { isOpen, onOpen, onClose: close } = useDisclosure();
   useEffect(() => {
     if (isOpen && inputRef.current) {
       inputRef.current.focus();
@@ -49,8 +50,11 @@ const Header: FC = () => {
 
   const handleEmailSubmit = async () => {
     setIsLoading(true);
+    setErrorMessage("");  // Reset the error message
     const emailRegex = /^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$/;
+
     if (!emailRegex.test(email)) {
+      setErrorMessage("Format de l'email invalide.");
       setIsLoading(false);
       return;
     }
@@ -58,24 +62,36 @@ const Header: FC = () => {
     try {
       const response = await fetch("/api/prospects", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+        },
         body: JSON.stringify({ email }),
       });
 
-      if (!response.ok) throw new Error("Failed to save email");
-
-      setIsEmailSaved(true);
+      if (!response.ok) {
+        const errorData = await response.json();
+        console.log("API response error data:", errorData); // Debug log
+        if (response.status === 409) {
+          setErrorMessage("Vous êtes déjà inscrit à dans la liste d'attente.");
+        } else {
+          setErrorMessage("Une erreur s'est produite lors de l'enregistrement de l'email.");
+        }
+      } else {
+        setIsEmailSaved(true);
+      }
     } catch (error) {
-      alert("Une erreur s'est produite lors de l'enregistrement de l'email.");
+      console.error("Error occurred during email submission:", error); // Debug log
+      setErrorMessage("Une erreur s'est produite lors de l'enregistrement de l'email.");
     } finally {
       setIsLoading(false);
     }
   };
 
   const handleClose = () => {
-    onClose();
+    close();
     setIsEmailSaved(false);
     setEmail("");
+    setErrorMessage("");  // Reset the error message when closing the modal
   };
 
   return (
@@ -133,11 +149,11 @@ const Header: FC = () => {
             Soyez les premiers à découvrir Smartflow !
           </ModalHeader>
           <ModalBody>
-            {!isEmailSaved ? (
+            {!isEmailSaved && (
               <>
                 <p>
-                  Ne manquez pas le lancement ! Inscrivez-vous et recevez un
-                  accès prioritaire dès que Smartflow sera disponible.
+                  Ne manquez pas le lancement ! Inscrivez-vous et recevez un accès
+                  prioritaire dès que Smartflow sera disponible.
                 </p>
                 <Input
                   ref={inputRef}
@@ -147,12 +163,16 @@ const Header: FC = () => {
                   onChange={handleEmailChange}
                   className="mb-4 rounded w-full"
                 />
+                {errorMessage && (
+                  <p className="text-red-500">{errorMessage}</p>
+                )}
               </>
-            ) : (
+            )}
+            {isEmailSaved && (
               <>
                 <p>
                   Merci ! Dernière étape pour être averti de la sortie de
-                  SmartFlow :
+                  SmartFlow :{" "}
                 </p>
                 <p>Veuillez cliquer sur le lien envoyé sur votre email.</p>
               </>
