@@ -9,6 +9,7 @@ import "@fortawesome/fontawesome-svg-core/styles.css";
 import { config } from "@fortawesome/fontawesome-svg-core";
 config.autoAddCss = false;
 import { ThemeProvider } from "./components/theme-provider";
+import { StepProvider } from "../app/context/StepContext"; // Importer StepProvider
 
 interface RootLayoutProps {
   children: ReactNode;
@@ -38,16 +39,20 @@ export default function RootLayout({ children }: RootLayoutProps) {
         >
           <Providers>
             <UserContextProvider>
-              <main className=" bg-neutral-200 sm:bg-white dark:bg-neutral-900">
-                {children}
-              </main>
-              {showMenu && (
-                <>
-                  <div className="sm:hidden">
-                    <TabBar />
-                  </div>
-                </>
-              )}
+              <StepProvider>
+                {" "}
+                {/* Envelopper avec StepProvider */}
+                <main className=" bg-neutral-200 sm:bg-white dark:bg-neutral-900">
+                  {children}
+                </main>
+                {showMenu && (
+                  <>
+                    <div className="sm:hidden">
+                      <TabBar />
+                    </div>
+                  </>
+                )}
+              </StepProvider>
             </UserContextProvider>
           </Providers>
         </ThemeProvider>
