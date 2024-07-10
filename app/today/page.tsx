@@ -74,6 +74,13 @@ const Today: React.FC = () => {
           return response.json() as Promise<CardData>;
         })
         .then((data) => {
+          if (data.code === 3) {
+            // Si le code est 3, ne pas afficher d'erreur
+            setCode(data.code);
+            setIsLoading(false);
+            return;
+          }
+
           if (data.cards) {
             console.log("Les datas : ", data.cards);
             setCards(data.cards);
