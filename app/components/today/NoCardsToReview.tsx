@@ -7,7 +7,7 @@ const NoCardsToReview = () => {
   return (
     <div
       id="NoCardToReviewMainContainer"
-      className="flex flex-col justify-between align-middle items-center min-h-screen"
+      className="flex flex-col justify-between align-middle items-center min-h-screen w-full sm:px-10 sm:pt-10"
     >
       <div
         id="NoCardToReviewTitleHintListContainer"
