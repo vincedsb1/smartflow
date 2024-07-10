@@ -139,7 +139,10 @@ const CategorySelection: React.FC<CategorySelectionProps> = ({
           id="addHeaderContainer"
           className="flex flex-col justify-center items-center w-full "
         >
-          <div id="addTitle" className="flex flex-col w-18/20 sm:w-full ">
+          <div
+            id="addTitle"
+            className="flex flex-col w-18/20 sm:w-full mt-2  sm:border-b-2 dark:border-neutral-500 border-neutral-400 sm:my-6"
+          >
             <CardAppTitle title="Nouvelle fiche" size="big" />
           </div>
           <div
