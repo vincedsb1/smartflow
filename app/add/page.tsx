@@ -130,16 +130,13 @@ const CardCreation: React.FC = () => {
           >
             <div
               id="addMainContainer"
-              className="flex flex-col justify-between min-h-screen w-full sm:px-10"
+              className="flex flex-col justify-between min-h-screen w-full sm:px-10 sm:pt-2"
             >
               <div
                 id="addTopContainer"
                 className="flex flex-col justify-center w-full h-full"
               >
-                <div
-                  id="birthdayBackIcon"
-                  className="w-full flex flex-col mt-16"
-                >
+                <div id="addBackIcon" className="w-full flex flex-col ">
                   <button
                     type="button"
                     onClick={handleBackClick}

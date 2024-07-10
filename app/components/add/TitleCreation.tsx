@@ -49,7 +49,7 @@ const TitleCreation: React.FC<TitleCreationProps> = ({
       >
         <div
           id="addHeaderContainer"
-          className="flex flex-col justify-center items-center w-full"
+          className="flex flex-col justify-normal items-center w-full"
         >
           <div
             id="addTitle"
