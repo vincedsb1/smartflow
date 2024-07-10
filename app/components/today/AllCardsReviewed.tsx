@@ -1,9 +1,28 @@
 import { faCheck } from "@fortawesome/free-solid-svg-icons";
-import React from "react";
+import React, { useEffect } from "react";
 import CardAppText from "../CardAppText";
 import CardAppTitle from "../CardAppTitle";
+import confetti from 'canvas-confetti';
 
 const AllCardsReviewed = () => {
+  useEffect(() => {
+    const today = new Date().toDateString();
+    const lastCelebrationDate = localStorage.getItem("lastCelebrationDate");
+
+    if (lastCelebrationDate !== today) {
+      celebrateWithConfetti();
+      localStorage.setItem("lastCelebrationDate", today);
+    }
+  }, []);
+
+  const celebrateWithConfetti = () => {
+    confetti({
+      particleCount: 150,
+      spread: 160,
+      origin: { y: 0.5 }
+    });
+  };
+
   return (
     <div
       id="todayMainContainer"
@@ -30,7 +49,6 @@ const AllCardsReviewed = () => {
         id="allCardsReviewedMiddle"
         className="w-18/20 sm:w-full mb-24 flex justify-center"
       >
-        {" "}
         <div id="allCardsReviewedHint" className="w-18/20 sm:w-1/2 mb-14">
           <CardAppText
             icon={faCheck}
