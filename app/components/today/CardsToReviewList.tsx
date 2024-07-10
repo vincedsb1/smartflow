@@ -52,7 +52,10 @@ const CardsToReviewList: React.FC<CardsToReviewListProps> = ({
           id="todayTitleHintContainer"
           className="flex flex-col w-full items-center"
         >
-          <div className="w-18/20 sm:w-full mt-2  sm:border-b-2 dark:border-neutral-500 border-neutral-400 sm:my-6">
+          <div
+            id="todayCardsToReviewTitleContainer"
+            className="w-18/20 sm:w-full mt-2  sm:border-b-2 dark:border-neutral-500 border-neutral-400 sm:my-6"
+          >
             <CardAppTitle title="Aujourd'hui" size="big" />
           </div>
           <div className="w-18/20 sm:w-full mb-14">

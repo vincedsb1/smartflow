@@ -30,11 +30,11 @@ const CardCreation: React.FC = () => {
   const [content, setContent] = useState("");
   const continueButtonRef = useRef<HTMLButtonElement>(null);
 
-  useEffect(() => {
-    if (!userContext || !userContext.token) {
-      router.push("/");
-    }
-  }, [userContext, router]);
+  // useEffect(() => {
+  //   if (!userContext || !userContext.token) {
+  //     router.push("/");
+  //   }
+  // }, [userContext, router]);
 
   useEffect(() => {
     if (step === STEP_CONTENT) {
