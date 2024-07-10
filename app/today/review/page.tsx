@@ -98,6 +98,7 @@ const Review: React.FC = () => {
 
   const handleReview = (isPositive: boolean) => {
     fetch(`/api/cards/${id}`, {
+      // Utilisation du proxy
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
@@ -111,6 +112,7 @@ const Review: React.FC = () => {
         userContext.setNbCardsToReview(userContext.NbCardsToReview - 1);
       })
       .catch((error) => console.error("Error:", error));
+    console.log(`/api/cards/${id}`);
   };
 
   const shuffle = (array: any[]) => {
