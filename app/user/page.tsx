@@ -14,17 +14,11 @@ import { UserContext, useUser } from "../context/UserContext";
 import { useRouter } from "next/navigation";
 import DesktopMenu from "../components/DesktopMenu";
 
-const UserProfile: React.FC = () => {
+const UserProfile = () => {
   const { firstname, email, birthday, user, token, setUser, setToken } =
     useUser();
   const userId = user?.id;
   const router = useRouter();
-
-  // useEffect(() => {
-  //   if (!user || user === undefined || !token || token === undefined) {
-  //     router.push("/");
-  //   }
-  // }, [user, token, router]);
 
   const handleLogout = () => {
     setUser(null);
@@ -100,25 +94,20 @@ const UserProfile: React.FC = () => {
     },
   ];
 
-  const [isOpen, setIsOpen] = React.useState(false);
-
-  const handleOpen = () => {
-    setIsOpen(true);
-  };
-
-  const handleClose = () => {
-    setIsOpen(false);
-  };
-
+  const [isOpen, setIsOpen] = useState(false);
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [modalTitle, setModalTitle] = useState("");
   const [modalContent, setModalContent] = useState("");
-
   const [signupDate, setSignupDate] = useState("");
   const userContext = useContext(UserContext);
 
   useEffect(() => {
     const fetchUserData = async () => {
+      if (!token) {
+        console.error("Token manquant");
+        return;
+      }
+
       try {
         const response = await fetch("/api/users/details", {
           method: "GET",
@@ -129,9 +118,16 @@ const UserProfile: React.FC = () => {
         });
 
         if (!response.ok) {
-          throw new Error(
-            "Erreur lors de la récupération des données utilisateur"
-          );
+          if (response.status === 401) {
+            console.error(
+              "Non autorisé, redirection vers la page de connexion"
+            );
+            handleLogout();
+          } else {
+            throw new Error(
+              "Erreur lors de la récupération des données utilisateur"
+            );
+          }
         }
 
         const data = await response.json();
@@ -172,7 +168,7 @@ const UserProfile: React.FC = () => {
               >
                 <div
                   id="userTopInfosContainer"
-                  className="w-full flex flex-col px-4"
+                  className="w-full flex flex-col px-4 sm:px-0"
                 >
                   <div
                     id="userTopNameContainer"
