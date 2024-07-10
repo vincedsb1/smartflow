@@ -47,7 +47,7 @@ const CardAppText = ({
       {icon && (
         <div
           id="hintIconMainContainer"
-          className="flex justify-center items-center w-4/20 min-h-16"
+          className="flex justify-center items-center w-4/20 sm:w-14 min-h-16"
         >
           <div
             id="hintIconContainer"
@@ -66,9 +66,8 @@ const CardAppText = ({
         <p
           className="text-neutral-800 dark:text-neutral-400 font-text font-bold text-xl leading-6 p-2"
           id="tex-card"
-        >
-          {text}
-        </p>
+          dangerouslySetInnerHTML={{ __html: text }} // Utiliser dangerouslySetInnerHTML
+        />
       </div>
     </div>
   );
