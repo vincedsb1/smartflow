@@ -25,6 +25,7 @@
     "@react-email/components": "0.0.15",
     "aos": "^2.3.4",
     "argon2": "^0.40.1",
+    "canvas-confetti": "^1.9.3",
     "chart.js": "^4.4.3",
     "clsx": "^2.1.1",
     "dayjs": "^1.11.10",
@@ -54,6 +55,7 @@
   "devDependencies": {
     "@types/aos": "^3.0.7",
     "@types/argon2": "^0.15.0",
+    "@types/canvas-confetti": "^1.6.4",
     "@types/node": "^20.12.4",
     "@types/nodemailer": "^6.4.14",
     "@types/react": "^18",

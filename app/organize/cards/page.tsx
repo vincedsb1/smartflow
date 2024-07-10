@@ -19,7 +19,6 @@ const OrganizeCards = () => {
   }
 
   const { setCardsToReview } = userContext;
-
   const [cards, setCards] = useState<UserCardProps[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [isError, setIsError] = useState<boolean>(false);
@@ -53,7 +52,7 @@ const OrganizeCards = () => {
           } else {
             setCards([]);
             setCardsToReview([]);
-            setShowNoCardsMessage(true); // Afficher le message si aucune carte n'est trouvée
+            setShowNoCardsMessage(true);
           }
           setIsLoading(false);
         })
