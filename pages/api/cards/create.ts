@@ -21,11 +21,13 @@ export default async function handle(
     return res.status(401).json({ message: "Not authenticated" });
   }
 
-  let decodedToken;
+  let decodedToken: { userId: number } | null = null;
 
   try {
     // Replace 'your-secret' with your actual secret
-    decodedToken = jwt.verify(token, process.env.APP_SECRET);
+    decodedToken = jwt.verify(token, process.env.APP_SECRET) as {
+      userId: number;
+    };
   } catch (err) {
     return res.status(500).json({ error: (err as Error).message });
   }
@@ -41,7 +43,7 @@ export default async function handle(
         categoryId: category,
         answer: content,
         level: 1, // You can change this value according to your needs
-        lastReviewDate: new Date(),
+        lastReviewDate: new Date("1970-01-01T00:00:00Z"), // Définir à 01/01/1970
         userId: decodedToken.userId,
       },
     });
