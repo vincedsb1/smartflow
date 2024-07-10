@@ -87,7 +87,7 @@ const DesktopMenu: React.FC = () => {
                 className={`${iconStyle("add")} text-xl`}
               />
             </div>
-            <span className="font-text text-lg text-neutral-700 dark:text-neutral-300 group-hover:text-cyan-600 dark:group-hover:text-cyan-400 transition-colors duration-300 ease-in-out pl-2">
+            <span className="font-text text-lg text-neutral-700 dark:text-neutral-300 group-hover:text-cyan-600 dark:group-hover:text-cyan-400 transition-colors duration-300 ease-in-out pl-2 text-left">
               Ajouter une fiche
             </span>
           </button>

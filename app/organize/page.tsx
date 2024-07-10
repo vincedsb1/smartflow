@@ -36,13 +36,13 @@ const Organize = () => {
           <DesktopMenu />
         </div>
         <div
-          id="todayContentContainer"
-          className="flex flex-row justify-center  w-full sm:ml-48 md:ml-72"
+          id="organizeContentContainer"
+          className="flex flex-row justify-center w-full sm:ml-48 md:ml-72"
         >
-          <div className="flex flex-row justify-center  w-full">
+          <div className="flex flex-row justify-center w-full">
             <div
               id="organizeMainContainer"
-              className="flex flex-col justify-between min-h-screen w-full sm:w-18/20"
+              className="flex flex-col justify-between min-h-screen w-full sm:w-18/20 sm:pt-10"
             >
               <div
                 id="organizeContainer"
@@ -54,7 +54,7 @@ const Organize = () => {
                 >
                   <div
                     id="organizeTitle"
-                    className="flex flex-col mt-11 w-18/20 sm:w-full "
+                    className="flex flex-col mt-11 w-18/20 sm:w-full sm:border-b-2 dark:border-neutral-500 border-neutral-400 sm:my-6"
                   >
                     <CardAppTitle title="Organiser" size="big" />
                   </div>

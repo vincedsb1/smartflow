@@ -17,7 +17,7 @@ const NoCardsToReview = () => {
           id="todayTitleHintContainer"
           className="flex flex-col w-full items-center"
         >
-          <div className="w-18/20 mt-20">
+          <div id="todayNoCardToReviewTitleContainer" className="w-18/20 mt-20">
             <CardAppTitle title="Aujourd'hui" size="big" />
           </div>
           <div className="w-18/20 mb-14">
