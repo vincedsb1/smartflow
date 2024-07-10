@@ -13,14 +13,15 @@ import ReviewContent from "@/app/components/review/ReviewContent";
 const Review: React.FC = () => {
   const userContext = useContext(UserContext);
   const apiUrl = process.env.NEXT_PUBLIC_REACT_APP_BACKEND_URL;
+  console.log("api url : ", apiUrl);
   // const apiUrl = process.env.NEXT_PUBLIC_API_URL;
   const router = useRouter();
 
-  useEffect(() => {
-    if (!userContext || !userContext.token) {
-      router.push("/");
-    }
-  }, [userContext, router]);
+  // useEffect(() => {
+  //   if (!userContext || !userContext.token) {
+  //     router.push("/");
+  //   }
+  // }, [userContext, router]);
 
   if (!userContext) {
     throw new Error("UserContext must be used within a UserContextProvider");
@@ -55,6 +56,7 @@ const Review: React.FC = () => {
         .then((response) => response.json())
         .then((data) => {
           console.log("Data from API:", data);
+          console.log("id :", id);
           setTitle(data.title);
           setAnswer(data.answer);
           setLevel(data.level);
@@ -95,7 +97,7 @@ const Review: React.FC = () => {
   };
 
   const handleReview = (isPositive: boolean) => {
-    fetch(`${apiUrl}/api/cards/${id}`, {
+    fetch(`/api/cards/${id}`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
