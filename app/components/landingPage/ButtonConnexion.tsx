@@ -21,7 +21,6 @@ const ButtonConnexion: React.FC<ButtonConnexionProps> = ({ label }) => {
         color="primary"
         className="h-10 w-24 xs:w-28 2xs:w-32 sm:w-36 mr-2"
         size="lg"
-        isDisabled={true}
       >
         {label}
       </Button>

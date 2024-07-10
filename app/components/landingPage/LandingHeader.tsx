@@ -50,7 +50,7 @@ const Header: FC = () => {
 
   const handleEmailSubmit = async () => {
     setIsLoading(true);
-    setErrorMessage("");  // Reset the error message
+    setErrorMessage(""); // Reset the error message
     const emailRegex = /^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$/;
 
     if (!emailRegex.test(email)) {
@@ -74,14 +74,18 @@ const Header: FC = () => {
         if (response.status === 409) {
           setErrorMessage("Vous êtes déjà inscrit à dans la liste d'attente.");
         } else {
-          setErrorMessage("Une erreur s'est produite lors de l'enregistrement de l'email.");
+          setErrorMessage(
+            "Une erreur s'est produite lors de l'enregistrement de l'email."
+          );
         }
       } else {
         setIsEmailSaved(true);
       }
     } catch (error) {
       console.error("Error occurred during email submission:", error); // Debug log
-      setErrorMessage("Une erreur s'est produite lors de l'enregistrement de l'email.");
+      setErrorMessage(
+        "Une erreur s'est produite lors de l'enregistrement de l'email."
+      );
     } finally {
       setIsLoading(false);
     }
@@ -91,7 +95,7 @@ const Header: FC = () => {
     close();
     setIsEmailSaved(false);
     setEmail("");
-    setErrorMessage("");  // Reset the error message when closing the modal
+    setErrorMessage(""); // Reset the error message when closing the modal
   };
 
   return (
@@ -112,7 +116,7 @@ const Header: FC = () => {
         />
       </div>
       <div id="buttonContainer" className="flex items-center">
-        <div id="waitlistButtonContainer" className="mx-2">
+        <div id="waitlistButtonContainer" className="mx-2 hidden">
           <Button
             color="primary"
             onClick={onOpen}
@@ -152,8 +156,8 @@ const Header: FC = () => {
             {!isEmailSaved && (
               <>
                 <p>
-                  Ne manquez pas le lancement ! Inscrivez-vous et recevez un accès
-                  prioritaire dès que Smartflow sera disponible.
+                  Ne manquez pas le lancement ! Inscrivez-vous et recevez un
+                  accès prioritaire dès que Smartflow sera disponible.
                 </p>
                 <Input
                   ref={inputRef}
@@ -163,9 +167,7 @@ const Header: FC = () => {
                   onChange={handleEmailChange}
                   className="mb-4 rounded w-full"
                 />
-                {errorMessage && (
-                  <p className="text-red-500">{errorMessage}</p>
-                )}
+                {errorMessage && <p className="text-red-500">{errorMessage}</p>}
               </>
             )}
             {isEmailSaved && (
