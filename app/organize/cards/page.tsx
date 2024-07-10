@@ -1,23 +1,14 @@
 "use client";
-
-import {
-  faChevronLeft,
-  faChevronRight,
-  faTag,
-} from "@fortawesome/free-solid-svg-icons";
+import React, { useContext, useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import { CircularProgress } from "@nextui-org/react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useContext, useEffect, useState } from "react";
-import List from "../../components/List";
-import { UserContext, useUser } from "@/app/context/UserContext";
-import { Card, CircularProgress } from "@nextui-org/react";
+import { faChevronLeft } from "@fortawesome/free-solid-svg-icons";
 import Link from "next/link";
-import CardAppTitle from "../../components/CardAppTitle";
-import CardAppText from "../../components/CardAppText";
-import { faListUl } from "@fortawesome/free-solid-svg-icons";
-import { UserCardProps } from "../../context/UserContext";
+import List from "../../components/List";
 import DesktopMenu from "../../components/DesktopMenu";
-
-const { useRouter } = require("next/navigation");
+import { UserContext } from "@/app/context/UserContext";
+import { UserCardProps } from "../../context/UserContext";
 
 const OrganizeCards = () => {
   const userContext = useContext(UserContext);
@@ -32,45 +23,37 @@ const OrganizeCards = () => {
   const [cards, setCards] = useState<UserCardProps[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [isError, setIsError] = useState<boolean>(false);
-
   const [myModalContent, setMyModalContent] = useState("");
-
   const [isTokenLoaded, setIsTokenLoaded] = useState<boolean>(false);
+  const [showNoCardsMessage, setShowNoCardsMessage] = useState<boolean>(false);
 
   useEffect(() => {
-    // Vérifiez si le token est disponible
     if (userContext.token) {
       setIsTokenLoaded(true);
-      console.log("vérification du token OK");
     }
   }, [userContext.token]);
 
   useEffect(() => {
-    // Ne faire la requête fetch que si le token est chargé
-    console.log("entrée dans le useEffect");
     if (isTokenLoaded) {
-      console.log("entrée dans le if");
       fetch("/api/cards/cardByUser", {
         headers: {
           Authorization: `Bearer ${userContext.token}`,
         },
       })
         .then((response) => {
-          console.log("entrée dans le then");
           if (!response.ok) {
             throw new Error("Network response was not ok");
           }
           return response.json();
         })
         .then((data) => {
-          console.log("entrée dans le then 2");
-          console.log("Données récupérées :", data); // Ajoutez ce log pour vérifier les données
-          if (Array.isArray(data.cards)) {
+          if (Array.isArray(data.cards) && data.cards.length > 0) {
             setCards(data.cards);
             setCardsToReview(data.cards);
           } else {
             setCards([]);
             setCardsToReview([]);
+            setShowNoCardsMessage(true); // Afficher le message si aucune carte n'est trouvée
           }
           setIsLoading(false);
         })
@@ -105,8 +88,6 @@ const OrganizeCards = () => {
     color: card.categoryColorName || "white",
   }));
 
-  console.log("Rows à afficher :", rows);
-
   return (
     <div className="flex flex-row justify-center items-center">
       <div className="w-full sm:max-w-[1170px]  bg-neutral-200 dark:bg-neutral-700 sm:shadow-2xl sm:shadow-neutral-200 sm:dark:shadow-black flex flex-row ">
@@ -133,13 +114,20 @@ const OrganizeCards = () => {
               </Link>
             </div>
             <div id="organizeCardListContainer" className="w-full">
-              <List
-                rows={rows}
-                title="Fiches"
-                isLargeRow={true}
-                setModalContent={setMyModalContent}
-                modalContent={myModalContent}
-              />
+              {showNoCardsMessage && (
+                <p className="text-center my-8 font-text text-xl">
+                  Aucune carte disponible pour le moment.
+                </p>
+              )}
+              {!showNoCardsMessage && (
+                <List
+                  rows={rows}
+                  title="Fiches"
+                  isLargeRow={true}
+                  setModalContent={setMyModalContent}
+                  modalContent={myModalContent}
+                />
+              )}
             </div>
           </div>
         </div>
