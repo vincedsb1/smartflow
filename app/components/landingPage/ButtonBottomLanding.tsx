@@ -28,19 +28,19 @@ const ButtonConnexion: React.FC<ButtonConnexionProps> = ({
     router.push("/login");
   };
 
-  const { isOpen, onOpen, onClose: close } = useDisclosure();
+  // const { isOpen, onOpen, onClose: close } = useDisclosure();
   const [email, setEmail] = useState<string>("");
   const [isEmailSaved, setIsEmailSaved] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string>("");
   const inputRef = useRef<HTMLInputElement>(null);
 
-  useEffect(() => {
-    console.log("Modal isOpen:", isOpen); // Debug log
-    if (isOpen && inputRef.current) {
-      inputRef.current.focus();
-    }
-  }, [isOpen]);
+  // useEffect(() => {
+  //   console.log("Modal isOpen:", isOpen); // Debug log
+  //   if (isOpen && inputRef.current) {
+  //     inputRef.current.focus();
+  //   }
+  // }, [isOpen]);
 
   const handleEmailChange = (event: ChangeEvent<HTMLInputElement>) => {
     setEmail(event.target.value);
@@ -48,7 +48,7 @@ const ButtonConnexion: React.FC<ButtonConnexionProps> = ({
 
   const handleEmailSubmit = async () => {
     setIsLoading(true);
-    setErrorMessage("");  // Reset the error message
+    setErrorMessage(""); // Reset the error message
     const emailRegex = /^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$/;
 
     if (!emailRegex.test(email)) {
@@ -72,14 +72,18 @@ const ButtonConnexion: React.FC<ButtonConnexionProps> = ({
         if (response.status === 409) {
           setErrorMessage("Vous êtes déjà inscrit à dans la liste d'attente.");
         } else {
-          setErrorMessage("Une erreur s'est produite lors de l'enregistrement de l'email.");
+          setErrorMessage(
+            "Une erreur s'est produite lors de l'enregistrement de l'email."
+          );
         }
       } else {
         setIsEmailSaved(true);
       }
     } catch (error) {
       console.error("Error occurred during email submission:", error); // Debug log
-      setErrorMessage("Une erreur s'est produite lors de l'enregistrement de l'email.");
+      setErrorMessage(
+        "Une erreur s'est produite lors de l'enregistrement de l'email."
+      );
     } finally {
       setIsLoading(false);
     }
@@ -89,13 +93,13 @@ const ButtonConnexion: React.FC<ButtonConnexionProps> = ({
     close();
     setIsEmailSaved(false);
     setEmail("");
-    setErrorMessage("");  // Reset the error message when closing the modal
+    setErrorMessage(""); // Reset the error message when closing the modal
   };
 
   return (
     <div>
       <Button
-        onClick={onOpen}
+        onClick={handleNavigation}
         id="buttonConnexion"
         color="primary"
         className="xs:hidden bg-cyan-950 dark:bg-cyan-100 text-white dark:text-cyan-950"
@@ -104,7 +108,7 @@ const ButtonConnexion: React.FC<ButtonConnexionProps> = ({
         {labelSmall}
       </Button>
       <Button
-        onClick={onOpen}
+        onClick={handleNavigation}
         id="buttonConnexion"
         color="primary"
         className="hidden xs:block bg-cyan-950 dark:bg-cyan-100 text-white dark:text-cyan-950"
@@ -113,7 +117,7 @@ const ButtonConnexion: React.FC<ButtonConnexionProps> = ({
         {label}
       </Button>
 
-      <Modal isOpen={isOpen} onClose={handleClose}>
+      {/* <Modal isOpen={isOpen} onClose={handleClose}>
         <ModalContent>
           <ModalHeader className="flex flex-col gap-1">
             Soyez les premiers à découvrir Smartflow !
@@ -122,8 +126,8 @@ const ButtonConnexion: React.FC<ButtonConnexionProps> = ({
             {!isEmailSaved && (
               <>
                 <p>
-                  Ne manquez pas le lancement ! Inscrivez-vous et recevez un accès
-                  prioritaire dès que Smartflow sera disponible.
+                  Ne manquez pas le lancement ! Inscrivez-vous et recevez un
+                  accès prioritaire dès que Smartflow sera disponible.
                 </p>
                 <Input
                   ref={inputRef}
@@ -133,9 +137,7 @@ const ButtonConnexion: React.FC<ButtonConnexionProps> = ({
                   onChange={handleEmailChange}
                   className="mb-4 rounded w-full"
                 />
-                {errorMessage && (
-                  <p className="text-red-500">{errorMessage}</p>
-                )}
+                {errorMessage && <p className="text-red-500">{errorMessage}</p>}
               </>
             )}
             {isEmailSaved && (
@@ -175,7 +177,7 @@ const ButtonConnexion: React.FC<ButtonConnexionProps> = ({
             )}
           </ModalFooter>
         </ModalContent>
-      </Modal>
+      </Modal> */}
     </div>
   );
 };
