@@ -163,6 +163,7 @@ const InscriptionPage = () => {
                 text="Quel est votre prénom ?"
                 icon={faUser}
                 shadow
+                colorVariant
               />
             </div>
             <form

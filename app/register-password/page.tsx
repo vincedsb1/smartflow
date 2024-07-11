@@ -174,6 +174,7 @@ const ConnexionPage = () => {
                 text="Choisissez un mot de passe"
                 icon={faUser}
                 shadow
+                colorVariant
               />
             </div>
             <form
@@ -182,7 +183,7 @@ const ConnexionPage = () => {
               className="flex flex-col items-center w-full mt-10"
             >
               <CardAppPasswordInput onChange={handlePasswordChange} />
-              <div className="w-4/5 flex items-center mt-14">
+              <div className="w-full flex items-center mt-14 ">
                 <Checkbox
                   size="md"
                   onChange={handleChangeCgu}
@@ -192,7 +193,7 @@ const ConnexionPage = () => {
                   J&apos;accepte les conditions générales d&apos;utilisation
                 </Checkbox>
               </div>
-              <div className="w-4/5 flex flex-row justify-start mb-4 ml-4 mt-1 3xs:mt-0">
+              <div className="w-full flex flex-row justify-start mb-4 ml-4 mt-1 3xs:mt-0 pl-5">
                 <NextUILink href="/cgu">Consulter les CGU</NextUILink>
               </div>
               <Button
