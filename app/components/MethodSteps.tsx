@@ -153,13 +153,13 @@ function MethodSteps() {
       {/* Desktop */}
       <div
         id="desktopVersion"
-        className="hidden md:flex flex-col items-center justify-center w-[800px]  h-[600px] border-3 bg-neutral-50 dark:bg-neutral-800 shadow-lg rounded-2xl space-y-4 border-neutral-200 dark:border-neutral-500 mx-auto my-auto p-4 overflow-auto "
+        className="hidden md:flex flex-col items-center justify-center w-[800px]  h-[600px] border-3 bg-neutral-100 dark:bg-neutral-800 shadow-lg rounded-2xl space-y-4 border-neutral-200 dark:border-neutral-500 mx-auto my-auto p-4 overflow-auto "
       >
         <div className="w-full max-w-md mb-2 md:mb-0 flex justify-center">
           <CardAppTitle title={step.title} size="big" />
         </div>
         <div className="w-full lg:mt-4 mt-2 md:mt-0 max-w-md">
-          <CardAppText text={step.text} />
+          <CardAppText text={step.text} colorVariant />
         </div>
         <div className="w-full lg:mt-4 mt-2 md:mt-0 max-w-md">
           <CardAppImage src={step.image} alt={step.title} />
