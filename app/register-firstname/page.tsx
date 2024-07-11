@@ -68,7 +68,7 @@ const InscriptionPage = () => {
 
   // Fonction pour continuer
   const handleContinue = () => {
-    const nameRegex = /^[a-zA-Z ]+$/;
+    const nameRegex = /^[a-zA-ZÀ-ÿ '-]+$/;
     if (!firstName || !nameRegex.test(firstName)) {
       alert("Veuillez entrer un prénom valide.");
       return;
