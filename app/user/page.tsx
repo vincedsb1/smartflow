@@ -131,12 +131,10 @@ const UserProfile = () => {
         }
 
         const data = await response.json();
-        console.log("Données utilisateur:", data.signupDate);
 
         if (data.signupDate) {
           setSignupDate(new Date(data.signupDate).toLocaleDateString("fr-FR"));
         } else {
-          console.log("signupDate est undefined dans la réponse de l'API");
           setSignupDate("Date non disponible");
         }
       } catch (error) {

@@ -77,7 +77,6 @@ const OrganizeCards = () => {
   }
 
   const handleCardClick = (cardId: number) => {
-    console.log(`Card clicked: ${cardId}`);
     router.push(`/today/review?id=${cardId}`);
   };
 

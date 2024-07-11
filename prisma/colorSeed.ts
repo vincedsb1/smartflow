@@ -29,7 +29,6 @@ export async function seedColors() {
       await prisma.color.create({
         data: color,
       });
-      console.log(`Color ${color.name} created successfully`);
     }
   } catch (err) {
     console.error("Error creating colors:", err);

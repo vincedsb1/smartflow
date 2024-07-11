@@ -32,7 +32,7 @@ const AllCardsReviewed = () => {
         id="todayTitleHintListContainer"
         className="flex flex-col w-full items-center"
       >
-        <div
+         <div
           id="todayTitleHintContainer"
           className="flex flex-col w-full items-center"
         >

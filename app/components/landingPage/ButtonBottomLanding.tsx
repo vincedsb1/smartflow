@@ -35,13 +35,6 @@ const ButtonConnexion: React.FC<ButtonConnexionProps> = ({
   const [errorMessage, setErrorMessage] = useState<string>("");
   const inputRef = useRef<HTMLInputElement>(null);
 
-  // useEffect(() => {
-  //   console.log("Modal isOpen:", isOpen); // Debug log
-  //   if (isOpen && inputRef.current) {
-  //     inputRef.current.focus();
-  //   }
-  // }, [isOpen]);
-
   const handleEmailChange = (event: ChangeEvent<HTMLInputElement>) => {
     setEmail(event.target.value);
   };
@@ -68,7 +61,6 @@ const ButtonConnexion: React.FC<ButtonConnexionProps> = ({
 
       if (!response.ok) {
         const errorData = await response.json();
-        console.log("API response error data:", errorData); // Debug log
         if (response.status === 409) {
           setErrorMessage("Vous êtes déjà inscrit à dans la liste d'attente.");
         } else {

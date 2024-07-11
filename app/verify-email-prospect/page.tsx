@@ -9,10 +9,8 @@ const VerifyEmailProspect = () => {
   const [isVerified, setIsVerified] = useState(false);
 
   useEffect(() => {
-    console.log("Component mounted");
     const urlParams = new URLSearchParams(window.location.search);
     const token = urlParams.get("token");
-    console.log("Token:", token);
 
     if (token) {
       const verifyEmail = async () => {
@@ -20,22 +18,18 @@ const VerifyEmailProspect = () => {
           const response = await fetch(
             `/api/users/verify-email-prospect?token=${token}`
           );
-          console.log("Response status:", response.status);
           if (response.ok) {
             setIsVerified(true);
             setStatus(1);
-            console.log("Email verified, status set to 1");
             await new Promise((resolve) => setTimeout(resolve, 5000));
             window.location.href = "/";
           } else if (status !== 1) {
             setStatus(2);
-            console.log("Verification failed, status set to 2");
           }
         } catch (error) {
           console.error("Error occurred:", error);
           if (status !== 1) {
             setStatus(2);
-            console.log("Error caught, status set to 2");
           }
         }
       };
@@ -43,7 +37,6 @@ const VerifyEmailProspect = () => {
       verifyEmail();
     } else {
       setStatus(3);
-      console.log("No token provided, status set to 3");
     }
   }, [status]);
 
@@ -78,7 +71,6 @@ const VerifyEmailProspect = () => {
     }
   };
 
-  console.log("Current status:", status);
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen py-2 bg-neutral-200 dark:bg-neutral-900">

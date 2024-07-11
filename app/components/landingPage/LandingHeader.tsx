@@ -70,7 +70,6 @@ const Header: FC = () => {
 
       if (!response.ok) {
         const errorData = await response.json();
-        console.log("API response error data:", errorData); // Debug log
         if (response.status === 409) {
           setErrorMessage("Vous êtes déjà inscrit à dans la liste d'attente.");
         } else {

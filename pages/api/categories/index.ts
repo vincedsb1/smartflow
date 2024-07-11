@@ -13,10 +13,8 @@ export default function handle(
   res: NextApiResponse
 ) {
   verifyToken(req, res, async () => {
-    console.log("req.user:", req.user);
 
     const { userId } = req.user;
-    console.log("user:", req.user);
 
     if (!userId) {
       return res.status(401).json({ message: "Not authenticated" });
@@ -24,7 +22,6 @@ export default function handle(
 
     if (req.method === "GET") {
       try {
-        console.log("Fetching categories for user ID:", userId);
         const categories = await prisma.category.findMany({
           where: {
             userId: userId,

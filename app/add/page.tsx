@@ -12,7 +12,6 @@ import { UserContext } from "../context/UserContext";
 import { StepProvider, useStep } from "../context/StepContext";
 import DesktopMenu from "../components/DesktopMenu";
 
-// Définir des constantes pour les étapes
 const STEP_TITLE = 1;
 const STEP_CATEGORY = 2;
 const STEP_CONTENT = 3;
@@ -30,22 +29,15 @@ const CardCreation: React.FC = () => {
   const [content, setContent] = useState("");
   const continueButtonRef = useRef<HTMLButtonElement>(null);
 
-  // useEffect(() => {
-  //   if (!userContext || !userContext.token) {
-  //     router.push("/");
-  //   }
-  // }, [userContext, router]);
 
   useEffect(() => {
     if (step === STEP_CONTENT) {
-      console.log("Titre de la carte : ", cardTitle);
-      console.log("ID de la catégorie sélectionnée : ", selectedCategoryId);
+
     }
   }, [step, cardTitle, selectedCategoryId]);
 
   useEffect(() => {
     if (step === STEP_CONFIRMATION) {
-      console.log("Contenu de la carte : ", content);
     }
   }, [step, content]);
 
@@ -93,11 +85,9 @@ const CardCreation: React.FC = () => {
       })
         .then((response) => response.json())
         .then((data) => {
-          console.log(data);
           setCardId(data.id);
         })
         .catch((error) => {
-          console.error("Error:", error);
         });
     }
     if (step < STEP_CONFIRMATION) {

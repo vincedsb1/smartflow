@@ -33,7 +33,6 @@ const MailAuth = () => {
     const emailValue = e.target.value;
     setEmail(emailValue);
     setIsEmailValid(validateEmail(emailValue)); // Valider l'email à chaque changement
-    console.log("handleChangeEmail: emailValue =", emailValue);
   };
 
   const handleBlurEmail = () => {
@@ -43,7 +42,6 @@ const MailAuth = () => {
   const handleClickNext = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
     setEmailTouched(true);
-    console.log("handleClickNext: ", email);
     if (email) {
       setIsEmailValid(validateEmail(email));
       handleSubmit(e);
@@ -54,7 +52,6 @@ const MailAuth = () => {
 
   const handleSubmit = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
-    console.log("handleSubmit: ", email);
     handleBlurEmail();
     if (!validateEmail(email)) return;
 

@@ -40,7 +40,6 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse) 
         return;
       }
 
-      console.log("Saving email:", email);
 
       const token = jwt.sign(
         { email, iat: Math.floor(Date.now() / 1000) },
@@ -54,7 +53,6 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse) 
         },
       });
 
-      console.log("Email saved successfully:", newProspect);
 
       const verificationLink = `${process.env.BASE_URL}/verify-email-prospect?token=${token}`;
 
@@ -72,7 +70,6 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse) 
         html: emailContent,
       });
 
-      console.log("Verification email sent successfully");
 
       res.status(201).json(newProspect);
     } catch (error) {

@@ -22,9 +22,7 @@ export default function verifyToken(
     if (type !== "Bearer") {
       throw new Error("Authorization header has not the 'Bearer' type");
     }
-    console.log("Token received:", token);
     req.user = jwt.verify(token, process.env.APP_SECRET);
-    console.log("User decoded from token:", req.user);
     next();
   } catch (err) {
     console.error(err);

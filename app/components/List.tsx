@@ -1,6 +1,5 @@
 "use client";
 
-// Importation des dépendances
 import { IconDefinition } from "@fortawesome/fontawesome-svg-core";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Link from "next/link";
@@ -11,9 +10,8 @@ import ListTitle from "./list/ListTitle";
 import useRowSelection from "./list/useRowSelection";
 import BelowListLink from "./list/BelowListLink";
 
-// Définition des propriétés pour une ligne de la liste
 interface ListRowProps {
-  color?: Color; // Couleur de l'indicateur de couleur
+  color?: Color;
   mainLabel: string; // Label principal
   secondaryLabel?: string | null; // Label secondaire
   icon?: IconDefinition; // Icône à afficher
@@ -106,11 +104,9 @@ const List: React.FC<ListProps> = ({
               onClick={
                 selectable
                   ? () => {
-                      console.log("RowComponent onClick index:", index);
                       handleRowSelection(index);
                       onSelect && onSelect(index);
                       row.onClick && row.onClick();
-                      console.log("Index de la ligne sélectionnée : ", index);
                     }
                   : row.isModal
                   ? () => {

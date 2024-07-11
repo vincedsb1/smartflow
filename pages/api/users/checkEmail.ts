@@ -68,7 +68,6 @@ export default async function handler(
         res.status(200).json({ message: "Email already exists" });
       }
     } catch (err) {
-      console.log(`Error: ${err}`);
       res
         .status(500)
         .json({ message: "An error occurred while checking the email" });
