@@ -40,9 +40,6 @@ export default async function handle(
         },
       });
 
-      console.log("Card:", card);
-      console.log("User ID:", userId);
-
       if (!card || card.userId !== Number(userId)) {
         return res.status(404).json({ error: "Card not found" });
       }
@@ -56,7 +53,6 @@ export default async function handle(
 
       return res.status(200).json(response);
     } catch (error) {
-      console.log("Database error:", error);
       return res
         .status(500)
         .json({ error: "An error occurred while retrieving the card" });
@@ -92,7 +88,6 @@ export default async function handle(
       }
 
       const now = new Date();
-      console.log("Review date: ", moment(now).tz("Europe/Paris").format());
 
       const updatedCard = await prisma.card.update({
         where: {

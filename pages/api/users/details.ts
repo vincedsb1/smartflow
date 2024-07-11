@@ -29,28 +29,9 @@ export default async function handle(
           id: userId,
         },
       });
-
-      console.log(
-        `Données utilisateur: ${
-          user ? JSON.stringify(user) : "undefined"
-        } page.tsx:136:16`
-      );
-
       if (user) {
-        console.log(
-          `Données utilisateur: ${JSON.stringify(user)} page.tsx:136:16`
-        );
-        console.log(
-          `signupDate est ${
-            user.signupDate ? "défini" : "undefined"
-          } dans la réponse de l'API page.tsx:141:18`
-        );
         res.status(200).json(user);
       } else {
-        console.log("Données utilisateur: undefined page.tsx:136:16");
-        console.log(
-          "signupDate est undefined dans la réponse de l'API page.tsx:141:18"
-        );
         res.status(404).json({ error: "Utilisateur non trouvé" });
       }
     } catch (error) {

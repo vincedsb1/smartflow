@@ -87,11 +87,6 @@ const AddCategoryModal: React.FC<AddCategoryModalProps> = ({
       return;
     }
 
-    console.log("Passing category data to onValidate:", {
-      categoryName,
-      colorId: selectedColor.id,
-    });
-
     onValidate(categoryName, selectedColor.id);
   };
 
@@ -103,7 +98,6 @@ const AddCategoryModal: React.FC<AddCategoryModalProps> = ({
     }
   }, [isOpen]);
 
-  console.log(colors);
 
   return (
     <Modal isOpen={isOpen} onClose={onClose}>

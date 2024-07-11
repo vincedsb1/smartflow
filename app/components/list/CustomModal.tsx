@@ -38,10 +38,6 @@ const CustomModal: React.FC<CustomModalProps> = ({
   useEffect(() => {
     if (React.isValidElement(content) && content.type === AddCategory) {
       setCategoryName(content.props.categoryName);
-      console.log(
-        "CustomModal.tsx - Category name from content props:",
-        content.props.categoryName
-      );
     }
   }, [content]);
 
@@ -84,14 +80,9 @@ const CustomModal: React.FC<CustomModalProps> = ({
     color="primary"
     onPress={async () => {
       onClose();
-      console.log(
-        "CustomModal.tsx - Validating with category name:",
-        categoryName
-      );
       try {
         if (userId) {
           await deleteUser(userId, token);
-          console.log('User deleted successfully');
           router.push('/');
         } else {
           throw new Error('User ID is null');

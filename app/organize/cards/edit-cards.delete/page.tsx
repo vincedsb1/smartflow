@@ -24,7 +24,6 @@ const EditCardsOld = () => {
   }
   const router = useRouter();
   const { selectedCard } = useUser();
-  console.log("selected Category:", selectedCard);
 
   // Déclaration des états
   const [title, setTitle] = React.useState("");
@@ -50,8 +49,6 @@ const EditCardsOld = () => {
       return;
     }
 
-    console.log("Token:", userContext.token);
-
     fetch("/api/categories", {
       headers: {
         Authorization: `Bearer ${userContext.token}`,
@@ -64,7 +61,6 @@ const EditCardsOld = () => {
         return response.json();
       })
       .then((data) => {
-        console.log(data);
         setCategories(data);
         setIsLoading(false);
 
@@ -78,8 +74,6 @@ const EditCardsOld = () => {
             (category: Category) =>
               category.id === Number(selectedCard.category)
           );
-          console.log('Categories:', data);
-          console.log('Selected category index:', categoryIndex);
           setSelectedCategoryIndex(categoryIndex);
         }
       })
@@ -137,13 +131,11 @@ const EditCardsOld = () => {
 
   // Fonction pour gérer le changement de titre
   const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log("Title changed:", e.target.value);
     setTitle(e.target.value);
   };
 
   // Fonction pour gérer le changement de réponse
   const handleAnswerChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log("Answer changed:", e.target.value);
     setAnswer(e.target.value);
   };
 
@@ -155,14 +147,11 @@ const EditCardsOld = () => {
     return <div>Aucune carte sélectionnée</div>;
   }
 
-  console.log("selectedCard:", selectedCard);
-
   const rows = categories.map((category) => ({
     mainLabel: category.name,
     secondaryLabel: category.description,
     color: category.colorName,
   }));
-  console.log("rows:", rows);
 
   // Affichage de la page
   return (

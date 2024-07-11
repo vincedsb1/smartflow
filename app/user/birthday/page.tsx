@@ -34,7 +34,6 @@ const ClientBirthdayEditPage = () => {
   }, [userContext?.birthday]);
 
   const handleValueChange = (newValue: any) => {
-    console.log("newValue:", newValue);
     setValue(newValue);
   };
 
@@ -64,9 +63,6 @@ const ClientBirthdayEditPage = () => {
     }
   };
 
-  console.log("value:", value);
-  console.log("startDate:", value.startDate);
-  console.log("endDate:", value.endDate);
   return (
     <div className="flex flex-row justify-center items-center">
       <div className="w-full sm:max-w-[1170px]  bg-neutral-200 dark:bg-neutral-700 sm:shadow-2xl sm:shadow-neutral-200 sm:dark:shadow-black flex flex-row ">

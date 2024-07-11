@@ -14,7 +14,6 @@ export default function handle(
   res: NextApiResponse
 ) {
   verifyToken(req, res, async () => {
-    console.log("req.user:", req.user);
 
     if (req.method !== "GET") {
       return res.status(405).json({ message: "Method not allowed" });
@@ -23,14 +22,11 @@ export default function handle(
     const { userId } = req.user;
     const toReview = req.query.toReview === "true";
 
-    console.log("user:", req.user);
-
     if (!userId) {
       return res.status(401).json({ message: "Not authenticated" });
     }
 
     try {
-      console.log("Fetching cards for user ID:", userId);
       const today = moment().startOf("day");
 
       const cards = await prisma.card.findMany({
@@ -60,13 +56,10 @@ export default function handle(
       if (toReview) {
         const cardsToReview = cards.filter((card) => {
           const lastReviewDate = moment(card.lastReviewDate).startOf("day");
-          console.log(
-            `Card ID: ${card.id}, Last Review Date: ${lastReviewDate}`
-          );
+
           return lastReviewDate.isSameOrBefore(today);
         });
 
-        console.log(`Cards to review: ${cardsToReview.length}`);
 
         if (cardsToReview.length === 0) {
           return res
@@ -76,13 +69,8 @@ export default function handle(
 
         const allReviewed = cardsToReview.every((card) => {
           const lastReviewDate = moment(card.lastReviewDate);
-          console.log(
-            `Card ID: ${card.id}, Last Review Date: ${lastReviewDate}`
-          );
           return lastReviewDate.isSame(today, "day");
         });
-
-        console.log(`All reviewed: ${allReviewed}`);
 
         if (allReviewed) {
           return res.status(200).json({
@@ -153,15 +141,9 @@ export default function handle(
       reformattedCards.forEach((card) => {
         const categoryName = card.categoryName || "Non catégorisé";
         const categoryColor = card.categoryColorName || "grey";
-        console.log(
-          `Card ID: ${card.id}, Category Name: ${categoryName}, Category Color: ${categoryColor}`
-        );
         categoryCount[categoryName] = (categoryCount[categoryName] || 0) + 1;
         categoryColors[categoryName] = categoryColor;
       });
-
-      console.log("Category Count:", categoryCount);
-      console.log("Category Colors:", categoryColors);
 
       return res.json({
         code: 4,

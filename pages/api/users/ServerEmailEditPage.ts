@@ -9,7 +9,6 @@ import { v4 as uuidv4 } from "uuid";
 const prisma = new PrismaClient();
 
 export const resend = new Resend(process.env.RESEND_API_KEY);
-console.log(process.env.RESEND_API_KEY);
 
 export default async function handle(
   req: NextApiRequest,
@@ -88,7 +87,6 @@ export default async function handle(
 
       return res.status(200).json({ message: "Verification email sent" });
     } catch (error) {
-      console.log(error);
       return res
         .status(500)
         .json({ error: "An error occurred while changing the email" });

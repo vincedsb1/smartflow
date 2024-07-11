@@ -79,7 +79,6 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse) 
       }
 
       try {
-        console.log("Saving email:", email);
 
         const token = jwt.sign(
           { email, iat: Math.floor(Date.now() / 1000) },
@@ -96,8 +95,6 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse) 
             passwordResetTokenExpires: new Date(Date.now() + 3600000),
           },
         });
-
-        console.log("Password reset token saved successfully");
 
         const resetLink = `${process.env.BASE_URL}/resetPassword?token=${token}&email=${encodeURIComponent(email)}`;
 

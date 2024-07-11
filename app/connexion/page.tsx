@@ -51,12 +51,7 @@ const ConnexionPage = () => {
 
   const handlePasswordCheck = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
-    console.log("Début de la vérification du mot de passe"); // Ajout d'un log pour le début de la fonction
     try {
-      console.log(
-        "Envoi de la requête à /api/users/check-password avec l'email:",
-        email
-      ); // Log avant l'envoi de la requête
       const response = await fetch("/api/users/check-password", {
         method: "POST",
         headers: {
@@ -65,25 +60,14 @@ const ConnexionPage = () => {
         body: JSON.stringify({ email, password }),
       });
 
-      console.log("Réponse reçue avec le statut:", response.status); // Log du statut de la réponse
       if (response.status === 401) {
-        console.log("Échec de l'authentification pour l'email:", email); // Log en cas d'échec d'authentification
         setDisplayMessage(message);
       } else if (response.status === 200) {
         const data = await response.json();
-        console.log("Données reçues:", data); // Log des données reçues
 
         if (data.status === "ok") {
-          console.log(
-            "Statut OK, mise à jour du contexte utilisateur et redirection"
-          ); // Log en cas de succès
           userContext.setToken(data.token);
           localStorage.setItem("userToken", data.token);
-
-          console.log(
-            "Récupération des détails de l'utilisateur avec le token:",
-            data.token
-          ); // Log avant la requête des détails de l'utilisateur
           const userResponse = await fetch("/api/users/details", {
             headers: {
               Authorization: `Bearer ${data.token}`,
@@ -92,7 +76,6 @@ const ConnexionPage = () => {
 
           if (userResponse.ok) {
             const userData = await userResponse.json();
-            console.log("Détails de l'utilisateur reçus:", userData); // Log des détails de l'utilisateur
             userContext.setUser({
               firstname: userData.firstname,
               email: userData.email,
@@ -101,10 +84,8 @@ const ConnexionPage = () => {
           }
           setOnBoarding(data.onBoarding);
           if (data.onBoarding) {
-            console.log("Redirection vers /today"); // Log de la redirection
             router.push("/today");
           } else {
-            console.log("Redirection vers /onboarding"); // Log de la redirection
             router.push("/onboarding");
           }
 
@@ -131,7 +112,6 @@ const ConnexionPage = () => {
   const handleSendEmail = async () => {
     setIsLoading(true);
     try {
-      console.log("Email for reset:", email);
       const response = await fetch("/api/users/reset-password", {
         method: "POST",
         headers: {
@@ -142,7 +122,6 @@ const ConnexionPage = () => {
 
       if (response.ok) {
         setIsModalOpen(false);
-        console.log("Email de réinitialisation envoyé avec succès.");
       } else {
         const errorData = await response.json();
         console.error(
