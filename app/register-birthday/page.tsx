@@ -122,6 +122,7 @@ const InscriptionPage = () => {
                 text="Quelle est votre date de naissance ?"
                 icon={faBirthdayCake}
                 shadow
+                colorVariant
               />
             </div>
             <form
