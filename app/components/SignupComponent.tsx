@@ -8,7 +8,6 @@ const SignupComponent = () => {
   const [passwordError, setPasswordError] = useState("");
 
   useEffect(() => {
-    console.log(passwordError);
   }, [passwordError]);
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -58,7 +57,6 @@ const SignupComponent = () => {
       setEmailError("");
       setPasswordError("");
       const data = await response.json();
-      console.log(data);
     }
   };
 

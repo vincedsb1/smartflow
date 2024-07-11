@@ -20,10 +20,7 @@ const ClientEmailEditPage = () => {
   };
 
   const handleEmailChange = async () => {
-    console.log(`Current email: ${userContext?.email}`);
-    console.log(`New email: ${email}`);
 
-    // Simple validation for email
     const emailRegex = /\S+@\S+\.\S+/;
     if (!emailRegex.test(email)) {
       setDisplayMessage("Veuillez entrer un email valide");

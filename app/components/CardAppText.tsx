@@ -39,8 +39,6 @@ const CardAppText = ({
     ? "bg-white dark:bg-neutral-700"
     : "bg-white dark:bg-neutral-800";
   const containerClassName = `${shadowClass} ${colorVariantClass} rounded-2xl w-full flex flex-row p-2`;
-  console.log("colorVariant : ", colorVariant);
-  console.log("containerClassName : ", containerClassName);
 
   return (
     <div id="cardExplanations" className={containerClassName}>

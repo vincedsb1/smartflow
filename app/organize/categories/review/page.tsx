@@ -45,7 +45,6 @@ const EditCategorie = () => {
           return response.json();
         })
         .then((data) => {
-          console.log("Data fetched from API: ", data);
           setCategories(data);
         })
         .catch((error) => {
@@ -64,7 +63,6 @@ const EditCategorie = () => {
 
   useEffect(() => {
     if (categoryId) {
-      console.log("CategoryId: ", categoryId);
       const token = localStorage.getItem("token");
       fetch(`/api/categories`, {
         headers: {
@@ -78,12 +76,10 @@ const EditCategorie = () => {
           return response.json();
         })
         .then((data) => {
-          console.log("Data fetched from API: ", data);
           const category = data.find(
             (category: any) => category.id === Number(categoryId)
           );
           if (category) {
-            console.log("Category found: ", category);
             setTitle(category.name);
             setColorId(category.colorId);
             setColorName(category.color.fullName);
@@ -96,8 +92,7 @@ const EditCategorie = () => {
               )
             );
           } else {
-            console.log("Category not found");
-          }
+            console.error("Category not found");}
         })
         .catch((error) => {
           console.error("Error fetching category: ", error);
@@ -136,7 +131,6 @@ const EditCategorie = () => {
   };
 
   const handleSaveClick = async () => {
-    console.log(title, selectedColor);
     if (!title) {
       alert("Veuillez remplir le champ du nom de la catégorie");
       return;
@@ -152,7 +146,6 @@ const EditCategorie = () => {
         title,
         selectedColor
       );
-      console.log("Updated category: ", updatedCategory);
       router.push("/organize/categories");
     } catch (error) {
       console.error("Error updating category: ", error);
@@ -222,7 +215,6 @@ const EditCategorie = () => {
       });
 
       if (response.ok) {
-        console.log("Catégorie supprimée avec succès");
         router.push("/organize/categories");
       } else {
         throw new Error("Une erreur est survenue lors de la suppression de la catégorie");

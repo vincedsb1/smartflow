@@ -13,28 +13,24 @@ export default function handle(
   res: NextApiResponse
 ) {
   verifyToken(req, res, async () => {
-    console.log("req.user:", req.user);
 
     if (req.method !== "POST") {
       return res.status(405).json({ message: "Method not allowed" });
     }
 
     const { userId } = req.user;
-    console.log("user:", req.user);
 
     if (!userId) {
       return res.status(401).json({ message: "Not authenticated" });
     }
 
     const { name, colorId } = req.body;
-    console.log("Received data:", { name, colorId });
 
     if (!name || !colorId) {
       return res.status(400).json({ message: "Name and colorId are required" });
     }
 
     try {
-      console.log("Creating category...");
       const newCategory = await prisma.category.create({
         data: {
           name,
@@ -42,7 +38,6 @@ export default function handle(
           userId,
         },
       });
-      console.log("Category created:", newCategory);
 
       return res.status(201).json(newCategory);
     } catch (error) {
