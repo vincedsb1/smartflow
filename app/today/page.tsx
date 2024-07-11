@@ -60,7 +60,6 @@ const Today: React.FC = () => {
 
   useEffect(() => {
     if (!userContext?.token) {
-      console.log("userContext not loaded");
     } else {
       fetch("/api/cards/cardByUser?toReview=true", {
         headers: {
@@ -75,14 +74,12 @@ const Today: React.FC = () => {
         })
         .then((data) => {
           if (data.code === 3) {
-            // Si le code est 3, ne pas afficher d'erreur
             setCode(data.code);
             setIsLoading(false);
             return;
           }
 
           if (data.cards) {
-            console.log("Les datas : ", data.cards);
             setCards(data.cards);
             setFirstCardId(data.cards[0].id);
             userContext.setCardsToReview(data.cards);
@@ -157,8 +154,6 @@ const Today: React.FC = () => {
     color: card.categoryColorName || "white",
     icon: levelIcons[card.level - 1],
   }));
-
-  console.log("categoryData : ", categoryData);
 
   const renderContent = () => {
     switch (code) {

@@ -70,16 +70,7 @@ const ConnexionPage = () => {
       );
 
       if (deleteResponse.ok) {
-        console.log(
-          "Utilisateur enregistré et vérification par e-mail supprimée avec succès"
-        );
-
         setTimeout(async () => {
-          console.log(
-            "Tentative de connexion avec l'email et le mot de passe suivants :",
-            email,
-            password
-          );
           const response = await fetch("/api/users/check-password", {
             method: "POST",
             headers: {
@@ -94,13 +85,9 @@ const ConnexionPage = () => {
           if (response.ok) {
             const data = await response.json();
             if (data.status === "ok") {
-              console.log("Token reçu de l'API (Page connexion) :", data.token);
               userContext.setToken(data.token);
-              console.log("Token défini dans userContext");
               router.push("/onboarding");
-              console.log("Redirigé vers /onboarding");
               setUser({ email, firstname, birthday, setUser });
-              console.log("Utilisateur défini");
             }
           }
         }, 1000);

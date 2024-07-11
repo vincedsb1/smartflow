@@ -52,12 +52,6 @@ const AddCategory: React.FC<AddCategoryProps> = ({ onValidate }) => {
       alert("Sélectionnez une couleur pour la catégorie");
       return;
     }
-    console.log(
-      "AddCategory.tsx - Creating category with name:",
-      categoryName,
-      "and color ID:",
-      selectedColor.id
-    );
     const response = await fetch("/api/categories/createCategories", {
       method: "POST",
       headers: {
@@ -73,13 +67,10 @@ const AddCategory: React.FC<AddCategoryProps> = ({ onValidate }) => {
 
     if (!response.ok) {
       // Handle error
-      console.error("Error creating category");
       return;
     }
 
     const data = await response.json();
-    console.log("AddCategory.tsx - New category created:", data);
-    console.log("New category created:", data);
     onValidate(categoryName, selectedColor.id);
   };
 
@@ -95,7 +86,6 @@ const AddCategory: React.FC<AddCategoryProps> = ({ onValidate }) => {
         value={categoryName}
         onChange={(e) => {
           setCategoryName(e.target.value);
-          console.log("AddCategory.tsx - Category name input:", e.target.value);
         }}
       />
       <div className="flex flex-wrap justify-center bg-neutral-200 dark:bg-neutral-800 rounded-2xl">

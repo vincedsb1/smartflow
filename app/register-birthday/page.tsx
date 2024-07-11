@@ -34,7 +34,6 @@ const InscriptionPage = () => {
     ).slice(-2)}/${birthday.getFullYear()}`;
     const dateRegex =
       /^(0[1-9]|[12][0-9]|3[01])\/(0[1-9]|1[012])\/(19|20)\d\d$/;
-    console.log("Date de naissance formatée:", formattedBirthday);
     if (formattedBirthday && dateRegex.test(formattedBirthday)) {
       setUser({ ...user, email, firstname, birthday });
       router.push("/register-password");
@@ -134,7 +133,6 @@ const InscriptionPage = () => {
                 label="Date de naissance"
                 inputType="date"
                 onChange={(date) => {
-                  console.log("Date sélectionnée:", date);
                   setBirthday(
                     date ? new Date(date.toISOString().substring(0, 10)) : null
                   );
@@ -210,7 +208,6 @@ const InscriptionPage = () => {
                 label="Date de naissance"
                 inputType="date"
                 onChange={(date) => {
-                  console.log("Date sélectionnée:", date);
                   setBirthday(
                     date ? new Date(date.toISOString().substring(0, 10)) : null
                   );

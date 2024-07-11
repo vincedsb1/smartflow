@@ -26,7 +26,6 @@ const InscriptionPage = () => {
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
     setFirstName(event.target.value);
-    console.log("Prénom entré :", event.target.value);
   };
 
   // Récupérer le token de l'URL
@@ -54,13 +53,10 @@ const InscriptionPage = () => {
           );
           const data = await response.json();
           setEmail(data.email);
-          console.log("Email récupéré et stocké :", data.email);
           setUser({ ...user, email: data.email });
           setIsEmailVerified(true);
         } catch (error) {
           console.error(error);
-          console.log("Erreur lors de la vérification de l'email :", error);
-
           router.push("/mailauth");
         }
       }

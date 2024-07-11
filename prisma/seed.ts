@@ -18,9 +18,7 @@ async function main() {
   });
 
   // Seed colors
-  console.log("Seeding colors...");
   await seedColors();
-  console.log("Colors seeded successfully");
 
   // User creation
   const users = await seedUsers(language.id);

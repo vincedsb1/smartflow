@@ -14,7 +14,6 @@ const LoginComponent = () => {
     if (response.ok) {
       const user = await response.json();
     } else {
-      console.error("Erreur lors de la connexion");
     }
   };
 

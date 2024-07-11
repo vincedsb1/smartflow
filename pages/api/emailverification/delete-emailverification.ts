@@ -7,7 +7,6 @@ export default async function handle(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  console.log("Requête reçue", req.method, req.query);
 
   if (req.method === "DELETE") {
     const { email } = req.query;
