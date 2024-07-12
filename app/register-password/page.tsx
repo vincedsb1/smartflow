@@ -13,6 +13,7 @@ import { faUser } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronLeft } from "@fortawesome/free-solid-svg-icons";
 import { Button } from "@nextui-org/react";
+import { Spinner } from "@nextui-org/spinner";
 
 const ConnexionPage = () => {
   const userContext = useContext(UserContext);
@@ -26,6 +27,7 @@ const ConnexionPage = () => {
   const { email, firstname, birthday, setUser } = userContext;
   const [password, setPassword] = useState("");
   const [hasAcceptedTerms, setHasAcceptedTerms] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPassword(e.target.value);
@@ -42,20 +44,22 @@ const ConnexionPage = () => {
       alert("Veuillez entrer un mot de passe");
       return;
     }
+    setIsLoading(true);
+    const userData = {
+      email: email,
+      password: password,
+      firstname: firstname,
+      birthday: birthday,
+      lastname: "Default",
+      onBoarding: false,
+    };
 
     const response = await fetch("/api/users", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({
-        email: email,
-        password: password,
-        firstname: firstname,
-        birthday: birthday,
-        lastname: "Default",
-        onBoarding: false,
-      }),
+      body: JSON.stringify(userData),
     });
 
     if (response.ok) {
@@ -92,6 +96,12 @@ const ConnexionPage = () => {
           }
         }, 1000);
       }
+    } else {
+      console.error(
+        "Failed to create user:",
+        response.status,
+        response.statusText
+      );
     }
   };
 
@@ -174,6 +184,7 @@ const ConnexionPage = () => {
                 text="Choisissez un mot de passe"
                 icon={faUser}
                 shadow
+                colorVariant
               />
             </div>
             <form
@@ -182,7 +193,7 @@ const ConnexionPage = () => {
               className="flex flex-col items-center w-full mt-10"
             >
               <CardAppPasswordInput onChange={handlePasswordChange} />
-              <div className="w-4/5 flex items-center mt-14">
+              <div className="w-full flex items-center mt-14 ">
                 <Checkbox
                   size="md"
                   onChange={handleChangeCgu}
@@ -192,18 +203,22 @@ const ConnexionPage = () => {
                   J&apos;accepte les conditions générales d&apos;utilisation
                 </Checkbox>
               </div>
-              <div className="w-4/5 flex flex-row justify-start mb-4 ml-4 mt-1 3xs:mt-0">
+              <div className="w-full flex flex-row justify-start mb-4 ml-4 mt-1 3xs:mt-0 pl-5">
                 <NextUILink href="/cgu">Consulter les CGU</NextUILink>
               </div>
-              <Button
-                color={password && hasAcceptedTerms ? "primary" : "default"}
-                size="lg"
-                disabled={!(password && hasAcceptedTerms)}
-                onClick={handleSubmit}
-                className="w-60 xs:w-64 2xs:w-72 3xs:w-80 font-bold font-text"
-              >
-                Continuer
-              </Button>
+              {isLoading ? (
+                <Spinner size="lg" />
+              ) : (
+                <Button
+                  color={password && hasAcceptedTerms ? "primary" : "default"}
+                  size="lg"
+                  disabled={!(password && hasAcceptedTerms)}
+                  onClick={handleSubmit}
+                  className="w-60 xs:w-64 2xs:w-72 3xs:w-80 font-bold font-text"
+                >
+                  Continuer
+                </Button>
+              )}
             </form>
           </div>
         </div>
@@ -276,15 +291,19 @@ const ConnexionPage = () => {
               <NextUILink href="/cgu">Consulter les CGU</NextUILink>
             </div>
             <div id="mobileButtonContainer" className="">
-              <Button
-                color={password && hasAcceptedTerms ? "primary" : "default"}
-                size="lg"
-                disabled={!(password && hasAcceptedTerms)}
-                onClick={handleSubmit}
-                className="w-60 xs:w-64 2xs:w-72 3xs:w-80 font-bold font-text"
-              >
-                Continuer
-              </Button>
+              {isLoading ? (
+                <Spinner size="lg" />
+              ) : (
+                <Button
+                  color={password && hasAcceptedTerms ? "primary" : "default"}
+                  size="lg"
+                  disabled={!(password && hasAcceptedTerms)}
+                  onClick={handleSubmit}
+                  className="w-60 xs:w-64 2xs:w-72 3xs:w-80 font-bold font-text"
+                >
+                  Continuer
+                </Button>
+              )}
             </div>
           </form>
         </div>
