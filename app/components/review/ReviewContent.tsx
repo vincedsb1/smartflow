@@ -28,7 +28,7 @@ const ReviewContent: React.FC<ReviewContentProps> = ({
       className="flex flex-col bg-white border-neutral-300 border-3 dark:border-neutral-700 dark:bg-neutral-800 rounded-2xl shadow-sf justify-around items-center w-full h-80 p-6 sm:p-10 font-text text-md sm:text-xl"
     >
       {showAnswer ? (
-        answer
+        <div style={{ whiteSpace: "pre-wrap" }}>{answer}</div>
       ) : (
         <>
           <div
