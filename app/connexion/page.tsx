@@ -217,6 +217,7 @@ const ConnexionPage = () => {
                 text="Saisissez votre mot de passe"
                 icon={faUnlock}
                 colorVariant
+                shadow
               />
             </div>
             <form

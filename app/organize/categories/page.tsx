@@ -1,9 +1,12 @@
 "use client";
 
 // Importations de bibliothèques et de composants
-import { faChevronLeft } from "@fortawesome/free-solid-svg-icons";
+import {
+  faChevronLeft,
+  faMagnifyingGlass,
+} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useContext, useEffect, useState, useCallback } from "react";
+import { useContext, useEffect, useState } from "react";
 import List from "../../components/List";
 import { UserContext } from "@/app/context/UserContext";
 import { CircularProgress } from "@nextui-org/react";
@@ -13,6 +16,8 @@ import { useDisclosure } from "@nextui-org/react";
 import { colorClasses } from "../../components/utils/colorUtils";
 import AddCategoryModal from "../../components/category/AddCategoryModal";
 import DesktopMenu from "../../components/DesktopMenu";
+import CardAppText from "../../components/CardAppText";
+import { Button } from "@nextui-org/react";
 
 // Définition des interfaces
 interface Category {
@@ -96,21 +101,6 @@ const OrganizeCategories: React.FC<OrganizeCategoriesProps> = ({}) => {
     onClose();
   };
 
-  // Affichage d'un spinner de chargement si les données sont en cours de chargement
-  if (isLoading) {
-    return (
-      <div className="min-h-screen flex flex-row justify-center items-center w-full">
-        <CircularProgress aria-label="Loading..." />
-      </div>
-    );
-  }
-
-  // Affichage d'un message d'erreur si une erreur s'est produite lors de la récupération des données
-  if (isError) {
-    return <div>Error</div>;
-  }
-
-  // Préparation des données pour le composant List
   const rows = categories.map((category) => ({
     link:
       "/organize/categories/review?id=" +
@@ -121,7 +111,6 @@ const OrganizeCategories: React.FC<OrganizeCategoriesProps> = ({}) => {
     color: category.colorName,
   }));
 
-  // Affichage du composant
   return (
     <div className="flex flex-row justify-center items-center">
       <div className="w-full sm:max-w-[1170px]  bg-neutral-200 dark:bg-neutral-700 sm:shadow-2xl sm:shadow-neutral-200 sm:dark:shadow-black flex flex-row ">
@@ -134,25 +123,73 @@ const OrganizeCategories: React.FC<OrganizeCategoriesProps> = ({}) => {
         >
           <div
             id="organizeContainer"
-            className="flex flex-col justify-center w-full items-center sm:px-10"
+            className="flex flex-col justify-between w-full items-center sm:px-10 flex-grow "
           >
-            <div
-              id="organizeCategoriesBackIcon"
-              className="w-full flex flex-col mt-16 "
-            >
-              <Link href="/organize">
-                <FontAwesomeIcon
-                  icon={faChevronLeft}
-                  className="text-neutral-800 dark:text-neutral-200 text-xs w-4 h-4 m-5 sm:ml-0"
-                />
-              </Link>
-            </div>
-            <div id="organizeList" className="w-full">
-              <List rows={rows} title="Catégories" isLargeRow={false} />
-              <BelowListLink onClick={onOpen}>
-                Ajouter une catégorie
-              </BelowListLink>
-            </div>
+            {rows.length > 0 ? (
+              <>
+                <div
+                  id="organizeCategoriesBackIcon"
+                  className="w-full flex flex-col mt-16 "
+                >
+                  <Link href="/organize">
+                    <FontAwesomeIcon
+                      icon={faChevronLeft}
+                      className="text-neutral-800 dark:text-neutral-200 text-xs w-4 h-4 m-5 sm:ml-0"
+                    />
+                  </Link>
+                  <List rows={rows} title="Catégories" isLargeRow={false} />
+                  <BelowListLink onClick={onOpen}>
+                    Ajouter une catégorie
+                  </BelowListLink>
+                </div>
+                <div id="organizeCategoriesMiddle" className=""></div>
+                <div id="organizeCategoriesBottom" className=""></div>
+              </>
+            ) : (
+              <>
+                <div
+                  id="organizeCategoriesBackIcon"
+                  className="w-full flex flex-col mt-16 "
+                >
+                  <Link href="/organize">
+                    <FontAwesomeIcon
+                      icon={faChevronLeft}
+                      className="text-neutral-800 dark:text-neutral-200 text-xs w-4 h-4 m-5 sm:ml-0"
+                    />
+                  </Link>
+                </div>
+                <div
+                  id="organizeCategoriesMiddle"
+                  className=" flex flex-col items-center  h-2/5"
+                >
+                  <div
+                    id="OrganizeCategorieHintContainer"
+                    className="w-18/20 sm:w-full mb-10"
+                  >
+                    <CardAppText
+                      text="Aucune catégorie"
+                      icon={faMagnifyingGlass}
+                      colorVariant
+                      shadow
+                    />
+                  </div>
+                  <Button
+                    type="button"
+                    onClick={onOpen}
+                    color="primary"
+                    variant="solid"
+                    size="lg"
+                    className="w-18/20 sm:w-full font-bold font-text"
+                  >
+                    Ajouter une catégorie
+                  </Button>
+                </div>
+                <div
+                  id="organizeCategoriesBottom"
+                  className="bg-blue-700"
+                ></div>
+              </>
+            )}
           </div>
           <AddCategoryModal
             isOpen={isOpen}
@@ -165,5 +202,4 @@ const OrganizeCategories: React.FC<OrganizeCategoriesProps> = ({}) => {
   );
 };
 
-// Exportation du composant
 export default OrganizeCategories;
