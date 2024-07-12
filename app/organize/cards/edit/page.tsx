@@ -10,6 +10,7 @@ import { Input, Modal, Textarea, Button, ModalContent, ModalHeader, ModalFooter,
 import List from "../../../components/List";
 import DesktopMenu from "@/app/components/DesktopMenu";
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
+import { Progress } from "@nextui-org/progress";
 
 const EditCards: React.FC = () => {
   const userContext = useContext(UserContext);
@@ -235,12 +236,22 @@ const EditCards: React.FC = () => {
                   <div id="ListTitle" className="flex flex-col w-18/20 sm:w-full">
                     <CardAppTitle title="Catégorie" size="small" />
                   </div>
-                  <div id="List" className="w-full mb-8">
+                  <div id="List" className="w-full mb-6">
                     {isLoading ? (
                       <div>Chargement...</div>
                     ) : (
                       <List rows={rows} title="" isLargeRow={false} selectable={true} onSelect={handleSelectRow} selectedIndex={categoryIndex} />
                     )}
+                  </div>
+                  <div id="LevelCard" className="flex flex-col w-18/20 sm:w-full">
+                    <CardAppTitle title="Niveau" size="small" />
+                    <div className="ml-2 mb-2">
+                      {level}/7
+                    </div>
+                    <div className="mb-4">
+                      <Progress aria-label="Niveau actuel" value={(level / 7) * 100} className="max-w-md sm:max-w-full text-neutral-500 text-sm font-title mb-6"
+                        size="md" />
+                    </div>
                   </div>
                 </div>
                 <div id="editCardBottomContainer" className="flex justify-center items-center w-full mb-32">
