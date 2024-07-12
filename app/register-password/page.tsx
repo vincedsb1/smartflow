@@ -54,8 +54,6 @@ const ConnexionPage = () => {
       onBoarding: false,
     };
 
-    console.log("Sending user data:", userData);
-
     const response = await fetch("/api/users", {
       method: "POST",
       headers: {
