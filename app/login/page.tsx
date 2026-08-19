@@ -27,7 +27,11 @@ const LoginMethod = () => {
         id="chevronContainer"
         className="sm:hidden absolute top-0 left-0 flex flex-row justify-start items-center h-16 w-full p-4"
       >
-        <FontAwesomeIcon icon={faChevronLeft} onClick={handleBack} />
+        <FontAwesomeIcon
+          icon={faChevronLeft}
+          className=""
+          onClick={handleBack}
+        />
       </div>
 
       <div

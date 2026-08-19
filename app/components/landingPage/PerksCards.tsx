@@ -95,7 +95,9 @@ const PerksCards = () => {
               data-aos="fade-up"
             >
               <div
-                ref={(el) => (cardRefs.current[index] = el)}
+                ref={(el) => {
+                  cardRefs.current[index] = el;
+                }}
                 onMouseMove={handleMouseMove(index)}
                 onMouseEnter={handleMouseEnter(index)}
                 onMouseLeave={handleMouseLeave(index)}
@@ -149,7 +151,9 @@ const PerksCards = () => {
               data-aos="fade-up"
             >
               <div
-                ref={(el) => (cardRefs.current[index + 3] = el)}
+                ref={(el) => {
+                  cardRefs.current[index + 3] = el;
+                }}
                 onMouseMove={handleMouseMove(index + 3)}
                 onMouseEnter={handleMouseEnter(index + 3)}
                 onMouseLeave={handleMouseLeave(index + 3)}
