@@ -84,7 +84,7 @@ const AddCategory: React.FC<AddCategoryProps> = ({ onValidate }) => {
         label="Catégorie"
         className="mb-6 h-9 w-full"
         value={categoryName}
-        onChange={(e) => {
+        onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
           setCategoryName(e.target.value);
         }}
       />

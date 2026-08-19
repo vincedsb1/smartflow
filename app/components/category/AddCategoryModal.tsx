@@ -115,7 +115,9 @@ const AddCategoryModal: React.FC<AddCategoryModalProps> = ({
               label="Catégorie"
               className="mb-6 w-full font-text h-14"
               value={categoryName}
-              onChange={(e) => setCategoryName(e.target.value)}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                setCategoryName(e.target.value)
+              }
               ref={inputRef}
             />
             <div className="flex flex-wrap justify-center bg-neutral-200 dark:bg-neutral-800 rounded-2xl">
