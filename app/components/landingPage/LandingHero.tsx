@@ -145,7 +145,7 @@ const Hero = () => {
             size="sm"
             isDisabled={false}
           >
-            <FontAwesomeIcon icon={faRocket} />
+            <FontAwesomeIcon icon={faRocket} className="" />
             &nbsp;Let&apos;s go
           </Button>
           <Button
@@ -154,7 +154,7 @@ const Hero = () => {
             size="lg"
             isDisabled={false}
           >
-            <FontAwesomeIcon icon={faRocket} />
+            <FontAwesomeIcon icon={faRocket} className="" />
             &nbsp;Let&apos;s go
           </Button>
         </div>
