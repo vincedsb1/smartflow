@@ -2,7 +2,7 @@
 import { colorClasses } from "@/app/components/utils/colorUtils";
 import { UserContext } from "@/app/context/UserContext";
 import { Input, Modal, Textarea, Button, ModalContent, ModalHeader, ModalFooter, ModalBody } from "@nextui-org/react";
-import { useEffect, useState } from "react";
+import { useEffect, useState, type ChangeEvent } from "react";
 import { useContext } from "react";
 import { useRouter } from "next/navigation";
 import { faChevronLeft } from "@fortawesome/free-solid-svg-icons";
@@ -273,7 +273,9 @@ const EditCategorie = () => {
                   type="text"
                   value={title}
                   placeholder="Nom de la catégorie, ex. : Mathématiques"
-                  onChange={(e) => setTitle(e.target.value)}
+                  onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                    setTitle(e.target.value)
+                  }
                 />
                 <Button
                   variant="solid"

@@ -213,7 +213,7 @@ const EditCards: React.FC = () => {
                   <div id="editCardBackTitle" className="flex flex-row w-full justify-between items-center">
                     <div className="flex flex-row items-center">
                       <button type="button" onClick={() => router.back()} className="text-neutral-800 dark:text-neutral-200 text-xs w-4 h-4 m-5 mb-7 sm:ml-0">
-                        <FontAwesomeIcon icon={faChevronLeft} />                      </button>
+                        <FontAwesomeIcon icon={faChevronLeft} className="" />                      </button>
                       <CardAppTitle title="Modifier une fiche" size="big" />
                     </div>
                     <div>
