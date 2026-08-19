@@ -26,10 +26,13 @@ const ClientBirthdayEditPage = () => {
 
   useEffect(() => {
     if (userContext?.birthday) {
-      setValue({
-        startDate: new Date(userContext.birthday).toISOString().split("T")[0],
-        endDate: new Date(userContext.birthday).toISOString().split("T")[0],
-      });
+      const formattedBirthday = new Date(userContext.birthday)
+        .toISOString()
+        .split("T")[0];
+      queueMicrotask(() => setValue({
+        startDate: formattedBirthday,
+        endDate: formattedBirthday,
+      }));
     }
   }, [userContext?.birthday]);
 

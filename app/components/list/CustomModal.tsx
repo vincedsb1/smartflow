@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React from "react";
 import {
   Button,
   Modal,
@@ -9,7 +9,6 @@ import {
   ModalFooter,
   ModalHeader,
 } from "@nextui-org/react";
-import AddCategory from "../AddCategory";
 import { useUser } from "../../context/UserContext";
 import { useRouter } from "next/navigation";
 
@@ -33,13 +32,7 @@ const CustomModal: React.FC<CustomModalProps> = ({
   onValidate,
   token,
 }) => {
-  const [categoryName, setCategoryName] = useState("");
   const { id: userId } = useUser();
-  useEffect(() => {
-    if (React.isValidElement(content) && content.type === AddCategory) {
-      setCategoryName(content.props.categoryName);
-    }
-  }, [content]);
 
   // Fonction pour supprimer un utilisateur
   async function deleteUser(userId: string, token: string) {
@@ -90,7 +83,7 @@ const CustomModal: React.FC<CustomModalProps> = ({
       } catch (error) {
         console.error('There was an error!', error);
       }
-      onValidate(categoryName);
+      onValidate("");
     }}
   >
     Valider

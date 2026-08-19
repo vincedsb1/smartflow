@@ -185,12 +185,6 @@ const nextConfig = {
     return [];
   },
   reactStrictMode: true,
-  images: {
-    domains:
-      process.env.NEXT_PUBLIC_ENV === "local"
-        ? ["localhost"]
-        : ["smartflow-app"],
-  },
 };
 
 export default nextConfig;

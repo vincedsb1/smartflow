@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext, useCallback } from "react";
 import Image from "next/image";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -20,11 +20,11 @@ const UserProfile = () => {
   const userId = user?.id;
   const router = useRouter();
 
-  const handleLogout = () => {
+  const handleLogout = useCallback(() => {
     setUser(null);
     setToken(null);
     router.push("/");
-  };
+  }, [router, setToken, setUser]);
 
   const formattedBirthday = birthday
     ? new Date(birthday).toLocaleDateString("fr-FR")
@@ -143,7 +143,7 @@ const UserProfile = () => {
     };
 
     fetchUserData();
-  }, [token]);
+  }, [handleLogout, token]);
 
   return (
     <div className="flex flex-row justify-center items-center w-full">

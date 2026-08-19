@@ -36,8 +36,12 @@ const Review: React.FC = () => {
   useEffect(() => {
     if (typeof window !== "undefined") {
       const urlParams = new URLSearchParams(window.location.search);
-      setId(urlParams.get("id"));
-      setNbcard(urlParams.get("nbcard"));
+      const nextId = urlParams.get("id");
+      const nextNbcard = urlParams.get("nbcard");
+      queueMicrotask(() => {
+        setId(nextId);
+        setNbcard(nextNbcard);
+      });
     }
   }, []);
 

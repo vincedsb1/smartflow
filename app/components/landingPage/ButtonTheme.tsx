@@ -1,6 +1,5 @@
 "use client";
 import React, { useEffect, useState } from 'react';
-import Image from 'next/image';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faMoon as farMoon, faSun } from '@fortawesome/free-regular-svg-icons'
 import { useTheme } from 'next-themes';
@@ -12,7 +11,7 @@ const ButtonTheme = () => {
     const [mounted, setMounted] = useState(false);
 
     useEffect(() => {
-        setMounted(true);
+        queueMicrotask(() => setMounted(true));
     }, []);
 
 

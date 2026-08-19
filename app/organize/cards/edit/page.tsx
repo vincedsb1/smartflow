@@ -38,8 +38,10 @@ const EditCards: React.FC = () => {
       const urlParams = new URLSearchParams(window.location.search);
       const id = urlParams.get("id");
       const nbcard = urlParams.get("nbcard");
-      setId(id);
-      setNbcard(nbcard);
+      queueMicrotask(() => {
+        setId(id);
+        setNbcard(nbcard);
+      });
     }
   }, []);
 
@@ -48,8 +50,10 @@ const EditCards: React.FC = () => {
       const token = localStorage.getItem("userToken");
       if (!token) {
         console.error("Token is not defined in local storage");
-        setIsError(true);
-        setIsLoading(false);
+        queueMicrotask(() => {
+          setIsError(true);
+          setIsLoading(false);
+        });
         return;
       }
       fetch(`/api/cards/${id}`, {
@@ -85,8 +89,10 @@ const EditCards: React.FC = () => {
     const token = localStorage.getItem("userToken");
     if (!token) {
       console.error("Token is not defined in local storage");
-      setIsError(true);
-      setIsLoading(false);
+      queueMicrotask(() => {
+        setIsError(true);
+        setIsLoading(false);
+      });
       return;
     }
 
@@ -196,7 +202,11 @@ const EditCards: React.FC = () => {
   };
 
   function handleSelectRow(index: number): void {
-    throw new Error("Function not implemented.");
+    setCategoryIndex(index);
+    const category = categories[index];
+    if (category) {
+      setCategoryId(category.id);
+    }
   }
 
   return (

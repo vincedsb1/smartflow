@@ -11,6 +11,37 @@ import DesktopMenu from "@/app/components/DesktopMenu";
 import Link from "next/link";
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
 
+interface Color {
+  id: number;
+  name: string;
+  fullName: string;
+  selected: boolean;
+}
+
+const colorFullNames: { [key: string]: string } = {
+  "red-500": "Rouge Vif",
+  "orange-500": "Orange Brillant",
+  "yellow-500": "Jaune Soleil",
+  "green-500": "Vert Émeraude",
+  "teal-500": "Sarcelle",
+  "blue-500": "Bleu Ciel",
+  "indigo-500": "Indigo Profond",
+  "purple-500": "Violet Royal",
+  "pink-500": "Rose Fuchsia",
+  "red-600": "Rouge Intense",
+  "orange-600": "Orange Sanguine",
+  "yellow-600": "Jaune Moutarde",
+};
+
+const initialColors: Color[] = Object.keys(colorClasses).map(
+  (colorName, index) => ({
+    id: index + 1,
+    name: colorName,
+    fullName: colorFullNames[colorName] || colorName,
+    selected: index === 0,
+  })
+);
+
 const EditCategorie = () => {
   const [categoryId, setCategoryId] = useState<string | null>(null);
   const [title, setTitle] = useState<string>("");
@@ -22,13 +53,7 @@ const EditCategorie = () => {
   const [colorName, setColorName] = useState<string | null>(null);
   const router = useRouter();
   const [showDeleteModal, setShowDeleteModal] = useState(false);
-
-  interface Color {
-    id: number;
-    name: string;
-    fullName: string;
-    selected: boolean;
-  }
+  const [colors, setColors] = useState<Color[]>(initialColors);
 
   useEffect(() => {
     const token = userContext?.token;
@@ -57,7 +82,7 @@ const EditCategorie = () => {
     if (typeof window !== "undefined") {
       const urlParams = new URLSearchParams(window.location.search);
       const id = urlParams.get("id");
-      setCategoryId(id);
+      queueMicrotask(() => setCategoryId(id));
     }
   }, []);
 
@@ -83,9 +108,10 @@ const EditCategorie = () => {
             setTitle(category.name);
             setColorId(category.colorId);
             setColorName(category.color.fullName);
+            setSelectedColor(category.colorId.toString());
 
-            setColors(
-              colors.map((color) =>
+            setColors((previousColors) =>
+              previousColors.map((color) =>
                 color.id === category.colorId
                   ? { ...color, selected: true }
                   : { ...color, selected: false }
@@ -98,7 +124,6 @@ const EditCategorie = () => {
           console.error("Error fetching category: ", error);
         });
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [categoryId, userContext?.token]);
 
   const updateCategory = async (
@@ -152,37 +177,11 @@ const EditCategorie = () => {
     }
   };
 
-  const colorFullNames: { [key: string]: string } = {
-    "red-500": "Rouge Vif",
-    "orange-500": "Orange Brillant",
-    "yellow-500": "Jaune Soleil",
-    "green-500": "Vert Émeraude",
-    "teal-500": "Sarcelle",
-    "blue-500": "Bleu Ciel",
-    "indigo-500": "Indigo Profond",
-    "purple-500": "Violet Royal",
-    "pink-500": "Rose Fuchsia",
-    "red-600": "Rouge Intense",
-    "orange-600": "Orange Sanguine",
-    "yellow-600": "Jaune Moutarde",
-  };
-
-  const initialColors = Object.keys(colorClasses).map((colorName, index) => {
-    return {
-      id: index + 1,
-      name: colorName,
-      fullName: colorFullNames[colorName] || colorName,
-      selected: index === 0,
-    };
-  });
-
-  const [colors, setColors] = useState<Color[]>(initialColors);
-
   const handleColorClick = (colorId: number) => {
     setSelectedColor(colorId.toString());
     if (selectedColor !== colorId.toString()) {
-      setColors(
-        colors.map((color) =>
+      setColors((previousColors) =>
+        previousColors.map((color) =>
           color.id === colorId
             ? { ...color, selected: true }
             : { ...color, selected: false }

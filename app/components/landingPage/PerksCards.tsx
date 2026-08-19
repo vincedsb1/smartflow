@@ -8,7 +8,7 @@ const PerksCards = () => {
   const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
-    setIsClient(true);
+    queueMicrotask(() => setIsClient(true));
     AOS.init({ duration: 300 });
     return () => AOS.refresh();
   }, []);

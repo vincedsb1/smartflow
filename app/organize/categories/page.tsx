@@ -40,22 +40,13 @@ const OrganizeCategories: React.FC<OrganizeCategoriesProps> = ({}) => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [isError, setIsError] = useState<boolean>(false);
 
-  const [isTokenLoaded, setIsTokenLoaded] = useState<boolean>(false);
-
   if (!userContext) {
     throw new Error("UserContext must be used within a UserContextProvider");
   }
 
   useEffect(() => {
-    // Vérifiez si le token est disponible
+    // Ne faire la requête fetch que si le token est disponible
     if (userContext.token) {
-      setIsTokenLoaded(true);
-    }
-  }, [userContext.token]);
-
-  useEffect(() => {
-    // Ne faire la requête fetch que si le token est chargé
-    if (isTokenLoaded) {
       fetch("/api/categories", {
         headers: {
           Authorization: `Bearer ${userContext.token}`,
@@ -77,7 +68,7 @@ const OrganizeCategories: React.FC<OrganizeCategoriesProps> = ({}) => {
           setIsLoading(false);
         });
     }
-  }, [isTokenLoaded, userContext.token]);
+  }, [userContext.token]);
 
   if (isLoading) {
     return (

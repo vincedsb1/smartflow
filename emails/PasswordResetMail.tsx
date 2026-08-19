@@ -1,6 +1,4 @@
-/* eslint-disable @next/next/no-img-element */
-/* eslint-disable react/no-unescaped-entities */
-import { Html } from "@react-email/components";
+import { Html, Img } from "@react-email/components";
 import * as React from "react";
 
 interface PasswordResetMailProps {
@@ -64,7 +62,7 @@ const PasswordResetMail: React.FC<PasswordResetMailProps> = ({ email, link }) =>
                       height: "222px",
                     }}
                   >
-                    <img
+                    <Img
                       src="https://www.smartflow-app.com/images/LogoSmartFlowWhite.png"
                       alt="Smartflow"
                       style={{
