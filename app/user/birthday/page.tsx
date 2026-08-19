@@ -83,7 +83,7 @@ const ClientBirthdayEditPage = () => {
                 onClick={() => router.back()}
                 className="text-neutral-800 dark:text-neutral-200 text-xs w-4 h-4 m-5"
               >
-                <FontAwesomeIcon icon={faChevronLeft} />
+                <FontAwesomeIcon icon={faChevronLeft} className="" />
               </button>
             </div>
             <div

@@ -29,7 +29,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
   ].includes(segment);
 
   return (
-    <html lang="fr">
+    <html lang="fr" suppressHydrationWarning>
       <body className="">
         <ThemeProvider
           attribute="class"
