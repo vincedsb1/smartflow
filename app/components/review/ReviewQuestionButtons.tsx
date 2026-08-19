@@ -20,7 +20,7 @@ const ReviewQuestionButtons: React.FC<{
       className="font-bold font-text"
       radius="lg"
     >
-      <FontAwesomeIcon icon={faRandom} />
+      <FontAwesomeIcon icon={faRandom} className="" />
     </Button>
     <Button
       type="submit"
@@ -42,7 +42,7 @@ const ReviewQuestionButtons: React.FC<{
       className="font-bold font-text"
       radius="lg"
     >
-      <FontAwesomeIcon icon={faForward} />
+      <FontAwesomeIcon icon={faForward} className="" />
     </Button>
   </div>
 );

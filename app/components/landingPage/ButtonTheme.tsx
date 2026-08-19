@@ -28,7 +28,10 @@ const ButtonTheme = () => {
         <div id='headerContainer' className='flex items-center justify-between h-16 bg-white-100'>
             <div className='flex items-center'>
                 <Button id='toggleTheme' className='mr-4' onClick={handleThemeChange} isIconOnly>
-                    <FontAwesomeIcon icon={theme === 'dark' ? faSun : farMoon} />
+                    <FontAwesomeIcon
+                        icon={theme === 'dark' ? faSun : farMoon}
+                        className=""
+                    />
                 </Button>
             </div>
         </div>
