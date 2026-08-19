@@ -17,7 +17,7 @@ export const FlipWords = ({
   const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
-    setIsClient(true);
+    queueMicrotask(() => setIsClient(true));
   }, []);
 
   const startAnimation = useCallback(() => {

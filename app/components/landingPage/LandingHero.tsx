@@ -24,7 +24,7 @@ const Hero = () => {
   const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
-    setIsClient(true);
+    queueMicrotask(() => setIsClient(true));
   }, []);
 
   const { isOpen, onOpen, onClose: close } = useDisclosure();

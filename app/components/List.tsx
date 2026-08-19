@@ -3,11 +3,10 @@
 import { IconDefinition } from "@fortawesome/fontawesome-svg-core";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Link from "next/link";
-import React, { useState } from "react";
+import React from "react";
 import CustomModal from "./list/CustomModal";
 import { getColorClass, colorClasses, Color } from "./utils/colorUtils";
 import ListTitle from "./list/ListTitle";
-import useRowSelection from "./list/useRowSelection";
 import BelowListLink from "./list/BelowListLink";
 
 interface ListRowProps {
@@ -67,9 +66,7 @@ const List: React.FC<ListProps> = ({
   userId,
   selectedIndex,
 }) => {
-  const { selectedRow, handleRowSelection } = useRowSelection(
-    selectedIndex ?? null
-  );
+  const selectedRow = selectedIndex ?? null;
 
   const isOpen = modalIsOpen || false; // État d'ouverture de la modale
 
@@ -104,7 +101,6 @@ const List: React.FC<ListProps> = ({
               onClick={
                 selectable
                   ? () => {
-                      handleRowSelection(index);
                       onSelect && onSelect(index);
                       row.onClick && row.onClick();
                     }

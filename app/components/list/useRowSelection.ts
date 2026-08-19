@@ -4,7 +4,7 @@ const useRowSelection = (initialIndex: number | null) => {
   const [selectedRow, setSelectedRow] = useState<number | null>(initialIndex);
 
   useEffect(() => {
-    setSelectedRow(initialIndex);
+    queueMicrotask(() => setSelectedRow(initialIndex));
   }, [initialIndex]);
 
   const handleRowSelection = (index: number) => {

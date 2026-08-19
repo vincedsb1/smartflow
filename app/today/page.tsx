@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useContext, useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { CircularProgress } from "@nextui-org/react";
 import {
   fa1,
@@ -11,7 +11,7 @@ import {
   fa6,
   fa7,
 } from "@fortawesome/free-solid-svg-icons";
-import { UserContext, UserCardProps } from "../context/UserContext";
+import { useUser, UserCardProps } from "../context/UserContext";
 import CardsToReviewList from "../components/today/CardsToReviewList";
 import AllCardsReviewed from "../components/today/AllCardsReviewed";
 import NoCardsToReview from "../components/today/NoCardsToReview";
@@ -42,7 +42,11 @@ interface CategoryData {
 
 const Today: React.FC = () => {
   const { useRouter } = require("next/navigation");
-  const userContext = useContext(UserContext);
+  const {
+    token,
+    setCardsToReview,
+    setNbCardsToReview,
+  } = useUser();
   const router = useRouter();
 
   const [cards, setCards] = useState<UserCardProps[]>([]);
@@ -59,11 +63,11 @@ const Today: React.FC = () => {
   }>({});
 
   useEffect(() => {
-    if (!userContext?.token) {
+    if (!token) {
     } else {
       fetch("/api/cards/cardByUser?toReview=true", {
         headers: {
-          Authorization: `Bearer ${userContext.token}`,
+          Authorization: `Bearer ${token}`,
         },
       })
         .then((response) => {
@@ -82,8 +86,8 @@ const Today: React.FC = () => {
           if (data.cards) {
             setCards(data.cards);
             setFirstCardId(data.cards[0].id);
-            userContext.setCardsToReview(data.cards);
-            userContext.setNbCardsToReview(data.cards.length);
+            setCardsToReview(data.cards);
+            setNbCardsToReview(data.cards.length);
 
             setCategoryColors(data.categoryColors);
 
@@ -131,7 +135,7 @@ const Today: React.FC = () => {
           setIsLoading(false);
         });
     }
-  }, [userContext?.token]);
+  }, [token, setCardsToReview, setNbCardsToReview]);
 
   if (isLoading) {
     return (

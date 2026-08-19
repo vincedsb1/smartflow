@@ -44,8 +44,10 @@ const EditCardsOld = () => {
   useEffect(() => {
     if (!userContext.token || !userContext.user) {
       console.error("User or token is not defined");
-      setIsError(true);
-      setIsLoading(false);
+      queueMicrotask(() => {
+        setIsError(true);
+        setIsLoading(false);
+      });
       return;
     }
 
@@ -86,16 +88,18 @@ const EditCardsOld = () => {
 
   // Mise à jour des états
   React.useEffect(() => {
-    setTitle(selectedCard?.title || "");
-    setAnswer(selectedCard?.answer || "");
-    if (selectedCard?.category) {
-      const selectedCategoryIndex = categories.findIndex(
-        (category) => category.id === Number(selectedCard.category)
-      );
-      setSelectedCategoryIndex(
-        selectedCategoryIndex !== -1 ? selectedCategoryIndex : null
-      );
-    }
+    queueMicrotask(() => {
+      setTitle(selectedCard?.title || "");
+      setAnswer(selectedCard?.answer || "");
+      if (selectedCard?.category) {
+        const selectedCategoryIndex = categories.findIndex(
+          (category) => category.id === Number(selectedCard.category)
+        );
+        setSelectedCategoryIndex(
+          selectedCategoryIndex !== -1 ? selectedCategoryIndex : null
+        );
+      }
+    });
   }, [selectedCard, categories]);
 
   // Fonction pour sauvegarder les modifications
@@ -220,4 +224,3 @@ const EditCardsOld = () => {
 };
 
 export default EditCardsOld;
-

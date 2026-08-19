@@ -1,6 +1,6 @@
-/* eslint-disable react-hooks/rules-of-hooks */
 "use client";
 
+import { usePathname } from "next/navigation";
 import React, {
   createContext,
   useState,
@@ -43,7 +43,6 @@ interface UserContext {
   setCardsToReview: (cards: UserCardProps[]) => void;
   NbCardsToReview: number;
   setNbCardsToReview: React.Dispatch<React.SetStateAction<number>>;
-  setShouldRunContext: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const UserContext = createContext<UserContext | undefined>(undefined);
@@ -65,23 +64,8 @@ interface UserCardProps {
 const UserContextProvider: React.FC<UserContextProviderProps> = ({
   children,
 }) => {
-  const isServer = typeof window === "undefined";
-  const currentPath = isServer ? "" : window.location.pathname;
-
-  // Check if the current path is one of the excluded routes
-  const isExcludedRoute = ["/"].includes(currentPath);
-
-  // If the current path is an excluded route, render the children without the UserContext
-  if (isExcludedRoute) {
-    return <>{children}</>;
-  }
-
-  const [shouldRunContext, setShouldRunContext] = useState(true);
-  useEffect(() => {
-    if (shouldRunContext) {
-      setShouldRunContext(false);
-    }
-  }, [shouldRunContext]);
+  const currentPath = usePathname();
+  const isExcludedRoute = currentPath === "/";
 
   const [user, setUser] = useState<any>(null);
   const [email, setEmail] = useState<string | null>(null);
@@ -91,20 +75,21 @@ const UserContextProvider: React.FC<UserContextProviderProps> = ({
   const [token, setToken] = useState<string | null>(null);
   const [onBoarding, setOnBoarding] = useState<boolean>(false);
   const [selectedCard, setSelectedCard] = useState<UserCardProps | null>(null);
-  const [cards, setCards] = useState<any[]>([]);
   const [NbCardsToReview, setNbCardsToReview] = useState<number>(0);
-  useEffect(() => {}, [NbCardsToReview]);
 
   const [cardsToReview, setCardsToReview] = useState<any[]>([]);
-  useEffect(() => {}, [cardsToReview]);
 
   const [id, setId] = useState<string | null>(null);
   useEffect(() => {
+    if (isExcludedRoute) {
+      return;
+    }
+
     const userToken = localStorage.getItem("userToken");
     if (userToken) {
-      setToken(userToken);
+      queueMicrotask(() => setToken(userToken));
     }
-  }, []);
+  }, [isExcludedRoute]);
 
   // Function to set the token and store it in local storage
   const setTokenAndStore = (newToken: string | null) => {
@@ -118,6 +103,10 @@ const UserContextProvider: React.FC<UserContextProviderProps> = ({
 
   // Fetch user details from the API
   useEffect(() => {
+    if (isExcludedRoute || !token) {
+      return;
+    }
+
     const fetchUserDetails = async () => {
       const response = await fetch("/api/users/details", {
         headers: {
@@ -136,11 +125,8 @@ const UserContextProvider: React.FC<UserContextProviderProps> = ({
       }
     };
 
-    if (token) {
-      fetchUserDetails();
-    } else {
-    }
-  }, [token, setFirstname, setBirthday]);
+    fetchUserDetails();
+  }, [token, isExcludedRoute, setFirstname, setBirthday]);
 
   // Fetch user card details from the API
   const contextValue = {
@@ -165,12 +151,7 @@ const UserContextProvider: React.FC<UserContextProviderProps> = ({
     setCardsToReview,
     NbCardsToReview,
     setNbCardsToReview,
-    setShouldRunContext,
   };
-
-  useEffect(() => {}, [shouldRunContext]);
-
-  useEffect(() => {}, [token]);
 
   return (
     <UserContext.Provider value={contextValue}>{children}</UserContext.Provider>

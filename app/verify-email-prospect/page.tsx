@@ -1,44 +1,53 @@
 "use client";
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { Button } from "@nextui-org/react";
 import { Spinner } from "@nextui-org/spinner";
 
 const VerifyEmailProspect = () => {
   const [status, setStatus] = useState(1);
   const [isVerified, setIsVerified] = useState(false);
+  const router = useRouter();
 
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
     const token = urlParams.get("token");
 
-    if (token) {
-      const verifyEmail = async () => {
-        try {
-          const response = await fetch(
-            `/api/users/verify-email-prospect?token=${token}`
-          );
-          if (response.ok) {
-            setIsVerified(true);
-            setStatus(1);
-            await new Promise((resolve) => setTimeout(resolve, 5000));
-            window.location.href = "/";
-          } else if (status !== 1) {
-            setStatus(2);
-          }
-        } catch (error) {
-          console.error("Error occurred:", error);
-          if (status !== 1) {
-            setStatus(2);
-          }
-        }
-      };
-
-      verifyEmail();
-    } else {
-      setStatus(3);
+    if (!token) {
+      queueMicrotask(() => setStatus(3));
+      return;
     }
-  }, [status]);
+
+    let cancelled = false;
+    const verifyEmail = async () => {
+      try {
+        const response = await fetch(
+          `/api/users/verify-email-prospect?token=${token}`
+        );
+        if (!response.ok) {
+          if (!cancelled) setStatus(2);
+          return;
+        }
+
+        if (!cancelled) {
+          setIsVerified(true);
+          setStatus(1);
+        }
+
+        await new Promise((resolve) => setTimeout(resolve, 5000));
+        if (!cancelled) router.push("/");
+      } catch (error) {
+        console.error("Error occurred:", error);
+        if (!cancelled) setStatus(2);
+      }
+    };
+
+    verifyEmail();
+    return () => {
+      cancelled = true;
+    };
+  }, [router]);
 
   const getStatusMessage = () => {
     switch (status) {

@@ -1,4 +1,4 @@
-import { Html } from "@react-email/components";
+import { Html, Img } from "@react-email/components";
 import * as React from "react";
 
 interface VerificationMailProps {
@@ -62,7 +62,7 @@ const VerificationMail: React.FC<VerificationMailProps> = ({ email, link }) => {
                       height: "222px",
                     }}
                   >
-                    <img
+                    <Img
                       src="https://www.smartflow-app.com/images/LogoSmartFlowWhite.png"
                       alt="Smartflow"
                       style={{
@@ -89,7 +89,7 @@ const VerificationMail: React.FC<VerificationMailProps> = ({ email, link }) => {
                     >
                       <tr>
                         <td align="center" style={{ height: "100px" }}>
-                          <img
+                          <Img
                             src="https://www.smartflow-app.com/images/EnvelopeEmail.png"
                             alt="enveloppe"
                             style={{ maxWidth: "40px", maxHeight: "50px" }}

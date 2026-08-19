@@ -23,17 +23,10 @@ const OrganizeCards = () => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [isError, setIsError] = useState<boolean>(false);
   const [myModalContent, setMyModalContent] = useState("");
-  const [isTokenLoaded, setIsTokenLoaded] = useState<boolean>(false);
   const [showNoCardsMessage, setShowNoCardsMessage] = useState<boolean>(false);
 
   useEffect(() => {
     if (userContext.token) {
-      setIsTokenLoaded(true);
-    }
-  }, [userContext.token]);
-
-  useEffect(() => {
-    if (isTokenLoaded) {
       fetch("/api/cards/cardByUser", {
         headers: {
           Authorization: `Bearer ${userContext.token}`,
@@ -62,7 +55,7 @@ const OrganizeCards = () => {
           setIsLoading(false);
         });
     }
-  }, [isTokenLoaded, setCardsToReview, userContext.token]);
+  }, [setCardsToReview, userContext.token]);
 
   if (isLoading) {
     return (

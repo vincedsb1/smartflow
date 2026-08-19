@@ -5,6 +5,14 @@ import CardAppTitle from "../CardAppTitle";
 import confetti from 'canvas-confetti';
 
 const AllCardsReviewed = () => {
+  const celebrateWithConfetti = () => {
+    confetti({
+      particleCount: 150,
+      spread: 160,
+      origin: { y: 0.5 },
+    });
+  };
+
   useEffect(() => {
     const today = new Date().toDateString();
     const lastCelebrationDate = localStorage.getItem("lastCelebrationDate");
@@ -14,14 +22,6 @@ const AllCardsReviewed = () => {
       localStorage.setItem("lastCelebrationDate", today);
     }
   }, []);
-
-  const celebrateWithConfetti = () => {
-    confetti({
-      particleCount: 150,
-      spread: 160,
-      origin: { y: 0.5 }
-    });
-  };
 
   return (
     <div

@@ -42,29 +42,26 @@ const AddCategoryModal: React.FC<AddCategoryModalProps> = ({
 
   const [categoryName, setCategoryName] = useState("");
   const [colors, setColors] = useState<Color[]>(initialColors);
-  const [isNameEmpty, setIsNameEmpty] = useState(true);
-  const [isColorSelected, setIsColorSelected] = useState(false);
+  const isNameEmpty = categoryName === "";
 
   useEffect(() => {
-    if (isOpen) {
+    if (!isOpen) return;
+
+    let cancelled = false;
+    queueMicrotask(() => {
+      if (cancelled) return;
       setCategoryName("");
       setColors(initialColors);
-      setIsNameEmpty(true);
-      setIsColorSelected(false);
-    }
+    });
+
+    return () => {
+      cancelled = true;
+    };
   }, [isOpen]);
 
-  useEffect(() => {
-    setIsNameEmpty(categoryName === "");
-  }, [categoryName]);
-
-  useEffect(() => {
-    setIsColorSelected(colors.some((color) => color.selected));
-  }, [colors]);
-
   const handleColorClick = (colorId: number) => {
-    setColors(
-      colors.map((color) =>
+    setColors((previousColors) =>
+      previousColors.map((color) =>
         color.id === colorId
           ? { ...color, selected: true }
           : { ...color, selected: false }

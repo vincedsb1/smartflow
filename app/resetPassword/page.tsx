@@ -27,7 +27,7 @@ const ResetPassword = () => {
     const urlParams = new URLSearchParams(window.location.search);
     const urlToken = urlParams.get('token');
     if (urlToken) {
-      setToken(urlToken);
+      queueMicrotask(() => setToken(urlToken));
     }
   }, []);
 
@@ -303,6 +303,5 @@ const ResetPassword = () => {
 
 
 export default ResetPassword;
-
 
 

@@ -17,7 +17,7 @@ function ThemeSwitcher() {
   const { theme, setTheme } = useTheme();
 
   useEffect(() => {
-    setMounted(true);
+    queueMicrotask(() => setMounted(true));
   }, []);
 
   if (!mounted) {

@@ -33,7 +33,7 @@ const InscriptionPage = () => {
     if (typeof window !== "undefined") {
       const urlParams = new URLSearchParams(window.location.search);
       const token = urlParams.get("token");
-      setToken(token);
+      queueMicrotask(() => setToken(token));
     }
   }, []);
 
