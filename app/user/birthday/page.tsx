@@ -7,8 +7,12 @@ import { faChevronLeft } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import CardAppTitle from "../../components/CardAppTitle";
 import ServerBirthdayEditPage from "./ServerBirthdayEditPage";
+import dynamic from "next/dynamic";
 import { useRouter } from "next/navigation";
-import Datepicker from "react-tailwindcss-datepicker";
+
+const Datepicker = dynamic(() => import("react-tailwindcss-datepicker"), {
+  ssr: false,
+});
 
 const ClientBirthdayEditPage = () => {
   const userContext = useContext(UserContext);
